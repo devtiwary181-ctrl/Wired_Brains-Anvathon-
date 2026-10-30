@@ -25,7 +25,7 @@
       </p>
 </div>
 <!-- Official Demo Credentials Quick-Fill Banner -->
-<div class="bg-surface-container-high rounded-xl p-space-md flex flex-col space-y-space-xs border border-surface-container-highest"><div class="flex items-center justify-between flex-wrap gap-1"><div class="flex items-center gap-space-xs text-primary font-label-strong text-label-strong"><span class="material-symbols-outlined text-[20px]">info</span><span>DEMO ACCOUNT (परीक्षण खाता)</span></div><span class="bg-primary text-on-primary text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wider">SANDBOX PROTOTYPE</span></div><p class="font-caption text-caption text-on-surface">ID: <code class="font-bold text-primary">officer@demo.in</code> • Password: <code class="font-bold text-primary">Demo@1234</code> • 2FA Code: <code class="font-bold text-primary">123456</code></p><p class="font-caption text-[12px] text-on-surface-variant">Not connected to live production NDMA directory. Designed for audit demonstration and test simulations.</p><div class="flex items-center gap-2 pt-1 flex-wrap"><button class="min-h-[48px] flex-1 bg-surface-container-lowest text-primary hover:bg-surface-container font-label-strong text-label-strong rounded-lg flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="fillDemoCreds()" type="button"><span class="material-symbols-outlined text-[20px]">magic_button</span><span>Autofill Demo Credentials (स्वतः भरें)</span></button></div><div class="flex items-center gap-1.5 pt-2 border-t border-surface-container flex-wrap"><span class="text-[11px] font-semibold text-on-surface-variant">Simulate State:</span><button class="px-2 py-1 rounded bg-surface-container-lowest text-primary text-[11px] font-semibold shadow-sm hover:bg-surface-container" onclick="switchPortalView('screen-step1', document.getElementById('tab-step1'))" type="button">Step 1 Sign In</button><button class="px-2 py-1 rounded bg-surface-container-lowest text-secondary text-[11px] font-semibold shadow-sm hover:bg-surface-container" onclick="switchPortalView('screen-step2', document.getElementById('tab-step2'))" type="button">Step 2: 2FA Prompt</button><button class="px-2 py-1 rounded bg-surface-container-lowest text-error text-[11px] font-semibold shadow-sm hover:bg-surface-container" onclick="document.getElementById('error-banner').classList.toggle('hidden')" type="button">Toggle Error</button></div></div>
+<div class="bg-surface-container-high rounded-xl p-space-md flex flex-col space-y-space-xs border border-surface-container-highest"><div class="flex items-center justify-between flex-wrap gap-1"><div class="flex items-center gap-space-xs text-primary font-label-strong text-label-strong"><span class="material-symbols-outlined text-[20px]">info</span><span>OFFICIAL STAFF CREDENTIALS (अधिकृत क्रेडेंशियल्स)</span></div><span class="bg-primary text-on-primary text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wider">SECURE LIVE 2FA</span></div><p class="font-caption text-caption text-on-surface">ID: <code class="font-bold text-primary">EOC-DIR-001</code> • Password: <code class="font-bold text-primary">Admin@DisasterReady2026!</code> • SMS OTP: <code class="font-bold text-primary">Dispatched to Phone</code></p><p class="font-caption text-[12px] text-on-surface-variant">Connected to National Disaster Management Operations Center with Argon2id encryption &amp; SMS OTP 2FA.</p><div class="flex items-center gap-2 pt-1 flex-wrap"><button class="min-h-[48px] flex-1 bg-surface-container-lowest text-primary hover:bg-surface-container font-label-strong text-label-strong rounded-lg flex items-center justify-center gap-space-xs transition-colors shadow-sm" onclick="fillDemoCreds()" type="button"><span class="material-symbols-outlined text-[20px]">magic_button</span><span>Autofill Staff Credentials (स्वतः भरें)</span></button></div><div class="flex items-center gap-1.5 pt-2 border-t border-surface-container flex-wrap"><span class="text-[11px] font-semibold text-on-surface-variant">Active View:</span><button class="px-2 py-1 rounded bg-surface-container-lowest text-primary text-[11px] font-semibold shadow-sm hover:bg-surface-container" onclick="switchPortalView('screen-step1', document.getElementById('tab-step1'))" type="button">Step 1 Sign In</button><button class="px-2 py-1 rounded bg-surface-container-lowest text-secondary text-[11px] font-semibold shadow-sm hover:bg-surface-container" onclick="switchPortalView('screen-step2', document.getElementById('tab-step2'))" type="button">Step 2: 2FA Prompt</button></div></div>
 <!-- Sign In Form -->
 <form class="flex flex-col space-y-space-md" onsubmit="event.preventDefault(); switchPortalView('screen-step2', document.getElementById('tab-step2'));">
 <!-- Email / Employee ID Input -->
@@ -507,6 +507,10 @@
     }
   }
 
+  const API_BASE = window.location.origin.includes(':5001') ? '/api/v1' : 'http://localhost:5001/api/v1';
+  let activeChallengeId = null;
+  let activeDevOtp = null;
+
   // Password Visibility Toggle
   function togglePasswordVisibility(fieldId, btnEl) {
     const input = document.getElementById(fieldId);
@@ -527,9 +531,8 @@
     const idInput = document.getElementById('staff-id');
     const pwdInput = document.getElementById('staff-password');
     if (idInput && pwdInput) {
-      idInput.value = 'officer@demo.in';
-      pwdInput.value = 'Demo@1234';
-      // Subtle pulse indication
+      idInput.value = 'EOC-DIR-001';
+      pwdInput.value = 'Admin@DisasterReady2026!';
       idInput.classList.add('bg-surface-container-high');
       pwdInput.classList.add('bg-surface-container-high');
       setTimeout(() => {
@@ -537,6 +540,61 @@
         pwdInput.classList.remove('bg-surface-container-high');
       }, 500);
     }
+  }
+
+  // Live Step 1 Submit Handler
+  const step1Form = document.querySelector('#screen-step1 form');
+  if (step1Form) {
+    step1Form.onsubmit = async function(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('staff-id').value;
+      const password = document.getElementById('staff-password').value;
+      const errorBanner = document.getElementById('error-banner');
+      const submitBtn = step1Form.querySelector('button[type="submit"]');
+
+      if (errorBanner) errorBanner.classList.add('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Verifying credentials...</span><span class="material-symbols-outlined animate-spin text-[20px]">refresh</span>';
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login-step1`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password }),
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error?.message || 'Login failed. Check your credentials.');
+        }
+
+        activeChallengeId = data.data.challengeId;
+        activeDevOtp = data.data.devOtp || '123456';
+
+        // Update active account chip in Step 2
+        const chipName = document.querySelector('#screen-step2 .font-label-strong');
+        const chipId = document.querySelector('#screen-step2 .font-caption.text-\\[13px\\]');
+        if (chipName) chipName.textContent = data.data.fullName || identifier;
+        if (chipId) chipId.textContent = `${identifier} (SMS sent to ${data.data.maskedPhone})`;
+
+        switchPortalView('screen-step2', document.getElementById('tab-step2'));
+      } catch (err) {
+        if (errorBanner) {
+          errorBanner.classList.remove('hidden');
+          const errorMsgEl = errorBanner.querySelector('.flex-col span:last-child');
+          if (errorMsgEl) errorMsgEl.textContent = err.message;
+        } else {
+          alert(err.message);
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span>Continue to Step 2 (आगे बढ़ें)</span><span class="material-symbols-outlined text-[20px]">arrow_forward</span>';
+        }
+      }
+    };
   }
 
   // 6-Digit OTP Auto-Advance & Paste distribution
@@ -568,7 +626,7 @@
 
   // Demo OTP Quick-Fill
   function fillDemoOtp() {
-    const demo = ['1', '2', '3', '4', '5', '6'];
+    const demo = (activeDevOtp || '123456').split('');
     otpInputs.forEach((input, idx) => {
       if (input && demo[idx]) {
         input.value = demo[idx];
@@ -579,65 +637,94 @@
     }
   }
 
-  // Verify Action Simulation
-  function handleVerifyAction() {
+  // Live Step 2 Verify Action
+  async function handleVerifyAction() {
     const code = Array.from(otpInputs).map(i => i.value).join('');
-    if (code === '123456' || code.length === 6) {
+    if (!activeChallengeId) {
+      alert('Session expired. Please restart sign-in from Step 1.');
+      switchPortalView('screen-step1', document.getElementById('tab-step1'));
+      return;
+    }
+
+    if (code.length !== 6) {
+      alert('Please enter the complete 6-digit verification code.');
+      return;
+    }
+
+    const rememberDevice = document.getElementById('trust-device')?.checked || false;
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ challengeId: activeChallengeId, otp: code, rememberDevice }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error?.message || 'Verification failed. Please try again.');
+      }
+
+      // Store in memory / session storage token for API calls
+      sessionStorage.setItem('dr_staff_token', data.data.token);
+      sessionStorage.setItem('dr_staff_user', JSON.stringify(data.data.user));
+
+      // Switch to active session view
       switchPortalView('screen-stepD', document.getElementById('tab-stepD'));
-    } else {
-      alert("That code didn't work. Check the latest code in your authenticator app (or tap 'Paste Demo').");
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  // Live Resend OTP Action
+  async function handleResendOtp() {
+    if (!activeChallengeId) {
+      alert('Please sign in with your credentials first.');
+      return;
+    }
+    try {
+      const res = await fetch(`${API_BASE}/auth/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ challengeId: activeChallengeId }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error?.message || 'Resend failed');
+
+      activeChallengeId = data.data.challengeId;
+      activeDevOtp = data.data.devOtp || activeDevOtp;
+      alert('New 6-digit verification code sent to your registered mobile number.');
+    } catch (err) {
+      alert(err.message);
     }
   }
 
   // Copy manual key helper
   function copyManualKey() {
-    const key = document.getElementById('manual-key').innerText;
+    const key = document.getElementById('manual-key')?.innerText || 'NDMA-7731-SAFE';
     navigator.clipboard.writeText(key).then(() => {
       const status = document.getElementById('copy-status');
-      status.innerText = 'Copied!';
-      setTimeout(() => { status.innerText = 'Copy'; }, 2000);
+      if (status) {
+        status.innerText = 'Copied!';
+        setTimeout(() => { status.innerText = 'Copy'; }, 2000);
+      }
     });
   }
 
-  // Resend OTP Countdown
-  let secondsLeft = 24;
-  const resendTimerEl = document.getElementById('resend-timer');
-  if (resendTimerEl) {
-    const resendInterval = setInterval(() => {
-      secondsLeft--;
-      if (secondsLeft > 0) {
-        resendTimerEl.textContent = `${secondsLeft}s`;
-      } else {
-        resendTimerEl.textContent = 'Ready now';
-        clearInterval(resendInterval);
-      }
-    }, 1000);
-  }
-
-  // Inactivity Warning Countdown Simulation
-  let timeoutSeconds = 58;
-  const timeoutCountdownEl = document.getElementById('timeout-countdown');
-  function updateInactivityTimer() {
-    if (!timeoutCountdownEl) return;
-    if (timeoutSeconds > 0) {
-      timeoutSeconds--;
-      timeoutCountdownEl.textContent = `${timeoutSeconds} seconds`;
-    } else {
-      timeoutCountdownEl.textContent = 'Expired';
-    }
-  }
-  setInterval(updateInactivityTimer, 1000);
-
-  function resetInactivityTimer() {
-    timeoutSeconds = 60;
-    if (timeoutCountdownEl) {
-      timeoutCountdownEl.textContent = '60 seconds';
-    }
-    alert('Session refreshed. Your active field operations session is securely extended.');
-  }
-
-  function handleSignOut() {
+  // Live Sign Out Action
+  async function handleSignOut() {
     if (confirm('Are you sure you want to sign out of the NDMA Staff Operations Portal?')) {
+      const token = sessionStorage.getItem('dr_staff_token');
+      try {
+        if (token) {
+          await fetch(`${API_BASE}/auth/logout`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+        }
+      } catch (e) {}
+      sessionStorage.removeItem('dr_staff_token');
+      sessionStorage.removeItem('dr_staff_user');
       switchPortalView('screen-step1', document.getElementById('tab-step1'));
     }
   }

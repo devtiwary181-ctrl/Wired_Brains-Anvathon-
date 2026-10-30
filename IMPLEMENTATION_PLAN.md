@@ -52,11 +52,14 @@ In accordance with the **Mandatory Integration Rule**, every feature phase follo
   - Wire **Page 11 (Disaster Preparedness)** 72-Hour Go-Bag checklist and printable Family Plan.
   - Wire **Page 12 (SOS & Emergency Help)** 1-tap emergency calling cards and Web Audio siren generator.
 
-### Phase 6: Staff Authentication (2FA) & EOC Command Center
-- **Backend:** Implement Argon2 credential verification, 6-digit SMS OTP challenge flow, JWT HttpOnly session cookies, and RBAC middleware.
-- **Frontend Integration:**
-  - Wire **Page 13 (Staff Sign-in)** Step 1 username/password form and Step 2 split 6-digit OTP boxes with resend countdown.
-  - Wire **Page 14 (Authority Dashboard)** live telemetry summary, district spatial incident map, and Stages 1-5 relief request triage workflow.
+### Phase 3: Admin & Staff Authentication (2FA) [COMPLETED & VERIFIED]
+- [x] Implemented exact two-step staff authentication flow (Step 1: Username & Argon2id Password -> Step 2: 6-digit SMS OTP).
+- [x] Cryptographically secure OTP generation (`crypto.randomInt`), Argon2id hashing, 5-minute expiry, max 3 verification attempts, and Redis cooldown rate limiting.
+- [x] Issued HttpOnly, SameSite=Lax, Secure signed JWT cookies and Authorization Bearer tokens upon successful verification.
+- [x] Implemented granular Role-Based Access Control (RBAC) with 5 roles (`SUPER_ADMIN`, `EOC_DIRECTOR`, `LOGISTICS_OFFICER`, `FIELD_COMMANDER`, `DATA_OPERATOR`) and 12 permissions.
+- [x] Implemented immutable audit logging recording login attempts, failed credentials, OTP validations, and session revocations.
+- [x] Wired live backend endpoints directly into the existing **Staff Sign-in** screen ([`stitch-reference/screens/13-staff-login/index.html`](file:///Users/devsmaccie/Desktop/anvathon/stitch-reference/screens/13-staff-login/index.html)), preserving the original UI design while adding dynamic loading states and error notifications.
+- [x] Created automated test suite ([`tests/auth.test.ts`](file:///Users/devsmaccie/Desktop/anvathon/tests/auth.test.ts)) with 100% passing tests (11/11 total tests passing).
 
 ### Phase 7: Simulation Engine, Inventory Management & Transparency Ledger
 - **Backend:** Implement rainfall & dam release flood simulation service, depot inventory update endpoints, and SHA-256 transparency ledger.

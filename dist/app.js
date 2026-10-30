@@ -6,9 +6,11 @@ import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { healthRouter } from './modules/health/health.routes.js';
+import { authRouter } from './modules/auth/auth.routes.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export function createApp() {
@@ -37,6 +39,7 @@ export function createApp() {
     // 3. Request Parsers
     app.use(express.json({ limit: '10mb' }));
     app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+    app.use(cookieParser());
     // 4. Request Logging
     if (env.NODE_ENV !== 'test') {
         app.use(morgan('dev'));
@@ -52,6 +55,7 @@ export function createApp() {
     // 6. API Versioning Router (/api/v1)
     const apiRouter = express.Router();
     apiRouter.use('/health', healthRouter);
+    apiRouter.use('/auth', authRouter);
     app.use('/api/v1', apiRouter);
     // 7. Root API Gateway Ping
     app.get('/', (req, res) => {

@@ -1,0 +1,73 @@
+export const ROLES = {
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    EOC_DIRECTOR: 'EOC_DIRECTOR',
+    LOGISTICS_OFFICER: 'LOGISTICS_OFFICER',
+    FIELD_COMMANDER: 'FIELD_COMMANDER',
+    DATA_OPERATOR: 'DATA_OPERATOR',
+};
+export const PERMISSIONS = {
+    // Incidents & Hazards
+    INCIDENTS_VIEW: 'incidents:view',
+    INCIDENTS_CREATE: 'incidents:create',
+    HAZARDS_VERIFY: 'hazards:verify',
+    HAZARDS_UPDATE: 'hazards:update',
+    // Alerts & Announcements
+    ALERTS_PUBLISH: 'alerts:publish',
+    ANNOUNCEMENTS_MANAGE: 'announcements:manage',
+    // Facilities & Shelters
+    FACILITIES_VIEW: 'facilities:view',
+    FACILITIES_MANAGE: 'facilities:manage',
+    // Relief & Inventory
+    RELIEF_TRIAGE: 'relief:triage',
+    INVENTORY_ALLOCATE: 'inventory:allocate',
+    INVENTORY_RESTOCK: 'inventory:restock',
+    // SOS & Field Dispatch
+    SOS_VIEW: 'sos:view',
+    DISPATCH_VEHICLE: 'dispatch:vehicle',
+    // Administration, Simulation & Audit
+    STAFF_MANAGE: 'staff:manage',
+    SIMULATION_RUN: 'simulation:run',
+    AUDIT_LOG_VIEW: 'audit:view',
+};
+export const ROLE_PERMISSIONS = {
+    SUPER_ADMIN: Object.values(PERMISSIONS),
+    EOC_DIRECTOR: [
+        PERMISSIONS.INCIDENTS_VIEW,
+        PERMISSIONS.INCIDENTS_CREATE,
+        PERMISSIONS.HAZARDS_VERIFY,
+        PERMISSIONS.HAZARDS_UPDATE,
+        PERMISSIONS.ALERTS_PUBLISH,
+        PERMISSIONS.ANNOUNCEMENTS_MANAGE,
+        PERMISSIONS.FACILITIES_VIEW,
+        PERMISSIONS.FACILITIES_MANAGE,
+        PERMISSIONS.RELIEF_TRIAGE,
+        PERMISSIONS.INVENTORY_ALLOCATE,
+        PERMISSIONS.SOS_VIEW,
+        PERMISSIONS.DISPATCH_VEHICLE,
+        PERMISSIONS.STAFF_MANAGE,
+        PERMISSIONS.SIMULATION_RUN,
+        PERMISSIONS.AUDIT_LOG_VIEW,
+    ],
+    LOGISTICS_OFFICER: [
+        PERMISSIONS.INCIDENTS_VIEW,
+        PERMISSIONS.FACILITIES_VIEW,
+        PERMISSIONS.RELIEF_TRIAGE,
+        PERMISSIONS.INVENTORY_ALLOCATE,
+        PERMISSIONS.INVENTORY_RESTOCK,
+        PERMISSIONS.DISPATCH_VEHICLE,
+        PERMISSIONS.AUDIT_LOG_VIEW,
+    ],
+    FIELD_COMMANDER: [
+        PERMISSIONS.INCIDENTS_VIEW,
+        PERMISSIONS.HAZARDS_UPDATE,
+        PERMISSIONS.FACILITIES_VIEW,
+        PERMISSIONS.SOS_VIEW,
+        PERMISSIONS.DISPATCH_VEHICLE,
+    ],
+    DATA_OPERATOR: [
+        PERMISSIONS.INCIDENTS_VIEW,
+        PERMISSIONS.FACILITIES_VIEW,
+        PERMISSIONS.SOS_VIEW,
+    ],
+};
+//# sourceMappingURL=rbac.js.map
