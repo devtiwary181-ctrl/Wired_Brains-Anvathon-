@@ -11,41 +11,107 @@
   'use strict';
 
   // ---------------------------------------------------------------------------
-  // Config — picks up from env if running via a build tool, else defaults to dev
   // ---------------------------------------------------------------------------
-  const BASE_URL = window.DR_API_BASE || 'http://localhost:5001/api/v1';
+  // Config — picks up from env or window globals, defaults to dev
+  // ---------------------------------------------------------------------------
+  const BASE_URL =
+    (typeof process !== 'undefined' && process.env?.VITE_API_BASE_URL) ||
+    window.VITE_API_BASE_URL ||
+    window.DR_API_BASE ||
+    'http://localhost:5001/api/v1';
 
   // ---------------------------------------------------------------------------
-  // Internal HTTP helper
+  // Enhanced Centralized HTTP helper with Timeout, Cancellation & Error Normalization
   // ---------------------------------------------------------------------------
-  async function http(method, path, body, isFormData) {
-    const opts = {
-      method,
-      credentials: 'include',
-      headers: isFormData ? {} : { 'Content-Type': 'application/json' },
-    };
-    if (body) {
-      opts.body = isFormData ? body : JSON.stringify(body);
+  async function http(method, path, body, options = {}) {
+    const isFormData = options.isFormData || (typeof FormData !== 'undefined' && body instanceof FormData);
+    const timeoutMs = options.timeout || 15000;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    // Merge external AbortSignal if provided
+    if (options.signal) {
+      options.signal.addEventListener('abort', () => controller.abort());
     }
 
-    const res = await fetch(`${BASE_URL}${path}`, opts);
-    const json = await res.json().catch(() => ({
-      success: false,
-      error: { code: 'PARSE_ERROR', message: 'Unexpected server response.' },
-    }));
+    const headers = { ...(options.headers || {}) };
+    if (!isFormData && !headers['Content-Type']) {
+      headers['Content-Type'] = 'application/json';
+    }
 
-    if (!res.ok) {
-      const err = new Error(json.error?.message || 'API error');
-      err.code = json.error?.code || 'API_ERROR';
-      err.status = res.status;
-      err.details = json.error?.details;
+    // Attach Bearer token if staff authenticated in sessionStorage (or cookie fallback)
+    const staffToken = sessionStorage.getItem('dr_staff_token');
+    if (staffToken && !headers['Authorization']) {
+      headers['Authorization'] = `Bearer ${staffToken}`;
+    }
+
+    const fetchOpts = {
+      method,
+      credentials: 'include', // Includes HTTP-only session cookies
+      headers,
+      signal: controller.signal,
+    };
+
+    if (body) {
+      fetchOpts.body = isFormData ? body : JSON.stringify(body);
+    }
+
+    try {
+      const res = await fetch(`${BASE_URL}${path}`, fetchOpts);
+      clearTimeout(timeoutId);
+
+      const json = await res.json().catch(() => ({
+        success: false,
+        error: { code: 'PARSE_ERROR', message: 'Unexpected server response.' },
+      }));
+
+      if (!res.ok) {
+        // Understandable citizen-safe error handling
+        let friendlyMessage = json.error?.message;
+        if (!friendlyMessage || res.status >= 500) {
+          friendlyMessage = 'Our emergency servers are busy or temporarily unavailable. Please try again or use direct emergency helplines (112 / 108).';
+        }
+
+        const err = new Error(friendlyMessage);
+        err.code = json.error?.code || `HTTP_${res.status}`;
+        err.status = res.status;
+        err.details = json.error?.details;
+        err.isApiError = true;
+
+        // Auto-redirect or notify on expired admin session
+        if (res.status === 401 && path.startsWith('/authority')) {
+          sessionStorage.removeItem('dr_staff_token');
+          sessionStorage.removeItem('dr_staff_user');
+          window.dispatchEvent(new CustomEvent('dr:staff_unauthorized', { detail: { path } }));
+        }
+
+        throw err;
+      }
+
+      return json.data !== undefined ? json.data : { success: true, message: json.message };
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (err.name === 'AbortError') {
+        const timeoutErr = new Error('The emergency server took too long to respond. Please check your signal and retry.');
+        timeoutErr.code = 'TIMEOUT';
+        timeoutErr.status = 408;
+        throw timeoutErr;
+      }
+      if (!navigator.onLine || err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
+        const netErr = new Error('No internet connection. Saved your action to the offline queue.');
+        netErr.code = 'NETWORK_ERROR';
+        netErr.status = 0;
+        throw netErr;
+      }
       throw err;
     }
-    return json.data;
   }
 
-  const get = (path) => http('GET', path);
-  const post = (path, body, isFormData) => http('POST', path, body, isFormData);
+  const get = (path, options) => http('GET', path, null, options);
+  const post = (path, body, options) => http('POST', path, body, typeof options === 'boolean' ? { isFormData: options } : options);
+  const patch = (path, body, options) => http('PATCH', path, body, options);
+  const put = (path, body, options) => http('PUT', path, body, options);
+  const del = (path, options) => http('DELETE', path, null, options);
 
   // ---------------------------------------------------------------------------
   // Helpers: localStorage for citizen session state
@@ -940,9 +1006,320 @@
   };
 
   // ---------------------------------------------------------------------------
-  // Public API
+  // 18. Phase 11 Centralized API Service Modules
+  // ---------------------------------------------------------------------------
+
+  // authApi: Staff 2FA & Session Handling (SessionStorage + HttpOnly Cookie)
+  const authApi = {
+    async loginStep1(identifier, password) {
+      return post('/auth/login-step1', { identifier, password });
+    },
+    async verifyOtp(challengeId, otp, rememberDevice = false) {
+      const data = await post('/auth/verify-otp', { challengeId, otp, rememberDevice });
+      if (data?.token) {
+        sessionStorage.setItem('dr_staff_token', data.token);
+      }
+      if (data?.user) {
+        sessionStorage.setItem('dr_staff_user', JSON.stringify(data.user));
+      }
+      return data;
+    },
+    async resendOtp(challengeId) {
+      return post('/auth/resend-otp', { challengeId });
+    },
+    async logout() {
+      try {
+        await post('/auth/logout', {});
+      } catch (e) {
+        // Continue clearing client session even if network drop
+      } finally {
+        sessionStorage.removeItem('dr_staff_token');
+        sessionStorage.removeItem('dr_staff_user');
+      }
+      return { success: true };
+    },
+    async me() {
+      return get('/auth/me');
+    },
+    getToken() {
+      return sessionStorage.getItem('dr_staff_token');
+    },
+    getUser() {
+      try {
+        return JSON.parse(sessionStorage.getItem('dr_staff_user') || 'null');
+      } catch {
+        return null;
+      }
+    },
+    isAuthenticated() {
+      return !!sessionStorage.getItem('dr_staff_token');
+    },
+  };
+
+  // dashboardApi: Citizen dashboard aggregates
+  const dashboardApi = {
+    async get(districtId) {
+      return dashboard.get(districtId);
+    },
+  };
+
+  // hazardApi: Hazards & Spatial lookups
+  const hazardApi = {
+    async getSpatial(filters) {
+      return hazards.getSpatial(filters);
+    },
+  };
+
+  // alertApi: Active alerts & district broadcast alerts
+  const alertApi = {
+    async getActive(districtId) {
+      return alerts.getActive(districtId);
+    },
+  };
+
+  // locationApi: Geolocation, reverse geocoding & place search
+  const locationApi = {
+    async reverseGeocode(lat, lng) {
+      return geo.reverseGeocode(lat, lng);
+    },
+    async searchDistricts(q) {
+      return geo.searchDistricts(q);
+    },
+    async searchPlaces(q) {
+      return geo.searchPlaces(q);
+    },
+    async detectAndStore() {
+      return geo.detectAndStore();
+    },
+  };
+
+  // routingApi: Multi-criteria evacuation and relief routing
+  const routingApi = {
+    async compare(options) {
+      return routing.compare(options);
+    },
+    async checkRisk(options) {
+      return routing.checkRisk(options);
+    },
+  };
+
+  // facilityApi: Emergency shelters and medical relief centers
+  const facilityApi = {
+    async get(filters) {
+      return facilities.get(filters);
+    },
+  };
+
+  // reportApi: Public citizen hazard reporting with multipart photo upload
+  const reportApi = {
+    async submit(data, photoFile) {
+      return hazards.report(data, photoFile);
+    },
+  };
+
+  // supplyApi: Public supply requests with offline draft protection
+  const supplyApi = {
+    async submit(data) {
+      return relief.submit(data);
+    },
+    getOfflineDrafts() {
+      return relief.getOfflineDrafts();
+    },
+    async syncOfflineDrafts() {
+      return relief.syncOfflineDrafts();
+    },
+  };
+
+  // trackingApi: High-entropy token-based relief tracking
+  const trackingApi = {
+    async track(token) {
+      return relief.track(token);
+    },
+  };
+
+  // sosApi: Emergency SOS logging and dialer fallback
+  const sosApi = {
+    async log(serviceType, lat, lng, details = {}) {
+      return sos.log(serviceType, lat, lng, details);
+    },
+    getOfflineDrafts() {
+      return sos.getOfflineDrafts();
+    },
+    async syncOfflineDrafts() {
+      return sos.syncOfflineDrafts();
+    },
+  };
+
+  // preparednessApi: Multilingual disaster survival guides & checklists
+  const preparednessApi = {
+    async getGuides(disasterType) {
+      return preparedness.getGuides(disasterType);
+    },
+  };
+
+  // inventoryApi: Authority relief warehouse stock & adjustments
+  const inventoryApi = {
+    async list() {
+      return get('/authority/inventory');
+    },
+    async movements(depotId) {
+      const q = depotId ? `?depotId=${encodeURIComponent(depotId)}` : '';
+      return get(`/authority/inventory/movements${q}`);
+    },
+    async adjust(id, quantityAvailable, reason) {
+      return patch(`/authority/inventory/${encodeURIComponent(id)}`, {
+        quantityAvailable,
+        reason: reason?.trim() || 'Manual stock update',
+      });
+    },
+  };
+
+  // adminApi: Authority Command Center Operations (RBAC Enforced)
+  const adminApi = {
+    async dashboard() {
+      return get('/authority/dashboard');
+    },
+    async listIncidents() {
+      return get('/authority/incidents');
+    },
+    async createIncident(incidentData) {
+      return post('/authority/incidents', incidentData);
+    },
+    async updateIncident(incidentId, updateData) {
+      return patch(`/authority/incidents/${encodeURIComponent(incidentId)}`, updateData);
+    },
+    async incidentHistory(incidentId) {
+      return get(`/authority/incidents/${encodeURIComponent(incidentId)}/history`);
+    },
+    async decideHazard(hazardId, decision, rationale, incidentId) {
+      return post(`/authority/hazards/${encodeURIComponent(hazardId)}/decision`, {
+        decision,
+        rationale,
+        incidentId,
+      });
+    },
+    async listAlerts() {
+      return get('/authority/alerts');
+    },
+    async createAlert(alertData) {
+      return post('/authority/alerts', alertData);
+    },
+    async updateAlert(alertId, updateData) {
+      return patch(`/authority/alerts/${encodeURIComponent(alertId)}`, updateData);
+    },
+    async listFacilities() {
+      return get('/authority/facilities');
+    },
+    async createFacility(facilityData) {
+      return post('/authority/facilities', facilityData);
+    },
+    async updateFacility(facilityId, updateData) {
+      return patch(`/authority/facilities/${encodeURIComponent(facilityId)}`, updateData);
+    },
+    async listReliefRequests() {
+      return get('/authority/relief-requests');
+    },
+    async transitionRequest(requestId, stage, notes) {
+      return patch(`/authority/relief-requests/${encodeURIComponent(requestId)}/stage`, {
+        stage,
+        notes,
+      });
+    },
+    async allocateRequest(requestId, depotId, allocations, notes) {
+      return post(`/authority/relief-requests/${encodeURIComponent(requestId)}/allocate`, {
+        depotId,
+        allocations,
+        notes,
+      });
+    },
+    async listStaff() {
+      return get('/authority/staff');
+    },
+    async createStaff(staffData) {
+      return post('/authority/staff', staffData);
+    },
+    async updateStaff(staffId, updateData) {
+      return patch(`/authority/staff/${encodeURIComponent(staffId)}`, updateData);
+    },
+    async staffHistory(staffId) {
+      return get(`/authority/staff/${encodeURIComponent(staffId)}/history`);
+    },
+    async listSos() {
+      return get('/authority/sos');
+    },
+    async acknowledgeSos(sosId, notes) {
+      return patch(`/authority/sos/${encodeURIComponent(sosId)}/acknowledge`, { notes });
+    },
+    async updateSosStatus(sosId, status, notes) {
+      return patch(`/authority/sos/${encodeURIComponent(sosId)}/status`, { status, notes });
+    },
+  };
+
+  // notificationApi: Web Push / District Broadcast Subscriptions
+  const notificationApi = {
+    async subscribe(subscriptionData) {
+      return post('/realtime/notifications/subscribe', subscriptionData);
+    },
+    async unsubscribe(token) {
+      return post('/realtime/notifications/unsubscribe', { token });
+    },
+  };
+
+  // simulationApi: Disaster scenario simulation runs & history
+  const simulationApi = {
+    async run(data) {
+      return simulation.run(data);
+    },
+    async list() {
+      return simulation.list();
+    },
+  };
+
+  // copilotApi: DisasterReady AI Copilot chat & card meta
+  const copilotApi = {
+    async chat(options) {
+      return copilot.chat(options);
+    },
+    formatCardMeta(actionCard) {
+      return copilot.formatCardMeta(actionCard);
+    },
+  };
+
+  // ---------------------------------------------------------------------------
+  // Public API Export (Providing 17 Dedicated Modules + Backward Compatible Aliases)
   // ---------------------------------------------------------------------------
   window.DisasterReadyAPI = {
+    // 17 Standard Modules required by Phase 11
+    authApi,
+    dashboardApi,
+    hazardApi,
+    alertApi,
+    locationApi,
+    routingApi,
+    facilityApi,
+    reportApi,
+    supplyApi,
+    trackingApi,
+    sosApi,
+    preparednessApi,
+    inventoryApi,
+    adminApi,
+    notificationApi,
+    simulationApi,
+    copilotApi,
+
+    // Core HTTP Client primitives & utils
+    client: {
+      http,
+      get,
+      post,
+      patch,
+      put,
+      del,
+      BASE_URL,
+    },
+
+    // Backward-compatible screen aliases
     storage,
     geo,
     routing,
