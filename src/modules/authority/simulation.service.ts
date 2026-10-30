@@ -1,7 +1,7 @@
 import { prisma } from '../../shared/database.js';
 import { AppError } from '../../middleware/errorHandler.js';
 import { AuthenticatedUser } from '../auth/auth.middleware.js';
-import { PERMISSIONS, requirePermission } from '../auth/rbac.js';
+import { PERMISSIONS } from '../auth/rbac.js';
 
 export type DisasterSimulationType = 'FLOOD' | 'EARTHQUAKE' | 'CYCLONE' | 'LANDSLIDE' | 'WILDFIRE';
 export type SimulationSeverity = 'MODERATE' | 'SEVERE' | 'CATASTROPHIC';

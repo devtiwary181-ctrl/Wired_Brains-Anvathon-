@@ -528,4 +528,45 @@
       btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">table_chart</span><span>Show as Accessible Table</span>';
     }
   }
-</script></main></div></body></html>
+
+  // Phase 10 — Connect Simulation and Transparency to Backend API
+  async function triggerLiveSimulation() {
+    if (!window.DisasterReadyAPI) return;
+    const routeSelect = document.getElementById('route-select');
+    const blockedRoute = routeSelect ? routeSelect.options[routeSelect.selectedIndex].text : 'Route 4 - Bellandur Causeway Bypass';
+    try {
+      const res = await window.DisasterReadyAPI.simulation.run({
+        name: 'Crisis Logistics Inundation Override',
+        disasterType: 'FLOOD',
+        severity: 'SEVERE',
+        affectedAreaNames: ['Ward 174 - Kariyammana Agrahara', 'Bellandur'],
+        scenarioParameters: {
+          rainfallMmPerHour: 95,
+          damReleaseCusecs: 28000,
+          blockedCorridors: [blockedRoute],
+          inducedStockDeficitLiters: currentDeficit,
+        },
+      });
+      if (res) {
+        console.log('Simulation response from backend:', res);
+      }
+    } catch (e) {
+      console.warn('Simulation API note:', e.message);
+    }
+  }
+
+  // Auto-fetch real database analytics when switching to Transparency tab
+  const originalSwitchTab = window.switchTab;
+  window.switchTab = function(tabId) {
+    if (typeof originalSwitchTab === 'function') originalSwitchTab(tabId);
+    if (tabId === 'tab-transparency' && window.DisasterReadyAPI) {
+      window.DisasterReadyAPI.transparency.getPortalData().then(data => {
+        if (data && data.civicMetrics) {
+          console.log('Loaded verified transparency portal data from production database:', data);
+        }
+      }).catch(() => {});
+    }
+  };
+</script>
+<script src="../../api-client.js"></script>
+</main></div></body></html>

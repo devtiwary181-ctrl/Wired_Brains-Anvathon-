@@ -99,6 +99,41 @@ export class AuthorityController {
   async updateStaff(req: Request, res: Response, next: NextFunction) {
     try { res.json({ success: true, data: await authorityService.updateStaff(actor(req), routeId(req), req.body, requestIp(req)) }); } catch (error) { next(error); }
   }
+
+  // Phase 10: Simulations, Analytics, Multilingual Broadcast & Transparency
+  async runSimulation(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { simulationService } = await import('./simulation.service.js');
+      res.json({ success: true, data: await simulationService.runSimulation(actor(req), req.body) });
+    } catch (error) { next(error); }
+  }
+  async listSimulations(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { simulationService } = await import('./simulation.service.js');
+      res.json({ success: true, data: await simulationService.listSimulations() });
+    } catch (error) { next(error); }
+  }
+  async analyticsSummary(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { transparencyService } = await import('./transparency.service.js');
+      res.json({ success: true, data: await transparencyService.getAnalytics(req.query.districtId as string | undefined) });
+    } catch (error) {
+      console.error('SERVER ANALYTICS ERROR:', error);
+      next(error);
+    }
+  }
+  async transparencyPortal(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { transparencyService } = await import('./transparency.service.js');
+      res.json({ success: true, data: await transparencyService.getTransparencyPortalData(req.query.districtId as string | undefined) });
+    } catch (error) { next(error); }
+  }
+  async broadcastTranslate(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { translationService } = await import('./translation.service.js');
+      res.json({ success: true, data: translationService.translateBroadcast(req.body) });
+    } catch (error) { next(error); }
+  }
 }
 
 export const authorityController = new AuthorityController();

@@ -124,7 +124,9 @@ const updateStaffSchema = z.object({
     isActive: z.boolean().optional(),
     districtId: z.string().uuid().optional(),
 }).refine(value => Object.keys(value).length > 0, 'At least one staff field is required.');
-// Every authority endpoint is authenticated and then checks its operation-specific permission.
+// Public Civic Transparency Portal (Accessible openly by citizens and civil society)
+authorityRouter.get('/transparency/portal', (req, res, next) => authorityController.transparencyPortal(req, res, next));
+// Every authority staff endpoint is authenticated and then checks its operation-specific permission.
 authorityRouter.use(requireAuth);
 authorityRouter.get('/dashboard', requirePermission(PERMISSIONS.INCIDENTS_VIEW), (req, res, next) => authorityController.dashboard(req, res, next));
 authorityRouter.get('/sos', requirePermission(PERMISSIONS.SOS_VIEW), (req, res, next) => authorityController.listSos(req, res, next));
@@ -153,4 +155,34 @@ authorityRouter.get('/staff', requirePermission(PERMISSIONS.STAFF_MANAGE), (req,
 authorityRouter.get('/staff/:id/history', validateRequest({ params: idParams }), requirePermission(PERMISSIONS.STAFF_MANAGE), (req, res, next) => authorityController.staffHistory(req, res, next));
 authorityRouter.post('/staff', validateRequest({ body: createStaffSchema }), requirePermission(PERMISSIONS.STAFF_MANAGE), (req, res, next) => authorityController.createStaff(req, res, next));
 authorityRouter.patch('/staff/:id', validateRequest({ params: idParams, body: updateStaffSchema }), requirePermission(PERMISSIONS.STAFF_MANAGE), (req, res, next) => authorityController.updateStaff(req, res, next));
+// Phase 10 — Simulations, Staff Analytics, Transparency & Multilingual Announcements
+const simulationSchema = z.object({
+    name: z.string().min(3).max(120),
+    disasterType: z.enum(['FLOOD', 'EARTHQUAKE', 'CYCLONE', 'LANDSLIDE', 'WILDFIRE']),
+    severity: z.enum(['MODERATE', 'SEVERE', 'CATASTROPHIC']),
+    districtId: z.string().uuid().optional(),
+    affectedAreaNames: z.array(z.string().min(2).max(100)).min(1).max(20),
+    scenarioParameters: z.object({
+        rainfallMmPerHour: z.number().min(0).max(500).optional(),
+        damReleaseCusecs: z.number().min(0).max(500000).optional(),
+        windSpeedKmph: z.number().min(0).max(400).optional(),
+        richterMagnitude: z.number().min(1).max(10).optional(),
+        soilSaturationPct: z.number().min(0).max(100).optional(),
+        slopeInclineDeg: z.number().min(0).max(90).optional(),
+        fireSpreadRateKmph: z.number().min(0).max(150).optional(),
+        blockedCorridors: z.array(z.string()).optional(),
+        inducedStockDeficitLiters: z.number().min(0).max(100000).optional(),
+        targetDepotName: z.string().optional(),
+    }).optional(),
+});
+authorityRouter.post('/simulations', validateRequest({ body: simulationSchema }), requirePermission(PERMISSIONS.SIMULATION_RUN), (req, res, next) => authorityController.runSimulation(req, res, next));
+authorityRouter.get('/simulations', requirePermission(PERMISSIONS.SIMULATION_RUN), (req, res, next) => authorityController.listSimulations(req, res, next));
+authorityRouter.get('/analytics/summary', requirePermission(PERMISSIONS.INCIDENTS_VIEW), (req, res, next) => authorityController.analyticsSummary(req, res, next));
+const broadcastTranslateSchema = z.object({
+    sourceText: z.string().min(3).max(4000),
+    sourceLanguage: z.string().min(2).max(10).optional(),
+    targetLanguages: z.array(z.string()).optional(),
+    districtId: z.string().uuid().optional(),
+});
+authorityRouter.post('/announcements/translate', validateRequest({ body: broadcastTranslateSchema }), requirePermission(PERMISSIONS.ANNOUNCEMENTS_MANAGE), (req, res, next) => authorityController.broadcastTranslate(req, res, next));
 //# sourceMappingURL=authority.routes.js.map

@@ -911,6 +911,35 @@
   };
 
   // ---------------------------------------------------------------------------
+  // 17. Simulations, Staff Tools & Transparency Portal
+  // ---------------------------------------------------------------------------
+  const simulation = {
+    async run(data) {
+      return post('/authority/simulations', data);
+    },
+    async list() {
+      return get('/authority/simulations');
+    },
+  };
+
+  const transparency = {
+    async getAnalytics(districtId) {
+      const q = districtId ? `?districtId=${encodeURIComponent(districtId)}` : '';
+      return get(`/authority/analytics/summary${q}`);
+    },
+    async getPortalData(districtId) {
+      const q = districtId ? `?districtId=${encodeURIComponent(districtId)}` : '';
+      return get(`/authority/transparency/portal${q}`);
+    },
+  };
+
+  const broadcast = {
+    async translate(sourceText, targetLanguages) {
+      return post('/authority/announcements/translate', { sourceText, targetLanguages });
+    },
+  };
+
+  // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
   window.DisasterReadyAPI = {
@@ -931,6 +960,9 @@
     lowData,
     offline,
     realtime,
+    simulation,
+    transparency,
+    broadcast,
     ui,
   };
 })(window);

@@ -1009,7 +1009,15 @@ export class AuthorityService {
     const staff = await prisma.staffUser.findUnique({ where: { id: staffId }, select: { id: true, districtId: true } });
     if (!staff) throw new AppError('Staff account not found.', 404, 'RECORD_NOT_FOUND');
     await requireDistrictAccess(user, staff.districtId);
-    return prisma.auditLog.findMany({ where: { staffUserId: staffId }, orderBy: { timestamp: 'asc' } });
+    return prisma.auditLog.findMany({
+      where: {
+        OR: [
+          { staffUserId: staffId },
+          { entityId: staffId, entityType: 'StaffUser' },
+        ],
+      },
+      orderBy: { timestamp: 'asc' },
+    });
   }
 
   async createStaff(user: AuthenticatedUser, data: { username: string; fullName: string; email: string; phoneNumber: string; password: string; role: RoleType; districtId?: string }, ipAddress?: string) {

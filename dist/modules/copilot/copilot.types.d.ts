@@ -11,11 +11,11 @@ export declare const copilotChatSchema: z.ZodObject<{
         te: "te";
         en: "en";
         hi: "hi";
-        ta: "ta";
         kn: "kn";
+        ta: "ta";
         ml: "ml";
-        bn: "bn";
         mr: "mr";
+        bn: "bn";
         gu: "gu";
         or: "or";
         pa: "pa";

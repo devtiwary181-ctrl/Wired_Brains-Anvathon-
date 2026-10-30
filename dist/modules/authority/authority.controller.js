@@ -231,6 +231,53 @@ export class AuthorityController {
             next(error);
         }
     }
+    // Phase 10: Simulations, Analytics, Multilingual Broadcast & Transparency
+    async runSimulation(req, res, next) {
+        try {
+            const { simulationService } = await import('./simulation.service.js');
+            res.json({ success: true, data: await simulationService.runSimulation(actor(req), req.body) });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async listSimulations(req, res, next) {
+        try {
+            const { simulationService } = await import('./simulation.service.js');
+            res.json({ success: true, data: await simulationService.listSimulations() });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async analyticsSummary(req, res, next) {
+        try {
+            const { transparencyService } = await import('./transparency.service.js');
+            res.json({ success: true, data: await transparencyService.getAnalytics(req.query.districtId) });
+        }
+        catch (error) {
+            console.error('SERVER ANALYTICS ERROR:', error);
+            next(error);
+        }
+    }
+    async transparencyPortal(req, res, next) {
+        try {
+            const { transparencyService } = await import('./transparency.service.js');
+            res.json({ success: true, data: await transparencyService.getTransparencyPortalData(req.query.districtId) });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async broadcastTranslate(req, res, next) {
+        try {
+            const { translationService } = await import('./translation.service.js');
+            res.json({ success: true, data: translationService.translateBroadcast(req.body) });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
 }
 export const authorityController = new AuthorityController();
 //# sourceMappingURL=authority.controller.js.map

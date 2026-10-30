@@ -27,5 +27,10 @@ export declare class AuthorityController {
     staffHistory(req: Request, res: Response, next: NextFunction): Promise<void>;
     createStaff(req: Request, res: Response, next: NextFunction): Promise<void>;
     updateStaff(req: Request, res: Response, next: NextFunction): Promise<void>;
+    runSimulation(req: Request, res: Response, next: NextFunction): Promise<void>;
+    listSimulations(req: Request, res: Response, next: NextFunction): Promise<void>;
+    analyticsSummary(req: Request, res: Response, next: NextFunction): Promise<void>;
+    transparencyPortal(req: Request, res: Response, next: NextFunction): Promise<void>;
+    broadcastTranslate(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 export declare const authorityController: AuthorityController;
