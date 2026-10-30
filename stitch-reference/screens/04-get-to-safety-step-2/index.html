@@ -942,10 +942,29 @@
         status.textContent = error.message || 'Route provider unavailable. No route has been generated.';
       } finally {
         findRoutes.disabled = false;
-        findRoutes.textContent = originalLabel;
-      }
-    });
     findRoutes?.insertAdjacentElement('afterend', status);
+
+    // Ask AI Copilot trigger in screen 04
+    const copilotBtn = document.querySelector('button[aria-label="Ask AI Copilot"]');
+    if (copilotBtn) {
+      copilotBtn.addEventListener('click', async function() {
+        copilotBtn.disabled = true;
+        copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Consulting Copilot...</span>';
+        try {
+          const res = await DR.copilot.chat({
+            query: 'What is the safest evacuation route and destination facility near my current location?',
+            coordinates: origin || DR.storage.getLocation(),
+            districtId: DR.storage.getDistrict()?.districtId,
+          });
+          alert(`DisasterReady AI Copilot:\n\n${res.response}\n\n[Safety Notice]: ${res.safetyDisclaimer}`);
+        } catch (err) {
+          DR.ui.toast(err.message || 'AI Copilot currently busy. Dial 112 if in direct danger.');
+        } finally {
+          copilotBtn.disabled = false;
+          copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">smart_toy</span><span>Ask AI Copilot</span>';
+        }
+      });
+    }
   })();
 </script>
 </body></html>

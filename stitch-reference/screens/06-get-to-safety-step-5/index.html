@@ -431,6 +431,30 @@
         if (submitBtn) DR.ui.setLoading(submitBtn, false);
       }
     };
+
+    // Ask AI Copilot button in screen 06
+    const copilotBtn = document.querySelector('button[aria-label="Ask AI Copilot"]');
+    if (copilotBtn) {
+      copilotBtn.addEventListener('click', async function() {
+        copilotBtn.disabled = true;
+        copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Consulting Copilot...</span>';
+        try {
+          const loc = DR.storage.getLocation();
+          const dist = DR.storage.getDistrict();
+          const res = await DR.copilot.chat({
+            query: 'What hazard report guidance or immediate safety recommendations apply to my current location?',
+            coordinates: loc.lat != null && loc.lng != null ? { lat: loc.lat, lng: loc.lng } : undefined,
+            districtId: dist?.districtId || dist?.id,
+          });
+          alert(`DisasterReady AI Copilot:\n\n${res.response}\n\n[Safety Notice]: ${res.safetyDisclaimer}`);
+        } catch (err) {
+          DR.ui.toast(err.message || 'AI Copilot currently busy. Dial 112 if in direct danger.');
+        } finally {
+          copilotBtn.disabled = false;
+          copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">chat_bubble</span><span>Ask AI Copilot</span>';
+        }
+      });
+    }
   })();
 </script>
 </body></html>

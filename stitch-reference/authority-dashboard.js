@@ -6,13 +6,22 @@
   if (!stage) return;
 
   async function api(path, options = {}) {
+    const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+    const staffToken = sessionStorage.getItem('dr_staff_token');
+    if (staffToken && !headers['Authorization']) {
+      headers['Authorization'] = `Bearer ${staffToken}`;
+    }
     const response = await fetch(`${API_BASE}${path}`, {
       ...options,
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+      headers,
     });
     const body = await response.json().catch(() => null);
     if (!response.ok) {
+      if (response.status === 401) {
+        sessionStorage.removeItem('dr_staff_token');
+        sessionStorage.removeItem('dr_staff_user');
+      }
       const error = new Error(body?.error?.message || `Request failed (${response.status})`);
       error.status = response.status;
       error.code = body?.error?.code;
