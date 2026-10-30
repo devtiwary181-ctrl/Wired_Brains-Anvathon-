@@ -580,4 +580,72 @@
   })();
 </script></main><div class="fixed bottom-24 right-4 z-50"><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span class="">SOS 112</span></a></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="safe-places-near-you-shelters-hospitals" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] transition-colors text-primary font-body-strong" data-path="ask-for-supplies" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-caption text-caption">Supplies</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav>
 
+
+<script src="../../api-client.js"></script>
+<script>
+  // ── SCREEN 08: EMERGENCY RELIEF REQUEST — Backend Integration ────────────
+  (function() {
+    const DR = window.DisasterReadyAPI;
+
+    window.submitReliefRequest = async function() {
+      const loc = DR.storage.getLocation();
+
+      // Collect stepper values
+      function getCount(selector) {
+        const el = document.querySelector(selector);
+        return el ? (parseInt(el.textContent || el.value || el.dataset.count || 0)) : 0;
+      }
+
+      const data = {
+        headcountAdults: getCount('[data-count="adults"], #count-adults'),
+        headcountChildren: getCount('[data-count="children"], #count-children'),
+        headcountInfants: getCount('[data-count="infants"], #count-infants'),
+        headcountSeniors: getCount('[data-count="seniors"], #count-seniors'),
+        deliveryContext: document.querySelector('[data-selected-context]')?.dataset?.value || 'ROOFTOP_STRANDED',
+        urgencyLevel: document.querySelector('[data-urgency]')?.dataset?.urgency || 'HIGH',
+        latitude: loc.lat || 28.6139,
+        longitude: loc.lng || 77.209,
+        landmarkNotes: document.querySelector('#landmark-notes, textarea[name="landmark"]')?.value || '',
+        itemsRequested: {
+          drinkingWater: !!document.querySelector('[data-item="water"]')?.checked,
+          foodKits: getCount('[data-item="food-count"]') || 1,
+          babyFormula: !!document.querySelector('[data-item="baby-formula"]')?.checked,
+          firstAidKit: !!document.querySelector('[data-item="first-aid"]')?.checked,
+          tarpaulin: !!document.querySelector('[data-item="tarpaulin"]')?.checked,
+        },
+        specialMedicalNeeds: document.querySelector('#special-needs, textarea[name="medical"]')?.value || '',
+      };
+
+      const submitBtn = document.querySelector('#submit-relief-btn, button[type="submit"]');
+      if (submitBtn) DR.ui.setLoading(submitBtn, true);
+      try {
+        const result = await DR.relief.submit(data);
+        // Store token for tracking
+        localStorage.setItem('dr_tracking_token', result.trackingToken);
+
+        // Show confirmation with tracking token
+        const tokenEl = document.querySelector('#tracking-token-display, [data-tracking-token]');
+        if (tokenEl) tokenEl.textContent = result.trackingToken;
+        const confirmSection = document.querySelector('#confirmation-section, [data-confirmation]');
+        if (confirmSection) confirmSection.classList.remove('hidden');
+
+        DR.ui.toast('✓ Request submitted! Token: ' + result.trackingToken, 6000);
+      } catch (err) {
+        DR.ui.toast('⚠ Submission failed: ' + (err.message || 'Network error. Please try again.'));
+      } finally {
+        if (submitBtn) DR.ui.setLoading(submitBtn, false);
+      }
+    };
+
+    // Auto-wire submit buttons
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('#submit-relief-btn, [data-action="submit-relief"], button[type="submit"]').forEach(function(btn) {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          await window.submitReliefRequest();
+        });
+      });
+    });
+  })();
+</script>
 </body></html>

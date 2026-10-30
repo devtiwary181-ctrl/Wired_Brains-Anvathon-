@@ -8,6 +8,7 @@
   </style>
   </head><body class="bg-surface font-body-default text-on-surface antialiased pt-safe pb-safe min-h-screen"><main class="flex flex-col relative w-full bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
 <!-- 1. Top Government Utility Minimal Brand Bar -->
+<script src="../../api-client.js"></script>
 <div class="w-full bg-surface-container-high px-space-md py-space-sm flex flex-col gap-1">
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-2">
@@ -482,5 +483,39 @@
     setTimeout(() => {
       window.location.href = '../02-citizen-dashboard/index.html';
     }, 1200);
+  }
+
+  // ── BACKEND INTEGRATION (Phase 4) ─────────────────────────────────────────
+
+  async function triggerLocationDetect() {
+    const btn = document.getElementById('loc-btn');
+    if (btn) { btn.textContent = 'Detecting location…'; btn.disabled = true; }
+
+    try {
+      const { lat, lng, district } = await window.DisasterReadyAPI.geo.detectAndStore();
+      window.DisasterReadyAPI.storage.setLang('en'); // default; user can override
+
+      // Show detected state banner
+      const detectedEl = document.getElementById('state-detected');
+      if (detectedEl) {
+        const stateSpan = detectedEl.querySelector('span.font-label-strong');
+        if (stateSpan) stateSpan.textContent = `${district.district}, ${district.state} detected`;
+        detectedEl.classList.remove('hidden');
+      }
+
+      window.DisasterReadyAPI.ui.toast(`📍 Location: ${district.district}, ${district.state}`);
+    } catch (err) {
+      const errMap = {
+        PERMISSION_DENIED: 'Location permission denied. Please select your state/language manually.',
+        GEOLOCATION_NOT_SUPPORTED: 'GPS not supported on this device.',
+        GPS_ACCURACY_LOW: 'GPS signal is weak. Please select your location manually.',
+        TIMEOUT: 'Location detection timed out. Showing manual selection.',
+      };
+      const fallback = document.getElementById('state-fallback');
+      if (fallback) fallback.classList.remove('hidden');
+      window.DisasterReadyAPI.ui.toast(errMap[err.message] || 'Location unavailable. Select manually.');
+    } finally {
+      if (btn) { btn.textContent = 'Use my location to pick my language'; btn.disabled = false; }
+    }
   }
 </script></main></body></html>

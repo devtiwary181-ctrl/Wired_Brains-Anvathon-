@@ -51,6 +51,9 @@ export function createApp(): Express {
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
   app.use(cookieParser());
 
+  // 3b. Static file serving for uploaded evidence photos
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
   // 4. Request Logging
   if (env.NODE_ENV !== 'test') {
     app.use(morgan('dev'));
@@ -68,8 +71,8 @@ export function createApp(): Express {
   const apiRouter = express.Router();
   apiRouter.use('/health', healthRouter);
   apiRouter.use('/auth', authRouter);
+  // Citizen endpoints accessible under /citizen/ prefix AND at root for convenience
   apiRouter.use('/citizen', citizenRouter);
-  // Also expose top-level paths for direct citizen convenience
   apiRouter.use('/', citizenRouter);
 
   app.use('/api/v1', apiRouter);

@@ -210,4 +210,57 @@
       });
     }
   })();
-</script></main><div class="fixed bottom-24 right-4 z-50"><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span>SOS 112</span></a></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="safe-places-near-you-shelters-hospitals" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-primary font-body-strong transition-colors" data-path="ask-for-supplies" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-caption text-caption font-semibold">Supplies</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav></body></html>
+</script></main><div class="fixed bottom-24 right-4 z-50"><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span>SOS 112</span></a></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="safe-places-near-you-shelters-hospitals" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-primary font-body-strong transition-colors" data-path="ask-for-supplies" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-caption text-caption font-semibold">Supplies</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav>
+<script src="../../api-client.js"></script>
+<script>
+  // ── SCREEN 09: RELIEF TRACKING — Backend Integration ─────────────────────
+  (async function() {
+    const DR = window.DisasterReadyAPI;
+    // Load token from localStorage or URL param
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token') || localStorage.getItem('dr_tracking_token') || 'RELIEF-IN-8492-XQ7';
+
+    try {
+      const data = await DR.relief.track(token);
+      // Update token display
+      const tokenEl = document.querySelector('[data-tracking-token], #token-display');
+      if (tokenEl) tokenEl.textContent = data.trackingToken;
+      // Update stage label
+      const stageEl = document.querySelector('[data-stage-label], #stage-display');
+      if (stageEl) stageEl.textContent = data.stageLabel;
+      // Update ETA
+      const etaEl = document.querySelector('[data-eta], #eta-display');
+      if (etaEl && data.etaMinutes) etaEl.textContent = data.etaMinutes + ' minutes';
+      // Update headcount
+      const headEl = document.querySelector('[data-headcount], #headcount-display');
+      if (headEl) headEl.textContent = data.headcount.total + ' people';
+      // District & EOC phone
+      const districtEl = document.querySelector('[data-district], #district-display');
+      if (districtEl) districtEl.textContent = data.district;
+      const phoneEl = document.querySelector('[data-eoc-phone], #eoc-phone');
+      if (phoneEl && data.eocPhone) phoneEl.textContent = data.eocPhone;
+    } catch (err) {
+      if (err.status === 404) {
+        DR.ui.toast('Token not found. Please verify your reference code.');
+      } else if (err.status === 400) {
+        DR.ui.toast('Invalid token format. Expected: RELIEF-IN-XXXX-XXX');
+      } else {
+        DR.ui.toast('Could not load tracking data. Check network connection.');
+      }
+    }
+
+    // Wire token search form
+    const tokenInput = document.querySelector('#token-input, input[name="token"]');
+    const trackBtn = document.querySelector('#track-btn, [data-action="track"]');
+    if (trackBtn && tokenInput) {
+      trackBtn.addEventListener('click', async function() {
+        const newToken = tokenInput.value.trim().toUpperCase();
+        if (newToken) {
+          localStorage.setItem('dr_tracking_token', newToken);
+          window.location.search = '?token=' + encodeURIComponent(newToken);
+        }
+      });
+    }
+  })();
+</script>
+</body></html>

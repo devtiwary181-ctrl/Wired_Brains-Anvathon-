@@ -944,4 +944,49 @@ html.dark header, html.dark nav {
 </a>
 </div>
 </nav>
+<script src="../../api-client.js"></script>
+<script>
+  // ── SCREEN 02: CITIZEN DASHBOARD — Backend Integration ───────────────────
+  (async function initDashboard() {
+    const DR = window.DisasterReadyAPI;
+    const district = DR.storage.getDistrict();
+    const districtId = district?.districtId || undefined;
+
+    try {
+      const data = await DR.dashboard.get(districtId);
+      const { alerts, recentHazards, nearestShelters, announcements, summary } = data;
+
+      // -- Alert count badge
+      const alertCountEl = document.querySelector('[data-alert-count]');
+      if (alertCountEl && summary.criticalAlertCount > 0) {
+        alertCountEl.textContent = summary.criticalAlertCount;
+      }
+
+      // -- Inject first active alert into any existing alert card
+      if (alerts.length > 0) {
+        const a = alerts[0];
+        const alertTitle = document.querySelector('[data-live-alert-title]');
+        const alertBody = document.querySelector('[data-live-alert-body]');
+        if (alertTitle) alertTitle.textContent = a.title;
+        if (alertBody) alertBody.textContent = a.summary;
+      }
+
+      // -- Update shelter availability counters
+      if (nearestShelters.length > 0) {
+        const bedsEl = document.querySelector('[data-shelter-beds]');
+        const totalBeds = nearestShelters.reduce((acc, s) => acc + s.availableBeds, 0);
+        if (bedsEl) bedsEl.textContent = `${totalBeds} beds available`;
+      }
+
+      // -- Announce hazard count in live ticker
+      const tickerEl = document.querySelector('[data-hazard-ticker]');
+      if (tickerEl && recentHazards.length > 0) {
+        tickerEl.textContent = `${recentHazards.length} active hazard${recentHazards.length > 1 ? 's' : ''} in your area`;
+      }
+
+    } catch (err) {
+      DR.ui.toast('Unable to load live data. Check network connection.');
+    }
+  })();
+</script>
 </body></html>

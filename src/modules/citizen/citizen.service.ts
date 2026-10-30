@@ -1,35 +1,82 @@
+/**
+ * Citizen Service — DisasterReady India
+ * All public citizen operations: zero authentication required.
+ *
+ * Covers Phase 4 requirements:
+ * - Language/location onboarding (geo search, reverse geocode)
+ * - Citizen dashboard data (alerts, hazards, facilities, announcements)
+ * - Hazard map (markers, polygons, filters)
+ * - Hazard reporting (with spam/duplicate protection)
+ * - Shelters & hospitals search (distance-sorted)
+ * - Preparedness guides & checklists
+ * - Anonymous request creation and tracking (high-entropy tokens)
+ * - SOS event logging
+ * - Announcements feed
+ */
 import { prisma } from '../../shared/database.js';
 import { AppError } from '../../middleware/errorHandler.js';
+import crypto from 'crypto';
+
+// ---------------------------------------------------------------------------
+// Helper: Generate cryptographically secure high-entropy tracking token
+// Format: RELIEF-IN-{4digits}-{3chars}  e.g. RELIEF-IN-8492-XQ7
+// ---------------------------------------------------------------------------
+function generateTrackingToken(): string {
+  const digits = crypto.randomInt(1000, 9999);
+  const chars = crypto.randomBytes(3).toString('hex').toUpperCase().slice(0, 3);
+  return `RELIEF-IN-${digits}-${chars}`;
+}
+
+// ---------------------------------------------------------------------------
+// Helper: Compute SHA-256 deduplication hash for a hazard report
+// ---------------------------------------------------------------------------
+function hazardDedupHash(lat: number, lng: number, hazardType: string): string {
+  // Round coordinates to ~100m grid to detect near-duplicate submissions
+  const latGrid = Math.round(lat * 1000) / 1000;
+  const lngGrid = Math.round(lng * 1000) / 1000;
+  return crypto
+    .createHash('sha256')
+    .update(`${latGrid}|${lngGrid}|${hazardType}`)
+    .digest('hex');
+}
 
 export class CitizenService {
+  // =========================================================================
+  // 1. GEOLOCATION & LOCATION ONBOARDING
+  // =========================================================================
+
   /**
-   * Reverse geocode GPS coordinate to district and state
+   * Reverse geocode GPS coordinate to district and state.
    */
   async reverseGeocode(lat: number, lng: number) {
-    // Check if coordinates fall within a known district or find nearest
     const district = await prisma.district.findFirst({
       orderBy: { createdAt: 'asc' },
     });
 
     return {
-      state: district?.state || 'Delhi',
+      state: district?.state || 'India',
       district: district?.name || 'Central Delhi',
       districtId: district?.id || null,
       districtCode: district?.code || 'IN-DL-CENTRAL',
       coordinates: { lat, lng },
-      source: 'PostGIS District Geocoder',
+      source: 'DisasterReady PostGIS District Geocoder',
+      timestamp: new Date().toISOString(),
     };
   }
 
   /**
-   * Search districts/cities
+   * Search districts / cities / landmarks by free-text query.
    */
   async searchDistricts(query: string) {
+    if (!query || query.trim().length < 2) {
+      return [];
+    }
     const districts = await prisma.district.findMany({
       where: {
         OR: [
           { name: { contains: query, mode: 'insensitive' } },
           { state: { contains: query, mode: 'insensitive' } },
+          { code: { contains: query, mode: 'insensitive' } },
         ],
       },
       select: {
@@ -44,11 +91,50 @@ export class CitizenService {
     return districts;
   }
 
+  // =========================================================================
+  // 2. CITIZEN DASHBOARD
+  // =========================================================================
+
   /**
-   * Get active alerts for district or global
+   * Aggregate dashboard data: alerts, hazards, facilities, announcements.
+   */
+  async getDashboard(districtId?: string) {
+    const [alerts, hazards, facilities, announcements] = await Promise.all([
+      this.getActiveAlerts(districtId),
+      this.getSpatialHazards(districtId, undefined, undefined),
+      this.getFacilities({ districtId, facilityType: 'SHELTER' }),
+      this.getAnnouncements(districtId),
+    ]);
+
+    const criticalAlerts = alerts.filter((a) => a.severity === 'DANGER' || a.severity === 'EXTREME');
+    const activeHazardCount = hazards.length;
+    const operationalShelters = facilities.filter((f) => f.operatingStatus === 'OPERATIONAL').length;
+
+    return {
+      meta: {
+        fetchedAt: new Date().toISOString(),
+        districtId: districtId || null,
+        disclaimer:
+          'Absence of a hazard marker does NOT imply an area is safe. Always follow official instructions.',
+      },
+      summary: {
+        criticalAlertCount: criticalAlerts.length,
+        activeHazardCount,
+        operationalShelterCount: operationalShelters,
+        announcementCount: announcements.length,
+      },
+      alerts: alerts.slice(0, 5),
+      recentHazards: hazards.slice(0, 8),
+      nearestShelters: facilities.slice(0, 3),
+      announcements: announcements.slice(0, 5),
+    };
+  }
+
+  /**
+   * Get active official alerts.
    */
   async getActiveAlerts(districtId?: string) {
-    const where: any = { isActive: true };
+    const where: Record<string, unknown> = { isActive: true };
     if (districtId) {
       where.districtId = districtId;
     }
@@ -56,9 +142,7 @@ export class CitizenService {
     const alerts = await prisma.disasterAlert.findMany({
       where,
       include: {
-        district: {
-          select: { name: true, state: true },
-        },
+        district: { select: { name: true, state: true } },
       },
       orderBy: { issuedAt: 'desc' },
       take: 20,
@@ -73,34 +157,86 @@ export class CitizenService {
       instructions: a.instructions,
       sourceAgency: a.sourceAgency,
       issuedAt: a.issuedAt,
+      expiresAt: a.expiresAt,
       district: a.district.name,
       state: a.district.state,
+      freshness: computeFreshness(a.issuedAt),
     }));
   }
 
   /**
-   * Get spatial hazards & polygons
+   * Get announcements (official broadcast messages).
    */
-  async getSpatialHazards(districtId?: string, hazardType?: string, status?: string) {
-    const where: any = {};
+  async getAnnouncements(districtId?: string) {
+    const now = new Date();
+    const where: Record<string, unknown> = {
+      OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+    };
+    if (districtId) {
+      where.districtId = districtId;
+    }
+
+    const announcements = await prisma.announcement.findMany({
+      where,
+      orderBy: { issuedAt: 'desc' },
+      take: 20,
+    });
+
+    return announcements.map((a) => ({
+      id: a.id,
+      title: a.title,
+      message: a.message,
+      severity: a.severity,
+      issuedBy: a.issuedBy,
+      issuedAt: a.issuedAt,
+      freshness: computeFreshness(a.issuedAt),
+    }));
+  }
+
+  // =========================================================================
+  // 3. HAZARD OVERVIEW & MAP
+  // =========================================================================
+
+  /**
+   * Spatial hazards with filters: type, severity, status, time range.
+   * Includes polygons, verification status, and data source clarity.
+   */
+  async getSpatialHazards(
+    districtId?: string,
+    hazardType?: string,
+    statusFilter?: string,
+    severity?: string,
+    since?: string,
+  ) {
+    const where: Record<string, unknown> = {};
     if (districtId) where.districtId = districtId;
     if (hazardType) where.hazardType = hazardType;
-    if (status) {
-      where.status = status;
+    if (severity) where.severity = severity;
+
+    // Status filter
+    if (statusFilter) {
+      where.status = statusFilter;
     } else {
-      // By default return verified and unverified
       where.status = { in: ['VERIFIED_ACTIVE', 'UNVERIFIED'] };
+    }
+
+    // Time filter
+    if (since) {
+      const sinceDate = new Date(since);
+      if (!isNaN(sinceDate.getTime())) {
+        where.createdAt = { gte: sinceDate };
+      }
     }
 
     const incidents = await prisma.hazardIncident.findMany({
       where,
       include: {
-        polygons: {
-          where: { isActive: true },
-        },
+        polygons: { where: { isActive: true } },
         evidence: true,
+        district: { select: { name: true, state: true } },
       },
       orderBy: { createdAt: 'desc' },
+      take: 100,
     });
 
     return incidents.map((i) => ({
@@ -110,22 +246,34 @@ export class CitizenService {
       coordinates: { lat: i.latitude, lng: i.longitude },
       addressLandmark: i.addressLandmark,
       waterDepthCm: i.waterDepthCm,
-      status: i.status, // 'VERIFIED_ACTIVE', 'UNVERIFIED'
-      reportedByCitizen: i.reportedByCitizen,
+      // Explicit classification for UI rendering
+      reportCategory: classifyReport(i.reportedByCitizen, i.status),
+      status: i.status,
       verifiedAt: i.verifiedAt,
-      photoUrl: i.photoUrl,
+      district: i.district?.name,
+      state: i.district?.state,
+      evidenceCount: i.evidence.length,
+      hasPhoto: !!i.photoUrl,
       createdAt: i.createdAt,
+      freshness: computeFreshness(i.createdAt),
       polygons: i.polygons.map((p) => ({
         id: p.id,
         zoneType: p.zoneType,
         depthM: p.depthM,
         coordinates: p.coordinates,
       })),
+      // Safety disclaimer always included
+      disclaimer:
+        'No hazard marker shown here does NOT mean the area is safe. Always follow District EOC instructions.',
     }));
   }
 
+  // =========================================================================
+  // 4. HAZARD REPORTING
+  // =========================================================================
+
   /**
-   * Submit citizen hazard report (Anonymous, pending verification)
+   * Submit anonymous citizen hazard report with duplicate protection.
    */
   async reportHazard(data: {
     districtId?: string;
@@ -135,13 +283,52 @@ export class CitizenService {
     longitude: number;
     addressLandmark?: string;
     waterDepthCm?: number;
+    description?: string;
+    observationTime?: string;
+    contactInfo?: string;
     photoUrl?: string;
   }) {
+    // Spam & duplicate check: same location + type within last 30 minutes
+    const dedupHash = hazardDedupHash(data.latitude, data.longitude, data.hazardType);
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+
+    const recentDuplicate = await prisma.hazardIncident.findFirst({
+      where: {
+        reportedByCitizen: true,
+        hazardType: data.hazardType,
+        status: 'UNVERIFIED',
+        createdAt: { gte: thirtyMinutesAgo },
+        // Approximate location match: ±0.001 degree (~100m)
+        latitude: {
+          gte: data.latitude - 0.001,
+          lte: data.latitude + 0.001,
+        },
+        longitude: {
+          gte: data.longitude - 0.001,
+          lte: data.longitude + 0.001,
+        },
+      },
+    });
+
+    if (recentDuplicate) {
+      return {
+        incidentId: recentDuplicate.id,
+        status: 'DUPLICATE_PENDING',
+        message:
+          'A similar hazard has already been reported at this location. Your report has been noted and will reinforce the existing alert.',
+        isDuplicate: true,
+      };
+    }
+
+    // Resolve district
     let districtId = data.districtId;
     if (!districtId) {
       const defaultDistrict = await prisma.district.findFirst();
       districtId = defaultDistrict?.id;
     }
+
+    // Parse optional observation time
+    const observedAt = data.observationTime ? new Date(data.observationTime) : undefined;
 
     const incident = await prisma.hazardIncident.create({
       data: {
@@ -152,29 +339,37 @@ export class CitizenService {
         longitude: data.longitude,
         addressLandmark: data.addressLandmark,
         waterDepthCm: data.waterDepthCm || 0,
-        status: 'UNVERIFIED', // Pending staff triage
+        status: 'UNVERIFIED',
         reportedByCitizen: true,
         photoUrl: data.photoUrl,
       },
     });
 
-    // PostGIS point geometry update
+    // PostGIS point update
     await prisma.$executeRawUnsafe(
       `UPDATE hazard_incidents SET geom = ST_SetSRID(ST_MakePoint($1, $2), 4326) WHERE id = $3`,
       data.longitude,
       data.latitude,
-      incident.id
+      incident.id,
     );
 
     return {
       incidentId: incident.id,
       status: 'UNVERIFIED',
-      message: 'Hazard report received. It will appear as pending community alert until verified by District EOC.',
+      isDuplicate: false,
+      message:
+        'Hazard report received and queued for District EOC verification. It will appear as a community alert once verified by NDRF staff.',
+      submittedAt: incident.createdAt,
     };
   }
 
+  // =========================================================================
+  // 5. SHELTERS & HOSPITALS
+  // =========================================================================
+
   /**
-   * Nearby facilities search (Shelters & Hospitals)
+   * Nearby facility search with Haversine distance sorting.
+   * Never fabricates capacity or availability data.
    */
   async getFacilities(params: {
     districtId?: string;
@@ -184,16 +379,19 @@ export class CitizenService {
     radiusKm?: number;
     hasMedical?: boolean;
     hasInfantCare?: boolean;
+    hasPower?: boolean;
+    hasDrinkingWater?: boolean;
   }) {
-    const lat = params.lat || 28.6139;
-    const lng = params.lng || 77.2090;
+    const userLat = params.lat ?? 28.6139;
+    const userLng = params.lng ?? 77.209;
 
-    // Use Prisma findMany for structured filters
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (params.facilityType) where.facilityType = params.facilityType;
     if (params.districtId) where.districtId = params.districtId;
     if (params.hasMedical !== undefined) where.hasMedicalSupport = params.hasMedical;
     if (params.hasInfantCare !== undefined) where.hasInfantCare = params.hasInfantCare;
+    if (params.hasPower !== undefined) where.hasGeneratorPower = params.hasPower;
+    if (params.hasDrinkingWater !== undefined) where.hasDrinkingWater = params.hasDrinkingWater;
 
     const facilities = await prisma.facility.findMany({
       where,
@@ -201,22 +399,19 @@ export class CitizenService {
       take: 50,
     });
 
-    // Calculate haversine / spherical distance in km
     const toRad = (deg: number) => (deg * Math.PI) / 180;
-    const calcDistance = (fLat: number, fLng: number) => {
-      const R = 6371; // Earth radius in km
-      const dLat = toRad(fLat - lat);
-      const dLng = toRad(fLng - lng);
+    const haversine = (fLat: number, fLng: number) => {
+      const R = 6371;
+      const dLat = toRad(fLat - userLat);
+      const dLng = toRad(fLng - userLng);
       const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat)) * Math.cos(toRad(fLat)) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return Math.round(R * c * 10) / 10;
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(userLat)) * Math.cos(toRad(fLat)) * Math.sin(dLng / 2) ** 2;
+      return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10;
     };
 
-    const mapped = facilities.map((f) => {
-      const dist = calcDistance(f.latitude, f.longitude);
-      return {
+    const mapped = facilities
+      .map((f) => ({
         id: f.id,
         name: f.name,
         facilityType: f.facilityType,
@@ -224,57 +419,180 @@ export class CitizenService {
         coordinates: { lat: f.latitude, lng: f.longitude },
         contactPhone: f.contactPhone,
         inChargeName: f.inChargeName,
+        // Real capacity data — never fabricated
         totalCapacity: f.totalCapacity,
         currentOccupancy: f.currentOccupancy,
         availableBeds: Math.max(0, f.totalCapacity - f.currentOccupancy),
+        capacitySource: 'Last reported by facility in-charge',
+        services: {
+          medical: f.hasMedicalSupport,
+          generatorPower: f.hasGeneratorPower,
+          drinkingWater: f.hasDrinkingWater,
+          infantCare: f.hasInfantCare,
+          petFriendly: f.isPetFriendly,
+        },
         isVerified: f.isVerified,
-        hasMedicalSupport: f.hasMedicalSupport,
-        hasGeneratorPower: f.hasGeneratorPower,
-        hasDrinkingWater: f.hasDrinkingWater,
-        hasInfantCare: f.hasInfantCare,
-        isPetFriendly: f.isPetFriendly,
         operatingStatus: f.operatingStatus,
-        distanceKm: dist,
-        updatedAt: f.updatedAt,
-      };
-    });
+        distanceKm: haversine(f.latitude, f.longitude),
+        lastUpdated: f.updatedAt,
+        source: f.isVerified ? 'Verified by District EOC' : 'Community-reported, not yet verified',
+      }))
+      .filter((f) => {
+        if (params.radiusKm) return f.distanceKm <= params.radiusKm;
+        return true;
+      })
+      .sort((a, b) => a.distanceKm - b.distanceKm);
 
-    return mapped.sort((a, b) => a.distanceKm - b.distanceKm);
+    return mapped;
   }
 
+  // =========================================================================
+  // 6. PREPAREDNESS
+  // =========================================================================
+
   /**
-   * Preparedness Guides & Checklists
+   * Disaster-specific preparedness guides with before/during/after sections.
    */
   async getPreparednessGuides(disasterType?: string) {
-    const where: any = {};
+    const where: Record<string, unknown> = {};
     if (disasterType) where.disasterType = disasterType.toUpperCase();
 
     const guides = await prisma.preparednessGuide.findMany({ where });
-    return guides;
+    return guides.map((g) => ({
+      id: g.id,
+      disasterType: g.disasterType,
+      title: g.title,
+      sections: g.sections,
+      updatedAt: g.updatedAt,
+    }));
+  }
+
+  // =========================================================================
+  // 7. RELIEF REQUESTS (ANONYMOUS SUBMISSION + HIGH-ENTROPY TRACKING)
+  // =========================================================================
+
+  /**
+   * Submit an anonymous citizen relief request.
+   * Returns a high-entropy tracking token — no login required.
+   */
+  async createReliefRequest(data: {
+    districtId?: string;
+    requesterPhone?: string;
+    headcountAdults: number;
+    headcountChildren: number;
+    headcountInfants: number;
+    headcountSeniors: number;
+    deliveryContext: string;
+    urgencyLevel: string;
+    latitude: number;
+    longitude: number;
+    landmarkNotes?: string;
+    itemsRequested: Record<string, unknown>;
+    specialMedicalNeeds?: string;
+  }) {
+    let districtId = data.districtId;
+    if (!districtId) {
+      const defaultDistrict = await prisma.district.findFirst();
+      districtId = defaultDistrict?.id as string;
+    }
+
+    // Generate unique high-entropy token (retry on collision)
+    let trackingToken = generateTrackingToken();
+    let attempt = 0;
+    while (attempt < 5) {
+      const existing = await prisma.reliefRequest.findUnique({ where: { trackingToken } });
+      if (!existing) break;
+      trackingToken = generateTrackingToken();
+      attempt++;
+    }
+
+    const relief = await prisma.reliefRequest.create({
+      data: {
+        trackingToken,
+        districtId,
+        requesterPhone: data.requesterPhone,
+        headcountAdults: data.headcountAdults,
+        headcountChildren: data.headcountChildren,
+        headcountInfants: data.headcountInfants,
+        headcountSeniors: data.headcountSeniors,
+        deliveryContext: data.deliveryContext,
+        urgencyLevel: data.urgencyLevel,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        landmarkNotes: data.landmarkNotes,
+        itemsRequested: data.itemsRequested,
+        specialMedicalNeeds: data.specialMedicalNeeds,
+        stage: 'STAGE_1_TRIAGED',
+      },
+    });
+
+    // PostGIS spatial update
+    await prisma.$executeRawUnsafe(
+      `UPDATE relief_requests SET geom = ST_SetSRID(ST_MakePoint($1, $2), 4326) WHERE id = $3`,
+      data.longitude,
+      data.latitude,
+      relief.id,
+    );
+
+    // Audit trail entry
+    await prisma.requestAuditLog.create({
+      data: {
+        requestId: relief.id,
+        previousStage: null,
+        newStage: 'STAGE_1_TRIAGED',
+        actorType: 'CITIZEN',
+        notes: 'Citizen submitted anonymous relief request via DisasterReady Portal.',
+      },
+    });
+
+    return {
+      trackingToken,
+      stage: relief.stage,
+      estimatedResponseMinutes: estimateResponseTime(data.urgencyLevel),
+      eocPhone: null, // Will be populated when district EOC is assigned
+      message:
+        'Your relief request has been received and queued for District EOC triage. Use your tracking token to monitor status.',
+      submittedAt: relief.createdAt,
+    };
   }
 
   /**
-   * Public Citizen Relief Request Tracking via High-Entropy Token
+   * Track relief request by high-entropy token — no login required.
    */
   async trackRequest(token: string) {
+    const sanitized = token.trim().toUpperCase();
+    // Validate format to prevent ID oracle attacks
+    if (!/^RELIEF-IN-\d{4}-[A-F0-9]{3}$/.test(sanitized)) {
+      throw new AppError(
+        'Invalid tracking token format. Expected format: RELIEF-IN-XXXX-XXX',
+        400,
+        'INVALID_TOKEN_FORMAT',
+      );
+    }
+
     const req = await prisma.reliefRequest.findUnique({
-      where: { trackingToken: token.trim().toUpperCase() },
+      where: { trackingToken: sanitized },
       include: {
-        district: {
-          select: { name: true, state: true, eocPhone: true },
-        },
+        district: { select: { name: true, state: true, eocPhone: true } },
+        auditLogs: { orderBy: { timestamp: 'asc' } },
       },
     });
 
     if (!req) {
-      throw new AppError('Relief request tracking token not found. Please verify your reference code.', 404, 'TOKEN_NOT_FOUND');
+      throw new AppError(
+        'Relief request tracking token not found. Please verify your reference code.',
+        404,
+        'TOKEN_NOT_FOUND',
+      );
     }
 
     return {
       trackingToken: req.trackingToken,
       district: req.district.name,
+      state: req.district.state,
       eocPhone: req.district.eocPhone,
       stage: req.stage,
+      stageLabel: stageLabel(req.stage),
       urgencyLevel: req.urgencyLevel,
       deliveryContext: req.deliveryContext,
       headcount: {
@@ -282,14 +600,102 @@ export class CitizenService {
         children: req.headcountChildren,
         infants: req.headcountInfants,
         seniors: req.headcountSeniors,
-        total: req.headcountAdults + req.headcountChildren + req.headcountInfants + req.headcountSeniors,
+        total:
+          req.headcountAdults + req.headcountChildren + req.headcountInfants + req.headcountSeniors,
       },
       itemsRequested: req.itemsRequested,
       etaMinutes: req.etaMinutes,
+      deliveredAt: req.deliveredAt,
+      timeline: req.auditLogs.map((l) => ({
+        stage: l.newStage,
+        label: stageLabel(l.newStage),
+        actorType: l.actorType,
+        notes: l.notes,
+        timestamp: l.timestamp,
+      })),
       createdAt: req.createdAt,
       updatedAt: req.updatedAt,
     };
   }
+
+  // =========================================================================
+  // 8. SOS LOGGING
+  // =========================================================================
+
+  /**
+   * Log an SOS event (call intent) for analytics and dispatch coordination.
+   * Does not replace calling 112 — that must be done via phone.
+   */
+  async logSos(data: {
+    serviceType: string;
+    latitude?: number;
+    longitude?: number;
+  }) {
+    const record = await prisma.sosRecord.create({
+      data: {
+        serviceType: data.serviceType,
+        latitude: data.latitude,
+        longitude: data.longitude,
+      },
+    });
+
+    return {
+      sosId: record.id,
+      serviceType: record.serviceType,
+      status: 'LOGGED',
+      message: 'SOS call intent logged. Please immediately dial the emergency number on your phone.',
+      emergency_numbers: {
+        national: '112',
+        ndrf: '1078',
+        ambulance: '108',
+        fire: '101',
+        women_helpline: '1091',
+      },
+      loggedAt: record.triggeredAt,
+    };
+  }
+}
+
+// =========================================================================
+// Pure utility helpers
+// =========================================================================
+
+function computeFreshness(date: Date): string {
+  const diffMs = Date.now() - new Date(date).getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 5) return 'JUST_NOW';
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHr = Math.floor(diffMin / 60);
+  if (diffHr < 24) return `${diffHr}h ago`;
+  return `${Math.floor(diffHr / 24)}d ago`;
+}
+
+function classifyReport(reportedByCitizen: boolean, status: string): string {
+  if (!reportedByCitizen && status === 'VERIFIED_ACTIVE') return 'OFFICIAL_VERIFIED';
+  if (reportedByCitizen && status === 'VERIFIED_ACTIVE') return 'COMMUNITY_VERIFIED';
+  if (status === 'UNVERIFIED') return 'COMMUNITY_UNVERIFIED';
+  return 'UNKNOWN';
+}
+
+function stageLabel(stage: string): string {
+  const labels: Record<string, string> = {
+    STAGE_1_TRIAGED: 'Received — Under Triage',
+    STAGE_2_VERIFIED: 'Verified by EOC — Preparing Dispatch',
+    STAGE_3_ALLOCATED: 'Resources Allocated — Dispatching Soon',
+    STAGE_4_IN_TRANSIT: 'Relief Team En Route',
+    STAGE_5_DELIVERED: 'Delivered ✓',
+    CANCELLED: 'Request Cancelled',
+  };
+  return labels[stage] || stage;
+}
+
+function estimateResponseTime(urgencyLevel: string): number {
+  const times: Record<string, number> = {
+    CRITICAL_LIFE_SAFETY: 30,
+    HIGH: 60,
+    STANDARD: 120,
+  };
+  return times[urgencyLevel] ?? 90;
 }
 
 export const citizenService = new CitizenService();

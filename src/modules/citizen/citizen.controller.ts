@@ -1,7 +1,17 @@
+/**
+ * Citizen Controller — DisasterReady India
+ * HTTP request handlers for all public citizen endpoints.
+ * No authentication required for any route in this controller.
+ */
 import { Request, Response, NextFunction } from 'express';
 import { citizenService } from './citizen.service.js';
+import path from 'path';
 
 export class CitizenController {
+  // ---------------------------------------------------------------------------
+  // 1. GEO / LOCATION
+  // ---------------------------------------------------------------------------
+
   async reverseGeocode(req: Request, res: Response, next: NextFunction) {
     try {
       const lat = parseFloat(req.query.lat as string);
@@ -23,13 +33,34 @@ export class CitizenController {
 
   async searchDistricts(req: Request, res: Response, next: NextFunction) {
     try {
-      const q = (req.query.q as string) || '';
+      const q = ((req.query.q as string) || '').trim();
+      if (q.length < 2) {
+        return res.status(200).json({ success: true, data: [] });
+      }
       const result = await citizenService.searchDistricts(q);
       res.status(200).json({ success: true, data: result });
     } catch (e) {
       next(e);
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // 2. DASHBOARD
+  // ---------------------------------------------------------------------------
+
+  async getDashboard(req: Request, res: Response, next: NextFunction) {
+    try {
+      const districtId = req.query.districtId as string | undefined;
+      const result = await citizenService.getDashboard(districtId);
+      res.status(200).json({ success: true, data: result });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 3. ALERTS
+  // ---------------------------------------------------------------------------
 
   async getActiveAlerts(req: Request, res: Response, next: NextFunction) {
     try {
@@ -41,31 +72,72 @@ export class CitizenController {
     }
   }
 
-  async getSpatialHazards(req: Request, res: Response, next: NextFunction) {
+  // ---------------------------------------------------------------------------
+  // 4. ANNOUNCEMENTS
+  // ---------------------------------------------------------------------------
+
+  async getAnnouncements(req: Request, res: Response, next: NextFunction) {
     try {
       const districtId = req.query.districtId as string | undefined;
-      const hazardType = req.query.hazardType as string | undefined;
-      const status = req.query.status as string | undefined;
-
-      const result = await citizenService.getSpatialHazards(districtId, hazardType, status);
+      const result = await citizenService.getAnnouncements(districtId);
       res.status(200).json({ success: true, data: result });
     } catch (e) {
       next(e);
     }
   }
 
-  async reportHazard(req: Request, res: Response, next: NextFunction) {
+  // ---------------------------------------------------------------------------
+  // 5. HAZARDS MAP
+  // ---------------------------------------------------------------------------
+
+  async getSpatialHazards(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await citizenService.reportHazard(req.body);
-      res.status(201).json({ success: true, data: result });
+      const { districtId, hazardType, status, severity, since } = req.query;
+      const result = await citizenService.getSpatialHazards(
+        districtId as string | undefined,
+        hazardType as string | undefined,
+        status as string | undefined,
+        severity as string | undefined,
+        since as string | undefined,
+      );
+      res.status(200).json({ success: true, data: result });
     } catch (e) {
       next(e);
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // 6. HAZARD REPORTING
+  // ---------------------------------------------------------------------------
+
+  async reportHazard(req: Request, res: Response, next: NextFunction) {
+    try {
+      // If a file was uploaded via multipart, attach its path as photoUrl
+      let photoUrl: string | undefined;
+      if (req.file) {
+        // Relative URL path served statically
+        photoUrl = `/uploads/evidence/${req.file.filename}`;
+      } else if (req.body.photoUrl) {
+        photoUrl = req.body.photoUrl;
+      }
+
+      const result = await citizenService.reportHazard({ ...req.body, photoUrl });
+
+      const statusCode = result.isDuplicate ? 200 : 201;
+      res.status(statusCode).json({ success: true, data: result });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 7. FACILITIES
+  // ---------------------------------------------------------------------------
+
   async getFacilities(req: Request, res: Response, next: NextFunction) {
     try {
-      const { districtId, facilityType, lat, lng, radiusKm, hasMedical, hasInfantCare } = req.query;
+      const { districtId, facilityType, lat, lng, radiusKm, hasMedical, hasInfantCare, hasPower, hasDrinkingWater } =
+        req.query;
 
       const result = await citizenService.getFacilities({
         districtId: districtId as string | undefined,
@@ -75,6 +147,8 @@ export class CitizenController {
         radiusKm: radiusKm ? parseFloat(radiusKm as string) : undefined,
         hasMedical: hasMedical !== undefined ? hasMedical === 'true' : undefined,
         hasInfantCare: hasInfantCare !== undefined ? hasInfantCare === 'true' : undefined,
+        hasPower: hasPower !== undefined ? hasPower === 'true' : undefined,
+        hasDrinkingWater: hasDrinkingWater !== undefined ? hasDrinkingWater === 'true' : undefined,
       });
 
       res.status(200).json({ success: true, data: result });
@@ -82,6 +156,10 @@ export class CitizenController {
       next(e);
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // 8. PREPAREDNESS GUIDES
+  // ---------------------------------------------------------------------------
 
   async getPreparednessGuides(req: Request, res: Response, next: NextFunction) {
     try {
@@ -93,11 +171,37 @@ export class CitizenController {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // 9. RELIEF REQUESTS (anonymous create + track)
+  // ---------------------------------------------------------------------------
+
+  async createReliefRequest(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await citizenService.createReliefRequest(req.body);
+      res.status(201).json({ success: true, data: result });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async trackRequest(req: Request, res: Response, next: NextFunction) {
     try {
       const token = req.params.token;
       const result = await citizenService.trackRequest(token);
       res.status(200).json({ success: true, data: result });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 10. SOS LOGGING
+  // ---------------------------------------------------------------------------
+
+  async logSos(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await citizenService.logSos(req.body);
+      res.status(201).json({ success: true, data: result });
     } catch (e) {
       next(e);
     }

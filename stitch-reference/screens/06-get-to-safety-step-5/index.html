@@ -322,4 +322,64 @@
       navigator.vibrate([100, 50, 100]); // Subdued double-tap haptic for hazard shift
     }
   });
-</script></main><div class="fixed bottom-24 right-4 z-50"><div class="flex flex-col items-end gap-2"><button aria-label="Ask AI Copilot" class="min-h-[44px] px-space-md py-1 rounded-full bg-primary-container text-on-primary font-label-strong text-label-strong flex items-center gap-1.5 shadow-md active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">chat_bubble</span><span>Ask AI Copilot</span></button><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)] active:scale-95 transition-all" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span>SOS 112</span></a></div></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors text-primary" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="relief-shelters" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="preparedness-guides" href="#"><span class="material-symbols-outlined text-[24px]">menu_book</span><span class="font-caption text-caption">Guides</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav></body></html>
+</script></main><div class="fixed bottom-24 right-4 z-50"><div class="flex flex-col items-end gap-2"><button aria-label="Ask AI Copilot" class="min-h-[44px] px-space-md py-1 rounded-full bg-primary-container text-on-primary font-label-strong text-label-strong flex items-center gap-1.5 shadow-md active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[20px]">chat_bubble</span><span>Ask AI Copilot</span></button><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)] active:scale-95 transition-all" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span>SOS 112</span></a></div></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors text-primary" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="relief-shelters" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="preparedness-guides" href="#"><span class="material-symbols-outlined text-[24px]">menu_book</span><span class="font-caption text-caption">Guides</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav>
+<script src="../../api-client.js"></script>
+<script>
+  // ── SCREEN 06: HAZARD REPORTING — Backend Integration ────────────────────
+  (function() {
+    const DR = window.DisasterReadyAPI;
+
+    // Wire the existing submit button (look for common submission patterns)
+    document.addEventListener('DOMContentLoaded', function() {
+      // Find all submit/report buttons
+      const submitBtns = document.querySelectorAll('button[type="submit"], button[id*="submit"], button[id*="report"], button[id*="send"]');
+      submitBtns.forEach(function(btn) {
+        btn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          await submitHazardReport();
+        });
+      });
+    });
+
+    window.submitHazardReport = async function() {
+      const DR = window.DisasterReadyAPI;
+      const loc = DR.storage.getLocation();
+
+      // Collect form data from existing elements
+      const hazardTypeEl = document.querySelector('[data-selected-hazard], #hazard-type, select[name="hazardType"]');
+      const depthEl = document.querySelector('#water-depth, input[name="waterDepth"], [data-depth]');
+      const landmarkEl = document.querySelector('#landmark, textarea[name="landmark"], input[name="landmark"]');
+      const photoInput = document.querySelector('input[type="file"]');
+      const submitBtn = document.querySelector('#report-submit-btn, button[id*="submit"]');
+
+      const data = {
+        hazardType: hazardTypeEl?.value || hazardTypeEl?.dataset?.value || 'WATERLOGGING',
+        severity: document.querySelector('[data-severity]')?.dataset?.severity || 'MODERATE',
+        latitude: loc.lat || 28.6139,
+        longitude: loc.lng || 77.209,
+        addressLandmark: landmarkEl?.value || '',
+        waterDepthCm: depthEl ? parseInt(depthEl.value || depthEl.dataset.depth || 0) : 0,
+      };
+
+      const photoFile = photoInput?.files?.[0] || null;
+
+      if (submitBtn) DR.ui.setLoading(submitBtn, true);
+      try {
+        const result = await DR.hazards.report(data, photoFile);
+        if (result.isDuplicate) {
+          DR.ui.toast('✓ Similar report already logged nearby. Your observation reinforces existing alert.');
+        } else {
+          DR.ui.toast('✓ Hazard report submitted! Reference: ' + result.incidentId.slice(0, 8) + '…');
+        }
+        // Show success state if there's a confirmation element
+        const confirmEl = document.getElementById('submission-confirmed');
+        if (confirmEl) confirmEl.classList.remove('hidden');
+      } catch (err) {
+        DR.ui.toast('⚠ Could not submit report: ' + (err.message || 'Network error'));
+      } finally {
+        if (submitBtn) DR.ui.setLoading(submitBtn, false);
+      }
+    };
+  })();
+</script>
+</body></html>

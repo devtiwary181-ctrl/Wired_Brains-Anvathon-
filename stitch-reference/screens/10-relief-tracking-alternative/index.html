@@ -644,4 +644,26 @@ KA-05-EX-4412
 </a>
 </div>
 </nav>
+
+<script src="../../api-client.js"></script>
+<script>
+  // ── SCREEN 10: RELIEF TRACKING (ALTERNATIVE VIEW) — Backend Integration ──
+  (async function() {
+    const DR = window.DisasterReadyAPI;
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token') || localStorage.getItem('dr_tracking_token') || 'RELIEF-IN-8492-XQ7';
+
+    try {
+      const data = await DR.relief.track(token);
+      ['[data-tracking-token]', '#token-display-alt'].forEach(function(sel) {
+        const el = document.querySelector(sel);
+        if (el) el.textContent = data.trackingToken;
+      });
+      const stageEl = document.querySelector('[data-stage-label-alt], #stage-alt');
+      if (stageEl) stageEl.textContent = data.stageLabel;
+    } catch (err) {
+      DR.ui.toast('Could not load tracking data.');
+    }
+  })();
+</script>
 </body></html>
