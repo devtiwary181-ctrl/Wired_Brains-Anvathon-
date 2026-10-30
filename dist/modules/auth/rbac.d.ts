@@ -26,3 +26,4 @@ export declare const PERMISSIONS: {
 };
 export type PermissionType = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
 export declare const ROLE_PERMISSIONS: Record<RoleType, PermissionType[]>;
+export declare function hasPermission(role: RoleType, permission: string): boolean;

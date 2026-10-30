@@ -432,6 +432,180 @@
   };
 
   // ---------------------------------------------------------------------------
+  // Copilot AI API
+  // ---------------------------------------------------------------------------
+  const copilot = {
+    /**
+     * Send chat query to DisasterReady AI Copilot
+     * @param {Object} options
+     * @param {string} options.query - Natural language prompt
+     * @param {string} [options.language] - One of 12 supported language codes
+     * @param {string} [options.districtId] - Optional district UUID
+     * @param {{lat: number, lng: number}} [options.coordinates] - User geolocation
+     * @param {string} [options.trackingToken] - Token for relief status lookups
+     * @param {string} [options.requestedTool] - Explicit tool execution request
+     * @param {Object} [options.toolParameters] - Specific parameters for the tool
+     */
+    async chat({
+      query,
+      language,
+      districtId,
+      coordinates,
+      trackingToken,
+      requestedTool,
+      toolParameters,
+      conversationHistory,
+    }) {
+      const activeDistrict = storage.getDistrict();
+      const currentDistrictId = districtId || activeDistrict?.id;
+      const currentLang = language || storage.getLang() || 'en';
+
+      return post('/copilot/chat', {
+        query,
+        language: currentLang,
+        districtId: currentDistrictId,
+        coordinates,
+        trackingToken,
+        requestedTool,
+        toolParameters,
+        conversationHistory,
+      });
+    },
+
+    /**
+     * Map actionCard type to human-readable title and CTA
+     */
+    formatCardMeta(actionCard) {
+      if (!actionCard) return null;
+      switch (actionCard.type) {
+        case 'FACILITY_CARD':
+          return { icon: 'hospital', badge: 'Verified Facility', actionText: 'Get Directions' };
+        case 'HAZARD_CARD':
+          return { icon: 'warning', badge: 'Active Hazard', actionText: 'View Details' };
+        case 'ALERT_CARD':
+          return { icon: 'campaign', badge: 'Emergency Alert', actionText: 'Read Guidelines' };
+        case 'ROUTE_CARD':
+          return { icon: 'alt_route', badge: 'Calculated Route', actionText: 'Open Navigation' };
+        case 'TRACKING_CARD':
+          return { icon: 'local_shipping', badge: 'Relief Request Status', actionText: 'Track Consignment' };
+        case 'EMERGENCY_DIALER_CARD':
+          return { icon: 'call', badge: 'SOS Helpline', actionText: 'Dial 112' };
+        case 'RECOMMENDATION_DRAFT_CARD':
+          return { icon: 'fact_check', badge: 'Official Draft (Approval Required)', actionText: 'Review & Authorize' };
+        default:
+          return { icon: 'info', badge: 'Civil Insight', actionText: 'Open' };
+      }
+    },
+  };
+
+  // ---------------------------------------------------------------------------
+  // Voice Controls (Speech Recognition & Speech Synthesis)
+  // ---------------------------------------------------------------------------
+  const voice = {
+    isRecognitionSupported: () =>
+      typeof window !== 'undefined' &&
+      ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window),
+
+    isSynthesisSupported: () =>
+      typeof window !== 'undefined' && 'speechSynthesis' in window,
+
+    /**
+     * Start listening via Web Speech API
+     * @param {Object} callbacks
+     * @param {Function} callbacks.onResult - (transcript) => void
+     * @param {Function} callbacks.onError - (err) => void
+     * @param {Function} callbacks.onEnd - () => void
+     * @param {string} [callbacks.language] - Language code
+     */
+    startListening({ onResult, onError, onEnd, language }) {
+      if (!this.isRecognitionSupported()) {
+        if (onError) onError(new Error('Voice recognition is not supported in this browser.'));
+        return null;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognizer = new SpeechRecognition();
+      recognizer.continuous = false;
+      recognizer.interimResults = false;
+
+      // Map language code to BCP 47
+      const bcpMap = {
+        en: 'en-IN',
+        hi: 'hi-IN',
+        ta: 'ta-IN',
+        te: 'te-IN',
+        kn: 'kn-IN',
+        ml: 'ml-IN',
+        bn: 'bn-IN',
+        mr: 'mr-IN',
+        gu: 'gu-IN',
+        or: 'or-IN',
+        pa: 'pa-IN',
+        as: 'as-IN',
+      };
+      recognizer.lang = bcpMap[language || storage.getLang()] || 'en-IN';
+
+      recognizer.onresult = (event) => {
+        const transcript = event.results?.[0]?.[0]?.transcript || '';
+        if (onResult) onResult(transcript);
+      };
+
+      recognizer.onerror = (event) => {
+        if (onError) onError(new Error(event.error || 'Speech recognition error.'));
+      };
+
+      recognizer.onend = () => {
+        if (onEnd) onEnd();
+      };
+
+      try {
+        recognizer.start();
+        return recognizer;
+      } catch (err) {
+        if (onError) onError(err);
+        return null;
+      }
+    },
+
+    /**
+     * Speak text using Web Speech API synthesis
+     */
+    speak(text, language) {
+      if (!this.isSynthesisSupported()) return false;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        const bcpMap = {
+          en: 'en-IN',
+          hi: 'hi-IN',
+          ta: 'ta-IN',
+          te: 'te-IN',
+          kn: 'kn-IN',
+          ml: 'ml-IN',
+          bn: 'bn-IN',
+          mr: 'mr-IN',
+          gu: 'gu-IN',
+          or: 'or-IN',
+          pa: 'pa-IN',
+          as: 'as-IN',
+        };
+        utterance.lang = bcpMap[language || storage.getLang()] || 'en-IN';
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+
+    stopSpeaking() {
+      if (this.isSynthesisSupported()) {
+        window.speechSynthesis.cancel();
+      }
+    },
+  };
+
+  // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
   window.DisasterReadyAPI = {
@@ -447,6 +621,9 @@
     preparedness,
     relief,
     sos,
+    copilot,
+    voice,
     ui,
   };
 })(window);
+

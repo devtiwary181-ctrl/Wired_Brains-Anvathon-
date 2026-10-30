@@ -12,8 +12,28 @@ document.addEventListener('DOMContentLoaded', function () {
   const copilotButton = document.querySelector('[aria-label="Ask AI Copilot for Route Assistance"]');
   if (copilotButton) {
     copilotButton.removeAttribute('onclick');
-    copilotButton.addEventListener('click', () => {
-      DR.ui.toast('Route information reflects recorded data only. No route can be guaranteed safe.');
+    copilotButton.addEventListener('click', async () => {
+      copilotButton.disabled = true;
+      copilotButton.textContent = 'Consulting Copilot...';
+      try {
+        const origin = JSON.parse(sessionStorage.getItem('dr_route_origin') || 'null');
+        const destination = JSON.parse(sessionStorage.getItem('dr_route_destination') || 'null');
+        const res = await DR.copilot.chat({
+          query: 'What is the risk assessment and safest available option for this evacuation path?',
+          requestedTool: 'compare_routes',
+          toolParameters: {
+            origin: origin || { lat: 12.9716, lng: 77.5946 },
+            destination: destination || { lat: 12.9766, lng: 77.5996 },
+            travelMode: 'WALK',
+          },
+        });
+        alert(`DisasterReady AI Copilot:\n\n${res.response}\n\n[Official Safety Notice]: ${res.safetyDisclaimer}`);
+      } catch (err) {
+        DR.ui.toast(err.message || 'Route assistance unavailable. If floodwaters are rising, seek high ground immediately.');
+      } finally {
+        copilotButton.disabled = false;
+        copilotButton.textContent = 'Ask AI Copilot for Route Assistance';
+      }
     });
   }
   let comparison = null;

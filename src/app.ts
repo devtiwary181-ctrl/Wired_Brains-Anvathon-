@@ -14,6 +14,7 @@ import { healthRouter } from './modules/health/health.routes.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { citizenRouter } from './modules/citizen/citizen.routes.js';
 import { authorityRouter } from './modules/authority/authority.routes.js';
+import { copilotRouter } from './modules/copilot/copilot.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,11 +74,13 @@ export function createApp(): Express {
   apiRouter.use('/health', healthRouter);
   apiRouter.use('/auth', authRouter);
   apiRouter.use('/authority', authorityRouter);
+  apiRouter.use('/copilot', copilotRouter);
   // Citizen endpoints accessible under /citizen/ prefix AND at root for convenience
   apiRouter.use('/citizen', citizenRouter);
   apiRouter.use('/', citizenRouter);
 
   app.use('/api/v1', apiRouter);
+  app.use('/copilot', copilotRouter);
 
   // 7. Root API Gateway Ping
   app.get('/', (req, res) => {

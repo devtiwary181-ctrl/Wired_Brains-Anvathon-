@@ -746,6 +746,121 @@
     }
   }
 
+  // AI Decision Support & Operational Copilot with mandatory Human Authorization
+  const copilotOps = operationPanel('AI Decision Support & Operational Copilot (Human-in-the-Loop)');
+  const copilotNotice = text(
+    'p',
+    'DisasterReady AI Copilot assists command staff by analyzing live records, identifying inventory gaps, and drafting announcements. Protected actions require human review and confirmation.',
+    'font-caption text-caption text-on-surface-variant'
+  );
+  const copilotActionRow = document.createElement('div');
+  copilotActionRow.className = 'flex flex-wrap gap-2 pt-2 border-t border-surface-variant';
+
+  const copilotOutput = document.createElement('div');
+  copilotOutput.className = 'hidden p-3 rounded bg-surface-container-low border border-surface-variant flex flex-col gap-2 font-caption text-caption';
+
+  const shortageBtn = actionButton('Analyze Resource Shortages', async () => {
+    statusMessage(copilotOps, 'Analyzing depot stocks and active relief demands...');
+    try {
+      const res = await api('/copilot/chat', {
+        method: 'POST',
+        body: JSON.stringify({
+          query: 'Analyze current resource shortages across all relief depots.',
+          requestedTool: 'analyze_resource_shortages',
+          toolParameters: {},
+        }),
+      });
+      renderCopilotResult('Resource Shortage Assessment', res);
+      statusMessage(copilotOps, 'Resource shortage analysis completed.');
+    } catch (err) {
+      statusMessage(copilotOps, err.message, true);
+    }
+  });
+
+  const triageBtn = actionButton('Summarize Hazard Reports', async () => {
+    statusMessage(copilotOps, 'Synthesizing unverified citizen reports and verified hazard zones...');
+    try {
+      const res = await api('/copilot/chat', {
+        method: 'POST',
+        body: JSON.stringify({
+          query: 'Summarize recent hazard reports and identify triage priorities.',
+          requestedTool: 'summarize_hazard_reports',
+          toolParameters: {},
+        }),
+      });
+      renderCopilotResult('Hazard Reports & Triage Priorities', res);
+      statusMessage(copilotOps, 'Hazard report synthesis completed.');
+    } catch (err) {
+      statusMessage(copilotOps, err.message, true);
+    }
+  });
+
+  const draftAlertBtn = actionButton('Draft Official Warning (Human Signoff)', async () => {
+    const hazardType = window.prompt('Hazard Type for draft (e.g. WATERLOGGING, CYCLONE, FLOOD):', 'FLOOD');
+    if (!hazardType) return;
+    const keyInstructions = window.prompt('Key instructions for citizens:', 'Move to higher ground, avoid underpasses, boil drinking water.');
+    if (!keyInstructions) return;
+
+    statusMessage(copilotOps, 'Generating draft announcement for human authorization...');
+    try {
+      const res = await api('/copilot/chat', {
+        method: 'POST',
+        body: JSON.stringify({
+          query: `Draft an official evacuation warning for ${hazardType}`,
+          requestedTool: 'draft_announcement',
+          toolParameters: {
+            title: `Severe ${hazardType} Advisory`,
+            hazardType,
+            severity: 'SEVERE',
+            keyInstructions,
+          },
+        }),
+      });
+      renderCopilotResult('Official Announcement Draft (Requires Human Authorization)', res, true);
+      statusMessage(copilotOps, 'Draft generated. Requires authorized staff review before broadcasting.');
+    } catch (err) {
+      statusMessage(copilotOps, err.message, true);
+    }
+  });
+
+  function renderCopilotResult(title, data, isDraft = false) {
+    copilotOutput.replaceChildren();
+    copilotOutput.classList.remove('hidden');
+
+    const header = text('strong', title, 'font-label-strong text-label-strong text-primary');
+    const body = text('p', data.response, 'whitespace-pre-wrap leading-relaxed');
+    const disclaimer = text('p', data.safetyDisclaimer || '', 'italic text-on-surface-variant text-[11px]');
+    copilotOutput.append(header, body);
+
+    if (data.actionCard) {
+      const cardBox = document.createElement('div');
+      cardBox.className = 'p-2 bg-surface rounded border border-primary/30 flex flex-col gap-1 font-mono text-[12px]';
+      cardBox.append(text('span', `Card: ${data.actionCard.title} (${data.actionCard.type})`, 'font-bold text-primary'));
+      cardBox.append(text('pre', JSON.stringify(data.actionCard.data, null, 2), 'overflow-x-auto text-[11px]'));
+      copilotOutput.append(cardBox);
+    }
+
+    if (isDraft) {
+      const approveBtn = actionButton('Authorize and Copy into Alerts Form', () => {
+        if (data.actionCard && data.actionCard.data) {
+          const draftData = data.actionCard.data;
+          alertTitle.input.value = draftData.title || '';
+          alertInstructions.input.value = draftData.instructions || '';
+          alertSeverity.select.value = draftData.severity || 'SEVERE';
+          alertOps.closest('details')?.setAttribute('open', 'true');
+          alertTitle.input.scrollIntoView({ behavior: 'smooth' });
+          statusMessage(copilotOps, 'Draft transferred to official Alerts form. Review and click Publish Alert to broadcast.');
+        }
+      });
+      copilotOutput.append(approveBtn);
+    }
+
+    copilotOutput.append(disclaimer);
+  }
+
+  copilotActionRow.append(shortageBtn, triageBtn, draftAlertBtn);
+  copilotOps.append(copilotNotice, copilotActionRow, copilotOutput);
+
   async function renderIncidentMap(records) {
     const mapContainer = document.getElementById('gis-map-container');
     if (!mapContainer) return;

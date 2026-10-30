@@ -81,3 +81,9 @@ export const ROLE_PERMISSIONS: Record<RoleType, PermissionType[]> = {
     PERMISSIONS.SOS_VIEW,
   ],
 };
+
+export function hasPermission(role: RoleType, permission: string): boolean {
+  const perms = ROLE_PERMISSIONS[role] || [];
+  return perms.includes(permission as any);
+}
+

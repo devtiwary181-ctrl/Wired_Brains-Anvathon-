@@ -70,4 +70,8 @@ export const ROLE_PERMISSIONS = {
         PERMISSIONS.SOS_VIEW,
     ],
 };
+export function hasPermission(role, permission) {
+    const perms = ROLE_PERMISSIONS[role] || [];
+    return perms.includes(permission);
+}
 //# sourceMappingURL=rbac.js.map
