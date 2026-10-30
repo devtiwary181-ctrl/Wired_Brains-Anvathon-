@@ -843,15 +843,65 @@ html.dark header, html.dark nav {
     });
   }
 
-  // Font size scaler
-  const fontScaleBtn = document.getElementById('fontScaleBtn');
-  let isLargeFont = false;
-  if (fontScaleBtn) {
-    fontScaleBtn.addEventListener('click', function () {
-      isLargeFont = !isLargeFont;
-      document.body.style.fontSize = isLargeFont ? '19px' : '';
-    });
+  // Live Alerts & Facilities Integration
+  const API_BASE = window.location.origin.includes(':5001') ? '/api/v1' : 'http://localhost:5001/api/v1';
+
+  async function loadLiveDashboardData() {
+    try {
+      // 1. Fetch active official alerts
+      const alertsRes = await fetch(`${API_BASE}/alerts/active`);
+      const alertsData = await alertsRes.json();
+      if (alertsData.success && alertsData.data.length > 0) {
+        const topAlert = alertsData.data[0];
+        const hazardHeading = document.getElementById('hazard-heading');
+        const alertSummary = document.querySelector('#alertCard p');
+        const alertSource = document.querySelector('#alertCard .font-caption span:last-child');
+        if (hazardHeading) hazardHeading.textContent = topAlert.title;
+        if (alertSummary) alertSummary.textContent = `${topAlert.summary} ${topAlert.instructions}`;
+        if (alertSource) alertSource.textContent = `${topAlert.sourceAgency} • Live Feed`;
+      }
+
+      // 2. Fetch active operational shelters count
+      const sheltersRes = await fetch(`${API_BASE}/facilities?facilityType=SHELTER`);
+      const sheltersData = await sheltersRes.json();
+      if (sheltersData.success) {
+        const shelterStats = document.querySelector('[data-path="relief-shelters"]');
+        const openCount = sheltersData.data.length;
+        const totalAvailable = sheltersData.data.reduce((acc, curr) => acc + curr.availableBeds, 0);
+        console.log(`Live Operational Shelters: ${openCount} open, ${totalAvailable} beds available`);
+      }
+    } catch (e) {
+      console.warn('Working in cached offline mode:', e);
+    }
   }
+
+  loadLiveDashboardData();
+
+  // Navigation Links Wiring
+  document.querySelectorAll('[data-path="evacuation-routes"]').forEach(el => {
+    el.href = '../03-get-to-safety-step-1/index.html';
+  });
+  document.querySelectorAll('[data-path="relief-shelters"]').forEach(el => {
+    el.href = '../07-safe-places/index.html';
+  });
+  document.querySelectorAll('[data-path="preparedness-guides"]').forEach(el => {
+    el.href = '../11-preparedness/index.html';
+  });
+  document.querySelectorAll('[data-path="helplines-directory"]').forEach(el => {
+    el.href = '../12-emergency-help/index.html';
+  });
+  document.querySelectorAll('[data-path="live-dashboard"]').forEach(el => {
+    el.href = '../02-citizen-dashboard/index.html';
+  });
+  document.querySelectorAll('[data-path="report-hazard"]').forEach(el => {
+    el.href = '../06-get-to-safety-step-5/index.html';
+  });
+  document.querySelectorAll('[data-path="request-relief"]').forEach(el => {
+    el.href = '../08-emergency-relief/index.html';
+  });
+  document.querySelectorAll('[data-path="track-request"]').forEach(el => {
+    el.href = '../09-relief-tracking/index.html';
+  });
 })();
 </script>
 </div></main>

@@ -382,7 +382,10 @@
     curRadio.classList.add('bg-primary');
     const curCheck = cardElement.querySelector('.check-icon');
     curCheck.classList.remove('hidden');
+    localStorage.setItem('dr_citizen_lang', langCode);
   }
+
+  const API_BASE = window.location.origin.includes(':5001') ? '/api/v1' : 'http://localhost:5001/api/v1';
 
   function selectLanguage(langCode) {
     const targetCard = document.querySelector(`[data-lang="${langCode}"]`);
@@ -392,14 +395,48 @@
     }
   }
 
-  function triggerLocationDetect() {
+  async function triggerLocationDetect() {
     const stateBanner = document.getElementById('state-detected');
     const fallbackBanner = document.getElementById('state-fallback');
-    
-    // Simulate active detection
-    stateBanner.classList.remove('hidden');
-    fallbackBanner.classList.add('hidden');
-    stateBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const titleEl = stateBanner.querySelector('.font-body-strong');
+    const subEl = stateBanner.querySelector('.font-caption');
+
+    if (!('geolocation' in navigator)) {
+      alert('Geolocation is not supported by your browser. Please select district manually.');
+      dismissDetectedState();
+      return;
+    }
+
+    if (titleEl) titleEl.textContent = 'Acquiring GPS fix... (स्थान खोज रहे हैं...)';
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude, accuracy } = pos.coords;
+        try {
+          const res = await fetch(`${API_BASE}/geo/reverse-geocode?lat=${latitude}&lng=${longitude}`);
+          const data = await res.json();
+          if (data.success) {
+            const loc = data.data;
+            if (titleEl) titleEl.textContent = `${loc.district}, ${loc.state}`;
+            if (subEl) subEl.textContent = `GPS Fix Accuracy: ±${Math.round(accuracy)}m • District verified`;
+            localStorage.setItem('dr_citizen_lat', latitude);
+            localStorage.setItem('dr_citizen_lng', longitude);
+            localStorage.setItem('dr_citizen_district', loc.district);
+            localStorage.setItem('dr_citizen_district_id', loc.districtId || '');
+          }
+        } catch (e) {
+          if (titleEl) titleEl.textContent = `GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+        }
+        stateBanner.classList.remove('hidden');
+        fallbackBanner.classList.add('hidden');
+        stateBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      },
+      (err) => {
+        alert('Could not retrieve current location: ' + err.message + '. Please pick district manually.');
+        dismissDetectedState();
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    );
   }
 
   function dismissDetectedState() {
@@ -437,10 +474,13 @@
   function submitSelection() {
     const toast = document.getElementById('audio-toast');
     const toastText = document.getElementById('toast-text');
-    toastText.textContent = `Language confirmed. Loading live safety dashboard...`;
+    const selectedLang = localStorage.getItem('dr_citizen_lang') || 'en';
+    const district = localStorage.getItem('dr_citizen_district') || 'Central Delhi';
+
+    toastText.textContent = `Preferences confirmed (${selectedLang.toUpperCase()} • ${district}). Entering National Safety Dashboard...`;
     toast.classList.remove('hidden');
     setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 2000);
+      window.location.href = '../02-citizen-dashboard/index.html';
+    }, 1200);
   }
 </script></main></body></html>
