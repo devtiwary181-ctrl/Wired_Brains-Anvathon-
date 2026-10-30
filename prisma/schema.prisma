@@ -1,0 +1,260 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+// ----------------------------------------------------
+// Geospatial & Administrative Districts
+// ----------------------------------------------------
+model District {
+  id             String           @id @default(uuid())
+  code           String           @unique
+  name           String
+  state          String
+  eocPhone       String?          @map("eoc_phone")
+  createdAt      DateTime         @default(now()) @map("created_at")
+
+  alerts         DisasterAlert[]
+  hazardIncidents HazardIncident[]
+  facilities     Facility[]
+  reliefRequests ReliefRequest[]
+  reliefDepots   ReliefDepot[]
+  staffUsers     StaffUser[]
+  ledgerEntries  TransparencyLedger[]
+
+  @@map("districts")
+}
+
+// ----------------------------------------------------
+// Hazards & Emergency Alerts
+// ----------------------------------------------------
+model DisasterAlert {
+  id           String    @id @default(uuid())
+  districtId   String    @map("district_id")
+  title        String
+  severity     String    // 'INFO', 'ADVISORY', 'WARNING', 'DANGER', 'EXTREME'
+  disasterType String    @map("disaster_type") // 'FLOOD', 'CYCLONE', 'EARTHQUAKE', 'LANDSLIDE', 'FIRE'
+  summary      String
+  instructions String
+  sourceAgency String    @default("NDMA / IMD Feed") @map("source_agency")
+  isActive     Boolean   @default(true) @map("is_active")
+  issuedAt     DateTime  @default(now()) @map("issued_at")
+  expiresAt    DateTime? @map("expires_at")
+
+  district     District  @relation(fields: [districtId], references: [id], onDelete: Cascade)
+
+  @@index([districtId, isActive])
+  @@map("disaster_alerts")
+}
+
+model HazardIncident {
+  id                 String           @id @default(uuid())
+  districtId         String?          @map("district_id")
+  hazardType         String           @map("hazard_type") // 'WATERLOGGING', 'FALLEN_TREE', 'LIVE_WIRE', 'BRIDGE_SUBMERGED', 'LANDSLIDE'
+  severity           String           // 'LOW', 'MODERATE', 'SEVERE', 'CRITICAL'
+  latitude           Float
+  longitude          Float
+  addressLandmark    String?          @map("address_landmark")
+  waterDepthCm       Int              @default(0) @map("water_depth_cm")
+  status             String           @default("UNVERIFIED") // 'UNVERIFIED', 'VERIFIED_ACTIVE', 'RESOLVED', 'REJECTED'
+  reportedByCitizen  Boolean          @default(true) @map("reported_by_citizen")
+  verifiedByStaffId  String?          @map("verified_by_staff_id")
+  verifiedAt         DateTime?        @map("verified_at")
+  photoUrl           String?          @map("photo_url")
+  createdAt          DateTime         @default(now()) @map("created_at")
+
+  district           District?        @relation(fields: [districtId], references: [id], onDelete: SetNull)
+  polygons           HazardPolygon[]
+
+  @@index([status])
+  @@map("hazard_incidents")
+}
+
+model HazardPolygon {
+  id          String         @id @default(uuid())
+  incidentId  String         @map("incident_id")
+  zoneType    String         @map("zone_type") // 'INUNDATION_ZONE', 'EVACUATION_CORRIDOR_CLOSED', 'DEBRIS_FIELD'
+  coordinates Json           // Array of [lat, lng] or GeoJSON polygon coordinates
+  depthM      Float          @default(0.0) @map("depth_m")
+  isActive    Boolean        @default(true) @map("is_active")
+  updatedAt   DateTime       @default(now()) @map("updated_at")
+
+  incident    HazardIncident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@map("hazard_polygons")
+}
+
+// ----------------------------------------------------
+// Safe Places (Shelters & Hospitals)
+// ----------------------------------------------------
+model Facility {
+  id                String   @id @default(uuid())
+  districtId        String   @map("district_id")
+  facilityType      String   @map("facility_type") // 'SHELTER', 'HOSPITAL', 'FOOD_WATER_POINT', 'COMMUNITY_KITCHEN'
+  name              String
+  address           String
+  latitude          Float
+  longitude         Float
+  contactPhone      String   @map("contact_phone")
+  inChargeName      String?  @map("in_charge_name")
+  totalCapacity     Int      @default(100) @map("total_capacity")
+  currentOccupancy  Int      @default(0) @map("current_occupancy")
+  isVerified        Boolean  @default(true) @map("is_verified")
+  hasMedicalSupport Boolean  @default(false) @map("has_medical_support")
+  hasGeneratorPower Boolean  @default(true) @map("has_generator_power")
+  hasDrinkingWater  Boolean  @default(true) @map("has_drinking_water")
+  hasInfantCare     Boolean  @default(false) @map("has_infant_care")
+  isPetFriendly     Boolean  @default(false) @map("is_pet_friendly")
+  operatingStatus   String   @default("OPERATIONAL") @map("operating_status") // 'OPERATIONAL', 'FILLING_UP', 'FULL', 'DAMAGED_CLOSED'
+  updatedAt         DateTime @default(now()) @map("updated_at")
+
+  district          District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+
+  @@index([facilityType, operatingStatus])
+  @@map("facilities")
+}
+
+// ----------------------------------------------------
+// Emergency Relief Requests & High-Entropy Tracking
+// ----------------------------------------------------
+model ReliefRequest {
+  id                   String            @id @default(uuid())
+  trackingToken        String            @unique @map("tracking_token") // e.g. 'RELIEF-IN-8492-XQ7'
+  districtId           String            @map("district_id")
+  requesterPhone       String?           @map("requester_phone")
+  headcountAdults      Int               @default(1) @map("headcount_adults")
+  headcountChildren    Int               @default(0) @map("headcount_children")
+  headcountInfants     Int               @default(0) @map("headcount_infants")
+  headcountSeniors     Int               @default(0) @map("headcount_seniors")
+  deliveryContext      String            @map("delivery_context") // 'ROOFTOP_STRANDED', 'GROUND_FLOOR', 'ISOLATED_ROAD', 'COMMUNITY_CENTER'
+  urgencyLevel         String            @map("urgency_level") // 'STANDARD', 'HIGH', 'CRITICAL_LIFE_SAFETY'
+  latitude             Float
+  longitude            Float
+  landmarkNotes        String?           @map("landmark_notes")
+  itemsRequested       Json              @map("items_requested")
+  specialMedicalNeeds  String?           @map("special_medical_needs")
+  
+  stage                String            @default("STAGE_1_TRIAGED") // 'STAGE_1_TRIAGED', 'STAGE_2_VERIFIED', 'STAGE_3_ALLOCATED', 'STAGE_4_IN_TRANSIT', 'STAGE_5_DELIVERED', 'CANCELLED'
+  assignedDepotId      String?           @map("assigned_depot_id")
+  assignedResponderId  String?           @map("assigned_responder_id")
+  etaMinutes           Int?              @map("eta_minutes")
+  deliveryProofPhoto   String?           @map("delivery_proof_photo")
+  deliveredAt          DateTime?         @map("delivered_at")
+  createdAt            DateTime          @default(now()) @map("created_at")
+  updatedAt            DateTime          @default(now()) @map("updated_at")
+
+  district             District          @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  auditLogs            RequestAuditLog[]
+
+  @@index([trackingToken])
+  @@index([stage])
+  @@map("relief_requests")
+}
+
+model RequestAuditLog {
+  id            String        @id @default(uuid())
+  requestId     String        @map("request_id")
+  previousStage String?       @map("previous_stage")
+  newStage      String        @map("new_stage")
+  actorType     String        @map("actor_type") // 'CITIZEN', 'STAFF_OFFICER', 'SYSTEM_DISPATCHER'
+  actorId       String?       @map("actor_id")
+  notes         String?
+  timestamp     DateTime      @default(now())
+
+  reliefRequest ReliefRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@map("request_audit_logs")
+}
+
+// ----------------------------------------------------
+// Inventory Depots & Resource Allocation
+// ----------------------------------------------------
+model ReliefDepot {
+  id            String           @id @default(uuid())
+  districtId    String           @map("district_id")
+  name          String
+  latitude      Float
+  longitude     Float
+  contactPhone  String           @map("contact_phone")
+  isOperational Boolean          @default(true) @map("is_operational")
+
+  district      District         @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  inventory     DepotInventory[]
+
+  @@map("relief_depots")
+}
+
+model DepotInventory {
+  id                String      @id @default(uuid())
+  depotId           String      @map("depot_id")
+  itemSku           String      @map("item_sku") // 'WATER_20L', 'DRY_RATION_KIT', 'BABY_FORMULA', 'FIRST_AID_KIT', 'TARPAULIN'
+  itemName          String      @map("item_name")
+  quantityAvailable Int         @default(0) @map("quantity_available")
+  quantityReserved  Int         @default(0) @map("quantity_reserved")
+  unit              String
+  lastRestockedAt   DateTime    @default(now()) @map("last_restocked_at")
+
+  depot             ReliefDepot @relation(fields: [depotId], references: [id], onDelete: Cascade)
+
+  @@unique([depotId, itemSku])
+  @@map("depot_inventory")
+}
+
+// ----------------------------------------------------
+// Staff Authentication, 2FA & Roles
+// ----------------------------------------------------
+model StaffUser {
+  id           String              @id @default(uuid())
+  username     String              @unique // Government Employee ID
+  fullName     String              @map("full_name")
+  phoneNumber  String              @map("phone_number") // For SMS OTP
+  email        String              @unique
+  passwordHash String              @map("password_hash")
+  role         String              // 'EOC_DIRECTOR', 'LOGISTICS_OFFICER', 'FIELD_COMMANDER', 'DATA_OPERATOR'
+  districtId   String?             @map("district_id")
+  isActive     Boolean             @default(true) @map("is_active")
+  createdAt    DateTime            @default(now()) @map("created_at")
+
+  district     District?           @relation(fields: [districtId], references: [id], onDelete: SetNull)
+  otpChallenges StaffOtpChallenge[]
+
+  @@map("staff_users")
+}
+
+model StaffOtpChallenge {
+  id           String    @id @default(uuid())
+  staffUserId  String    @map("staff_user_id")
+  otpHash      String    @map("otp_hash")
+  attemptCount Int       @default(0) @map("attempt_count")
+  expiresAt    DateTime  @map("expires_at")
+  isUsed       Boolean   @default(false) @map("is_used")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  staffUser    StaffUser @relation(fields: [staffUserId], references: [id], onDelete: Cascade)
+
+  @@index([staffUserId, isUsed, expiresAt])
+  @@map("staff_otp_challenges")
+}
+
+// ----------------------------------------------------
+// Public Transparency Ledger
+// ----------------------------------------------------
+model TransparencyLedger {
+  id               String    @id @default(uuid())
+  blockIndex       BigInt    @unique @default(autoincrement()) @map("block_index")
+  transactionType  String    @map("transaction_type")
+  districtId       String?   @map("district_id")
+  details          Json
+  previousBlockHash String   @map("previous_block_hash")
+  currentBlockHash String    @map("current_block_hash")
+  timestamp        DateTime  @default(now())
+
+  district         District? @relation(fields: [districtId], references: [id], onDelete: SetNull)
+
+  @@map("transparency_ledger")
+}

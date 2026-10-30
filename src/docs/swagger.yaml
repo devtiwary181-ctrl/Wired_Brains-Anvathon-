@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: DisasterReady India API
+  description: Official unified API for Safe Routes, Smart Relief Distribution, and EOC Authority Terminal.
+  version: 1.0.0
+servers:
+  - url: /api/v1
+    description: Primary API Gateway v1
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      responses:
+        '200':
+          description: API is operational
+  /health/database:
+    get:
+      summary: PostgreSQL & PostGIS connectivity check
+      responses:
+        '200':
+          description: Database and PostGIS are healthy
+        '503':
+          description: Database connectivity failure
+  /health/services:
+    get:
+      summary: Comprehensive services status check (PostgreSQL + Redis)
+      responses:
+        '200':
+          description: All backend services operational
+        '503':
+          description: One or more services degraded

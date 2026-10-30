@@ -1,0 +1,14 @@
+export declare const env: {
+    PORT: number;
+    NODE_ENV: "development" | "production" | "test";
+    FRONTEND_URL: string;
+    DATABASE_URL: string;
+    REDIS_URL: string;
+    JWT_SECRET: string;
+    SESSION_SECRET: string;
+    GOOGLE_MAPS_API_KEY: string;
+    SMS_PROVIDER_API_KEY: string;
+    SMS_SENDER_ID: string;
+    AI_PROVIDER_API_KEY: string;
+    AI_MODEL_NAME: string;
+};
