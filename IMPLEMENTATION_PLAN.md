@@ -51,6 +51,10 @@ In accordance with the **Mandatory Integration Rule**, every feature phase follo
   - Wire **Page 11 (Disaster Preparedness)** 72-Hour Go-Bag checklist and printable Family Plan.
   - Wire **Page 12 (SOS & Emergency Help)** 1-tap emergency calling cards and Web Audio siren generator.
 
+### Phase 6: Authority Dashboard & Admin Operations
+- **Backend:** Protected `/api/v1/authority` APIs use the existing staff session and granular role permissions, district scoping, transactional relief allocation, and audit history.
+- **Frontend Integration:** The existing Page 14 dashboard loads live metrics, the hazard verification queue, incident map/table, alerts, facility quality, relief requests, inventory, SOS scope, and staff operations. Demo hazard cards are removed in the live view.
+
 ### Phase 3: Admin & Staff Authentication (2FA) [COMPLETED & VERIFIED]
 - [x] Implemented exact two-step staff authentication flow (Step 1: Username & Argon2id Password -> Step 2: 6-digit SMS OTP).
 - [x] Cryptographically secure OTP generation (`crypto.randomInt`), Argon2id hashing, 5-minute expiry, max 3 verification attempts, and Redis cooldown rate limiting.

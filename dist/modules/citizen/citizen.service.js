@@ -15,6 +15,7 @@
  */
 import { prisma } from '../../shared/database.js';
 import { AppError } from '../../middleware/errorHandler.js';
+import { getFacilityUnknownFields } from '../../shared/facilityDataQuality.js';
 import crypto from 'crypto';
 // ---------------------------------------------------------------------------
 // Helper: Generate cryptographically secure high-entropy tracking token
@@ -105,7 +106,7 @@ export class CitizenService {
      * Get active official alerts.
      */
     async getActiveAlerts(districtId) {
-        const where = { isActive: true };
+        const where = { isActive: true, OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] };
         if (districtId) {
             where.districtId = districtId;
         }
@@ -117,6 +118,19 @@ export class CitizenService {
             orderBy: { issuedAt: 'desc' },
             take: 20,
         });
+        const translationHistory = alerts.length ? await prisma.auditLog.findMany({
+            where: { entityType: 'DisasterAlert', entityId: { in: alerts.map(alert => alert.id) }, action: { in: ['PUBLISH_ALERT', 'CREATE_ALERT_DRAFT', 'UPDATE_ALERT'] } },
+            select: { entityId: true, metadata: true },
+            orderBy: { timestamp: 'desc' },
+        }) : [];
+        const translations = new Map();
+        for (const entry of translationHistory) {
+            if (translations.has(entry.entityId))
+                continue;
+            const metadata = entry.metadata && typeof entry.metadata === 'object' && !Array.isArray(entry.metadata) ? entry.metadata : {};
+            if (metadata.translations)
+                translations.set(entry.entityId, metadata.translations);
+        }
         return alerts.map((a) => ({
             id: a.id,
             title: a.title,
@@ -129,6 +143,7 @@ export class CitizenService {
             expiresAt: a.expiresAt,
             district: a.district.name,
             state: a.district.state,
+            translations: translations.get(a.id) || {},
             freshness: computeFreshness(a.issuedAt),
         }));
     }
@@ -317,19 +332,12 @@ export class CitizenService {
             where.facilityType = params.facilityType;
         if (params.districtId)
             where.districtId = params.districtId;
-        if (params.hasMedical !== undefined)
-            where.hasMedicalSupport = params.hasMedical;
-        if (params.hasInfantCare !== undefined)
-            where.hasInfantCare = params.hasInfantCare;
-        if (params.hasPower !== undefined)
-            where.hasGeneratorPower = params.hasPower;
-        if (params.hasDrinkingWater !== undefined)
-            where.hasDrinkingWater = params.hasDrinkingWater;
         const facilities = await prisma.facility.findMany({
             where,
             orderBy: { updatedAt: 'desc' },
             take: 50,
         });
+        const unknownByFacility = await getFacilityUnknownFields(facilities.map(facility => facility.id));
         const toRad = (deg) => (deg * Math.PI) / 180;
         const haversine = (fLat, fLng) => {
             const R = 6371;
@@ -340,33 +348,47 @@ export class CitizenService {
             return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10;
         };
         const mapped = facilities
-            .map((f) => ({
-            id: f.id,
-            name: f.name,
-            facilityType: f.facilityType,
-            address: f.address,
-            coordinates: { lat: f.latitude, lng: f.longitude },
-            contactPhone: f.isVerified ? f.contactPhone : null,
-            inChargeName: f.inChargeName,
-            // Real capacity data — never fabricated
-            totalCapacity: f.totalCapacity,
-            currentOccupancy: f.currentOccupancy,
-            availableBeds: Math.max(0, f.totalCapacity - f.currentOccupancy),
-            capacitySource: 'Last reported by facility in-charge',
-            services: {
-                medical: f.hasMedicalSupport,
-                generatorPower: f.hasGeneratorPower,
-                drinkingWater: f.hasDrinkingWater,
-                infantCare: f.hasInfantCare,
-                petFriendly: f.isPetFriendly,
-            },
-            isVerified: f.isVerified,
-            operatingStatus: f.operatingStatus,
-            distanceKm: hasOrigin ? haversine(f.latitude, f.longitude) : null,
-            lastUpdated: f.updatedAt,
-            source: f.isVerified ? 'Verified by District EOC' : 'Community-reported, not yet verified',
-        }))
+            .map((f) => {
+            const unknown = unknownByFacility.get(f.id) || new Set();
+            const capacityUnknown = unknown.has('totalCapacity') || unknown.has('currentOccupancy');
+            const updatedAgeMs = Date.now() - f.updatedAt.getTime();
+            return ({
+                id: f.id,
+                name: f.name,
+                facilityType: f.facilityType,
+                address: f.address,
+                coordinates: { lat: f.latitude, lng: f.longitude },
+                contactPhone: f.isVerified && !unknown.has('contactPhone') ? f.contactPhone : null,
+                inChargeName: f.inChargeName,
+                // Real capacity data — never fabricated
+                totalCapacity: capacityUnknown ? null : f.totalCapacity,
+                currentOccupancy: capacityUnknown ? null : f.currentOccupancy,
+                availableBeds: capacityUnknown ? null : Math.max(0, f.totalCapacity - f.currentOccupancy),
+                capacitySource: capacityUnknown ? 'Capacity data marked unknown' : 'Last reported by facility in-charge',
+                services: {
+                    medical: unknown.has('hasMedicalSupport') ? null : f.hasMedicalSupport,
+                    generatorPower: unknown.has('hasGeneratorPower') ? null : f.hasGeneratorPower,
+                    drinkingWater: unknown.has('hasDrinkingWater') ? null : f.hasDrinkingWater,
+                    infantCare: unknown.has('hasInfantCare') ? null : f.hasInfantCare,
+                    petFriendly: unknown.has('isPetFriendly') ? null : f.isPetFriendly,
+                },
+                dataQuality: { unknownFields: [...unknown], stale: updatedAgeMs > 24 * 60 * 60 * 1000 },
+                isVerified: f.isVerified,
+                operatingStatus: f.operatingStatus,
+                distanceKm: hasOrigin ? haversine(f.latitude, f.longitude) : null,
+                lastUpdated: f.updatedAt,
+                source: f.isVerified ? 'Verified by District EOC' : 'Community-reported, not yet verified',
+            });
+        })
             .filter((f) => {
+            if (params.hasMedical !== undefined && f.services.medical !== params.hasMedical)
+                return false;
+            if (params.hasInfantCare !== undefined && f.services.infantCare !== params.hasInfantCare)
+                return false;
+            if (params.hasPower !== undefined && f.services.generatorPower !== params.hasPower)
+                return false;
+            if (params.hasDrinkingWater !== undefined && f.services.drinkingWater !== params.hasDrinkingWater)
+                return false;
             if (params.radiusKm && hasOrigin && f.distanceKm != null)
                 return f.distanceKm <= params.radiusKm;
             return true;

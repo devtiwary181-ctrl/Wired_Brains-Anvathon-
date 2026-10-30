@@ -144,6 +144,30 @@
 
 ## 3. Staff & Authority API Endpoints (Strict 2FA & Session Protected)
 
+All operational endpoints below are mounted under `/api/v1/authority`, require an active staff session, enforce the listed permission, and apply assigned-district scoping when the user has a district. Mutations are audit-logged; inventory reservations and relief allocations execute in a database transaction.
+
+### Authority Operations
+- `GET /authority/dashboard` (`incidents:view`)
+  - Returns live incident/hazard/alert/report metrics. SOS, facility, inventory, supply-request, and audit details are omitted or marked unavailable when the caller lacks their corresponding permissions.
+- `GET /authority/hazards?status=UNVERIFIED` and `PATCH /authority/hazards/{id}/decision` (`hazards:verify`)
+  - Queue returns report coordinates, submitted details, evidence, current status, and district. Decision body is `{ "decision": "VERIFY" | "REJECT", "reason": "..." }`; the reason is required and written to `AuditLog`. Verified reports become `VERIFIED_ACTIVE` and enter the shared citizen hazard feed. Rejected reports are excluded from that feed.
+- `GET /authority/incidents`, `POST /authority/incidents`, `PATCH /authority/incidents/{id}`, `GET /authority/incidents/{id}/history` (`incidents:view`, `incidents:create`, `hazards:update`)
+  - Incident operations use the existing hazard incident and polygon records. Assignment and operational notes are retained in audit metadata and returned in the incident record/history view.
+- `GET /authority/alerts`, `POST /authority/alerts`, `PATCH /authority/alerts/{id}`, `GET /authority/alerts/{id}/history` (`incidents:view`, `alerts:publish`, `audit:view`)
+  - Publication body must include `publish: true` and `confirmationText: "PUBLISH"`. Cancellation requires `cancel: true` and `confirmationText: "CANCEL"`. Updating a published alert requires `confirmationText: "UPDATE_AND_PUBLISH"`. Staff-supplied translations are stored in the audit history and returned to citizen alert clients.
+- `GET /authority/facilities`, `POST /authority/facilities`, `PATCH /authority/facilities/{id}` (`facilities:view`, `facilities:manage`)
+  - Staff can maintain capacity, services, status, and mark capacity/contact/service fields unknown. Unknown fields are masked from citizen facility responses; records older than 24 hours are labeled stale.
+- `GET /authority/relief-requests`, `PATCH /authority/relief-requests/{id}/stage` (`relief:triage`)
+  - Stage transitions are validated and recorded in request audit history.
+- `POST /authority/relief-requests/{id}/allocate` (`inventory:allocate`)
+  - Requires a verified request and requested line items. In one serializable transaction, verifies unreserved depot stock, reserves inventory, advances the request, and writes request and authority audit history.
+- `GET /authority/inventory` (`inventory:allocate` or `inventory:restock`), `PATCH /authority/inventory/{id}` (`inventory:restock`)
+  - Adjustments require a reason and cannot reduce total available stock below reserved stock.
+- `GET /authority/sos` (`sos:view`)
+  - Returns unresolved SOS records. District-scoped users are served only when usable district boundary geometry exists; otherwise the API returns `SOS_SCOPE_UNAVAILABLE` rather than exposing nationwide locations.
+- `GET /authority/staff`, `POST /authority/staff`, `PATCH /authority/staff/{id}`, `GET /authority/staff/{id}/history` (`staff:manage`)
+  - Staff creation hashes passwords, role changes use the configured role-permission policy, and disabling an account revokes its active sessions. Only a super administrator can grant the `SUPER_ADMIN` role.
+
 ### A. Two-Factor Authentication
 - `POST /auth/staff/login-step1`
   - Validates username & password -> Generates 6-digit OTP -> Sends SMS -> Returns `challengeId`.

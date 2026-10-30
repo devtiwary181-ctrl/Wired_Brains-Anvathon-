@@ -52,6 +52,7 @@ export declare class CitizenService {
             expiresAt: Date | null;
             district: string;
             state: string;
+            translations: {};
             freshness: string;
         }[];
         recentHazards: {
@@ -92,16 +93,20 @@ export declare class CitizenService {
             };
             contactPhone: string | null;
             inChargeName: string | null;
-            totalCapacity: number;
-            currentOccupancy: number;
-            availableBeds: number;
+            totalCapacity: number | null;
+            currentOccupancy: number | null;
+            availableBeds: number | null;
             capacitySource: string;
             services: {
-                medical: boolean;
-                generatorPower: boolean;
-                drinkingWater: boolean;
-                infantCare: boolean;
-                petFriendly: boolean;
+                medical: boolean | null;
+                generatorPower: boolean | null;
+                drinkingWater: boolean | null;
+                infantCare: boolean | null;
+                petFriendly: boolean | null;
+            };
+            dataQuality: {
+                unknownFields: ("contactPhone" | "totalCapacity" | "currentOccupancy" | "hasMedicalSupport" | "hasGeneratorPower" | "hasDrinkingWater" | "hasInfantCare" | "isPetFriendly")[];
+                stale: boolean;
             };
             isVerified: boolean;
             operatingStatus: string;
@@ -134,6 +139,7 @@ export declare class CitizenService {
         expiresAt: Date | null;
         district: string;
         state: string;
+        translations: {};
         freshness: string;
     }[]>;
     /**
@@ -232,16 +238,20 @@ export declare class CitizenService {
         };
         contactPhone: string | null;
         inChargeName: string | null;
-        totalCapacity: number;
-        currentOccupancy: number;
-        availableBeds: number;
+        totalCapacity: number | null;
+        currentOccupancy: number | null;
+        availableBeds: number | null;
         capacitySource: string;
         services: {
-            medical: boolean;
-            generatorPower: boolean;
-            drinkingWater: boolean;
-            infantCare: boolean;
-            petFriendly: boolean;
+            medical: boolean | null;
+            generatorPower: boolean | null;
+            drinkingWater: boolean | null;
+            infantCare: boolean | null;
+            petFriendly: boolean | null;
+        };
+        dataQuality: {
+            unknownFields: ("contactPhone" | "totalCapacity" | "currentOccupancy" | "hasMedicalSupport" | "hasGeneratorPower" | "hasDrinkingWater" | "hasInfantCare" | "isPetFriendly")[];
+            stale: boolean;
         };
         isVerified: boolean;
         operatingStatus: string;

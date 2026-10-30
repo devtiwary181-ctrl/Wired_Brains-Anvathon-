@@ -46,7 +46,7 @@ describe('Database Models & PostGIS Spatial Queries', () => {
   });
 
   it('should find active high-priority relief request by tracking token', async () => {
-    const request = await prisma.reliefRequest.findUnique({
+    const request = await prisma.reliefRequest.findFirst({
       where: { landmarkNotes: 'Yellow double-storey roof, near Jama Masjid North Gate water tank' },
     });
 

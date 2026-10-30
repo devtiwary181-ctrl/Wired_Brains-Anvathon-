@@ -71,4 +71,14 @@ export function requirePermission(permission) {
         next();
     };
 }
+export function requireAnyPermission(...permissions) {
+    return (req, res, next) => {
+        if (!req.user)
+            return next(new AppError('Authentication required.', 401, 'UNAUTHORIZED'));
+        if (!permissions.some(permission => req.user?.permissions.includes(permission))) {
+            return next(new AppError('Access denied. Your role lacks the required permission.', 403, 'PERMISSION_DENIED'));
+        }
+        next();
+    };
+}
 //# sourceMappingURL=auth.middleware.js.map

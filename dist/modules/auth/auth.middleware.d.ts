@@ -25,3 +25,4 @@ export declare function requireAuth(req: Request, res: Response, next: NextFunct
  * Require specific granular permission
  */
 export declare function requirePermission(permission: PermissionType): (req: Request, res: Response, next: NextFunction) => void;
+export declare function requireAnyPermission(...permissions: PermissionType[]): (req: Request, res: Response, next: NextFunction) => void;

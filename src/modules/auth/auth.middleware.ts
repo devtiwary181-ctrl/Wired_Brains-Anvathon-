@@ -109,3 +109,13 @@ export function requirePermission(permission: PermissionType) {
     next();
   };
 }
+
+export function requireAnyPermission(...permissions: PermissionType[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) return next(new AppError('Authentication required.', 401, 'UNAUTHORIZED'));
+    if (!permissions.some(permission => req.user?.permissions.includes(permission))) {
+      return next(new AppError('Access denied. Your role lacks the required permission.', 403, 'PERMISSION_DENIED'));
+    }
+    next();
+  };
+}
