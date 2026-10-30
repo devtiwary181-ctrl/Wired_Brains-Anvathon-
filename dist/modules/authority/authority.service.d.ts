@@ -203,10 +203,10 @@ export declare class AuthorityService {
         createdAt: Date;
         updatedAt: Date;
         description: string | null;
-        severity: string;
-        hazardType: string;
         latitude: number;
         longitude: number;
+        severity: string;
+        hazardType: string;
         addressLandmark: string | null;
         observedAt: Date | null;
         contactInfo: string | null;
@@ -233,10 +233,10 @@ export declare class AuthorityService {
         createdAt: Date;
         updatedAt: Date;
         description: string | null;
-        severity: string;
-        hazardType: string;
         latitude: number;
         longitude: number;
+        severity: string;
+        hazardType: string;
         addressLandmark: string | null;
         observedAt: Date | null;
         contactInfo: string | null;
@@ -459,8 +459,6 @@ export declare class AuthorityService {
         districtId: string;
         createdAt: Date;
         updatedAt: Date;
-        latitude: number;
-        longitude: number;
         trackingToken: string;
         requesterPhone: string | null;
         headcountAdults: number;
@@ -469,6 +467,8 @@ export declare class AuthorityService {
         headcountSeniors: number;
         deliveryContext: string;
         urgencyLevel: string;
+        latitude: number;
+        longitude: number;
         landmarkNotes: string | null;
         itemsRequested: Prisma.JsonValue;
         specialMedicalNeeds: string | null;
@@ -489,8 +489,6 @@ export declare class AuthorityService {
         districtId: string;
         createdAt: Date;
         updatedAt: Date;
-        latitude: number;
-        longitude: number;
         trackingToken: string;
         requesterPhone: string | null;
         headcountAdults: number;
@@ -499,6 +497,8 @@ export declare class AuthorityService {
         headcountSeniors: number;
         deliveryContext: string;
         urgencyLevel: string;
+        latitude: number;
+        longitude: number;
         landmarkNotes: string | null;
         itemsRequested: Prisma.JsonValue;
         specialMedicalNeeds: string | null;
@@ -524,8 +524,6 @@ export declare class AuthorityService {
             districtId: string;
             createdAt: Date;
             updatedAt: Date;
-            latitude: number;
-            longitude: number;
             trackingToken: string;
             requesterPhone: string | null;
             headcountAdults: number;
@@ -534,6 +532,8 @@ export declare class AuthorityService {
             headcountSeniors: number;
             deliveryContext: string;
             urgencyLevel: string;
+            latitude: number;
+            longitude: number;
             landmarkNotes: string | null;
             itemsRequested: Prisma.JsonValue;
             specialMedicalNeeds: string | null;

@@ -6,6 +6,7 @@ import { AuthenticatedUser } from '../auth/auth.middleware.js';
 import { RoleType, ROLE_PERMISSIONS } from '../auth/rbac.js';
 import { getFacilityUnknownFields } from '../../shared/facilityDataQuality.js';
 import { notifyAuthorizedStaff } from '../../shared/notifications.js';
+import { outboxService } from '../../shared/outbox.service.js';
 
 type AuditInput = {
   user: AuthenticatedUser;
@@ -285,6 +286,24 @@ export class AuthorityService {
         metadata: { notes: data.notes ?? null, assignedStaffId: data.assignedStaffId ?? null, status: data.status } as Prisma.InputJsonValue,
         ipAddress,
       });
+
+      // Outbox Event
+      await outboxService.publishEvent(
+        'hazard:created',
+        incident.id,
+        {
+          id: incident.id,
+          hazardType: incident.hazardType,
+          severity: incident.severity,
+          latitude: incident.latitude,
+          longitude: incident.longitude,
+          status: incident.status,
+          addressLandmark: incident.addressLandmark,
+        },
+        incident.districtId,
+        tx
+      ).catch(() => {});
+
       return incident;
     });
   }
@@ -341,6 +360,37 @@ export class AuthorityService {
         } as Prisma.InputJsonValue,
         ipAddress,
       });
+
+      // Outbox Event
+      await outboxService.publishEvent(
+        'hazard:updated',
+        updated.id,
+        {
+          id: updated.id,
+          hazardType: updated.hazardType,
+          severity: updated.severity,
+          status: updated.status,
+          previousStatus: existing.status,
+          notes: operationalNotes,
+        },
+        updated.districtId,
+        tx
+      ).catch(() => {});
+
+      if (data.affectedArea?.zoneType === 'EVACUATION_CORRIDOR_CLOSED' || updated.hazardType === 'ROAD_CLOSED') {
+        await outboxService.publishEvent(
+          'road:closure_updated',
+          updated.id,
+          {
+            incidentId: updated.id,
+            status: updated.status,
+            zoneType: data.affectedArea?.zoneType,
+          },
+          updated.districtId,
+          tx
+        ).catch(() => {});
+      }
+
       return updated;
     });
   }
@@ -408,6 +458,25 @@ export class AuthorityService {
         metadata: { title: alert.title, severity: alert.severity, published: data.publish, translations: data.translations ?? {} } as Prisma.InputJsonValue,
         ipAddress,
       });
+
+      if (alert.isActive) {
+        await outboxService.publishEvent(
+          'alert:published',
+          alert.id,
+          {
+            id: alert.id,
+            title: alert.title,
+            severity: alert.severity,
+            summary: alert.summary,
+            instructions: alert.instructions,
+            sourceAgency: alert.sourceAgency,
+            disasterType: alert.disasterType,
+          },
+          alert.districtId,
+          tx
+        ).catch(() => {});
+      }
+
       return alert;
     });
   }
@@ -533,6 +602,39 @@ export class AuthorityService {
         metadata: { changedFields: Object.keys(data), markedUnknown: data.markUnknown ?? [] } as Prisma.InputJsonValue,
         ipAddress,
       });
+
+      // Outbox Event
+      await outboxService.publishEvent(
+        'facility:status_updated',
+        updated.id,
+        {
+          id: updated.id,
+          name: updated.name,
+          facilityType: updated.facilityType,
+          operatingStatus: updated.operatingStatus,
+          totalCapacity: updated.totalCapacity,
+          currentOccupancy: updated.currentOccupancy,
+        },
+        updated.districtId,
+        tx
+      ).catch(() => {});
+
+      if (updated.facilityType === 'SHELTER') {
+        await outboxService.publishEvent(
+          'shelter:capacity_updated',
+          updated.id,
+          {
+            shelterId: updated.id,
+            name: updated.name,
+            totalCapacity: updated.totalCapacity,
+            currentOccupancy: updated.currentOccupancy,
+            availableBeds: Math.max(0, updated.totalCapacity - updated.currentOccupancy),
+          },
+          updated.districtId,
+          tx
+        ).catch(() => {});
+      }
+
       return updated;
     });
   }
@@ -552,7 +654,7 @@ export class AuthorityService {
     etaMinutes?: number;
     assignedResponderId?: string;
   }, ipAddress?: string) {
-    const current = await prisma.reliefRequest.findUnique({ where: { id: requestId }, select: { id: true, districtId: true, stage: true } });
+    const current = await prisma.reliefRequest.findUnique({ where: { id: requestId }, select: { id: true, districtId: true, stage: true, trackingToken: true } });
     if (!current) throw new AppError('Supply request not found.', 404, 'RECORD_NOT_FOUND');
     await requireDistrictAccess(user, current.districtId);
     const transitions: Record<string, string[]> = {
@@ -665,6 +767,36 @@ export class AuthorityService {
         metadata: { previousStage: current.stage, newStage: data.stage, notes: data.notes },
       }).catch(() => {});
 
+      // Outbox Event: request:status_changed
+      await outboxService.publishEvent(
+        'request:status_changed',
+        requestId,
+        {
+          requestId,
+          trackingToken: current.trackingToken,
+          previousStage: current.stage,
+          newStage: data.stage,
+          notes: data.notes,
+        },
+        current.districtId,
+        tx
+      ).catch(() => {});
+
+      if (['STAGE_4_IN_TRANSIT', 'STAGE_5_DELIVERED'].includes(data.stage)) {
+        await outboxService.publishEvent(
+          'delivery:status_changed',
+          requestId,
+          {
+            requestId,
+            trackingToken: current.trackingToken,
+            stage: data.stage,
+            deliveredAt: updated.deliveredAt,
+          },
+          current.districtId,
+          tx
+        ).catch(() => {});
+      }
+
       return updated;
     }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
   }
@@ -754,6 +886,20 @@ export class AuthorityService {
         metadata: { depotId: depot.id, allocations: reservedItems, notes: data.notes },
       }).catch(() => {});
 
+      // Outbox Event
+      await outboxService.publishEvent(
+        'inventory:updated',
+        depot.id,
+        {
+          depotId: depot.id,
+          depotName: depot.name,
+          requestId,
+          allocations: reservedItems,
+        },
+        depot.districtId,
+        tx
+      ).catch(() => {});
+
       return { request: updatedRequest, depot, allocations: reservedItems };
     }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
   }
@@ -817,6 +963,23 @@ export class AuthorityService {
         },
       });
       await writeAudit(tx, { user, action: 'ACKNOWLEDGE_SOS', entityType: 'SosRecord', entityId: sosId, metadata: { previousStatus: record.status, newStatus: 'ACKNOWLEDGED', notes } as Prisma.InputJsonValue, ipAddress });
+
+      // Outbox Event
+      await outboxService.publishEvent(
+        'sos:acknowledged',
+        sosId,
+        {
+          sosId,
+          serviceType: record.serviceType,
+          status: 'ACKNOWLEDGED',
+          acknowledgedByStaffId: user.id,
+          acknowledgedAt: updated.acknowledgedAt,
+          responderNotes: updated.responderNotes,
+        },
+        null,
+        tx
+      ).catch(() => {});
+
       return updated;
     });
   }

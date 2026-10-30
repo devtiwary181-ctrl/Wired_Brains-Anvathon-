@@ -87,6 +87,10 @@ export class CopilotService {
      */
     detectIntent(query) {
         const q = query.toLowerCase();
+        // Alerts / Warnings (prioritize explicit alert questions)
+        if (q.includes('alert') || q.includes('warning') || q.includes('siren') || q.includes('chetavani')) {
+            return 'get_active_alerts';
+        }
         // Route / Safe walking
         if (q.includes('route') || q.includes('rasta') || q.includes('direction') || q.includes('walk') || q.includes('dry ground') || q.includes('bypass') || q.includes('road')) {
             return 'compare_routes';
@@ -100,12 +104,8 @@ export class CopilotService {
             return 'get_nearby_hospitals';
         }
         // Hazards / Flooding / Wire / Tree
-        if (q.includes('hazard') || q.includes('waterlog') || q.includes('flood') || q.includes('tree') || q.includes('wire') || q.includes('bridge') || q.includes('danger')) {
+        if (q.includes('hazard') || q.includes('waterlog') || q.includes('flood') || q.includes('cyclone') || q.includes('rain') || q.includes('tree') || q.includes('wire') || q.includes('bridge') || q.includes('danger')) {
             return 'get_nearby_hazards';
-        }
-        // Alerts / Warnings
-        if (q.includes('alert') || q.includes('warning') || q.includes('siren') || q.includes('chetavani') || q.includes('cyclone') || q.includes('rain')) {
-            return 'get_active_alerts';
         }
         // Supplies / Food / Water rations
         if (q.includes('food') || q.includes('water') || q.includes('ration') || q.includes('supplies') || q.includes('baby formula') || q.includes('relief pack')) {
@@ -239,11 +239,23 @@ export class CopilotService {
                 }
                 return undefined;
             case 'draft_announcement':
+                return {
+                    type: 'RECOMMENDATION_DRAFT_CARD',
+                    title: data.draftTitle || 'Official Announcement Draft',
+                    data,
+                    requiresHumanConfirmation: true,
+                };
             case 'analyze_resource_shortages':
+                return {
+                    type: 'RECOMMENDATION_DRAFT_CARD',
+                    title: 'Inventory Allocation Review & Resource Shortage Analysis',
+                    data,
+                    requiresHumanConfirmation: true,
+                };
             case 'analyze_simulation':
                 return {
                     type: 'RECOMMENDATION_DRAFT_CARD',
-                    title: data.draftTitle || data.scenario || 'Operational Recommendation',
+                    title: data.scenario || 'Hydrological Simulation Forecast',
                     data,
                     requiresHumanConfirmation: true,
                 };
@@ -263,12 +275,15 @@ export class CopilotService {
             switch (toolName) {
                 case 'get_active_alerts':
                     if (data.count === 0) {
-                        enText = 'There are currently no active emergency alerts recorded for this district. Continue monitoring local weather advisories.';
+                        enText = 'There are currently no active emergency alerts recorded for this district. Continue monitoring local weather advisories. In life-threatening emergencies, dial 112.';
                     }
                     else {
                         const first = data.alerts[0];
-                        enText = `Active Alert (${first.severity}): "${first.title}". ${first.summary} Action: ${first.instructions}`;
+                        enText = `Active Alert (${first.severity}): "${first.title}". ${first.summary} Action: ${first.instructions} (Emergency helpline: 112).`;
                     }
+                    break;
+                case 'translate_announcement':
+                    enText = `Official Announcement Translation (${data.targetLanguage}): "${data.translatedText}". Original Announcement (English): "${data.originalText}".`;
                     break;
                 case 'get_nearby_shelters':
                     if (data.count === 0) {
@@ -315,7 +330,7 @@ export class CopilotService {
                     enText = `Depot Stock Analysis: ${data.openRequestsConsidered} open relief requests analyzed. ${data.recommendation}`;
                     break;
                 case 'draft_announcement':
-                    enText = `Drafted Official Advisory: "${data.draftTitle}". Note: Human officer approval in Alert Operations panel is required before citizen broadcast.`;
+                    enText = `Drafted Official Advisory: "${data.draftTitle}". MANDATORY HUMAN AUTHORIZATION REQUIRED: Officer approval in Alert Operations panel is required before citizen broadcast.`;
                     break;
                 case 'analyze_simulation':
                     enText = `Hydrological Forecast: At ${data.projectedDepthM}m depth, estimated corridor cutoff is ${data.estimatedCutoffMinutes} minutes. Recommended: Pre-stage rescue boats. Human sign-off required.`;

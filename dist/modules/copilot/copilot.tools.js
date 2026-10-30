@@ -435,19 +435,25 @@ export const copilotTools = {
         description: 'Draft official emergency announcement or public evacuation advisory for human review. Human approval mandatory.',
         permission: 'alerts:publish',
         schema: z.object({
-            topic: z.string().min(5).max(300),
+            topic: z.string().max(300).optional(),
+            title: z.string().max(300).optional(),
+            hazardType: z.string().max(100).optional(),
             severity: z.enum(['INFO', 'ADVISORY', 'WARNING', 'DANGER', 'EXTREME', 'CRITICAL']).default('WARNING'),
             targetAudience: z.string().default('General Public in affected flood sector'),
+            keyInstructions: z.string().max(2000).optional(),
         }),
         execute: async (input) => {
-            const title = `EMERGENCY ADVISORY: ${input.topic.toUpperCase()}`;
-            const summary = `Public advisory issued regarding ${input.topic}. Citizens in low-lying zones are advised to take precautionary measures and monitor official channels.`;
-            const instructions = '1. Avoid waterlogged corridors and low-level bridges.\n2. Keep phone charged and emergency numbers (112, 1078) accessible.\n3. Follow directions from NDRF/SDRF personnel on site.';
+            const topic = input.topic || input.title || input.hazardType || 'Flood Warning';
+            const title = input.title || `EMERGENCY ADVISORY: ${topic.toUpperCase()}`;
+            const summary = `Public advisory issued regarding ${topic}. Citizens in low-lying zones are advised to take precautionary measures and monitor official channels.`;
+            const instructions = input.keyInstructions || '1. Avoid waterlogged corridors and low-level bridges.\n2. Keep phone charged and emergency numbers (112, 1078) accessible.\n3. Follow directions from NDRF/SDRF personnel on site.';
             return {
                 draftTitle: title,
+                title,
                 severity: input.severity,
                 draftSummary: summary,
                 draftInstructions: instructions,
+                instructions,
                 humanInTheLoopRequirement: 'MANDATORY HUMAN APPROVAL: This text is a draft. It will NOT be broadcast without explicit officer signature in the Alert Operations panel.',
                 requiresHumanConfirmation: true,
                 timestamp: new Date().toISOString(),

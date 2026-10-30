@@ -18,6 +18,7 @@ import { AppError } from '../../middleware/errorHandler.js';
 import { Prisma } from '@prisma/client';
 import { getFacilityUnknownFields } from '../../shared/facilityDataQuality.js';
 import { notifyAuthorizedStaff } from '../../shared/notifications.js';
+import { outboxService } from '../../shared/outbox.service.js';
 import crypto from 'crypto';
 
 // ---------------------------------------------------------------------------
@@ -360,6 +361,22 @@ export class CitizenService {
       incident.id,
     );
 
+    // Outbox Event
+    await outboxService.publishEvent(
+      'hazard:created',
+      incident.id,
+      {
+        id: incident.id,
+        hazardType: incident.hazardType,
+        severity: incident.severity,
+        status: incident.status,
+        latitude: incident.latitude,
+        longitude: incident.longitude,
+        reportedByCitizen: true,
+      },
+      incident.districtId
+    ).catch(() => {});
+
     return {
       incidentId: incident.id,
       status: 'UNVERIFIED',
@@ -573,6 +590,21 @@ export class CitizenService {
       metadata: { trackingToken, urgencyLevel: data.urgencyLevel, totalPeople },
     }).catch(() => {});
 
+    // Outbox Event
+    await outboxService.publishEvent(
+      'request:status_changed',
+      relief.id,
+      {
+        requestId: relief.id,
+        trackingToken,
+        previousStage: null,
+        newStage: relief.stage,
+        urgencyLevel: relief.urgencyLevel,
+        headcountTotal: totalPeople,
+      },
+      relief.districtId
+    ).catch(() => {});
+
     return {
       requestId: relief.id,
       trackingToken,
@@ -687,6 +719,22 @@ export class CitizenService {
       entityId: record.id,
       metadata: { serviceType: data.serviceType, emergencyType: data.emergencyType, affectedPeople: data.affectedPeople || 1 },
     }).catch(() => {});
+
+    // Outbox Event
+    await outboxService.publishEvent(
+      'sos:received',
+      record.id,
+      {
+        sosId: record.id,
+        serviceType: record.serviceType,
+        emergencyType: record.emergencyType,
+        affectedPeople: record.affectedPeople,
+        latitude: record.latitude,
+        longitude: record.longitude,
+        status: record.status,
+      },
+      null
+    ).catch(() => {});
 
     return {
       sosId: record.id,

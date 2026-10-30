@@ -914,4 +914,34 @@
   const refreshButton = [...document.querySelectorAll('button')].find(button => /Force Refresh/i.test(button.textContent || ''));
   refreshButton?.addEventListener('click', refresh);
   refresh();
+
+  // Socket.IO Real-time Synchronization for Authority EOC
+  if (window.DisasterReadyAPI?.realtime) {
+    const socket = window.DisasterReadyAPI.realtime.connect();
+    if (socket) {
+      window.DisasterReadyAPI.realtime.joinEOC(null, null, (user) => {
+        console.log('⚡ Authority Dashboard synchronized with Central EOC live stream:', user?.role);
+      });
+
+      // Auto-refresh when relevant events arrive
+      const eocEvents = [
+        'dr:hazard:created',
+        'dr:hazard:updated',
+        'dr:alert:published',
+        'dr:facility:status_updated',
+        'dr:shelter:capacity_updated',
+        'dr:inventory:updated',
+        'dr:request:status_changed',
+        'dr:sos:received',
+        'dr:sos:acknowledged',
+      ];
+
+      eocEvents.forEach((evt) => {
+        window.addEventListener(evt, (e) => {
+          console.log(`⚡ Live Authority Event [${evt}]:`, e.detail);
+          refresh();
+        });
+      });
+    }
+  }
 })();

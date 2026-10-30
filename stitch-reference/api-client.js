@@ -606,6 +606,311 @@
   };
 
   // ---------------------------------------------------------------------------
+  // Low-Data Mode Settings
+  // ---------------------------------------------------------------------------
+  const lowData = {
+    isEnabled: () => localStorage.getItem('dr_low_data_mode') === 'true',
+    set: (enabled) => {
+      localStorage.setItem('dr_low_data_mode', enabled ? 'true' : 'false');
+      window.dispatchEvent(new CustomEvent('dr:low_data_changed', { detail: { enabled } }));
+    },
+    toggle: () => {
+      const current = lowData.isEnabled();
+      lowData.set(!current);
+      return !current;
+    },
+  };
+
+  // ---------------------------------------------------------------------------
+  // IndexedDB & Offline Queue (Drafts, Idempotency, Auto-retry with Exponential Backoff)
+  // ---------------------------------------------------------------------------
+  const DB_NAME = 'DisasterReadyOfflineDB';
+  const DB_VERSION = 1;
+
+  function openOfflineDB() {
+    return new Promise((resolve, reject) => {
+      if (typeof window === 'undefined' || !window.indexedDB) {
+        return resolve(null);
+      }
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('pending_queue')) {
+          const store = db.createObjectStore('pending_queue', { keyPath: 'idempotencyKey' });
+          store.createIndex('status', 'status', { unique: false });
+          store.createIndex('createdAt', 'createdAt', { unique: false });
+        }
+        if (!db.objectStoreNames.contains('drafts')) {
+          db.createObjectStore('drafts', { keyPath: 'draftType' });
+        }
+        if (!db.objectStoreNames.contains('checklist_progress')) {
+          db.createObjectStore('checklist_progress', { keyPath: 'guideId' });
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  const offline = {
+    isOnline: () => (typeof navigator !== 'undefined' ? navigator.onLine : true),
+
+    generateIdempotencyKey: () => {
+      return 'IDEM-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
+    },
+
+    /**
+     * Queue an action for submission when online
+     */
+    async enqueueAction(type, endpoint, payload) {
+      const db = await openOfflineDB();
+      const idempotencyKey = payload.idempotencyKey || offline.generateIdempotencyKey();
+      const record = {
+        idempotencyKey,
+        type, // 'HAZARD_REPORT', 'RELIEF_REQUEST', 'SOS_LOG'
+        endpoint,
+        payload: { ...payload, idempotencyKey },
+        status: 'QUEUED', // 'QUEUED', 'SENDING', 'SENT', 'FAILED'
+        retries: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      if (db) {
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction('pending_queue', 'readwrite');
+          tx.objectStore('pending_queue').put(record);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      window.dispatchEvent(new CustomEvent('dr:queue_updated', { detail: record }));
+      return record;
+    },
+
+    /**
+     * Get all pending queued items
+     */
+    async getQueue() {
+      const db = await openOfflineDB();
+      if (!db) return [];
+      return new Promise((resolve) => {
+        const tx = db.transaction('pending_queue', 'readonly');
+        const req = tx.objectStore('pending_queue').getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => resolve([]);
+      });
+    },
+
+    /**
+     * Process pending offline queue with exponential backoff
+     */
+    async processQueue() {
+      if (!offline.isOnline()) return { processed: 0, pending: 0 };
+      const queue = await offline.getQueue();
+      const pendingItems = queue.filter((i) => i.status === 'QUEUED' || i.status === 'FAILED');
+      let processedCount = 0;
+
+      for (const item of pendingItems) {
+        try {
+          item.status = 'SENDING';
+          await post(item.endpoint, item.payload);
+          item.status = 'SENT';
+          item.updatedAt = new Date().toISOString();
+          processedCount++;
+
+          // Delete sent item after success
+          const db = await openOfflineDB();
+          if (db) {
+            const tx = db.transaction('pending_queue', 'readwrite');
+            tx.objectStore('pending_queue').delete(item.idempotencyKey);
+          }
+        } catch (err) {
+          item.retries = (item.retries || 0) + 1;
+          item.status = 'FAILED';
+          item.lastError = err.message;
+          item.updatedAt = new Date().toISOString();
+
+          const db = await openOfflineDB();
+          if (db) {
+            const tx = db.transaction('pending_queue', 'readwrite');
+            tx.objectStore('pending_queue').put(item);
+          }
+        }
+      }
+
+      window.dispatchEvent(new CustomEvent('dr:queue_processed', { detail: { processed: processedCount } }));
+      return { processed: processedCount, remaining: pendingItems.length - processedCount };
+    },
+
+    /**
+     * Save draft form (hazard report or supply request)
+     */
+    async saveDraft(draftType, formData) {
+      const db = await openOfflineDB();
+      if (!db) return;
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('drafts', 'readwrite');
+        tx.objectStore('drafts').put({ draftType, data: formData, updatedAt: new Date().toISOString() });
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    },
+
+    async getDraft(draftType) {
+      const db = await openOfflineDB();
+      if (!db) return null;
+      return new Promise((resolve) => {
+        const tx = db.transaction('drafts', 'readonly');
+        const req = tx.objectStore('drafts').get(draftType);
+        req.onsuccess = () => resolve(req.result ? req.result.data : null);
+        req.onerror = () => resolve(null);
+      });
+    },
+
+    async clearDraft(draftType) {
+      const db = await openOfflineDB();
+      if (!db) return;
+      const tx = db.transaction('drafts', 'readwrite');
+      tx.objectStore('drafts').delete(draftType);
+    },
+
+    /**
+     * Save checklist progress offline
+     */
+    async saveChecklistProgress(guideId, checkedItems) {
+      const db = await openOfflineDB();
+      if (!db) return;
+      const tx = db.transaction('checklist_progress', 'readwrite');
+      tx.objectStore('checklist_progress').put({ guideId, checkedItems, updatedAt: new Date().toISOString() });
+    },
+
+    async getChecklistProgress(guideId) {
+      const db = await openOfflineDB();
+      if (!db) return [];
+      return new Promise((resolve) => {
+        const tx = db.transaction('checklist_progress', 'readonly');
+        const req = tx.objectStore('checklist_progress').get(guideId);
+        req.onsuccess = () => resolve(req.result ? req.result.checkedItems : []);
+        req.onerror = () => resolve([]);
+      });
+    },
+  };
+
+  // Auto-listen to browser online events to trigger background retry
+  if (typeof window !== 'undefined') {
+    window.addEventListener('online', () => {
+      console.log('🌐 DisasterReady: Connection restored. Processing offline queue...');
+      offline.processQueue();
+    });
+
+    // Register Service Worker if supported
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((err) => {
+          console.warn('Service Worker registration skipped:', err.message);
+        });
+      });
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Realtime Socket.IO Client with Reconnection & Missed-Event Recovery
+  // ---------------------------------------------------------------------------
+  let activeSocket = null;
+  const realtime = {
+    connect(options = {}) {
+      if (typeof window === 'undefined' || typeof window.io !== 'function') {
+        console.warn('Socket.IO client library not loaded on page.');
+        return null;
+      }
+
+      if (activeSocket && activeSocket.connected) return activeSocket;
+
+      const socketUrl = window.DR_WS_BASE || window.location.origin;
+      activeSocket = window.io(socketUrl, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: 10,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        withCredentials: true,
+      });
+
+      let lastSeenTimestamp = new Date().toISOString();
+
+      activeSocket.on('connect', () => {
+        console.log('⚡ Connected to DisasterReady Realtime Gateway:', activeSocket.id);
+        const district = storage.getDistrict();
+        if (district?.id) {
+          activeSocket.emit('join:district', district.id);
+        }
+
+        // Trigger missed events recovery
+        activeSocket.emit('recover:events', { since: lastSeenTimestamp, districtId: district?.id }, (res) => {
+          if (res?.success && res.events?.length > 0) {
+            console.log(`⚡ Recovered ${res.recoveredCount} missed real-time events.`);
+            res.events.forEach((evt) => {
+              window.dispatchEvent(new CustomEvent('dr:realtime_event', { detail: evt }));
+            });
+          }
+        });
+      });
+
+      // Standard event handlers updating timestamp
+      const standardEvents = [
+        'hazard:created',
+        'hazard:updated',
+        'alert:published',
+        'road:closure_updated',
+        'route:risk_changed',
+        'facility:status_updated',
+        'shelter:capacity_updated',
+        'inventory:updated',
+        'request:status_changed',
+        'delivery:status_changed',
+        'sos:received',
+        'sos:acknowledged',
+        'announcement:published',
+      ];
+
+      standardEvents.forEach((eventName) => {
+        activeSocket.on(eventName, (data) => {
+          lastSeenTimestamp = new Date().toISOString();
+          window.dispatchEvent(new CustomEvent(`dr:${eventName}`, { detail: data }));
+          window.dispatchEvent(new CustomEvent('dr:realtime_event', { detail: { eventType: eventName, ...data } }));
+        });
+      });
+
+      return activeSocket;
+    },
+
+    subscribeToRequest(trackingToken, onUpdate) {
+      if (!activeSocket) realtime.connect();
+      if (activeSocket) {
+        activeSocket.emit('join:request', trackingToken, (res) => {
+          if (!res?.success) console.warn('Could not join request room:', res?.error);
+        });
+        activeSocket.on('request:status_changed', (data) => {
+          if (data.trackingToken === trackingToken && onUpdate) {
+            onUpdate(data);
+          }
+        });
+      }
+    },
+
+    joinEOC(districtId, token, onAuthorized) {
+      if (!activeSocket) realtime.connect();
+      if (activeSocket) {
+        activeSocket.emit('join:eoc', { districtId, token }, (res) => {
+          if (res?.success && onAuthorized) onAuthorized(res.user);
+        });
+      }
+    },
+  };
+
+  // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
   window.DisasterReadyAPI = {
@@ -623,6 +928,9 @@
     sos,
     copilot,
     voice,
+    lowData,
+    offline,
+    realtime,
     ui,
   };
 })(window);

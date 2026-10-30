@@ -1246,6 +1246,59 @@ html.dark header, html.dark nav {
     } catch (err) {
       feed.textContent = 'Live regional information could not be loaded. Check your connection. Do not infer safety from missing or stale data.';
     }
+
+    // Phase 9 Realtime and Low-Data Connectivity Wireup
+    const DR = window.DisasterReadyAPI;
+    const cacheBanner = document.getElementById('cacheNoticeBanner');
+    const cacheText = document.getElementById('cacheNoticeText');
+
+    function updateNetworkStatus() {
+      const isOnline = navigator.onLine;
+      const isLowData = DR && DR.lowData ? DR.lowData.isEnabled() : false;
+      if (!isOnline) {
+        if (cacheBanner) {
+          cacheBanner.classList.remove('bg-[#FFF3DC]');
+          cacheBanner.classList.add('bg-[#FFDAD6]', 'border-[#BA1A1A]');
+        }
+        if (cacheText) {
+          cacheText.innerHTML = '<strong>Offline Mode Active:</strong> Serving cached app shell & guides. Submissions queued safely in IndexedDB.';
+          cacheText.className = 'font-caption text-caption text-[#BA1A1A] truncate';
+        }
+      } else {
+        if (cacheBanner) {
+          cacheBanner.classList.remove('bg-[#FFDAD6]', 'border-[#BA1A1A]');
+          cacheBanner.classList.add('bg-[#FFF3DC]');
+        }
+        if (cacheText) {
+          cacheText.innerHTML = `<strong>Live Connected:</strong> ${isLowData ? 'Low-Data Vector Mode Active' : 'Real-time telemetry & alerts synchronized'}.`;
+          cacheText.className = 'font-caption text-caption text-[#8A4B00] truncate';
+        }
+      }
+    }
+
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+    window.addEventListener('dr:low_data_changed', updateNetworkStatus);
+    updateNetworkStatus();
+
+    // Listen to incoming real-time alert / hazard socket broadcasts
+    window.addEventListener('dr:alert:published', (e) => {
+      const alert = e.detail;
+      console.log('🚨 Live Emergency Alert Received:', alert);
+      const hazardHeading = document.getElementById('hazard-heading');
+      if (hazardHeading && alert.title) hazardHeading.textContent = alert.title;
+      if (window.DisasterReadyAPI?.ui?.toast) {
+        window.DisasterReadyAPI.ui.toast(`NEW ALERT: ${alert.title}`);
+      }
+    });
+
+    window.addEventListener('dr:hazard:created', (e) => {
+      const hazard = e.detail;
+      console.log('⚠️ Live Hazard Reported in District:', hazard);
+      const tickerEl = document.querySelector('[data-hazard-ticker]');
+      if (tickerEl) tickerEl.textContent = 'New hazard reported in your perimeter';
+    });
+
   })();
 </script>
 </body></html>
