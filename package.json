@@ -1,0 +1,39 @@
+{
+  "name": "anvathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devtiwary181-ctrl/Wired_Brains-Anvathon-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/devtiwary181-ctrl/Wired_Brains-Anvathon-/issues"
+  },
+  "homepage": "https://github.com/devtiwary181-ctrl/Wired_Brains-Anvathon-#readme",
+  "dependencies": {
+    "@prisma/client": "^7.10.1",
+    "argon2": "^0.45.1",
+    "bullmq": "^6.5.2",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "ioredis": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.12.1",
+    "pino": "^10.4.0",
+    "pino-pretty": "^13.2.0",
+    "socket.io": "^4.8.4",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0",
+    "zod": "^4.6.7"
+  }
+}
