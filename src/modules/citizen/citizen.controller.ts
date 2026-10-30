@@ -17,7 +17,7 @@ export class CitizenController {
       const lat = parseFloat(req.query.lat as string);
       const lng = parseFloat(req.query.lng as string);
 
-      if (isNaN(lat) || isNaN(lng)) {
+      if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
         return res.status(400).json({
           success: false,
           error: { code: 'INVALID_COORDINATES', message: 'Valid lat and lng query parameters are required.' },
@@ -136,8 +136,9 @@ export class CitizenController {
 
   async getFacilities(req: Request, res: Response, next: NextFunction) {
     try {
+      const query = res.locals.validatedQuery ?? req.query;
       const { districtId, facilityType, lat, lng, radiusKm, hasMedical, hasInfantCare, hasPower, hasDrinkingWater } =
-        req.query;
+        query;
 
       const result = await citizenService.getFacilities({
         districtId: districtId as string | undefined,
@@ -186,7 +187,13 @@ export class CitizenController {
 
   async trackRequest(req: Request, res: Response, next: NextFunction) {
     try {
-      const token = req.params.token;
+      const token = Array.isArray(req.params.token) ? req.params.token[0] : req.params.token;
+      if (!token) {
+        return res.status(400).json({
+          success: false,
+          error: { code: 'INVALID_TOKEN_FORMAT', message: 'A tracking token is required.' },
+        });
+      }
       const result = await citizenService.trackRequest(token);
       res.status(200).json({ success: true, data: result });
     } catch (e) {

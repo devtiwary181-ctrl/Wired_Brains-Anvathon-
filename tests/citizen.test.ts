@@ -147,12 +147,17 @@ describe('Screens 03–05 — Hazard Map', () => {
 // ============================================================================
 describe('Screen 06 — Citizen Hazard Reporting', () => {
   it('POST /api/v1/hazards/report submits new hazard and returns UNVERIFIED status', async () => {
+    const latitude = 10 + Math.random() * 20;
+    const longitude = 70 + Math.random() * 20;
     const res = await request(app).post('/api/v1/hazards/report').send({
       hazardType: 'FALLEN_TREE',
       severity: 'MODERATE',
-      latitude: 28.6201,
-      longitude: 77.2155,
+      latitude,
+      longitude,
       addressLandmark: 'Chandni Chowk, Near Lal Qila',
+      description: 'Large tree blocks both lanes.',
+      observationTime: new Date().toISOString(),
+      contactInfo: '+919876543210',
     });
 
     expect(res.status).toBe(201);
@@ -160,6 +165,14 @@ describe('Screen 06 — Citizen Hazard Reporting', () => {
     expect(res.body.data.status).toBe('UNVERIFIED');
     expect(res.body.data.incidentId).toBeDefined();
     expect(res.body.data.isDuplicate).toBe(false);
+
+    const saved = await (await import('../src/shared/database.js')).prisma.hazardIncident.findUnique({
+      where: { id: res.body.data.incidentId },
+      include: { evidence: true },
+    });
+    expect(saved?.description).toBe('Large tree blocks both lanes.');
+    expect(saved?.observedAt).toBeInstanceOf(Date);
+    expect(saved?.contactInfo).toBe('+919876543210');
   });
 
   it('POST /api/v1/hazards/report with invalid hazardType returns validation error', async () => {
@@ -232,6 +245,13 @@ describe('Screen 07 — Safe Places Directory', () => {
     });
   });
 
+  it('GET /api/v1/facilities rejects invalid or partial coordinates', async () => {
+    const invalidRange = await request(app).get('/api/v1/facilities?lat=91&lng=77');
+    expect(invalidRange.status).toBe(400);
+    const partialPair = await request(app).get('/api/v1/facilities?lat=28.6');
+    expect(partialPair.status).toBe(400);
+  });
+
   it('Facilities are sorted nearest-first by distance', async () => {
     const res = await request(app).get('/api/v1/facilities?lat=28.6139&lng=77.2090');
     expect(res.status).toBe(200);
@@ -299,7 +319,7 @@ describe('Screens 08–10 — Relief Request Submission & Tracking', () => {
     expect(res.status).toBe(201);
     expect(res.body.success).toBe(true);
     expect(res.body.data.trackingToken).toBeDefined();
-    expect(res.body.data.trackingToken).toMatch(/^RELIEF-IN-\d{4}-[A-F0-9]{3}$/);
+    expect(res.body.data.trackingToken).toMatch(/^DR-[A-Za-z0-9_-]{43}$/);
     expect(res.body.data.stage).toBe('STAGE_1_TRIAGED');
     expect(res.body.data.estimatedResponseMinutes).toBe(60);
 
@@ -321,13 +341,10 @@ describe('Screens 08–10 — Relief Request Submission & Tracking', () => {
     expect(Array.isArray(res.body.data.timeline)).toBe(true);
   });
 
-  it('GET /api/v1/relief-requests/track/RELIEF-IN-8492-XQ7 tracks the seeded Stage-3 request', async () => {
+  it('GET /api/v1/relief-requests/track rejects legacy predictable tokens', async () => {
     const res = await request(app).get('/api/v1/relief-requests/track/RELIEF-IN-8492-XQ7');
-    expect(res.status).toBe(200);
-    expect(res.body.data.trackingToken).toBe('RELIEF-IN-8492-XQ7');
-    expect(res.body.data.stage).toBe('STAGE_3_ALLOCATED');
-    expect(res.body.data.stageLabel).toContain('Allocated');
-    expect(res.body.data.headcount.total).toBe(8);
+    expect(res.status).toBe(400);
+    expect(res.body.error.code).toBe('INVALID_TOKEN_FORMAT');
   });
 
   it('GET /api/v1/relief-requests/track/INVALID-TOKEN-FORMAT returns 400', async () => {
@@ -336,8 +353,8 @@ describe('Screens 08–10 — Relief Request Submission & Tracking', () => {
     expect(res.body.error.code).toBe('INVALID_TOKEN_FORMAT');
   });
 
-  it('GET /api/v1/relief-requests/track/RELIEF-IN-0000-AAA returns 404 for unknown token', async () => {
-    const res = await request(app).get('/api/v1/relief-requests/track/RELIEF-IN-0000-AAA');
+  it('GET /api/v1/relief-requests/track/:token returns 404 for an unknown high-entropy token', async () => {
+    const res = await request(app).get(`/api/v1/relief-requests/track/DR-${'A'.repeat(43)}`);
     expect(res.status).toBe(404);
     expect(res.body.error.code).toBe('TOKEN_NOT_FOUND');
   });

@@ -950,11 +950,61 @@ html.dark header, html.dark nav {
   (async function initDashboard() {
     const DR = window.DisasterReadyAPI;
     const district = DR.storage.getDistrict();
-    const districtId = district?.districtId || undefined;
+    const districtId = district?.districtId || district?.id || undefined;
+    const feed = document.createElement('section');
+    feed.id = 'citizen-live-feed';
+    feed.className = 'w-full flex flex-col gap-3 mb-4';
+    feed.setAttribute('aria-live', 'polite');
+    const main = document.querySelector('main');
+    const alertCard = document.getElementById('alertCard');
+    (alertCard || main)?.insertAdjacentElement(alertCard ? 'afterend' : 'afterbegin', feed);
+    feed.textContent = 'Loading current regional information…';
+
+    const appendSection = (titleText, entries, emptyText, renderEntry) => {
+      const section = document.createElement('section');
+      section.className = 'flex flex-col gap-2';
+      const title = document.createElement('h2');
+      title.className = 'font-headline-sm text-headline-sm';
+      title.textContent = titleText;
+      section.append(title);
+      if (!entries.length) {
+        const empty = document.createElement('p');
+        empty.className = 'font-caption text-caption text-on-surface-variant';
+        empty.textContent = emptyText;
+        section.append(empty);
+      } else {
+        entries.forEach(entry => section.append(renderEntry(entry)));
+      }
+      feed.append(section);
+    };
+
+    const createEntry = (titleText, detailText, sourceText, severity) => {
+      const item = document.createElement('article');
+      item.className = 'p-3 border border-outline-variant rounded-lg bg-surface-container-lowest';
+      const title = document.createElement('h3');
+      title.className = 'font-label-strong text-label-strong';
+      title.textContent = titleText;
+      if (severity) title.textContent += ` • ${severity}`;
+      const detail = document.createElement('p');
+      detail.className = 'font-caption text-caption';
+      detail.textContent = detailText;
+      const source = document.createElement('p');
+      source.className = 'font-caption text-caption text-on-surface-variant';
+      source.textContent = sourceText;
+      item.append(title, detail, source);
+      return item;
+    };
 
     try {
       const data = await DR.dashboard.get(districtId);
       const { alerts, recentHazards, nearestShelters, announcements, summary } = data;
+      feed.replaceChildren();
+      const fetched = new Date(data.meta.fetchedAt).toLocaleString();
+      const districtName = district?.name || district?.district || 'Selected region';
+      const meta = document.createElement('p');
+      meta.className = 'font-caption text-caption text-on-surface-variant';
+      meta.textContent = `${districtName} • Updated ${fetched}`;
+      feed.append(meta);
 
       // -- Alert count badge
       const alertCountEl = document.querySelector('[data-alert-count]');
@@ -984,8 +1034,21 @@ html.dark header, html.dark nav {
         tickerEl.textContent = `${recentHazards.length} active hazard${recentHazards.length > 1 ? 's' : ''} in your area`;
       }
 
+      appendSection('Current alerts', alerts, 'No active official alerts are listed for this region.', alert =>
+        createEntry(alert.title, `${alert.summary} ${alert.instructions}`, `${alert.sourceAgency} • ${alert.freshness} • ${new Date(alert.issuedAt).toLocaleString()}`, alert.severity));
+      appendSection('Active hazard reports', recentHazards, 'No hazard reports are listed. This does not indicate the area is safe.', hazard =>
+        createEntry(`${hazard.hazardType.replaceAll('_', ' ')} • ${hazard.severity}`, `${hazard.reportCategory.replaceAll('_', ' ')} • ${hazard.addressLandmark || `${hazard.coordinates.lat}, ${hazard.coordinates.lng}`}`, `${hazard.reportCategory.startsWith('OFFICIAL') ? 'Official source' : 'Citizen report'} • ${hazard.freshness} • ${new Date(hazard.createdAt).toLocaleString()}`, null));
+      appendSection('Nearby facilities', nearestShelters, 'No nearby facility records are available.', facility =>
+        createEntry(facility.name, `${facility.facilityType.replaceAll('_', ' ')} • ${facility.operatingStatus.replaceAll('_', ' ')} • ${facility.distanceKm == null ? 'Distance unavailable' : `${facility.distanceKm} km`}`, `${facility.source} • Updated ${new Date(facility.lastUpdated).toLocaleString()}`, null));
+      appendSection('Announcements', announcements, 'No current announcements.', announcement =>
+        createEntry(announcement.title, announcement.message, `${announcement.issuedBy} • ${announcement.freshness} • ${new Date(announcement.issuedAt).toLocaleString()}`, announcement.severity));
+      const disclaimer = document.createElement('p');
+      disclaimer.className = 'p-3 rounded bg-error-container text-on-error-container font-caption text-caption';
+      disclaimer.textContent = data.meta.disclaimer;
+      feed.append(disclaimer);
+
     } catch (err) {
-      DR.ui.toast('Unable to load live data. Check network connection.');
+      feed.textContent = 'Live regional information could not be loaded. Check your connection. Do not infer safety from missing or stale data.';
     }
   })();
 </script>

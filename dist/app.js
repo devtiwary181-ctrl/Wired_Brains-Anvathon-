@@ -11,6 +11,7 @@ import { env } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { healthRouter } from './modules/health/health.routes.js';
 import { authRouter } from './modules/auth/auth.routes.js';
+import { citizenRouter } from './modules/citizen/citizen.routes.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export function createApp() {
@@ -40,6 +41,8 @@ export function createApp() {
     app.use(express.json({ limit: '10mb' }));
     app.use(express.urlencoded({ extended: true, limit: '10mb' }));
     app.use(cookieParser());
+    // 3b. Static file serving for uploaded evidence photos
+    app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
     // 4. Request Logging
     if (env.NODE_ENV !== 'test') {
         app.use(morgan('dev'));
@@ -56,6 +59,9 @@ export function createApp() {
     const apiRouter = express.Router();
     apiRouter.use('/health', healthRouter);
     apiRouter.use('/auth', authRouter);
+    // Citizen endpoints accessible under /citizen/ prefix AND at root for convenience
+    apiRouter.use('/citizen', citizenRouter);
+    apiRouter.use('/', citizenRouter);
     app.use('/api/v1', apiRouter);
     // 7. Root API Gateway Ping
     app.get('/', (req, res) => {

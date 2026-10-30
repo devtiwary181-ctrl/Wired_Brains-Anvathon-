@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import argon2 from 'argon2';
+import crypto from 'node:crypto';
 
 const prisma = new PrismaClient();
 
@@ -243,11 +244,25 @@ async function main() {
   });
 
   // 8. Sample Citizen Relief Requests (Multi-Stage Triage)
+  const sampleReliefLandmark = 'Yellow double-storey roof, near Jama Masjid North Gate water tank';
+  const existingSampleRelief = await prisma.reliefRequest.findFirst({
+    where: { landmarkNotes: sampleReliefLandmark },
+    select: { id: true, trackingToken: true },
+  });
+  const sampleTrackingToken = existingSampleRelief?.trackingToken.match(/^DR-[A-Za-z0-9_-]{43}$/)
+    ? existingSampleRelief.trackingToken
+    : `DR-${crypto.randomBytes(32).toString('base64url')}`;
+  if (existingSampleRelief && existingSampleRelief.trackingToken !== sampleTrackingToken) {
+    await prisma.reliefRequest.update({
+      where: { id: existingSampleRelief.id },
+      data: { trackingToken: sampleTrackingToken },
+    });
+  }
   await prisma.reliefRequest.upsert({
-    where: { trackingToken: 'RELIEF-IN-8492-XQ7' },
+    where: { trackingToken: sampleTrackingToken },
     update: {},
     create: {
-      trackingToken: 'RELIEF-IN-8492-XQ7',
+      trackingToken: sampleTrackingToken,
       districtId: centralDelhi.id,
       requesterPhone: '+919876543210',
       headcountAdults: 4,
@@ -258,7 +273,7 @@ async function main() {
       urgencyLevel: 'CRITICAL_LIFE_SAFETY',
       latitude: 28.6612,
       longitude: 77.2319,
-      landmarkNotes: 'Yellow double-storey roof, near Jama Masjid North Gate water tank',
+      landmarkNotes: sampleReliefLandmark,
       itemsRequested: {
         drinkingWater: true,
         foodKits: 6,

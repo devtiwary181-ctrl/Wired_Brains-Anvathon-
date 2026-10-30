@@ -640,6 +640,7 @@
 </div>
 </div>
 </div>
+<script src="../../api-client.js"></script>
 <script>
   // Tab switching interaction between Map and List View
   const btnMap = document.getElementById('btnTabMap');
@@ -657,6 +658,148 @@
       if (mapViewport) mapViewport.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
+
+  if (mapViewport && window.DisasterReadyAPI) {
+    const DR = window.DisasterReadyAPI;
+    const filterPanel = document.createElement('section');
+    filterPanel.className = 'grid grid-cols-2 gap-2 p-3 border border-outline-variant rounded-lg bg-surface-container-lowest';
+    filterPanel.setAttribute('aria-label', 'Hazard map filters');
+    const addSelect = (id, label, options) => {
+      const wrapper = document.createElement('label');
+      wrapper.className = 'flex flex-col gap-1 font-caption text-caption';
+      wrapper.textContent = label;
+      const select = document.createElement('select');
+      select.id = id;
+      select.className = 'min-h-[40px] px-2 rounded border border-outline bg-white';
+      options.forEach(([value, name]) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = name;
+        select.append(option);
+      });
+      wrapper.append(select);
+      filterPanel.append(wrapper);
+      return select;
+    };
+    const typeSelect = addSelect('hazard-filter-type', 'Hazard type', [['', 'All types'], ['WATERLOGGING', 'Flood / waterlogging'], ['LANDSLIDE', 'Landslide'], ['FALLEN_TREE', 'Fallen tree'], ['LIVE_WIRE', 'Live wire'], ['BRIDGE_SUBMERGED', 'Bridge'], ['FIRE', 'Fire'], ['BUILDING_COLLAPSE', 'Building collapse']]);
+    const severitySelect = addSelect('hazard-filter-severity', 'Severity', [['', 'All severities'], ['LOW', 'Low'], ['MODERATE', 'Moderate'], ['SEVERE', 'Severe'], ['CRITICAL', 'Critical']]);
+    const statusSelect = addSelect('hazard-filter-status', 'Verification', [['', 'Verified + unverified'], ['VERIFIED_ACTIVE', 'Verified active'], ['UNVERIFIED', 'Unverified reports']]);
+    const timeSelect = addSelect('hazard-filter-time', 'Time', [['', 'Any time'], ['24', 'Past 24 hours'], ['168', 'Past 7 days']]);
+    const layers = document.createElement('div');
+    layers.className = 'col-span-2 flex gap-4 font-caption text-caption';
+    layers.innerHTML = '<label><input id="hazard-layer-markers" type="checkbox" checked> Markers</label><label><input id="hazard-layer-polygons" type="checkbox" checked> Hazard zones</label>';
+    filterPanel.append(layers);
+    mapViewport.parentElement.insertBefore(filterPanel, mapViewport);
+
+    const liveSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    liveSvg.setAttribute('viewBox', '0 0 640 360');
+    liveSvg.setAttribute('role', 'img');
+    liveSvg.setAttribute('aria-label', 'Map of reported hazard markers and hazard polygons');
+    liveSvg.setAttribute('class', 'w-full h-full bg-surface-container-low');
+    const staticSvg = mapViewport.querySelector('svg');
+    if (staticSvg) staticSvg.hidden = true;
+    mapViewport.append(liveSvg);
+    const mapStatus = document.createElement('p');
+    mapStatus.className = 'p-2 font-caption text-caption';
+    mapViewport.insertAdjacentElement('afterend', mapStatus);
+    const hazardList = document.createElement('section');
+    hazardList.id = 'live-hazard-list';
+    hazardList.className = 'flex flex-col gap-2 mt-3';
+    mapStatus.insertAdjacentElement('afterend', hazardList);
+    const safetyNotice = document.createElement('p');
+    safetyNotice.className = 'mt-2 p-3 rounded bg-error-container text-on-error-container font-caption text-caption';
+    safetyNotice.textContent = 'No hazard marker shown here does NOT mean an area is safe. Follow official emergency instructions.';
+    hazardList.insertAdjacentElement('afterend', safetyNotice);
+    btnList?.addEventListener('click', () => hazardList.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    let hazards = [];
+
+    const createSvg = (name, attributes) => {
+      const element = document.createElementNS('http://www.w3.org/2000/svg', name);
+      Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, String(value)));
+      return element;
+    };
+    const renderHazards = () => {
+      liveSvg.replaceChildren(createSvg('rect', { x: 0, y: 0, width: 640, height: 360, fill: '#eaf2f8' }));
+      for (let x = 80; x < 640; x += 80) liveSvg.append(createSvg('path', { d: `M ${x} 0 V 360`, stroke: '#d6e4f2' }));
+      for (let y = 60; y < 360; y += 60) liveSvg.append(createSvg('path', { d: `M 0 ${y} H 640`, stroke: '#d6e4f2' }));
+      const polygonCoords = hazards.flatMap(h => h.polygons.flatMap(p => Array.isArray(p.coordinates) ? p.coordinates.filter(point => Array.isArray(point) && point.length >= 2 && point.every(Number.isFinite)) : []));
+      const allPoints = [...hazards.map(h => [h.coordinates.lat, h.coordinates.lng]), ...polygonCoords];
+      if (!allPoints.length) return;
+      const latitudes = allPoints.map(point => point[0]);
+      const longitudes = allPoints.map(point => point[1]);
+      const minLat = Math.min(...latitudes), maxLat = Math.max(...latitudes);
+      const minLng = Math.min(...longitudes), maxLng = Math.max(...longitudes);
+      const project = ([lat, lng]) => ({
+        x: 28 + ((lng - minLng) / (maxLng - minLng || 1)) * 584,
+        y: 28 + ((maxLat - lat) / (maxLat - minLat || 1)) * 304,
+      });
+      if (document.getElementById('hazard-layer-polygons').checked) {
+        hazards.forEach(h => h.polygons.forEach(p => {
+          if (!Array.isArray(p.coordinates) || p.coordinates.length < 3) return;
+          const points = p.coordinates.filter(point => Array.isArray(point) && point.length >= 2 && point.every(Number.isFinite)).map(point => {
+            const projected = project(point);
+            return `${projected.x},${projected.y}`;
+          }).join(' ');
+          if (points) liveSvg.append(createSvg('polygon', { points, fill: '#ba1a1a', 'fill-opacity': '0.2', stroke: '#ba1a1a', 'stroke-width': 2 }));
+        }));
+      }
+      if (document.getElementById('hazard-layer-markers').checked) {
+        hazards.forEach(h => {
+          const point = project([h.coordinates.lat, h.coordinates.lng]);
+          const marker = createSvg('circle', { cx: point.x, cy: point.y, r: 8, fill: ['CRITICAL', 'SEVERE'].includes(h.severity) ? '#ba1a1a' : '#8a4b00', stroke: '#fff', 'stroke-width': 3 });
+          const title = createSvg('title', {});
+          title.textContent = `${h.hazardType}: ${h.severity}, ${h.reportCategory}`;
+          marker.append(title);
+          liveSvg.append(marker);
+        });
+      }
+    };
+    const renderList = () => {
+      hazardList.replaceChildren();
+      if (!hazards.length) {
+        hazardList.textContent = 'No hazard records match these filters. This does not indicate the area is safe.';
+        return;
+      }
+      hazards.forEach(h => {
+        const item = document.createElement('article');
+        item.className = 'p-3 border border-outline-variant rounded-lg bg-surface-container-lowest';
+        const heading = document.createElement('h3');
+        heading.className = 'font-label-strong text-label-strong';
+        heading.textContent = `${h.hazardType.replaceAll('_', ' ')} • ${h.severity}`;
+        const detail = document.createElement('p');
+        detail.className = 'font-caption text-caption';
+        detail.textContent = `${h.reportCategory.replaceAll('_', ' ')} • ${h.addressLandmark || `${h.coordinates.lat}, ${h.coordinates.lng}`} • ${h.freshness}`;
+        const source = document.createElement('p');
+        source.className = 'font-caption text-caption text-on-surface-variant';
+        source.textContent = `Source: ${h.reportCategory.startsWith('OFFICIAL') ? 'Official report' : 'Citizen report'} • Updated ${new Date(h.createdAt).toLocaleString()}`;
+        item.append(heading, detail, source);
+        hazardList.append(item);
+      });
+    };
+    const loadHazards = async () => {
+      mapStatus.textContent = 'Loading hazard information…';
+      const sinceHours = Number(timeSelect.value);
+      const since = sinceHours ? new Date(Date.now() - sinceHours * 3600000).toISOString() : undefined;
+      try {
+        hazards = await DR.hazards.getSpatial({
+          districtId: DR.storage.getDistrict()?.districtId,
+          hazardType: typeSelect.value || undefined,
+          severity: severitySelect.value || undefined,
+          status: statusSelect.value || undefined,
+          since,
+        });
+        mapStatus.textContent = `${hazards.length} hazard records • Fetched ${new Date().toLocaleString()}`;
+        renderHazards();
+        renderList();
+      } catch {
+        mapStatus.textContent = 'Hazard data is unavailable. Check your connection; do not infer safety from a missing map layer.';
+        hazardList.textContent = 'No live hazard data could be loaded.';
+      }
+    };
+    [typeSelect, severitySelect, statusSelect, timeSelect].forEach(select => select.addEventListener('change', loadHazards));
+    layers.querySelectorAll('input').forEach(input => input.addEventListener('change', renderHazards));
+    loadHazards();
+  }
     btnList.addEventListener('click', () => {
       btnList.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
       btnList.classList.remove('text-secondary');

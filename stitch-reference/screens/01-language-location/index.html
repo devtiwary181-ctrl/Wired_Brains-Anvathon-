@@ -358,8 +358,10 @@
 
   // Preselect English by default
   window.addEventListener('DOMContentLoaded', () => {
-    const defaultCard = document.querySelector('[data-lang="en"]');
-    if (defaultCard) selectCard(defaultCard, 'en');
+    const savedLanguage = window.DisasterReadyAPI.storage.getLang();
+    const savedCard = Array.from(document.querySelectorAll('.lang-card')).find(card => card.dataset.lang === savedLanguage);
+    const defaultCard = savedCard || document.querySelector('[data-lang="en"]');
+    if (defaultCard) selectCard(defaultCard, defaultCard.dataset.lang);
   });
 
   function selectCard(cardElement, langCode) {
@@ -384,6 +386,7 @@
     const curCheck = cardElement.querySelector('.check-icon');
     curCheck.classList.remove('hidden');
     localStorage.setItem('dr_citizen_lang', langCode);
+    window.DisasterReadyAPI.storage.setLang(langCode);
   }
 
   const API_BASE = window.location.origin.includes(':5001') ? '/api/v1' : 'http://localhost:5001/api/v1';
@@ -475,10 +478,11 @@
   function submitSelection() {
     const toast = document.getElementById('audio-toast');
     const toastText = document.getElementById('toast-text');
-    const selectedLang = localStorage.getItem('dr_citizen_lang') || 'en';
-    const district = localStorage.getItem('dr_citizen_district') || 'Central Delhi';
+    const selectedLang = window.DisasterReadyAPI.storage.getLang();
+    const district = window.DisasterReadyAPI.storage.getDistrict();
+    const locationLabel = localStorage.getItem('dr_location_label');
 
-    toastText.textContent = `Preferences confirmed (${selectedLang.toUpperCase()} • ${district}). Entering National Safety Dashboard...`;
+    toastText.textContent = `Preferences confirmed (${selectedLang.toUpperCase()} • ${locationLabel || district?.name || district?.district || 'location not set'}). Entering National Safety Dashboard...`;
     toast.classList.remove('hidden');
     setTimeout(() => {
       window.location.href = '../02-citizen-dashboard/index.html';
@@ -493,17 +497,23 @@
 
     try {
       const { lat, lng, district } = await window.DisasterReadyAPI.geo.detectAndStore();
-      window.DisasterReadyAPI.storage.setLang('en'); // default; user can override
 
       // Show detected state banner
       const detectedEl = document.getElementById('state-detected');
       if (detectedEl) {
         const stateSpan = detectedEl.querySelector('span.font-label-strong');
-        if (stateSpan) stateSpan.textContent = `${district.district}, ${district.state} detected`;
+        if (stateSpan) stateSpan.textContent = district.district
+          ? `${district.district}, ${district.state} detected`
+          : `GPS coordinates recorded (${lat.toFixed(4)}, ${lng.toFixed(4)}); choose a district below`;
         detectedEl.classList.remove('hidden');
       }
 
-      window.DisasterReadyAPI.ui.toast(`📍 Location: ${district.district}, ${district.state}`);
+      window.DisasterReadyAPI.storage.setLocationLabel(district.district
+        ? `${district.district}, ${district.state}`
+        : `${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+      window.DisasterReadyAPI.ui.toast(district.district
+        ? `Location: ${district.district}, ${district.state}`
+        : 'GPS coordinates saved. Select your district from manual search.');
     } catch (err) {
       const errMap = {
         PERMISSION_DENIED: 'Location permission denied. Please select your state/language manually.',
@@ -518,4 +528,88 @@
       if (btn) { btn.textContent = 'Use my location to pick my language'; btn.disabled = false; }
     }
   }
+
+  function initializeManualLocationSearch() {
+    if (document.getElementById('manual-location-search')) return;
+    const languageList = document.getElementById('language-list');
+    if (!languageList) return;
+
+    const section = document.createElement('section');
+    section.id = 'manual-location-search';
+    section.className = 'mt-4 flex flex-col gap-2';
+    const title = document.createElement('h2');
+    title.className = 'font-label-strong text-label-strong';
+    title.textContent = 'Choose your location manually';
+    const districtInput = document.createElement('input');
+    districtInput.id = 'district-search-input';
+    districtInput.type = 'search';
+    districtInput.autocomplete = 'off';
+    districtInput.placeholder = 'Search city, district or state';
+    districtInput.className = 'w-full min-h-[48px] px-3 rounded-lg border border-outline bg-surface-container-lowest';
+    const results = document.createElement('div');
+    results.id = 'district-search-results';
+    results.className = 'flex flex-col gap-1';
+    const landmarkInput = document.createElement('input');
+    landmarkInput.id = 'manual-landmark-input';
+    landmarkInput.type = 'text';
+    landmarkInput.maxLength = 200;
+    landmarkInput.placeholder = 'Area, neighbourhood or landmark (optional)';
+    landmarkInput.className = districtInput.className;
+    const status = document.createElement('p');
+    status.id = 'location-selection-status';
+    status.className = 'font-caption text-caption text-on-surface-variant';
+    status.textContent = 'District selection filters regional information; it does not set exact coordinates.';
+    const confirm = document.createElement('button');
+    confirm.type = 'button';
+    confirm.className = 'min-h-[44px] px-3 rounded-lg bg-surface-container-high text-primary font-label-strong';
+    confirm.textContent = 'Save area or landmark';
+    confirm.addEventListener('click', () => {
+      const district = window.DisasterReadyAPI.storage.getDistrict();
+      if (!district) {
+        status.textContent = 'Choose a matching district before saving an area or landmark.';
+        return;
+      }
+      const landmark = landmarkInput.value.trim();
+      const districtLabel = `${district.name || district.district}, ${district.state || ''}`.replace(/, $/, '');
+      window.DisasterReadyAPI.storage.setLocationLabel(landmark ? `${landmark}, ${districtLabel}` : districtLabel);
+      status.textContent = `Saved ${landmark ? `${landmark}, ` : ''}${districtLabel}.`;
+    });
+    section.append(title, districtInput, results, landmarkInput, confirm, status);
+    languageList.insertAdjacentElement('afterend', section);
+
+    let timer;
+    districtInput.addEventListener('input', () => {
+      clearTimeout(timer);
+      results.replaceChildren();
+      const query = districtInput.value.trim();
+      if (query.length < 2) {
+        status.textContent = 'Enter at least 2 characters to search.';
+        return;
+      }
+      status.textContent = 'Searching…';
+      timer = setTimeout(async () => {
+        try {
+          const matches = await window.DisasterReadyAPI.geo.searchDistricts(query);
+          status.textContent = matches.length ? 'Select your district or state.' : 'No administrative district matched. Try its city or state name.';
+          matches.forEach((district) => {
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.className = 'min-h-[44px] px-3 py-2 text-left rounded-lg bg-surface-container-low hover:bg-surface-container-high';
+            option.textContent = `${district.name}, ${district.state}`;
+            option.addEventListener('click', () => {
+              window.DisasterReadyAPI.storage.setDistrict(district);
+              districtInput.value = `${district.name}, ${district.state}`;
+              results.replaceChildren();
+              status.textContent = `Selected ${district.name}, ${district.state}. Add an area or landmark below if needed.`;
+            });
+            results.append(option);
+          });
+        } catch {
+          status.textContent = 'District search is unavailable. Try again when online.';
+        }
+      }, 250);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initializeManualLocationSearch);
 </script></main></body></html>

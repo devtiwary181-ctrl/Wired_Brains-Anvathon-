@@ -331,8 +331,42 @@
 
     // Wire the existing submit button (look for common submission patterns)
     document.addEventListener('DOMContentLoaded', function() {
+      const reportButton = Array.from(document.querySelectorAll('button')).find(function(btn) {
+        return /send report|submit.*report/i.test(btn.textContent || '');
+      });
+      if (reportButton && !document.getElementById('citizen-report-fields')) {
+        reportButton.insertAdjacentHTML('beforebegin', '<div id="citizen-report-fields" class="flex flex-col gap-2"><label>Hazard type<select id="hazard-type" class="w-full min-h-[44px] px-3 rounded-lg border border-outline bg-white"><option value="LANDSLIDE">Landslide</option><option value="WATERLOGGING">Flooded / waterlogging</option><option value="FALLEN_TREE">Fallen tree / blocked path</option><option value="LIVE_WIRE">Live electrical wire</option><option value="BRIDGE_SUBMERGED">Bridge submerged or damaged</option><option value="FIRE">Fire</option><option value="BUILDING_COLLAPSE">Building collapse</option></select></label><label>Severity<select id="report-severity" class="w-full min-h-[44px] px-3 rounded-lg border border-outline bg-white"><option value="LOW">Low</option><option value="MODERATE">Moderate</option><option value="SEVERE" selected>Severe</option><option value="CRITICAL">Critical</option></select></label><div class="grid grid-cols-2 gap-2"><label>Latitude<input id="report-latitude" type="number" step="any" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><label>Longitude<input id="report-longitude" type="number" step="any" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label></div><button id="report-use-gps" type="button" class="min-h-[44px] px-3 rounded-lg bg-surface-container-high text-primary">Use current GPS location</button><label>Nearby landmark<input id="landmark" maxlength="500" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><label>Water depth in centimetres<input id="water-depth" type="number" min="0" max="1000" value="0" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><label>Description<textarea id="description" maxlength="1000" required class="w-full min-h-[72px] px-2 rounded-lg border border-outline"></textarea></label><label>Observation time<input id="observation-time" type="datetime-local" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><label>Contact phone (optional)<input id="contact-info" type="tel" maxlength="200" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><label>Photo evidence (optional)<input id="report-photo" type="file" accept="image/jpeg,image/png,image/webp" class="w-full min-h-[44px]"></label><p id="report-form-status" role="status" class="font-caption text-caption"></p></div>');
+        const savedLocation = DR.storage.getLocation();
+        if (savedLocation.lat != null) document.getElementById('report-latitude').value = savedLocation.lat;
+        if (savedLocation.lng != null) document.getElementById('report-longitude').value = savedLocation.lng;
+        document.getElementById('report-use-gps').addEventListener('click', function() {
+          const gpsButton = this;
+          gpsButton.disabled = true;
+          gpsButton.textContent = 'Detecting location…';
+          navigator.geolocation.getCurrentPosition(function(position) {
+            if (position.coords.accuracy > 5000) {
+              DR.ui.toast('GPS accuracy is too low. Enter coordinates or try again outdoors.');
+            } else {
+              document.getElementById('report-latitude').value = position.coords.latitude;
+              document.getElementById('report-longitude').value = position.coords.longitude;
+              DR.storage.setLocation(position.coords.latitude, position.coords.longitude);
+            }
+            gpsButton.disabled = false;
+            gpsButton.textContent = 'Use current GPS location';
+          }, function(error) {
+            DR.ui.toast(error.code === 1 ? 'Location permission denied. Enter coordinates manually.' : 'Location unavailable. Enter coordinates manually.');
+            gpsButton.disabled = false;
+            gpsButton.textContent = 'Use current GPS location';
+          }, { enableHighAccuracy: true, timeout: 10000 });
+        });
+      }
       // Find all submit/report buttons
-      const submitBtns = document.querySelectorAll('button[type="submit"], button[id*="submit"], button[id*="report"], button[id*="send"]');
+      const submitBtns = Array.from(document.querySelectorAll('button[type="submit"], button[id*="submit"], button[id*="report"], button[id*="send"]'));
+      if (submitBtns.length === 0) {
+        submitBtns.push(...Array.from(document.querySelectorAll('button')).filter(function(btn) {
+          return /send report|submit.*report/i.test(btn.textContent || '');
+        }));
+      }
       submitBtns.forEach(function(btn) {
         btn.addEventListener('click', async function(e) {
           e.preventDefault();
@@ -343,28 +377,45 @@
 
     window.submitHazardReport = async function() {
       const DR = window.DisasterReadyAPI;
-      const loc = DR.storage.getLocation();
-
       // Collect form data from existing elements
       const hazardTypeEl = document.querySelector('[data-selected-hazard], #hazard-type, select[name="hazardType"]');
       const depthEl = document.querySelector('#water-depth, input[name="waterDepth"], [data-depth]');
       const landmarkEl = document.querySelector('#landmark, textarea[name="landmark"], input[name="landmark"]');
-      const photoInput = document.querySelector('input[type="file"]');
-      const submitBtn = document.querySelector('#report-submit-btn, button[id*="submit"]');
+      const photoInput = document.querySelector('#report-photo, input[type="file"]');
+      const submitBtn = document.querySelector('#report-submit-btn, button[id*="submit"]') ||
+        Array.from(document.querySelectorAll('button')).find(function(btn) {
+          return /send report|submit.*report/i.test(btn.textContent || '');
+        });
 
       const data = {
         hazardType: hazardTypeEl?.value || hazardTypeEl?.dataset?.value || 'WATERLOGGING',
-        severity: document.querySelector('[data-severity]')?.dataset?.severity || 'MODERATE',
-        latitude: loc.lat || 28.6139,
-        longitude: loc.lng || 77.209,
+        severity: document.querySelector('#report-severity')?.value || document.querySelector('[data-severity]')?.dataset?.severity || 'MODERATE',
+        latitude: Number(document.querySelector('#report-latitude')?.value),
+        longitude: Number(document.querySelector('#report-longitude')?.value),
         addressLandmark: landmarkEl?.value || '',
         waterDepthCm: depthEl ? parseInt(depthEl.value || depthEl.dataset.depth || 0) : 0,
+        description: document.querySelector('#description, textarea[name="description"]')?.value || '',
+        observationTime: document.querySelector('#observation-time, input[name="observationTime"]')?.value || undefined,
+        contactInfo: document.querySelector('#contact-info, input[name="contactInfo"]')?.value || undefined,
       };
 
       const photoFile = photoInput?.files?.[0] || null;
 
       if (submitBtn) DR.ui.setLoading(submitBtn, true);
       try {
+        if (!Number.isFinite(data.latitude) || !Number.isFinite(data.longitude)) {
+          throw new Error('Enter coordinates or use GPS before sending this report.');
+        }
+        if (data.latitude < -90 || data.latitude > 90 || data.longitude < -180 || data.longitude > 180) {
+          throw new Error('Enter valid latitude and longitude coordinates.');
+        }
+        if (data.description.length < 5) throw new Error('Add a short description of the hazard.');
+        if (photoFile && (!['image/jpeg', 'image/png', 'image/webp'].includes(photoFile.type) || photoFile.size > 5 * 1024 * 1024)) {
+          throw new Error('Photo must be JPG, PNG or WebP and no larger than 5 MB.');
+        }
+        const selectedDistrict = DR.storage.getDistrict();
+        if (selectedDistrict) data.districtId = selectedDistrict.districtId || selectedDistrict.id;
+        if (data.observationTime) data.observationTime = new Date(data.observationTime).toISOString();
         const result = await DR.hazards.report(data, photoFile);
         if (result.isDuplicate) {
           DR.ui.toast('✓ Similar report already logged nearby. Your observation reinforces existing alert.');

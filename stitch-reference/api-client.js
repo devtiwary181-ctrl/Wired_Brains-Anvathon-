@@ -51,25 +51,46 @@
   // Helpers: localStorage for citizen session state
   // ---------------------------------------------------------------------------
   const storage = {
-    setLang: (code) => localStorage.setItem('dr_lang', code),
-    getLang: () => localStorage.getItem('dr_lang') || 'en',
-    setDistrict: (districtObj) =>
-      localStorage.setItem('dr_district', JSON.stringify(districtObj)),
+    setLang: (code) => {
+      localStorage.setItem('dr_lang', code);
+      localStorage.setItem('dr_citizen_lang', code);
+    },
+    getLang: () => localStorage.getItem('dr_lang') || localStorage.getItem('dr_citizen_lang') || 'en',
+    setDistrict: (districtObj) => {
+      localStorage.setItem('dr_district', JSON.stringify(districtObj));
+      if (districtObj) {
+        localStorage.setItem('dr_citizen_district', districtObj.name || districtObj.district || '');
+        localStorage.setItem('dr_citizen_district_id', districtObj.districtId || districtObj.id || '');
+      }
+    },
     getDistrict: () => {
       try {
-        return JSON.parse(localStorage.getItem('dr_district')) || null;
+        const stored = JSON.parse(localStorage.getItem('dr_district'));
+        if (stored) return stored;
       } catch {
-        return null;
+        // Fall through to preferences written by the original onboarding screen.
       }
+      const name = localStorage.getItem('dr_citizen_district');
+      const districtId = localStorage.getItem('dr_citizen_district_id');
+      return name || districtId ? { name, district: name, districtId } : null;
     },
     setLocation: (lat, lng) => {
       localStorage.setItem('dr_lat', lat);
       localStorage.setItem('dr_lng', lng);
+      localStorage.setItem('dr_citizen_lat', lat);
+      localStorage.setItem('dr_citizen_lng', lng);
     },
-    getLocation: () => ({
-      lat: parseFloat(localStorage.getItem('dr_lat')) || null,
-      lng: parseFloat(localStorage.getItem('dr_lng')) || null,
-    }),
+    setLocationLabel: (label) => localStorage.setItem('dr_location_label', label),
+    getLocation: () => {
+      const latValue = localStorage.getItem('dr_lat') ?? localStorage.getItem('dr_citizen_lat');
+      const lngValue = localStorage.getItem('dr_lng') ?? localStorage.getItem('dr_citizen_lng');
+      const lat = latValue == null || latValue === '' ? null : Number(latValue);
+      const lng = lngValue == null || lngValue === '' ? null : Number(lngValue);
+      return {
+        lat: lat != null && Number.isFinite(lat) ? lat : null,
+        lng: lng != null && Number.isFinite(lng) ? lng : null,
+      };
+    },
   };
 
   // ---------------------------------------------------------------------------

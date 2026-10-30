@@ -195,7 +195,7 @@ Every screen has been verified for its exact component inventory, DOM structure,
   - [`stitch-reference/screens/10-relief-tracking-alternative/index.html`](file:///Users/devsmaccie/Desktop/anvathon/stitch-reference/screens/10-relief-tracking-alternative/index.html)
 - **Title / Role:** No-Login High-Entropy Token Tracking
 - **Core Components:**
-  - Token input box (`e.g., RELIEF-IN-8492-XQ7`).
+  - Token input box for the private opaque token returned by a relief request.
   - Multi-stage vertical delivery timeline:
     - `Step 1: Request Logged & Triaged (Verified)`
     - `Step 2: NDRF / SDRF Supply Depot Allocated`

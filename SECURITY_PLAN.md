@@ -1,3 +1,4 @@
+   - Request tracking relies on opaque 256-bit bearer tokens generated with `crypto.randomBytes(32)`. Tokens are case-sensitive, never sequential, and must not be published in logs or demos.
 # DisasterReady India — Security & Compliance Plan
 
 ## 1. Zero-Trust Architecture Principles

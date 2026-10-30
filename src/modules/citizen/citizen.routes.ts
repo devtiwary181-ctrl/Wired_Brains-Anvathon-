@@ -30,7 +30,7 @@ const reportHazardSchema = z.object({
   addressLandmark: z.string().max(500).optional(),
   waterDepthCm: z.coerce.number().min(0).max(1000).optional(),
   description: z.string().max(1000).optional(),
-  observationTime: z.string().optional(),
+  observationTime: z.string().datetime().optional(),
   contactInfo: z.string().max(200).optional(),
   photoUrl: z.string().url().optional(),
 });
@@ -62,6 +62,20 @@ const sosSchema = z.object({
   serviceType: z.enum(['112_NATIONAL', '1078_NDRF', '108_AMBULANCE', '101_FIRE', '1091_WOMEN', '1800_NDMA']),
   latitude: z.coerce.number().min(-90).max(90).optional(),
   longitude: z.coerce.number().min(-180).max(180).optional(),
+});
+
+const facilitiesQuerySchema = z.object({
+  districtId: z.string().uuid().optional(),
+  facilityType: z.enum(['SHELTER', 'HOSPITAL', 'FOOD_WATER_POINT', 'COMMUNITY_KITCHEN']).optional(),
+  lat: z.coerce.number().min(-90).max(90).optional(),
+  lng: z.coerce.number().min(-180).max(180).optional(),
+  radiusKm: z.coerce.number().positive().max(500).optional(),
+  hasMedical: z.enum(['true', 'false']).optional(),
+  hasInfantCare: z.enum(['true', 'false']).optional(),
+  hasPower: z.enum(['true', 'false']).optional(),
+  hasDrinkingWater: z.enum(['true', 'false']).optional(),
+}).refine((query) => (query.lat === undefined) === (query.lng === undefined), {
+  message: 'Latitude and longitude must be provided together.',
 });
 
 // ---------------------------------------------------------------------------
@@ -113,7 +127,7 @@ citizenRouter.post(
 // ---------------------------------------------------------------------------
 // Screen 07 — Shelters & Hospitals (Safe Places Directory)
 // ---------------------------------------------------------------------------
-citizenRouter.get('/facilities', publicRateLimiter, (req, res, next) =>
+citizenRouter.get('/facilities', publicRateLimiter, validateRequest({ query: facilitiesQuerySchema }), (req, res, next) =>
   citizenController.getFacilities(req, res, next),
 );
 

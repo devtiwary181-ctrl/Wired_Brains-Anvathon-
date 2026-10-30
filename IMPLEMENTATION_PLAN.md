@@ -1,3 +1,4 @@
+- **Backend:** Implement `/api/v1/relief-requests` with opaque 256-bit tracking tokens, multi-stage triage workflow, and `/relief-requests/track/:token`.
 # DisasterReady India — Full-Stack Implementation Plan
 
 ## 1. Phased Roadmap Overview

@@ -131,6 +131,9 @@ model HazardIncident {
   latitude          Float
   longitude         Float
   addressLandmark   String?         @map("address_landmark")
+  description       String?
+  observedAt        DateTime?       @map("observed_at")
+  contactInfo       String?         @map("contact_info")
   waterDepthCm      Int             @default(0) @map("water_depth_cm")
   status            String          @default("UNVERIFIED") // 'UNVERIFIED', 'VERIFIED_ACTIVE', 'RESOLVED', 'REJECTED'
   reportedByCitizen Boolean         @default(true) @map("reported_by_citizen")
@@ -251,7 +254,7 @@ model Facility {
 
 model ReliefRequest {
   id                  String            @id @default(uuid())
-  trackingToken       String            @unique @map("tracking_token") // e.g. 'RELIEF-IN-8492-XQ7'
+  trackingToken       String            @unique @map("tracking_token") // Opaque 256-bit citizen bearer token
   districtId          String            @map("district_id")
   requesterPhone      String?           @map("requester_phone")
   headcountAdults     Int               @default(1) @map("headcount_adults")

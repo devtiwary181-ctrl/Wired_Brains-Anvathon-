@@ -1,3 +1,4 @@
+  "trackingToken": "DR-<43-character-random-base64url-token>",
 # DisasterReady India — Complete API Contract Specification
 
 ## 1. Global Conventions

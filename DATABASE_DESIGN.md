@@ -1,3 +1,4 @@
+    tracking_token VARCHAR(64) UNIQUE NOT NULL, -- Opaque 256-bit random bearer token; never a sequential identifier
 # DisasterReady India — Database Design & Data Model
 
 ## 1. Relational Schema & PostGIS Extensions

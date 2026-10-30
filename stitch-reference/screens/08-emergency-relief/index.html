@@ -586,9 +586,42 @@
   // ── SCREEN 08: EMERGENCY RELIEF REQUEST — Backend Integration ────────────
   (function() {
     const DR = window.DisasterReadyAPI;
+    let requestInFlight = false;
+
+    function setupReliefControls() {
+      const submit = document.getElementById('submitRequestBtn');
+      if (!submit || document.getElementById('relief-location-fields')) return;
+      submit.insertAdjacentHTML('beforebegin', '<div id="relief-location-fields" class="flex flex-col gap-2"><label>Latitude<input id="relief-latitude" type="number" step="any" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><label>Longitude<input id="relief-longitude" type="number" step="any" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"></label><button id="relief-use-gps" type="button" class="min-h-[44px] px-3 rounded-lg bg-surface-container-high text-primary">Use current GPS location</button><label>Delivery situation<select id="relief-context" class="w-full min-h-[44px] px-2 rounded-lg border border-outline"><option value="ROOFTOP_STRANDED">Stranded on a rooftop</option><option value="GROUND_FLOOR">At a ground-floor home</option><option value="ISOLATED_ROAD">Isolated by blocked roads</option><option value="COMMUNITY_CENTER">At a community centre</option><option value="OTHER">Other</option></select></label><p id="relief-form-status" role="status" class="font-caption text-caption"></p></div>');
+      const saved = DR.storage.getLocation();
+      if (saved.lat != null) document.getElementById('relief-latitude').value = saved.lat;
+      if (saved.lng != null) document.getElementById('relief-longitude').value = saved.lng;
+      document.getElementById('relief-use-gps').addEventListener('click', function() {
+        const button = this;
+        button.disabled = true;
+        button.textContent = 'Detecting location…';
+        navigator.geolocation.getCurrentPosition(position => {
+          if (position.coords.accuracy > 5000) {
+            document.getElementById('relief-form-status').textContent = 'GPS accuracy is too low. Try again outdoors or enter coordinates manually.';
+          } else {
+            document.getElementById('relief-latitude').value = position.coords.latitude;
+            document.getElementById('relief-longitude').value = position.coords.longitude;
+            DR.storage.setLocation(position.coords.latitude, position.coords.longitude);
+            document.getElementById('relief-form-status').textContent = `Location captured with ±${Math.round(position.coords.accuracy)}m accuracy.`;
+          }
+          button.disabled = false;
+          button.textContent = 'Use current GPS location';
+        }, error => {
+          document.getElementById('relief-form-status').textContent = error.code === 1 ? 'Location permission denied. Enter coordinates manually.' : 'Location unavailable. Enter coordinates manually.';
+          button.disabled = false;
+          button.textContent = 'Use current GPS location';
+        }, { enableHighAccuracy: true, timeout: 10000 });
+      });
+    }
 
     window.submitReliefRequest = async function() {
-      const loc = DR.storage.getLocation();
+      if (requestInFlight) return;
+      const latitude = Number(document.getElementById('relief-latitude')?.value);
+      const longitude = Number(document.getElementById('relief-longitude')?.value);
 
       // Collect stepper values
       function getCount(selector) {
@@ -596,27 +629,37 @@
         return el ? (parseInt(el.textContent || el.value || el.dataset.count || 0)) : 0;
       }
 
+      const totalPeople = getCount('#peopleDisplay') || 1;
+      const checkedSupplies = Array.from(document.querySelectorAll('button')).filter(button =>
+        /check_circle/.test(button.textContent) && /drinking water|food rations|medicines|baby food|baby formula|tent|tarpaulin/i.test(button.textContent)
+      ).map(button => button.textContent.toLowerCase());
       const data = {
-        headcountAdults: getCount('[data-count="adults"], #count-adults'),
-        headcountChildren: getCount('[data-count="children"], #count-children'),
-        headcountInfants: getCount('[data-count="infants"], #count-infants'),
-        headcountSeniors: getCount('[data-count="seniors"], #count-seniors'),
-        deliveryContext: document.querySelector('[data-selected-context]')?.dataset?.value || 'ROOFTOP_STRANDED',
+        headcountAdults: totalPeople,
+        headcountChildren: 0,
+        headcountInfants: 0,
+        headcountSeniors: 0,
+        deliveryContext: document.getElementById('relief-context')?.value || 'OTHER',
         urgencyLevel: document.querySelector('[data-urgency]')?.dataset?.urgency || 'HIGH',
-        latitude: loc.lat || 28.6139,
-        longitude: loc.lng || 77.209,
-        landmarkNotes: document.querySelector('#landmark-notes, textarea[name="landmark"]')?.value || '',
+        latitude,
+        longitude,
+        requesterPhone: document.getElementById('contactPhone')?.value.replace(/\s/g, '') || undefined,
+        landmarkNotes: document.querySelector('#landmarkDesc')?.value.trim() || '',
         itemsRequested: {
-          drinkingWater: !!document.querySelector('[data-item="water"]')?.checked,
-          foodKits: getCount('[data-item="food-count"]') || 1,
-          babyFormula: !!document.querySelector('[data-item="baby-formula"]')?.checked,
-          firstAidKit: !!document.querySelector('[data-item="first-aid"]')?.checked,
-          tarpaulin: !!document.querySelector('[data-item="tarpaulin"]')?.checked,
+          drinkingWater: checkedSupplies.some(text => /drinking water/i.test(text)),
+          foodKits: checkedSupplies.some(text => /food rations/i.test(text)) ? 1 : 0,
+          babyFormula: checkedSupplies.some(text => /baby food|baby formula/i.test(text)),
+          firstAidKit: checkedSupplies.some(text => /medicines/i.test(text)),
+          tarpaulin: checkedSupplies.some(text => /tent|tarpaulin/i.test(text)),
         },
         specialMedicalNeeds: document.querySelector('#special-needs, textarea[name="medical"]')?.value || '',
       };
 
-      const submitBtn = document.querySelector('#submit-relief-btn, button[type="submit"]');
+      const submitBtn = document.querySelector('#submitRequestBtn, #submit-relief-btn, button[type="submit"]');
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        DR.ui.toast('Enter valid coordinates or use GPS before submitting the request.');
+        return;
+      }
+      requestInFlight = true;
       if (submitBtn) DR.ui.setLoading(submitBtn, true);
       try {
         const result = await DR.relief.submit(data);
@@ -628,18 +671,24 @@
         if (tokenEl) tokenEl.textContent = result.trackingToken;
         const confirmSection = document.querySelector('#confirmation-section, [data-confirmation]');
         if (confirmSection) confirmSection.classList.remove('hidden');
+        const status = document.getElementById('relief-form-status');
+        if (status) status.textContent = `Request received. Save this private tracking token: ${result.trackingToken}`;
 
         DR.ui.toast('✓ Request submitted! Token: ' + result.trackingToken, 6000);
       } catch (err) {
+        const status = document.getElementById('relief-form-status');
+        if (status) status.textContent = err.message || 'Submission failed. Check your connection and try again.';
         DR.ui.toast('⚠ Submission failed: ' + (err.message || 'Network error. Please try again.'));
       } finally {
         if (submitBtn) DR.ui.setLoading(submitBtn, false);
+        requestInFlight = false;
       }
     };
 
     // Auto-wire submit buttons
     document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('#submit-relief-btn, [data-action="submit-relief"], button[type="submit"]').forEach(function(btn) {
+      setupReliefControls();
+      document.querySelectorAll('#submitRequestBtn, #submit-relief-btn, [data-action="submit-relief"], button[type="submit"]').forEach(function(btn) {
         btn.addEventListener('click', async function(e) {
           e.preventDefault();
           await window.submitReliefRequest();

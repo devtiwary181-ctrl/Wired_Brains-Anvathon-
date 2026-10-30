@@ -533,29 +533,83 @@
   (async function() {
     const DR = window.DisasterReadyAPI;
     const params = new URLSearchParams(window.location.search);
-    const disasterType = params.get('type') || 'FLOOD';
+    const panel = document.createElement('section');
+    panel.id = 'live-preparedness-guides';
+    panel.className = 'w-full flex flex-col gap-3 p-3 mb-4 border border-outline-variant rounded-lg bg-surface-container-lowest';
+    const main = document.querySelector('main');
+    main?.insertAdjacentElement('afterbegin', panel);
+    const typeSelect = document.createElement('select');
+    typeSelect.id = 'preparedness-disaster-type';
+    typeSelect.className = 'w-full min-h-[44px] px-3 rounded-lg border border-outline bg-white';
+    [['FLOOD', 'Flood'], ['CYCLONE', 'Cyclone'], ['EARTHQUAKE', 'Earthquake'], ['LANDSLIDE', 'Landslide'], ['FIRE', 'Fire']].forEach(([value, label]) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = label;
+      typeSelect.append(option);
+    });
+    typeSelect.value = (params.get('type') || 'FLOOD').toUpperCase();
+    panel.append(typeSelect);
+    const content = document.createElement('div');
+    content.id = 'preparedness-guide-content';
+    content.setAttribute('aria-live', 'polite');
+    panel.append(content);
 
-    try {
-      const guides = await DR.preparedness.getGuides(disasterType);
-      if (guides.length > 0) {
+    async function loadGuide(disasterType) {
+      content.textContent = 'Loading preparedness guide…';
+      try {
+        const guides = await DR.preparedness.getGuides(disasterType);
+        content.replaceChildren();
+        if (!guides.length) {
+          content.textContent = 'No guide is available for this disaster type yet.';
+          return;
+        }
         const guide = guides[0];
-        // Populate any existing checklist containers
-        const goBagEl = document.querySelector('[data-go-bag-list], #go-bag-items');
-        if (goBagEl && guide.sections.goBag) {
-          goBagEl.innerHTML = guide.sections.goBag.map(item =>
-            '<li style="padding: 6px 0; border-bottom: 1px solid #e2effe;">' + item + '</li>'
-          ).join('');
-        }
-        const duringEl = document.querySelector('[data-during-list], #during-items');
-        if (duringEl && guide.sections.duringFlood) {
-          duringEl.innerHTML = guide.sections.duringFlood.map(item =>
-            '<li style="padding: 6px 0; border-bottom: 1px solid #e2effe;">' + item + '</li>'
-          ).join('');
-        }
+        const title = document.createElement('h2');
+        title.className = 'font-headline-sm text-headline-sm';
+        title.textContent = guide.title;
+        const updated = document.createElement('p');
+        updated.className = 'font-caption text-caption text-on-surface-variant';
+        updated.textContent = `Source: DisasterReady preparedness guide • Updated ${new Date(guide.updatedAt).toLocaleDateString()}`;
+        content.append(title, updated);
+        Object.entries(guide.sections || {}).forEach(([key, values]) => {
+          if (!Array.isArray(values)) return;
+          const section = document.createElement('section');
+          section.className = 'flex flex-col gap-2';
+          const heading = document.createElement('h3');
+          heading.className = 'font-label-strong text-label-strong';
+          heading.textContent = key === 'goBag' ? 'Before: Go-bag checklist' :
+            key.toLowerCase().includes('after') ? 'After the disaster' :
+            key.toLowerCase().includes('during') ? 'During the disaster' : `Before: ${key.replace(/([A-Z])/g, ' $1')}`;
+          section.append(heading);
+          const list = document.createElement('ul');
+          list.className = 'flex flex-col gap-2';
+          values.forEach((value, index) => {
+            const row = document.createElement('li');
+            if (key === 'goBag') {
+              const label = document.createElement('label');
+              label.className = 'flex items-start gap-2';
+              const checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              const progressKey = `dr_checklist_${disasterType}_${index}`;
+              checkbox.checked = localStorage.getItem(progressKey) === 'true';
+              checkbox.addEventListener('change', () => localStorage.setItem(progressKey, String(checkbox.checked)));
+              label.append(checkbox, document.createTextNode(String(value)));
+              row.append(label);
+            } else {
+              row.textContent = String(value);
+            }
+            list.append(row);
+          });
+          section.append(list);
+          content.append(section);
+        });
+      } catch {
+        content.textContent = 'Could not load preparedness guidance. Check your connection and try again.';
       }
-    } catch (err) {
-      // Guide data may be static — silently fail
     }
+
+    typeSelect.addEventListener('change', () => loadGuide(typeSelect.value));
+    loadGuide(typeSelect.value);
   })();
 </script>
 </body></html>

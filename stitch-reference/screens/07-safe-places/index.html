@@ -701,49 +701,82 @@
     const DR = window.DisasterReadyAPI;
     const loc = DR.storage.getLocation();
     const district = DR.storage.getDistrict();
+    const searchInput = document.getElementById('shelter-search-input');
+    const results = document.createElement('section');
+    results.id = 'live-facility-results';
+    results.className = 'flex flex-col gap-3';
+    results.setAttribute('aria-live', 'polite');
+    searchInput?.parentElement?.insertAdjacentElement('afterend', results);
+    let activeType = 'SHELTER';
+    let currentFacilities = [];
 
     async function loadFacilities(facilityType) {
+      activeType = facilityType;
+      results.textContent = 'Loading nearby facilities…';
       try {
         const data = await DR.facilities.get({
           districtId: district?.districtId,
           facilityType,
-          lat: loc.lat || undefined,
-          lng: loc.lng || undefined,
+          lat: loc.lat,
+          lng: loc.lng,
         });
-
-        // Update live bed availability pill on any existing cards
-        data.forEach(function(f, i) {
-          const availEl = document.querySelector('[data-facility-beds-' + i + '], [data-available-beds]');
-          if (availEl) {
-            availEl.textContent = f.availableBeds + ' beds available';
-            if (f.availableBeds === 0) availEl.style.color = '#ba1a1a';
-          }
-          const distEl = document.querySelector('[data-facility-distance-' + i + ']');
-          if (distEl) distEl.textContent = f.distanceKm + ' km';
-        });
-
-        // Update status badges
-        const statusPill = document.querySelector('[data-facility-status]');
-        if (statusPill && data.length > 0) {
-          const ops = data.filter(f => f.operatingStatus === 'OPERATIONAL').length;
-          statusPill.textContent = ops + ' facilities operational';
-        }
-
+        currentFacilities = data;
+        renderFacilities();
       } catch (err) {
-        DR.ui.toast('Could not load facilities. Check network connection.');
+        results.textContent = 'Facilities could not be loaded. Check your connection and try again.';
       }
+    }
+
+    function renderFacilities() {
+      const query = searchInput?.value.trim().toLocaleLowerCase() || '';
+      const filtered = currentFacilities.filter(f => !query || `${f.name} ${f.address}`.toLocaleLowerCase().includes(query));
+      results.replaceChildren();
+      if (filtered.length === 0) {
+        results.textContent = currentFacilities.length ? 'No facilities match this search.' : 'No facilities are listed for this area. No availability is implied.';
+        return;
+      }
+      filtered.forEach(f => {
+        const item = document.createElement('article');
+        item.className = 'flex flex-col gap-2 p-3 border border-outline-variant rounded-lg bg-surface-container-lowest';
+        const title = document.createElement('h3');
+        title.className = 'font-label-strong text-label-strong';
+        title.textContent = f.name;
+        const details = document.createElement('p');
+        details.className = 'font-caption text-caption';
+        details.textContent = `${f.address} • ${f.distanceKm} km • ${f.operatingStatus.replaceAll('_', ' ')}`;
+        const verification = document.createElement('p');
+        verification.className = 'font-caption text-caption text-on-surface-variant';
+        verification.textContent = `${f.isVerified ? 'Verified' : 'Unverified'} • ${f.source} • Updated ${new Date(f.lastUpdated).toLocaleString()}`;
+        const services = document.createElement('p');
+        services.className = 'font-caption text-caption';
+        services.textContent = Object.entries(f.services).filter(([, available]) => available).map(([name]) => name.replace(/([A-Z])/g, ' $1')).join(', ') || 'No services listed';
+        item.append(title, details, verification, services);
+        if (f.isVerified && f.contactPhone) {
+          const call = document.createElement('a');
+          call.href = `tel:${f.contactPhone.replace(/[^+\d]/g, '')}`;
+          call.textContent = `Call ${f.contactPhone}`;
+          call.className = 'font-label-strong text-label-strong text-primary';
+          item.append(call);
+        }
+        if (f.totalCapacity != null && f.currentOccupancy != null) {
+          const capacity = document.createElement('p');
+          capacity.className = 'font-caption text-caption';
+          capacity.textContent = `${f.availableBeds} spaces available • ${f.capacitySource}`;
+          item.append(capacity);
+        }
+        results.append(item);
+      });
     }
 
     // Load shelters on page load
     await loadFacilities('SHELTER');
 
     // Wire tab buttons
-    document.querySelectorAll('[data-tab="shelter"], [data-tab="SHELTER"]').forEach(function(btn) {
-      btn.addEventListener('click', function() { loadFacilities('SHELTER'); });
+    document.querySelectorAll('button').forEach(function(btn) {
+      if (/shelter/i.test(btn.textContent)) btn.addEventListener('click', function() { loadFacilities('SHELTER'); });
+      if (/hospital/i.test(btn.textContent)) btn.addEventListener('click', function() { loadFacilities('HOSPITAL'); });
     });
-    document.querySelectorAll('[data-tab="hospital"], [data-tab="HOSPITAL"]').forEach(function(btn) {
-      btn.addEventListener('click', function() { loadFacilities('HOSPITAL'); });
-    });
+    searchInput?.addEventListener('input', renderFacilities);
   })();
 </script>
 </body></html>

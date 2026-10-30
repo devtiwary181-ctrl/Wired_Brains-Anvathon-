@@ -650,20 +650,55 @@ KA-05-EX-4412
   // ── SCREEN 10: RELIEF TRACKING (ALTERNATIVE VIEW) — Backend Integration ──
   (async function() {
     const DR = window.DisasterReadyAPI;
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token') || localStorage.getItem('dr_tracking_token') || 'RELIEF-IN-8492-XQ7';
+    const form = document.getElementById('trackForm');
+    const tokenInput = document.getElementById('reqNumber') || form?.querySelector('input');
+    if (tokenInput) tokenInput.placeholder = 'Paste the private token from your request confirmation';
+    const status = document.createElement('section');
+    status.id = 'tracking-result-alt';
+    status.className = 'mt-3 p-3 rounded-lg bg-surface-container-low';
+    status.setAttribute('aria-live', 'polite');
+    form?.insertAdjacentElement('afterend', status);
 
-    try {
-      const data = await DR.relief.track(token);
-      ['[data-tracking-token]', '#token-display-alt'].forEach(function(sel) {
-        const el = document.querySelector(sel);
-        if (el) el.textContent = data.trackingToken;
-      });
-      const stageEl = document.querySelector('[data-stage-label-alt], #stage-alt');
-      if (stageEl) stageEl.textContent = data.stageLabel;
-    } catch (err) {
-      DR.ui.toast('Could not load tracking data.');
+    async function track(token) {
+      if (!token) {
+        status.textContent = 'Enter the private tracking token shown after your request was submitted.';
+        return;
+      }
+      status.textContent = 'Loading request status…';
+      const button = form?.querySelector('button[type="submit"]');
+      if (button) button.disabled = true;
+      try {
+        const data = await DR.relief.track(token);
+        localStorage.setItem('dr_tracking_token', token);
+        ['[data-tracking-token]', '#token-display-alt'].forEach(function(sel) {
+          const el = document.querySelector(sel);
+          if (el) el.textContent = data.trackingToken;
+        });
+        const stageEl = document.querySelector('[data-stage-label-alt], #stage-alt');
+        if (stageEl) stageEl.textContent = data.stageLabel;
+        status.textContent = `${data.stageLabel} • Updated ${new Date(data.updatedAt).toLocaleString()}`;
+      } catch (err) {
+        status.textContent = err.status === 404 ? 'Token not found. Check the token from your request confirmation.' :
+          err.status === 400 ? 'Invalid tracking token. Check the token from your request confirmation.' :
+          'Could not load tracking data. Check your connection and try again.';
+      } finally {
+        if (button) button.disabled = false;
+      }
     }
+
+    form?.addEventListener('submit', event => {
+      event.preventDefault();
+      track(tokenInput?.value.trim());
+    });
+    form?.querySelectorAll('button').forEach(button => button.addEventListener('click', event => {
+      event.preventDefault();
+      track(tokenInput?.value.trim());
+    }));
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token') || localStorage.getItem('dr_tracking_token');
+    if (tokenInput) tokenInput.value = token || '';
+    track(token);
   })();
 </script>
 </body></html>

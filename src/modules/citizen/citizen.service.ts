@@ -15,29 +15,15 @@
  */
 import { prisma } from '../../shared/database.js';
 import { AppError } from '../../middleware/errorHandler.js';
+import { Prisma } from '@prisma/client';
 import crypto from 'crypto';
 
 // ---------------------------------------------------------------------------
 // Helper: Generate cryptographically secure high-entropy tracking token
-// Format: RELIEF-IN-{4digits}-{3chars}  e.g. RELIEF-IN-8492-XQ7
+// URL-safe opaque bearer token with 256 bits of entropy.
 // ---------------------------------------------------------------------------
 function generateTrackingToken(): string {
-  const digits = crypto.randomInt(1000, 9999);
-  const chars = crypto.randomBytes(3).toString('hex').toUpperCase().slice(0, 3);
-  return `RELIEF-IN-${digits}-${chars}`;
-}
-
-// ---------------------------------------------------------------------------
-// Helper: Compute SHA-256 deduplication hash for a hazard report
-// ---------------------------------------------------------------------------
-function hazardDedupHash(lat: number, lng: number, hazardType: string): string {
-  // Round coordinates to ~100m grid to detect near-duplicate submissions
-  const latGrid = Math.round(lat * 1000) / 1000;
-  const lngGrid = Math.round(lng * 1000) / 1000;
-  return crypto
-    .createHash('sha256')
-    .update(`${latGrid}|${lngGrid}|${hazardType}`)
-    .digest('hex');
+  return `DR-${crypto.randomBytes(32).toString('base64url')}`;
 }
 
 export class CitizenService {
@@ -49,17 +35,13 @@ export class CitizenService {
    * Reverse geocode GPS coordinate to district and state.
    */
   async reverseGeocode(lat: number, lng: number) {
-    const district = await prisma.district.findFirst({
-      orderBy: { createdAt: 'asc' },
-    });
-
     return {
-      state: district?.state || 'India',
-      district: district?.name || 'Central Delhi',
-      districtId: district?.id || null,
-      districtCode: district?.code || 'IN-DL-CENTRAL',
+      state: null,
+      district: null,
+      districtId: null,
+      districtCode: null,
       coordinates: { lat, lng },
-      source: 'DisasterReady PostGIS District Geocoder',
+      source: 'GPS coordinates; district boundary data is unavailable',
       timestamp: new Date().toISOString(),
     };
   }
@@ -289,7 +271,6 @@ export class CitizenService {
     photoUrl?: string;
   }) {
     // Spam & duplicate check: same location + type within last 30 minutes
-    const dedupHash = hazardDedupHash(data.latitude, data.longitude, data.hazardType);
     const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
 
     const recentDuplicate = await prisma.hazardIncident.findFirst({
@@ -328,8 +309,6 @@ export class CitizenService {
     }
 
     // Parse optional observation time
-    const observedAt = data.observationTime ? new Date(data.observationTime) : undefined;
-
     const incident = await prisma.hazardIncident.create({
       data: {
         districtId,
@@ -338,12 +317,25 @@ export class CitizenService {
         latitude: data.latitude,
         longitude: data.longitude,
         addressLandmark: data.addressLandmark,
+        description: data.description,
+        observedAt: data.observationTime ? new Date(data.observationTime) : undefined,
+        contactInfo: data.contactInfo,
         waterDepthCm: data.waterDepthCm || 0,
         status: 'UNVERIFIED',
         reportedByCitizen: true,
         photoUrl: data.photoUrl,
       },
     });
+
+    if (data.photoUrl) {
+      await prisma.hazardEvidence.create({
+        data: {
+          incidentId: incident.id,
+          mediaUrl: data.photoUrl,
+          mediaType: 'IMAGE',
+        },
+      });
+    }
 
     // PostGIS point update
     await prisma.$executeRawUnsafe(
@@ -382,8 +374,9 @@ export class CitizenService {
     hasPower?: boolean;
     hasDrinkingWater?: boolean;
   }) {
-    const userLat = params.lat ?? 28.6139;
-    const userLng = params.lng ?? 77.209;
+    const hasOrigin = params.lat !== undefined && params.lng !== undefined;
+    const userLat = params.lat ?? 0;
+    const userLng = params.lng ?? 0;
 
     const where: Record<string, unknown> = {};
     if (params.facilityType) where.facilityType = params.facilityType;
@@ -417,7 +410,7 @@ export class CitizenService {
         facilityType: f.facilityType,
         address: f.address,
         coordinates: { lat: f.latitude, lng: f.longitude },
-        contactPhone: f.contactPhone,
+        contactPhone: f.isVerified ? f.contactPhone : null,
         inChargeName: f.inChargeName,
         // Real capacity data — never fabricated
         totalCapacity: f.totalCapacity,
@@ -433,15 +426,17 @@ export class CitizenService {
         },
         isVerified: f.isVerified,
         operatingStatus: f.operatingStatus,
-        distanceKm: haversine(f.latitude, f.longitude),
+        distanceKm: hasOrigin ? haversine(f.latitude, f.longitude) : null,
         lastUpdated: f.updatedAt,
         source: f.isVerified ? 'Verified by District EOC' : 'Community-reported, not yet verified',
       }))
       .filter((f) => {
-        if (params.radiusKm) return f.distanceKm <= params.radiusKm;
+        if (params.radiusKm && hasOrigin && f.distanceKm != null) return f.distanceKm <= params.radiusKm;
         return true;
       })
-      .sort((a, b) => a.distanceKm - b.distanceKm);
+      .sort((a, b) => hasOrigin
+        ? (a.distanceKm ?? Infinity) - (b.distanceKm ?? Infinity)
+        : b.lastUpdated.getTime() - a.lastUpdated.getTime());
 
     return mapped;
   }
@@ -520,7 +515,7 @@ export class CitizenService {
         latitude: data.latitude,
         longitude: data.longitude,
         landmarkNotes: data.landmarkNotes,
-        itemsRequested: data.itemsRequested,
+        itemsRequested: data.itemsRequested as Prisma.InputJsonValue,
         specialMedicalNeeds: data.specialMedicalNeeds,
         stage: 'STAGE_1_TRIAGED',
       },
@@ -560,11 +555,11 @@ export class CitizenService {
    * Track relief request by high-entropy token — no login required.
    */
   async trackRequest(token: string) {
-    const sanitized = token.trim().toUpperCase();
+    const sanitized = token.trim();
     // Validate format to prevent ID oracle attacks
-    if (!/^RELIEF-IN-\d{4}-[A-F0-9]{3}$/.test(sanitized)) {
+    if (!/^DR-[A-Za-z0-9_-]{43}$/.test(sanitized)) {
       throw new AppError(
-        'Invalid tracking token format. Expected format: RELIEF-IN-XXXX-XXX',
+        'Invalid tracking token format.',
         400,
         'INVALID_TOKEN_FORMAT',
       );
@@ -645,6 +640,11 @@ export class CitizenService {
       status: 'LOGGED',
       message: 'SOS call intent logged. Please immediately dial the emergency number on your phone.',
       emergency_numbers: {
+        '112': '112',
+        '1078': '1078',
+        '108': '108',
+        '101': '101',
+        '1091': '1091',
         national: '112',
         ndrf: '1078',
         ambulance: '108',

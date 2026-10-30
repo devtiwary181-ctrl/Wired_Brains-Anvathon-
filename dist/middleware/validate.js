@@ -5,7 +5,7 @@ export function validateRequest(schema) {
                 req.body = await schema.body.parseAsync(req.body);
             }
             if (schema.query) {
-                req.query = (await schema.query.parseAsync(req.query));
+                res.locals.validatedQuery = await schema.query.parseAsync(req.query);
             }
             if (schema.params) {
                 req.params = (await schema.params.parseAsync(req.params));
