@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>Ask For Supplies - DisasterReady India</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#ebf5ff", "surface-variant": "#d6e4f2", "primary-fixed": "#d3e4ff", "on-primary-fixed-variant": "#004881", "error-container": "#ffdad6", "on-secondary": "#ffffff", "on-surface-variant": "#414751", "error": "#ba1a1a", "inverse-surface": "#25323c", "surface-container-high": "#dceaf8", "surface-tint": "#0e60a6", "secondary-fixed": "#d3e5f6", "surface-dim": "#cedce9", "on-surface": "#101d27", "on-secondary-container": "#556675", "secondary": "#4f606f", "outline": "#727782", "primary": "#00477f", "tertiary": "#00512c", "secondary-fixed-dim": "#b7c9d9", "on-error-container": "#93000a", "on-primary-fixed": "#001c38", "on-secondary-fixed": "#0b1d29", "tertiary-fixed": "#98f6b7", "inverse-on-surface": "#e6f2ff", "tertiary-container": "#006c3c", "surface-container-highest": "#d6e4f2", "secondary-container": "#d3e5f6", "inverse-primary": "#a2c9ff", "surface-container-lowest": "#ffffff", "primary-container": "#0b5fa5", "on-tertiary-fixed": "#00210f", "surface-bright": "#f6f9ff", "on-primary-container": "#bfd9ff", "on-tertiary": "#ffffff", "surface": "#f6f9ff", "on-tertiary-fixed-variant": "#00522c", "background": "#f6f9ff", "primary-fixed-dim": "#a2c9ff", "on-tertiary-container": "#8debac", "on-secondary-fixed-variant": "#384956", "outline-variant": "#c1c7d2", "on-background": "#101d27", "tertiary-fixed-dim": "#7dda9c", "on-primary": "#ffffff", "surface-container": "#e2effe", "on-error": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-sm": "0.5rem", "space-xl": "2rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem", "space-xs": "0.25rem" }, fontFamily: { "label-default": ["Noto Sans"], "headline-md": ["Noto Sans"], "body-default": ["Noto Sans"], "headline-sm": ["Noto Sans"], "label-strong": ["Noto Sans"], "headline-lg": ["Noto Sans"], "body-strong": ["Noto Sans"], "caption": ["Noto Sans"], "headline-lg-mobile": ["Noto Sans"] }, fontSize: { "label-default": ["16px", { lineHeight: "22px", fontWeight: "400" }], "headline-md": ["22px", { lineHeight: "28px", fontWeight: "700" }], "body-default": ["18px", { lineHeight: "26px", fontWeight: "400" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }], "label-strong": ["16px", { lineHeight: "22px", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", fontWeight: "700" }], "body-strong": ["18px", { lineHeight: "26px", fontWeight: "600" }], "caption": ["16px", { lineHeight: "20px", fontWeight: "400" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;background-color:#f6f9ff;font-family:'Noto Sans',sans-serif;min-height:max(884px,100dvh);}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[24px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • NDMA &amp; DDMA • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Toggle Dark / Light Mode" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" onclick="document.documentElement.classList.toggle('dark')" type="button"><span class="material-symbols-outlined text-[20px]">dark_mode</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><span class="font-label-strong text-label-strong text-primary">Ask For Supplies</span></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full gap-y-4">
+<!-- Simulation States Selector Ribbon -->
+<section class="bg-surface-container-low rounded-xl p-2.5 border border-outline-variant/40 flex flex-col gap-1.5 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">science</span>
+<span>Simulation State Preview:</span>
+</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-caption text-caption font-semibold">Demo Sandbox</span>
+</div>
+<div class="flex items-center gap-1.5 overflow-x-auto pb-0.5">
+<button class="px-2.5 py-1 rounded-full bg-primary text-on-primary font-caption text-caption font-semibold shrink-0" type="button">[Live In-Transit]</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-caption text-caption hover:bg-surface-container-high shrink-0" type="button">[Delayed Alert]</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-caption text-caption hover:bg-surface-container-high shrink-0" type="button">[Offline / Cached]</button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-caption text-caption hover:bg-surface-container-high shrink-0" type="button">[Request Not Found]</button>
+</div>
+</section>
+<!-- Top Navigation & Action Context -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between gap-space-sm mb-3">
+<a class="inline-flex items-center gap-1.5 min-h-[48px] px-3 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span>← Back (वापस)</span>
+</a>
+<div class="flex items-center gap-2">
+<button aria-label="Listen to tracking details" class="inline-flex items-center gap-1.5 min-h-[48px] px-3.5 rounded-lg bg-primary-container text-on-primary font-label-strong text-label-strong hover:opacity-95 transition-opacity" id="ttsBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+<span>Listen (स्थिति सुनें)</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary-fixed text-on-primary-fixed shrink-0">
+<span class="material-symbols-outlined text-[18px]">find_in_page</span>
+</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Check my request • अनुरोध स्थिति जांचें</h1>
+</div>
+<p class="font-body-default text-body-default text-on-surface-variant">
+        No login needed. Live status for dispatched civil relief, food, water, and emergency medical kits.
+      </p>
+</div>
+<!-- Offline sync telemetry tag -->
+<div class="mt-3 pt-2.5 flex items-center justify-between border-t border-outline-variant/30 text-on-surface-variant">
+<span class="inline-flex items-center gap-1.5 font-caption text-caption text-tertiary">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+        Cached offline ready • Local sync active (स्थानीय सिंक सक्रिय)
+      </span>
+<span class="font-caption text-caption text-on-surface-variant">Ref: DR-1042</span>
+</div>
+</section>
+<!-- SECTION A: QUICK LOOKUP -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm">
+<div class="flex items-start gap-2 mb-3">
+<span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-secondary-container text-on-secondary-container font-label-strong text-label-strong shrink-0">A</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Quick Lookup (खोजें)</h2>
+<p class="font-caption text-caption text-on-surface-variant">Enter the request number given to you or select a saved request from this device.</p>
+</div>
+</div>
+<form class="flex flex-col gap-3" id="trackForm" onsubmit="event.preventDefault();">
+<!-- Input 1: Request Number -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-strong text-label-strong text-on-surface flex items-center justify-between" for="reqNumber">
+<span>Request number (अनुरोध संख्या)</span>
+<span class="font-caption text-caption text-primary">DR-XXXX</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 text-on-surface-variant material-symbols-outlined text-[22px]">tag</span>
+<input class="w-full h-12 pl-11 pr-20 rounded-lg bg-surface-container-low text-on-surface font-body-strong text-body-strong placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary uppercase tracking-wide" id="reqNumber" placeholder="e.g. DR-1042" type="text" value="DR-1042"/>
+<div class="absolute right-2 flex items-center gap-1">
+<button aria-label="Recent requests dropdown" class="w-8 h-8 rounded-md bg-surface-container-high text-on-surface-variant flex items-center justify-center hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">arrow_drop_down</span>
+</button>
+<button aria-label="Voice input for request number" class="w-8 h-8 rounded-md bg-surface-container-high text-on-surface-variant flex items-center justify-center hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">mic</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Input 2: Phone Number -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-strong text-label-strong text-on-surface flex items-center justify-between" for="phoneUsed">
+<span>Phone number used (दर्ज किया गया मोबाइल नंबर)</span>
+<span class="font-caption text-caption text-on-surface-variant">10 digits</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3.5 text-on-surface-variant material-symbols-outlined text-[22px]">phone_android</span>
+<input class="w-full h-12 pl-11 pr-12 rounded-lg bg-surface-container-low text-on-surface font-body-strong text-body-strong placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary" id="phoneUsed" placeholder="e.g. 98451 22334" type="tel" value="98451 22334"/>
+<button aria-label="Voice input for phone number" class="absolute right-2 w-9 h-9 rounded-md bg-surface-container-high text-on-surface-variant flex items-center justify-center hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+</div>
+<!-- Primary Lookup Button -->
+<button class="w-full min-h-[50px] mt-1 rounded-lg bg-primary-container text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-sm" type="submit">
+<span class="material-symbols-outlined text-[22px]">search_check</span>
+<span>Check request (स्थिति देखें) →</span>
+</button>
+</form>
+<!-- Friendly Error / Clarification Box -->
+<div class="mt-3.5 p-3 rounded-lg bg-secondary-container/40 text-on-surface flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">help_center</span>
+<div class="flex flex-col font-caption text-caption text-on-surface-variant">
+<span class="font-label-strong text-label-strong text-on-surface">Cannot find your request? (अनुरोध नहीं मिल रहा?)</span>
+<span>Verify the number spelling and registered mobile digits, check the confirmation SMS received from NDMA/SDRF gateway, or call disaster control helpline 1078 for instant lookup.</span>
+</div>
+</div>
+<!-- Saved requests on device -->
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex flex-col gap-2.5">
+<span class="font-label-strong text-label-strong text-on-surface flex items-center justify-between">
+<span>Saved requests on this phone (इस फोन पर सुरक्षित अनुरोध)</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption font-semibold">2 Local</span>
+</span>
+<!-- Card 1: Active -->
+<div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-body-strong text-body-strong text-on-surface">DR-1042</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-caption font-semibold">Active • सक्रिय</span>
+</div>
+<button class="min-h-[40px] px-3 rounded-md bg-primary-container text-on-primary font-caption text-caption font-semibold inline-flex items-center gap-1" type="button">
+<span>Track now →</span>
+</button>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+          4 People (Drinking Water, Food, Medicines) • Sector 4 Community Hall
+        </p>
+<div class="flex items-center justify-between font-caption text-caption pt-1 border-t border-outline-variant/20">
+<span class="text-primary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+            Status: On the way (मार्ग में)
+          </span>
+<span class="text-on-surface-variant">Updated 3m ago</span>
+</div>
+</div>
+<!-- Card 2: Completed / Archived -->
+<div class="p-3 rounded-lg bg-surface-container-high/50 flex items-center justify-between gap-2">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[18px]">task_alt</span>
+<span class="font-label-strong text-label-strong text-on-surface">DR-0891</span>
+<span class="font-caption text-caption text-on-surface-variant">• 2 Thermal Blankets</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant pl-6">Completed yesterday (कल पूर्ण हुआ)</span>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant font-caption text-caption font-semibold">Archived</span>
+</div>
+</div>
+</section>
+<!-- AI ADDITION: DISASTERREADY AI STATUS EXPLAINER -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md border border-primary/20 shadow-sm flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Ask DisasterReady AI about this request</h2>
+<span class="font-caption text-caption text-on-surface-variant">(अनुरोध स्थिति समझें)</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Live AI
+</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low border-l-4 border-primary flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-strong text-label-strong text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">record_voice_over</span>
+<span>Plain-Language Audio Summary (ऑडियो सारांश)</span>
+</span>
+<button class="min-h-[36px] px-2.5 rounded bg-primary-container text-on-primary font-caption text-caption font-semibold flex items-center gap-1" onclick="alert('Playing AI Audio Explainer...')" type="button">
+<span class="material-symbols-outlined text-[16px]">play_arrow</span>
+<span>Play</span>
+</button>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+        "Your request <strong>DR-1042</strong> is on the way (Stage 4) with NDRF Driver Sunil Kumar. 6 water cans, 4 meal kits, and 1 first aid kit are arriving by <strong>~4:30 PM</strong>. The remaining 4 water cans are auto-queued for 6:00 PM. Have code <strong>4729</strong> ready."
+      </p>
+<div class="p-2 rounded bg-surface-container-lowest text-on-surface-variant font-caption text-caption">
+<span class="font-semibold text-on-surface">हिन्दी सारांश:</span> आपका अनुरोध DR-1042 NDRF ड्राइवर सुनील कुमार के साथ मार्ग में है (चरण 4)। 6 पानी के कैन, 4 भोजन किट और 1 प्राथमिक चिकित्सा किट लगभग 4:30 बजे तक पहुंच रहे हैं। शेष 4 पानी के कैन शाम 6:00 बजे के लिए कतारबद्ध हैं। सत्यापन कोड 4729 तैयार रखें।
+      </div>
+</div>
+<div class="flex items-start gap-1.5 text-on-surface-variant font-caption text-caption bg-surface-container/60 p-2 rounded">
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">verified_user</span>
+<span><strong>Transparent disclosure:</strong> AI explains backend-confirmed status only. AI never invents statuses or marks delivery complete.</span>
+</div>
+</section>
+<!-- SECTION B: ACTIVE REQUEST DETAIL PANEL (DR-1042) -->
+<section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-4">
+<!-- Demo Data Badge & Freshness Telemetry -->
+<div class="flex items-center justify-between flex-wrap gap-1 text-on-surface-variant font-caption text-caption border-b border-outline-variant/30 pb-2">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">[Demo Data] Simulation</span>
+<span class="flex items-center gap-1 text-tertiary font-semibold">
+<span class="material-symbols-outlined text-[14px]">cell_tower</span>
+Telemetry: Confirmed 3m ago via NDRF Mobile Terminal • Data fresh (&lt;15m)
+</span>
+</div>
+<!-- Header Card -->
+<div class="rounded-xl bg-surface-container-low p-3.5 flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">DR-1042</h2>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-caption font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+Active Delivery • सक्रिय वितरण
+</span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant mt-0.5">
+Filed today, 11:20 AM • Updated 3 minutes ago (3 मिनट पहले अपडेट)
+</p>
+</div>
+<span class="inline-flex p-2 rounded-lg bg-surface-container text-primary material-symbols-outlined text-[24px]">verified</span>
+</div>
+<!-- Highlight ETA Banner -->
+<div class="p-3 rounded-lg bg-primary-container text-on-primary flex items-center justify-between gap-2 shadow-sm">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[26px]">timer</span>
+<div class="flex flex-col leading-tight">
+<span class="font-caption text-caption text-on-primary-container">Expected Arrival (अनुमानित समय)</span>
+<span class="font-body-strong text-body-strong">By 4:30 PM today (लगभग 4:30 बजे तक)</span>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="px-2 py-0.5 rounded bg-on-primary/20 text-on-primary font-caption text-caption font-semibold">[Estimated • अनुमानित]</span>
+<span class="px-2 py-0.5 rounded bg-on-primary/30 text-on-primary font-caption text-caption font-bold">Priority 1</span>
+</div>
+</div>
+<!-- Beneficiary details -->
+<div class="grid grid-cols-1 gap-2 pt-1">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px]">groups</span>
+<span class="font-body-strong text-body-strong">4 Beneficiaries</span>
+<span class="text-on-surface-variant font-caption text-caption">(2 Adults, 1 Senior, 1 Child)</span>
+</div>
+<div class="flex items-start gap-2 text-on-surface">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">location_on</span>
+<span class="font-body-default text-body-default text-on-surface">Sector 4 Community Hall Road, Block C, Camp Shelter Unit</span>
+</div>
+</div>
+</div>
+<!-- 5-STAGE LIVE PROGRESS TIMELINE (कार्य प्रगति स्थिति - Stage 4 of 5) -->
+<div class="flex flex-col gap-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center justify-between">
+<span>Live Progress (कार्य प्रगति स्थिति)</span>
+<span class="font-caption text-caption text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sync</span> Stage 4 of 5
+</span>
+</h3>
+<!-- State Legend Indicators -->
+<div class="flex items-center gap-3 text-on-surface-variant font-caption text-caption pb-1">
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>Completed</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></span>Current</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-surface-container-highest"></span>Pending</span>
+</div>
+<div class="relative pl-6 flex flex-col gap-4 before:absolute before:left-3 before:top-2 before:bottom-3 before:w-0.5 before:bg-outline-variant/60">
+<!-- Stage 1: Completed -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-0.5 w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<div class="flex items-center justify-between">
+<span class="font-body-strong text-body-strong text-on-surface">1. Request Received (अनुरोध प्राप्त हुआ)</span>
+<span class="font-caption text-caption text-on-surface-variant">11:20 AM</span>
+</div>
+<div class="flex items-center gap-1.5 font-caption text-caption text-tertiary font-semibold">
+<span>Logged via portal • Reference assigned</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[11px]">[Completed ✓]</span>
+</div>
+</div>
+<!-- Stage 2: Completed -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-0.5 w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<div class="flex items-center justify-between">
+<span class="font-body-strong text-body-strong text-on-surface">2. Checked &amp; Triage (सत्यापित)</span>
+<span class="font-caption text-caption text-on-surface-variant">11:45 AM</span>
+</div>
+<div class="flex items-center gap-1.5 font-caption text-caption text-tertiary font-semibold">
+<span>Field officer verified phone location &amp; urgency</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[11px]">[Completed ✓]</span>
+</div>
+</div>
+<!-- Stage 3: Completed -->
+<div class="relative flex flex-col gap-0.5">
+<span class="absolute -left-6 top-0.5 w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</span>
+<div class="flex items-center justify-between">
+<span class="font-body-strong text-body-strong text-on-surface">3. Assigned to NDRF Unit 4 (आवंटित)</span>
+<span class="font-caption text-caption text-on-surface-variant">12:15 PM</span>
+</div>
+<div class="flex items-center gap-1.5 font-caption text-caption text-tertiary font-semibold">
+<span>Dispatched from Sector 4 Relief Depot</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[11px]">[Completed ✓]</span>
+</div>
+</div>
+<!-- Stage 4: Active / Current (In-Progress) -->
+<div class="relative flex flex-col gap-1.5 p-3 rounded-lg bg-primary-fixed/30 border border-primary/40 -ml-2 pl-4 shadow-sm">
+<span class="absolute -left-4 top-3 w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center animate-bounce shadow">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+</span>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-primary">4. On the way (मार्ग में है)</span>
+<span class="px-1.5 py-0.5 rounded bg-primary text-on-primary font-caption text-caption font-bold">[In-Progress 🔄]</span>
+</div>
+<span class="font-body-strong text-body-strong text-primary">1:40 PM</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full bg-primary text-on-primary font-caption text-caption font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+You are here (वर्तमान स्थिति)
+</span>
+<span class="font-caption text-caption text-on-surface-variant font-semibold">3.2 km away via Bypass</span>
+</div>
+<p class="font-caption text-caption text-on-surface">
+Vehicle KA-05-EX-4412 in transit. Driver taking safe route around flooded low-bridge.
+</p>
+</div>
+<!-- Stage 5: Pending -->
+<div class="relative flex flex-col gap-0.5 opacity-70">
+<span class="absolute -left-6 top-0.5 w-6 h-6 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center border border-outline/30">
+<span class="material-symbols-outlined text-[16px]">pending</span>
+</span>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="font-body-default text-body-default text-on-surface">5. Delivered &amp; Handed Over (वितरित)</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant text-[11px]">[Pending ⚪]</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">Pending</span>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">Requires 4-digit verification code below</span>
+</div>
+</div>
+</div>
+<!-- DELIVERY VERIFICATION CODE (वितरण सत्यापन कोड / सुरक्षा कोड) -->
+<div class="rounded-xl bg-surface-container p-3.5 flex flex-col gap-3 border border-outline-variant/50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">key</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Delivery Verification Code</h3>
+<span class="font-caption text-caption text-on-surface-variant">वितरण सत्यापन कोड (सुरक्षा कोड)</span>
+</div>
+</div>
+<!-- Tactile 4-digit code display -->
+<div class="grid grid-cols-4 gap-2.5 py-1">
+<div class="h-16 rounded-lg bg-surface-container-lowest text-primary font-headline-lg flex items-center justify-center shadow-sm select-all border border-outline-variant/30">4</div>
+<div class="h-16 rounded-lg bg-surface-container-lowest text-primary font-headline-lg flex items-center justify-center shadow-sm select-all border border-outline-variant/30">7</div>
+<div class="h-16 rounded-lg bg-surface-container-lowest text-primary font-headline-lg flex items-center justify-center shadow-sm select-all border border-outline-variant/30">2</div>
+<div class="h-16 rounded-lg bg-surface-container-lowest text-primary font-headline-lg flex items-center justify-center shadow-sm select-all border border-outline-variant/30">9</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+Show this 4-digit code to the delivery volunteer or NDRF marshal upon physical arrival. Do not share via SMS.
+</p>
+<div class="grid grid-cols-3 gap-2 pt-1">
+<button class="min-h-[48px] rounded-lg bg-primary-container text-on-primary font-caption text-caption font-semibold flex flex-col items-center justify-center p-1 hover:opacity-95 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">pin</span>
+<span>Confirm Code (कोड पुष्टि)</span>
+</button>
+<button class="min-h-[48px] rounded-lg bg-surface-container-highest text-on-surface font-caption text-caption font-semibold flex flex-col items-center justify-center p-1 hover:bg-surface-variant" type="button">
+<span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+<span>Scan QR (क्यूआर)</span>
+</button>
+<button class="min-h-[48px] rounded-lg bg-surface-container-highest text-on-surface font-caption text-caption font-semibold flex flex-col items-center justify-center p-1 hover:bg-surface-variant" type="button">
+<span class="material-symbols-outlined text-[18px]">add_a_photo</span>
+<span>Add Photo (फोटो जोड़ें)</span>
+</button>
+</div>
+</div>
+<!-- ITEMS FULFILLMENT BREAKDOWN TABLE (सामग्री विवरण - 3 Categories) -->
+<div class="flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Items Fulfillment (राहत सामग्री विवरण)</h3>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-caption text-caption font-semibold">3 Categories</span>
+</div>
+<!-- Item Card 1: Partial -->
+<div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-2 border border-outline-variant/30">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">water_drop</span>
+<div>
+<span class="font-body-strong text-body-strong text-on-surface block">Drinking Water (पेयजल)</span>
+<span class="font-caption text-caption text-on-surface-variant">Requested: 10 Cans • In Delivery: 6 Cans</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-caption text-caption font-semibold shrink-0">
+Partly fulfilled ⚠️
+</span>
+</div>
+<div class="grid grid-cols-3 gap-1 p-2 rounded bg-surface-container-lowest font-caption text-caption text-center border border-outline-variant/20">
+<div><span class="text-on-surface-variant block">Asked</span><strong class="text-on-surface">10</strong></div>
+<div><span class="text-on-surface-variant block">Dispatched</span><strong class="text-primary">6</strong></div>
+<div><span class="text-on-surface-variant block">Shortage</span><strong class="text-error">4 Short</strong></div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+Reason: Temporary stock shortage at Sector 4 depot. 6 cans dispatched immediately for safety.
+</p>
+</div>
+<!-- Item Card 2: Full -->
+<div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-2 border border-outline-variant/30">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">lunch_dining</span>
+<div>
+<span class="font-body-strong text-body-strong text-on-surface block">Food rations (राशन सामग्री)</span>
+<span class="font-caption text-caption text-on-surface-variant">Ready meal packs + biscuits + dry khichdi mix</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-semibold shrink-0">
+Fully fulfilled ✓
+</span>
+</div>
+<div class="grid grid-cols-3 gap-1 p-2 rounded bg-surface-container-lowest font-caption text-caption text-center border border-outline-variant/20">
+<div><span class="text-on-surface-variant block">Asked</span><strong class="text-on-surface">4 Packs</strong></div>
+<div><span class="text-on-surface-variant block">Dispatched</span><strong class="text-tertiary">4 Packs</strong></div>
+<div><span class="text-on-surface-variant block">Shortage</span><strong class="text-on-surface">0 Short</strong></div>
+</div>
+</div>
+<!-- Item Card 3: Full -->
+<div class="p-3 rounded-lg bg-surface-container-low flex flex-col gap-2 border border-outline-variant/30">
+<div class="flex items-start justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">medication</span>
+<div>
+<span class="font-body-strong text-body-strong text-on-surface block">Medicines &amp; First Aid Kit</span>
+<span class="font-caption text-caption text-on-surface-variant">ORS sachets, antiseptic, paracetamol, bandage</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-semibold shrink-0">
+Fully fulfilled ✓
+</span>
+</div>
+<div class="grid grid-cols-3 gap-1 p-2 rounded bg-surface-container-lowest font-caption text-caption text-center border border-outline-variant/20">
+<div><span class="text-on-surface-variant block">Asked</span><strong class="text-on-surface">1 Kit</strong></div>
+<div><span class="text-on-surface-variant block">Dispatched</span><strong class="text-tertiary">1 Kit</strong></div>
+<div><span class="text-on-surface-variant block">Verified</span><strong class="text-tertiary">ANM Nurse ✓</strong></div>
+</div>
+</div>
+<!-- Proactive Reassurance Box -->
+<div class="p-3 rounded-lg bg-primary-fixed/40 text-on-surface flex flex-col gap-1.5 border border-primary-container/20">
+<div class="flex items-center gap-1.5 text-primary font-label-strong text-label-strong">
+<span class="material-symbols-outlined text-[20px]">info</span>
+<span>What happens next (आगे क्या होगा):</span>
+</div>
+<p class="font-caption text-caption text-on-surface">
+The remaining <strong>4 drinking water cans</strong> are automatically queued for Batch 2 arriving at 6:00 PM today.
+</p>
+<span class="font-caption text-caption text-on-surface-variant">
+Policy guarantee: Unfulfilled items are prioritized automatically in the civil log. You do not need to reapply.
+</span>
+</div>
+</div>
+<!-- DELIVERY TEAM & LOGISTICS -->
+<div class="rounded-xl bg-surface-container-high/60 p-3.5 flex flex-col gap-3">
+<div class="flex items-center justify-between gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-11 h-11 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-strong text-label-strong shrink-0">
+SK
+</div>
+<div>
+<span class="font-body-strong text-body-strong text-on-surface block">SK - Sunil Kumar</span>
+<span class="font-caption text-caption text-on-surface-variant">NDRF Relief Team Beta • Driver</span>
+</div>
+</div>
+<span class="px-2 py-1 rounded bg-surface-container-lowest text-on-surface font-caption text-caption font-semibold border border-outline-variant/30">
+KA-05-EX-4412
+</span>
+</div>
+<!-- Driver Note with Translation feature -->
+<div class="p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-strong text-label-strong text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">chat</span>
+<span>Driver Note / ड्राइवर नोट</span>
+</span>
+<button class="min-h-[36px] px-2 rounded bg-surface-container text-primary font-caption text-caption font-semibold hover:bg-surface-variant transition-colors" id="toggleDriverLangBtn" onclick="const noteEn = document.getElementById('driverNoteEn'); const noteHi = document.getElementById('driverNoteHi'); if (noteEn.classList.contains('hidden')) { noteEn.classList.remove('hidden'); noteHi.classList.add('hidden'); this.innerText='[हिन्दी में देखें]'; } else { noteEn.classList.add('hidden'); noteHi.classList.remove('hidden'); this.innerText='[Show Original English]'; }" type="button">
+[हिन्दी में देखें]
+</button>
+</div>
+<!-- English text -->
+<p class="font-body-default text-body-default text-on-surface" id="driverNoteEn">
+"Driver note: Water level near canal road is 2 ft; taking High Ridge elevated bypass. ETA intact."
+</p>
+<!-- Hindi translated text -->
+<p class="font-body-default text-body-default text-on-surface hidden" id="driverNoteHi">
+"[हिन्दी में देखें]: ड्राइवर नोट: नहर मार्ग पर जलस्तर 2 फीट है; हाई रिज बाईपास से आ रहे हैं। आगमन समय स्थिर है।"
+</p>
+</div>
+<!-- Action Button 1: Call Delivery -->
+<a class="w-full min-h-[50px] rounded-lg bg-primary-container text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-sm" href="tel:+919800012345">
+<span class="material-symbols-outlined text-[22px]">phone_in_talk</span>
+<span>Call delivery person (डिलीवरी कर्मी को कॉल करें)</span>
+</a>
+<!-- Quick Secondary Buttons -->
+<div class="grid grid-cols-2 gap-2">
+<button class="min-h-[48px] rounded-lg bg-surface-container-lowest text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1.5 hover:bg-surface-container transition-colors shadow-sm border border-outline-variant/30" id="shareStatusBtn" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">share</span>
+<span>Share status</span>
+</button>
+<a class="min-h-[48px] rounded-lg bg-surface-container-lowest text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1.5 hover:bg-surface-container transition-colors shadow-sm border border-outline-variant/30" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary">add_circle</span>
+<span>Add more items</span>
+</a>
+</div>
+<!-- Report a Problem Accordion Trigger -->
+<details class="group rounded-lg bg-surface-container-lowest p-3 transition-all shadow-sm border border-outline-variant/30">
+<summary class="flex items-center justify-between cursor-pointer list-none font-label-strong text-label-strong text-error">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px]">report_problem</span>
+<span>Report a problem (समस्या दर्ज करें)</span>
+</span>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="mt-3 pt-3 border-t border-outline-variant/30 flex flex-col gap-2">
+<span class="font-caption text-caption text-on-surface-variant">Select the issue to flag to emergency dispatch:</span>
+<div class="grid grid-cols-2 gap-2">
+<button class="min-h-[40px] px-2 rounded bg-surface-container text-on-surface font-caption text-caption text-left hover:bg-surface-variant" type="button">
+• Not received yet
+</button>
+<button class="min-h-[40px] px-2 rounded bg-surface-container text-on-surface font-caption text-caption text-left hover:bg-surface-variant" type="button">
+• Wrong items
+</button>
+<button class="min-h-[40px] px-2 rounded bg-surface-container text-on-surface font-caption text-caption text-left hover:bg-surface-variant" type="button">
+• Damaged supplies
+</button>
+<button class="min-h-[40px] px-2 rounded bg-surface-container text-on-surface font-caption text-caption text-left hover:bg-surface-variant" type="button">
+• Route change / delay
+</button>
+</div>
+</div>
+</details>
+</div>
+</section>
+<!-- Bottom Civic Helplines Quick Ribbon -->
+<section class="rounded-xl bg-surface-container p-3 flex items-center justify-between gap-2 shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">support_agent</span>
+<div class="flex flex-col">
+<span class="font-label-strong text-label-strong text-on-surface">24/7 National Emergency Helplines</span>
+<span class="font-caption text-caption text-on-surface-variant">Toll-free crisis communication links</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<a class="min-h-[44px] px-3 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-label-strong flex items-center gap-1 shadow-sm border border-outline-variant/20" href="tel:1078">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>NDMA 1078</span>
+</a>
+<a class="min-h-[44px] px-3 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-label-strong flex items-center gap-1 shadow-sm border border-outline-variant/20" href="tel:108">
+<span class="material-symbols-outlined text-[18px]">medical_services</span>
+<span>108</span>
+</a>
+</div>
+</section>
+</div>
+<script>
+  (function initRequestTrackingInteractions() {
+    // Audio synthesis / read out state micro-interaction
+    const ttsBtn = document.getElementById('ttsBtn');
+    if (ttsBtn) {
+      ttsBtn.addEventListener('click', function() {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const text = "अनुरोध संख्या DR-1042 मार्ग में है। अनुमानित समय शाम 4:30 बजे तक। सुनील कुमार डिलीवरी कर रहे हैं। सत्यापन कोड है 4 7 2 9.";
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'hi-IN';
+          utterance.rate = 0.95;
+          window.speechSynthesis.speak(utterance);
+          ttsBtn.classList.add('ring-2', 'ring-primary');
+          setTimeout(() => ttsBtn.classList.remove('ring-2', 'ring-primary'), 2000);
+        } else {
+          alert("Audio reading: DR-1042 is on the way. ETA 4:30 PM. Verification code: 4 7 2 9.");
+        }
+      });
+    }
+
+    // Share Status trigger micro-interaction
+    const shareBtn = document.getElementById('shareStatusBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', function() {
+        const shareData = {
+          title: 'Disaster Relief DR-1042 Tracking',
+          text: 'Request DR-1042 is ON THE WAY (मार्ग में). Expected arrival 4:30 PM. Verification code: 4729.',
+          url: window.location.href
+        };
+        if (navigator.share) {
+          navigator.share(shareData).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(shareData.text).then(() => {
+            const original = shareBtn.innerHTML;
+            shareBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] text-tertiary">check</span><span>Copied!</span>';
+            setTimeout(() => { shareBtn.innerHTML = original; }, 2000);
+          }).catch(() => {
+            alert(shareData.text);
+          });
+        }
+      });
+    }
+  })();
+</script>
+</main>
+<!-- Floating SOS 112 CTA -->
+<div class="fixed bottom-24 right-4 z-50">
+<a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112">
+<span class="material-symbols-outlined text-[22px]">emergency</span>
+<span>SOS 112</span>
+</a>
+</div>
+<!-- Persistent 5-Tab Bottom Navigation -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong">
+<div class="flex justify-around items-center h-20 px-2">
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#">
+<span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+<span class="font-caption text-caption">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="safe-places-near-you-shelters-hospitals" href="#">
+<span class="material-symbols-outlined text-[24px]">home_pin</span>
+<span class="font-caption text-caption">Shelters</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-primary font-body-strong" data-path="ask-for-supplies" href="#">
+<span class="material-symbols-outlined text-[24px]">inventory_2</span>
+<span class="font-caption text-caption font-bold">Supplies</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#">
+<span class="material-symbols-outlined text-[24px]">map</span>
+<span class="font-caption text-caption">Routes</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#">
+<span class="material-symbols-outlined text-[24px]">contact_phone</span>
+<span class="font-caption text-caption">Helplines</span>
+</a>
+</div>
+</nav>
+</body></html>

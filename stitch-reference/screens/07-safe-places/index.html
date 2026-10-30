@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>DisasterReady India - National Disaster Management</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#ebf5ff", "surface-variant": "#d6e4f2", "primary-fixed": "#d3e4ff", "on-primary-fixed-variant": "#004881", "error-container": "#ffdad6", "on-secondary": "#ffffff", "on-surface-variant": "#414751", "error": "#ba1a1a", "inverse-surface": "#25323c", "surface-container-high": "#dceaf8", "surface-tint": "#0e60a6", "secondary-fixed": "#d3e5f6", "surface-dim": "#cedce9", "on-surface": "#101d27", "on-secondary-container": "#556675", "secondary": "#4f606f", "outline": "#727782", "primary": "#00477f", "tertiary": "#00512c", "secondary-fixed-dim": "#b7c9d9", "on-error-container": "#93000a", "on-primary-fixed": "#001c38", "on-secondary-fixed": "#0b1d29", "tertiary-fixed": "#98f6b7", "inverse-on-surface": "#e6f2ff", "tertiary-container": "#006c3c", "surface-container-highest": "#d6e4f2", "secondary-container": "#d3e5f6", "inverse-primary": "#a2c9ff", "surface-container-lowest": "#ffffff", "primary-container": "#0b5fa5", "on-tertiary-fixed": "#00210f", "surface-bright": "#f6f9ff", "on-primary-container": "#bfd9ff", "on-tertiary": "#ffffff", "surface": "#f6f9ff", "on-tertiary-fixed-variant": "#00522c", "background": "#f6f9ff", "primary-fixed-dim": "#a2c9ff", "on-tertiary-container": "#8debac", "on-secondary-fixed-variant": "#384956", "outline-variant": "#c1c7d2", "on-background": "#101d27", "tertiary-fixed-dim": "#7dda9c", "on-primary": "#ffffff", "surface-container": "#e2effe", "on-error": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-sm": "0.5rem", "space-xl": "2rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem", "space-xs": "0.25rem" }, fontFamily: { "label-default": ["Noto Sans"], "headline-md": ["Noto Sans"], "body-default": ["Noto Sans"], "headline-sm": ["Noto Sans"], "label-strong": ["Noto Sans"], "headline-lg": ["Noto Sans"], "body-strong": ["Noto Sans"], "caption": ["Noto Sans"], "headline-lg-mobile": ["Noto Sans"] }, fontSize: { "label-default": ["16px", { lineHeight: "22px", fontWeight: "400" }], "headline-md": ["22px", { lineHeight: "28px", fontWeight: "700" }], "body-default": ["18px", { lineHeight: "26px", fontWeight: "400" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }], "label-strong": ["16px", { lineHeight: "22px", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", fontWeight: "700" }], "body-strong": ["18px", { lineHeight: "26px", fontWeight: "600" }], "caption": ["16px", { lineHeight: "20px", fontWeight: "400" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;background-color:#f6f9ff;font-family:'Noto Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><span class="font-label-strong text-label-strong text-primary">Live Dashboard</span></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full space-y-space-md">
+<!-- 1. Top Civic Header / Context Bar -->
+<div class="flex flex-col space-y-space-xs bg-surface-container-lowest p-space-md rounded-lg shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+<span class="font-label-strong text-label-strong text-primary">Civic Safe Haven Directory</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>DDMA Verified
+      </span>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+      सुरक्षित आश्रय शिविर व अस्पताल • Real-time occupancy feed
+    </p>
+<!-- Status summary container -->
+<div class="mt-space-xs p-space-sm bg-surface-container-low rounded-lg flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">check_circle</span>
+<span class="font-body-strong text-body-strong text-on-surface">4 Shelters Open • 1 Hospital Full</span>
+</div>
+<button aria-label="Listen to shelters status" class="inline-flex items-center gap-1 px-2 py-1 bg-surface-container text-on-surface rounded font-caption text-caption hover:bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-[16px]">volume_up</span>
+<span>सूची सुनें</span>
+</button>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">4 शिविरों में जगह उपलब्ध है • 1 अस्पताल भरा हुआ</p>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[14px]">save</span> Cached Safe (ऑफ़लाइन सुरक्षित)
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-highest text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[14px]">my_location</span> GPS: Sector 4 (±6m)
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-caption text-caption">
+<span class="material-symbols-outlined text-[14px]">sensors</span> [Demo Data] Telemetry Simulation
+        </span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-caption text-caption pt-0.5">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">update</span> Updated 6 min ago via DDMA Mesh Net
+        </span>
+</div>
+</div>
+</div>
+<!-- 2. Search & Category Toggle Hierarchy -->
+<div class="flex flex-col space-y-space-sm">
+<!-- Search Field -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input aria-label="Search shelters and hospitals" class="w-full h-12 pl-10 pr-12 bg-surface-container-lowest text-on-surface rounded-lg font-body-default text-body-default placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest" id="shelter-search-input" placeholder="Search shelter name, hospital, ward, landmark..." type="search"/>
+<button aria-label="Speech to text search" class="absolute inset-y-0 right-0 pr-3 flex items-center text-primary hover:text-on-surface focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[22px]">mic</span>
+</button>
+</div>
+<!-- Category Toggle Tabs -->
+<div class="grid grid-cols-3 gap-1 bg-surface-container p-1 rounded-lg">
+<button class="flex flex-col items-center justify-center py-2 px-1 rounded-lg bg-surface-container-lowest text-primary shadow-sm transition-colors" id="tab-shelters" onclick="switchCategory('shelters')" type="button">
+<span class="font-label-strong text-label-strong text-center">Shelters</span>
+<span class="font-caption text-caption text-tertiary">4 Open</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 px-1 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" id="tab-hospitals" onclick="switchCategory('hospitals')" type="button">
+<span class="font-label-strong text-label-strong text-center">Hospitals</span>
+<span class="font-caption text-caption text-primary">2 Avail</span>
+</button>
+<button class="flex flex-col items-center justify-center py-2 px-1 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" id="tab-all" onclick="switchCategory('all')" type="button">
+<span class="font-label-strong text-label-strong text-center">All Safe</span>
+<span class="font-caption text-caption text-on-surface-variant">6 Total</span>
+</button>
+</div>
+<!-- View Mode Switcher: List vs Map -->
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption text-on-surface-variant">Display mode / दृश्य मोड:</span>
+<div class="inline-flex bg-surface-container p-1 rounded-lg">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-label-strong shadow-sm" id="btn-list-view" onclick="setViewMode('list')" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+<span>List View</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-on-surface-variant font-label-strong text-label-strong hover:text-on-surface" id="btn-map-view" onclick="setViewMode('map')" type="button">
+<span class="material-symbols-outlined text-[18px]">map</span>
+<span>Map View</span>
+</button>
+</div>
+</div>
+<!-- Essential Filter Chips (Scrollable horizontal row) -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center gap-1" type="button">
+<span>All (सभी)</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>♿ Wheelchair Ramp</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>👩 Women Wing</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>🍼 Infant Milk</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>⚡ Generator Backup</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>🩺 Doctor on Site</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>🐕 Pets Allowed</span>
+</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<span>🚰 Clean Water</span>
+</button>
+</div>
+</div>
+<!-- 3. Google Maps Integration Ready Area (Expandable/Toggleable) -->
+<div class="hidden flex-col space-y-space-xs bg-surface-container-lowest p-space-sm rounded-lg shadow-sm" id="map-view-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">explore</span>
+<span class="font-label-strong text-label-strong text-on-surface">Civic Safe Haven Map (Interactive)</span>
+</div>
+<span class="font-caption text-caption text-tertiary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>Vector Tiles (42 KB)
+      </span>
+</div>
+<!-- Prepared Google Maps Container with data-location pipeline -->
+<div class="relative w-full h-72 rounded-lg bg-surface-container-high overflow-hidden flex flex-col justify-between p-space-sm" data-location="Sector 4 Relief Center, New Delhi, India" id="civic-google-map" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCgzKZk0kbzIxbi61mkwltqY42oneTDSw3c17ao6RDyBgGjLE0pgaD_tr9eG-ePDdN0_G4Sn1ZbaXzoG51TSCixsem67CE54M3R92nZrJ1kZg_u13he-fXYYw1ez2HaorE5btwTDyz3aOeL1RS4eSGJ4Txo_fQU1cRBDFzgTEX4mqXralfBf0L9usCWIFoWhm69xCx68OIk11SlL-kdOUnP9S8QEZcui_qvBIeAejwU')">
+<!-- Map Top Controls -->
+<div class="flex items-center justify-between z-10">
+<div class="bg-surface-container-lowest/95 backdrop-blur px-2.5 py-1 rounded font-caption text-caption text-on-surface shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">offline_pin</span>
+<span>Cached offline • GPS Active</span>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Toggle map satellite view" class="w-8 h-8 rounded bg-surface-container-lowest/95 backdrop-blur text-on-surface flex items-center justify-center shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">layers</span>
+</button>
+<button aria-label="Recenter to my location" class="w-8 h-8 rounded bg-surface-container-lowest/95 backdrop-blur text-primary flex items-center justify-center shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+</button>
+</div>
+</div>
+<!-- Map Pin Mock Layout for Interactive Telemetry -->
+<div class="relative w-full h-full my-1 flex items-center justify-around pointer-events-none">
+<!-- Pin 1: Community Hall (Green) -->
+<div class="flex flex-col items-center pointer-events-auto cursor-pointer">
+<div class="px-1.5 py-0.5 rounded bg-tertiary text-on-tertiary font-caption text-caption shadow-sm flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-[12px]">home</span>
+<span>Sec 4 (84 beds)</span>
+</div>
+<span class="material-symbols-outlined text-tertiary text-[28px] -mt-1 drop-shadow">location_on</span>
+</div>
+<!-- Pin 2: High School (Amber) -->
+<div class="flex flex-col items-center pointer-events-auto cursor-pointer">
+<div class="px-1.5 py-0.5 rounded bg-[#8A4B00] text-white font-caption text-caption shadow-sm flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-[12px]">school</span>
+<span>Girls HS (35)</span>
+</div>
+<span class="material-symbols-outlined text-[#8A4B00] text-[28px] -mt-1 drop-shadow">location_on</span>
+</div>
+<!-- Pin 3: District Hospital (Blue) -->
+<div class="flex flex-col items-center pointer-events-auto cursor-pointer">
+<div class="px-1.5 py-0.5 rounded bg-primary text-on-primary font-caption text-caption shadow-sm flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-[12px]">local_hospital</span>
+<span>Civil Hosp (3 ICU)</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[28px] -mt-1 drop-shadow">location_on</span>
+</div>
+<!-- Pin 4: St Jude (Red) -->
+<div class="flex flex-col items-center pointer-events-auto cursor-pointer">
+<div class="px-1.5 py-0.5 rounded bg-error text-on-error font-caption text-caption shadow-sm flex items-center gap-0.5 text-[11px]">
+<span class="material-symbols-outlined text-[12px]">block</span>
+<span>St. Jude (Full)</span>
+</div>
+<span class="material-symbols-outlined text-error text-[28px] -mt-1 drop-shadow">location_on</span>
+</div>
+</div>
+<!-- Map Bottom Controls -->
+<div class="flex items-center justify-between z-10">
+<div class="flex flex-col bg-surface-container-lowest/95 backdrop-blur rounded overflow-hidden shadow-sm">
+<button aria-label="Zoom in" class="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container" type="button">+</button>
+<div class="w-full h-px bg-surface-variant"></div>
+<button aria-label="Zoom out" class="w-8 h-8 flex items-center justify-center text-on-surface hover:bg-surface-container" type="button">-</button>
+</div>
+<div class="px-2 py-0.5 rounded bg-surface-container-lowest/90 font-caption text-caption text-on-surface-variant">
+          Tap pin for route guidance
+        </div>
+</div>
+</div>
+</div>
+<!-- 4. AI-Assisted Nearby Resource Finder (DisasterReady AI Smart Haven Finder) -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-lg shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<div class="font-headline-sm text-headline-sm text-on-surface leading-tight">DisasterReady AI</div>
+<div class="font-caption text-caption text-primary">Smart Haven &amp; Resource Matcher</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-caption text-caption">DDMA Verified</span>
+</div>
+<div class="relative w-full">
+<input aria-label="AI Shelter Finder Query" class="w-full h-11 pl-3 pr-10 bg-surface-container-low text-on-surface rounded-lg font-caption text-caption focus:outline-none" id="ai-haven-prompt" type="text" value="Find shelter with wheelchair ramp, power backup, and doctor on duty"/>
+<button aria-label="Run natural language match" class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-primary hover:text-on-primary-fixed-variant" onclick="highlightAiMatch()" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<!-- Quick Prompt Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+<button class="whitespace-nowrap px-2.5 py-1 rounded bg-surface-container text-on-surface font-caption text-caption hover:bg-surface-variant text-[13px]" onclick="setAiPrompt('Need emergency ICU bed with ventilator support')" type="button">
+        🚑 ICU Bed &amp; Ventilator
+      </button>
+<button class="whitespace-nowrap px-2.5 py-1 rounded bg-surface-container text-on-surface font-caption text-caption hover:bg-surface-variant text-[13px]" onclick="setAiPrompt('Shelter with infant milk and women wing safe space')" type="button">
+        🍼 Infant Care &amp; Women Wing
+      </button>
+</div>
+<!-- Interactive Parsed Recommendation Card -->
+<div class="p-space-sm bg-surface-container rounded-lg flex flex-col space-y-space-xs" id="ai-recommendation-box">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-strong text-label-strong">AI Optimal Haven Match (1 Shelter + 1 Hospital)</span>
+</div>
+<p class="font-caption text-caption text-on-surface leading-snug">
+<strong>Community Hall Relief Center:</strong> Matches your query. Verified ramp entrance, 100% DG diesel backup, auxiliary nurse on site, certified safe dry elevation (+4.2m above flood datum).
+      </p>
+<div class="flex items-center justify-between pt-1">
+<button class="px-3 py-1.5 rounded bg-primary text-on-primary font-label-strong text-label-strong text-[14px] flex items-center gap-1" onclick="applyAiFilter()" type="button">
+<span class="material-symbols-outlined text-[16px]">filter_alt</span>
+<span>Apply Filter &amp; Highlight</span>
+</button>
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1 text-[12px]">
+<span class="material-symbols-outlined text-[14px] text-tertiary">check</span> Zero bed hallucinations
+        </span>
+</div>
+</div>
+</div>
+<!-- 5. Preserved Resource Cards (Detailed, High-Information Hierarchy) -->
+<div class="flex flex-col space-y-space-md" id="resource-cards-list">
+<!-- CARD 1: Top Recommended Shelter (Elevated Ground) -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-lg shadow-sm space-y-space-sm resource-card" data-type="shelter">
+<!-- Status Badge & Authority -->
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-strong text-label-strong">
+<span class="material-symbols-outlined text-[18px] text-tertiary">check_circle</span>
+<span>84 Beds Open • Space Available</span>
+</span>
+<span class="font-caption text-caption text-on-surface-variant">2 min ago</span>
+</div>
+<!-- Facility Title & Translation -->
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Community Hall Relief Center, Sector 4</h2>
+<p class="font-caption text-caption text-on-surface-variant">सामुदायिक भवन राहत केंद्र • सेक्टर 4</p>
+</div>
+<!-- Distance, Transit & Flood Safe Elevation -->
+<div class="p-space-sm bg-surface-container-low rounded flex flex-col space-y-1">
+<div class="flex items-center gap-1.5 text-on-surface font-body-strong text-body-strong">
+<span class="material-symbols-outlined text-primary text-[20px]">directions_walk</span>
+<span>1.2 km • 18 min walk via Safe Ridge Bypass</span>
+</div>
+<p class="font-caption text-caption text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> Verified dry ridge route • No waterlogging
+        </p>
+</div>
+<!-- Why Recommended Highlight Box -->
+<div class="p-space-sm bg-surface-container rounded flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">tips_and_updates</span>
+<div>
+<span class="font-label-strong text-label-strong text-primary block">सुझाव का कारण (Why Recommended):</span>
+<span class="font-caption text-caption text-on-surface">
+            Close by, on certified elevated ground (+4.2m above flood datum), stock verified with 400+ meals cooked, 2 auxiliary nurses 24/7.
+          </span>
+</div>
+</div>
+<!-- Badges of Facilities -->
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">water_drop</span> Clean Water (पेयजल)
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">restaurant</span> Hot Food (लंगर / 400+ meals)
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">power</span> Gen Backup (बिजली)
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">medical_services</span> Doctor on Site
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">accessible</span> Ramp (रैंप)
+        </span>
+</div>
+<!-- Location metadata & In-charge -->
+<div class="font-caption text-caption text-on-surface-variant flex items-center gap-1.5 pt-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>9th Cross Road, Sector 4 (Near Ganesha Temple) • Ward Officer: R. Sharma</span>
+</div>
+<!-- Actions -->
+<div class="grid grid-cols-3 gap-2 pt-2">
+<a aria-label="Get Directions to Community Hall" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+<span>मार्ग देखें</span>
+</a>
+<a aria-label="Call Community Hall Shelter" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-surface-container-high text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1" href="tel:08022991122">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call Desk</span>
+</a>
+<button aria-label="Share Shelter details" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>Share</span>
+</button>
+</div>
+</div>
+<!-- CARD 2: Government Girls High School Camp (Filling Up) -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-lg shadow-sm space-y-space-sm resource-card" data-type="shelter">
+<!-- Status Badge & Authority -->
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#FFF3DC] text-[#8A4B00] font-label-strong text-label-strong">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span>35 Beds Open • Filling Up (सीमित स्थान)</span>
+</span>
+<span class="font-caption text-caption text-on-surface-variant">4 min ago</span>
+</div>
+<!-- Facility Title & Translation -->
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Government Girls High School Camp</h2>
+<p class="font-caption text-caption text-on-surface-variant">राजकीय कन्या उच्च विद्यालय राहत शिविर • ईस्ट विंग</p>
+</div>
+<!-- Distance, Transit & Caution Route -->
+<div class="p-space-sm bg-surface-container-low rounded flex flex-col space-y-1">
+<div class="flex items-center gap-1.5 text-on-surface font-body-strong text-body-strong">
+<span class="material-symbols-outlined text-primary text-[20px]">directions_walk</span>
+<span>1.9 km • 26 min walk via East Ring Detour</span>
+</div>
+<p class="font-caption text-caption text-[#8A4B00] flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">report_problem</span> Caution: Avoid low underpass near rail crossing
+        </p>
+</div>
+<!-- Safety Notes -->
+<div class="p-space-sm bg-surface-container rounded flex items-start gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">health_and_safety</span>
+<div>
+<span class="font-label-strong text-label-strong text-on-surface block">सुरक्षा व सुविधाएं (Safety Notes):</span>
+<span class="font-caption text-caption text-on-surface-variant">
+            Level single-story access, women police escort deployed, emergency infant milk powders and sanitary kits in stock.
+          </span>
+</div>
+</div>
+<!-- Badges of Facilities -->
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">water_drop</span> Drinking Water
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">female</span> Dedicated Women Wing
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">medical_services</span> ANM Nurse Present
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">electric_bolt</span> Inverter Backup
+        </span>
+</div>
+<!-- Location metadata & In-charge -->
+<div class="font-caption text-caption text-on-surface-variant flex items-center gap-1.5 pt-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Station Road, East Gate • In-charge: Master K. V. Verma</span>
+</div>
+<!-- Actions -->
+<div class="grid grid-cols-3 gap-2 pt-2">
+<a aria-label="Get Directions to Girls High School" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+<span>मार्ग देखें</span>
+</a>
+<a aria-label="Call Girls High School Shelter" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-surface-container-high text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1" href="tel:08022994455">
+<span class="material-symbols-outlined text-[18px]">call</span>
+<span>Call Desk</span>
+</a>
+<button aria-label="Share Shelter details" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>Share</span>
+</button>
+</div>
+</div>
+<!-- CARD 3: District Civil Hospital & Emergency Wing (Hospitals Section) -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-lg shadow-sm space-y-space-sm resource-card" data-type="hospital">
+<!-- Status Badge & Authority -->
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-strong text-label-strong">
+<span class="material-symbols-outlined text-[18px] text-primary">local_hospital</span>
+<span>108 Dispatch Direct • 24/7 ER</span>
+</span>
+<span class="font-caption text-caption text-on-surface-variant">3 min ago</span>
+</div>
+<!-- Facility Title & Translation -->
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">District Civil Hospital &amp; Emergency Wing</h2>
+<p class="font-caption text-caption text-on-surface-variant">जिला नागरिक अस्पताल एवं आपातकालीन ट्रॉमा वार्ड</p>
+</div>
+<!-- Bed Availability Highlight -->
+<div class="p-space-sm bg-surface-container-low rounded flex items-center justify-between">
+<div>
+<div class="font-body-strong text-body-strong text-primary">14 General Beds • 3 ICU Beds Open</div>
+<div class="font-caption text-caption text-on-surface-variant">Oxygen pipeline online • 100% DG Backed</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Accepting
+        </span>
+</div>
+<!-- Transit & Green Corridor -->
+<div class="flex items-center gap-1.5 text-on-surface font-caption text-caption">
+<span class="material-symbols-outlined text-primary text-[18px]">directions_car</span>
+<span>2.4 km • 12 min by vehicle / 35 min on foot (Green Corridor - No roadblocks)</span>
+</div>
+<!-- Medical Readiness Details -->
+<div class="p-space-sm bg-surface-container rounded flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">emergency</span>
+<div>
+<span class="font-label-strong text-label-strong text-primary block">चिकित्सा तत्परता (Medical Readiness):</span>
+<span class="font-caption text-caption text-on-surface-variant">
+            Dedicated triage zone for disaster injured, active surgical OT, snake-bite antivenom available, maternity wing operational.
+          </span>
+</div>
+</div>
+<!-- Badges of Medical Facilities -->
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">ambulance</span> 108 Bay Active
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">air</span> Central O2 Pipeline
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bloodtype</span> Blood Bank On
+        </span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">power</span> DG Diesel Backed
+        </span>
+</div>
+<!-- Location metadata & In-charge -->
+<div class="font-caption text-caption text-on-surface-variant flex items-center gap-1.5 pt-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Civil Lines, Main Boulevard • Medical Sup: Dr. V. Sen</span>
+</div>
+<!-- Actions -->
+<div class="grid grid-cols-3 gap-2 pt-2">
+<a aria-label="Get Directions to Civil Hospital" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+<span>मार्ग देखें</span>
+</a>
+<a aria-label="Call 108 Ambulance" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-error text-on-error font-label-strong text-label-strong flex items-center justify-center gap-1" href="tel:108">
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+<span>Call 108</span>
+</a>
+<button aria-label="Share Hospital details" class="col-span-1 min-h-[44px] px-2 py-2 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span>Share</span>
+</button>
+</div>
+</div>
+<!-- CARD 4: St. Jude Community Health Center (Full / Diverting State) -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-lg shadow-sm space-y-space-sm resource-card" data-type="hospital">
+<!-- Status Badge Full -->
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#FCE8E6] text-error font-label-strong text-label-strong">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+<span>Status: Full / Capacity Reached (स्थान समाप्त)</span>
+</span>
+<span class="font-caption text-caption text-on-surface-variant">Live feed</span>
+</div>
+<!-- Facility Title & Divert Notice -->
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">St. Jude Community Health Center</h2>
+<p class="font-caption text-caption text-on-surface-variant">सेंट ज्यूड कम्युनिटी हेल्थ सेंटर एवं ट्रॉमा केयर</p>
+</div>
+<!-- Capacity Info & Divert Details -->
+<div class="p-space-sm bg-[#FCE8E6] rounded flex flex-col space-y-1">
+<div class="font-body-strong text-body-strong text-error">0 Inpatient Beds Open • Triage Diverting</div>
+<p class="font-caption text-caption text-on-surface leading-tight">
+          Emergency first-aid stabilization still available at front gate. For urgent admissions, proceed directly to <strong>District Civil Hospital</strong> (1.1 km further).
+        </p>
+</div>
+<!-- Location metadata -->
+<div class="font-caption text-caption text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>Old Church Road, Ward 12</span>
+</div>
+<!-- Action: Alternative Hospital Button -->
+<div class="pt-1">
+<button class="w-full min-h-[44px] px-3 py-2 rounded-lg bg-surface-container-high text-primary font-label-strong text-label-strong flex items-center justify-center gap-2 hover:bg-surface-variant" onclick="focusCivilHospital()" type="button">
+<span class="material-symbols-outlined text-[18px]">local_hospital</span>
+<span>View Nearest Alternative: District Civil Hospital</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 6. Status & Data Freshness Legend / Disclosures -->
+<div class="flex flex-col bg-surface-container-lowest p-space-md rounded-lg shadow-sm space-y-space-xs">
+<button class="flex items-center justify-between py-1 text-left text-on-surface-variant font-label-strong text-label-strong" onclick="toggleClosedFacilities()" type="button">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">visibility_off</span>
+<span>Show closed or inactive shelters (1 facility hidden)</span>
+</span>
+<span class="material-symbols-outlined text-[20px] transition-transform" id="chevron-closed-fac">expand_more</span>
+</button>
+<div class="hidden pt-2 border-t border-surface-variant space-y-2" id="closed-facilities-tray">
+<div class="p-space-sm bg-surface-container rounded text-on-surface-variant font-caption text-caption">
+<strong>Sector 2 Scout Hall:</strong> Inactive due to roof maintenance. Re-opening tentatively 18:00 IST.
+      </div>
+</div>
+<!-- Data Freshness & Disclaimer -->
+<div class="pt-space-xs flex flex-col space-y-1">
+<div class="flex items-center gap-2 text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]">info</span>
+<span>Live telemetry verified by DDMA Field Mesh Net. Facilities marked 'Stale' or 'Unknown' require voice confirmation via 1078.</span>
+</div>
+<!-- Status Indicator Legend Preview -->
+<div class="grid grid-cols-2 gap-1.5 pt-2">
+<div class="flex items-center gap-1.5 text-caption font-caption text-tertiary">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span>Open / Space Available</span>
+</div>
+<div class="flex items-center gap-1.5 text-caption font-caption text-[#8A4B00]">
+<span class="w-2.5 h-2.5 rounded-full bg-[#8A4B00]"></span>
+<span>Filling Fast (&lt;15 beds)</span>
+</div>
+<div class="flex items-center gap-1.5 text-caption font-caption text-error">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span>Full / Diverting State</span>
+</div>
+<div class="flex items-center gap-1.5 text-caption font-caption text-secondary">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span>Offline / Mesh Cached</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 7. Emergency Bottom Bar & Helplines Card -->
+<div class="p-space-md bg-surface-container-high rounded-lg flex flex-col space-y-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-strong text-label-strong text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-error text-[20px]">phone_in_talk</span>
+<span>24/7 Crisis Helplines</span>
+</span>
+<span class="font-caption text-caption text-on-surface-variant">Toll-free • Toll मुक्त</span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1">
+<a class="min-h-[44px] px-3 py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1.5 shadow-sm" href="tel:1078">
+<span class="material-symbols-outlined text-primary text-[18px]">support_agent</span>
+<span>NDMA: 1078</span>
+</a>
+<a class="min-h-[44px] px-3 py-2 rounded-lg bg-error text-on-error font-label-strong text-label-strong flex items-center justify-center gap-1.5 shadow-sm" href="tel:108">
+<span class="material-symbols-outlined text-[18px]">ambulance</span>
+<span>Ambulance: 108</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Inline JavaScript for micro-interactions, category switches, map toggling, and natural language filters -->
+<script>
+  function switchCategory(type) {
+    const tabShelters = document.getElementById('tab-shelters');
+    const tabHospitals = document.getElementById('tab-hospitals');
+    const tabAll = document.getElementById('tab-all');
+    const cards = document.querySelectorAll('.resource-card');
+
+    [tabShelters, tabHospitals, tabAll].forEach(tab => {
+      tab.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      tab.classList.add('text-on-surface-variant');
+    });
+
+    if (type === 'shelters') {
+      tabShelters.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      tabShelters.classList.remove('text-on-surface-variant');
+      cards.forEach(c => {
+        c.style.display = c.dataset.type === 'shelter' ? 'flex' : 'none';
+      });
+    } else if (type === 'hospitals') {
+      tabHospitals.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      tabHospitals.classList.remove('text-on-surface-variant');
+      cards.forEach(c => {
+        c.style.display = c.dataset.type === 'hospital' ? 'flex' : 'none';
+      });
+    } else {
+      tabAll.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      tabAll.classList.remove('text-on-surface-variant');
+      cards.forEach(c => {
+        c.style.display = 'flex';
+      });
+    }
+  }
+
+  function setViewMode(mode) {
+    const listBtn = document.getElementById('btn-list-view');
+    const mapBtn = document.getElementById('btn-map-view');
+    const mapContainer = document.getElementById('map-view-container');
+    const cardsList = document.getElementById('resource-cards-list');
+
+    if (mode === 'map') {
+      mapBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      mapBtn.classList.remove('text-on-surface-variant');
+      listBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      listBtn.classList.add('text-on-surface-variant');
+      mapContainer.classList.remove('hidden');
+      mapContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      listBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      listBtn.classList.remove('text-on-surface-variant');
+      mapBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      mapBtn.classList.add('text-on-surface-variant');
+      mapContainer.classList.add('hidden');
+      cardsList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function setAiPrompt(text) {
+    const input = document.getElementById('ai-haven-prompt');
+    input.value = text;
+    highlightAiMatch();
+  }
+
+  function highlightAiMatch() {
+    const recBox = document.getElementById('ai-recommendation-box');
+    recBox.classList.add('bg-primary-fixed', 'border', 'border-primary');
+    setTimeout(() => {
+      recBox.classList.remove('border', 'border-primary');
+    }, 1200);
+  }
+
+  function applyAiFilter() {
+    switchCategory('all');
+    const firstCard = document.querySelector('.resource-card');
+    if (firstCard) {
+      firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstCard.classList.add('bg-surface-container-high');
+      setTimeout(() => {
+        firstCard.classList.remove('bg-surface-container-high');
+      }, 1500);
+    }
+  }
+
+  function focusCivilHospital() {
+    switchCategory('hospitals');
+    const hospCards = document.querySelectorAll('[data-type="hospital"]');
+    if (hospCards.length > 0) {
+      hospCards[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function toggleClosedFacilities() {
+    const tray = document.getElementById('closed-facilities-tray');
+    const chevron = document.getElementById('chevron-closed-fac');
+    if (tray.classList.contains('hidden')) {
+      tray.classList.remove('hidden');
+      chevron.style.transform = 'rotate(180deg)';
+    } else {
+      tray.classList.add('hidden');
+      chevron.style.transform = 'rotate(0deg)';
+    }
+  }
+</script></main><div class="fixed bottom-24 right-4 z-50"><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span>SOS 112</span></a></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="relief-shelters" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="preparedness-guides" href="#"><span class="material-symbols-outlined text-[24px]">menu_book</span><span class="font-caption text-caption">Guides</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav></body></html>

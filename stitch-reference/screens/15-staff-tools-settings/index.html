@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "secondary-fixed-dim": "#b7c9d9", "on-tertiary-container": "#8debac", "surface-variant": "#d6e4f2", "outline": "#727782", "on-primary-fixed-variant": "#004881", "surface-bright": "#f6f9ff", "secondary-fixed": "#d3e5f6", "inverse-primary": "#a2c9ff", "on-tertiary-fixed-variant": "#00522c", "on-tertiary-fixed": "#00210f", "surface-container-low": "#ebf5ff", "surface-tint": "#0e60a6", "on-secondary": "#ffffff", "inverse-on-surface": "#e6f2ff", "on-error": "#ffffff", "primary": "#00477f", "surface-container": "#e2effe", "on-secondary-container": "#556675", "error-container": "#ffdad6", "on-primary-fixed": "#001c38", "on-surface-variant": "#414751", "surface-container-highest": "#d6e4f2", "secondary": "#4f606f", "primary-fixed-dim": "#a2c9ff", "on-background": "#101d27", "surface-container-high": "#dceaf8", "primary-container": "#0b5fa5", "outline-variant": "#c1c7d2", "tertiary-container": "#006c3c", "on-surface": "#101d27", "on-primary": "#ffffff", "inverse-surface": "#25323c", "tertiary": "#00512c", "on-secondary-fixed": "#0b1d29", "tertiary-fixed-dim": "#7dda9c", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#384956", "surface-dim": "#cedce9", "secondary-container": "#d3e5f6", "primary-fixed": "#d3e4ff", "tertiary-fixed": "#98f6b7", "background": "#f6f9ff", "on-primary-container": "#bfd9ff", "surface": "#f6f9ff", "on-tertiary": "#ffffff", "error": "#ba1a1a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-md": "1rem", "margin-desktop": "2rem", "gutter-desktop": "1.5rem", "space-xs": "0.25rem", "margin": "1rem", "space-sm": "0.5rem", "space-lg": "1.5rem", "space-xl": "2rem", "gutter": "1rem" }, "fontFamily": { "label-default": ["Noto Sans"], "headline-lg": ["Noto Sans"], "caption": ["Noto Sans"], "label-strong": ["Noto Sans"], "headline-sm": ["Noto Sans"], "headline-md": ["Noto Sans"], "headline-lg-mobile": ["Noto Sans"], "body-strong": ["Noto Sans"], "body-default": ["Noto Sans"] }, "fontSize": { "label-default": ["16px", {"lineHeight": "22px", "fontWeight": "400"}], "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "700"}], "caption": ["16px", {"lineHeight": "20px", "fontWeight": "400"}], "label-strong": ["16px", {"lineHeight": "22px", "fontWeight": "600"}], "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}], "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "700"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}], "body-strong": ["18px", {"lineHeight": "26px", "fontWeight": "600"}], "body-default": ["18px", {"lineHeight": "26px", "fontWeight": "400"}] } } } };</script></head><body class="bg-surface text-on-surface font-body-default"><div class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest"><div class="h-1 bg-gradient-to-r from-[#FF9933] via-surface-container-lowest to-[#138808]"></div><header class="h-16 px-gutter-desktop flex items-center justify-between bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded bg-primary flex items-center justify-center text-on-primary font-headline-sm">🏛️</div><div class="flex flex-col"><span class="font-label-strong text-primary tracking-tight">DISASTERREADY INDIA</span><span class="font-caption text-on-surface-variant text-xs">NDMA • KARNATAKA SDMA • SEOC COMMAND</span></div></div><div class="h-7 w-px bg-outline-variant hidden md:block"></div><div class="hidden md:flex items-center gap-space-sm px-space-sm py-1 bg-surface-container-low rounded"><span class="w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span><span class="font-caption text-on-surface text-xs font-semibold">SEOC LIVE SYNC</span><span class="font-caption text-on-surface-variant text-xs">• 22s ago</span><button class="ml-1 flex items-center text-primary hover:text-on-primary-fixed-variant" title="Force Sync"><span class="material-symbols-outlined text-[16px]">refresh</span></button></div></div><div class="flex items-center gap-space-md"><div class="hidden lg:flex items-center gap-1.5 px-space-sm py-1 bg-surface-container rounded"><span class="material-symbols-outlined text-[16px] text-outline">timer</span><span class="font-caption text-on-surface-variant text-xs">Inactivity Lock:</span><span class="font-label-strong text-xs text-on-surface">14:58</span></div><div class="hidden sm:flex items-center gap-space-sm px-space-sm py-1 bg-surface-container-low rounded"><div class="flex flex-col text-right"><span class="font-label-strong text-on-surface text-xs leading-none">Rajesh Sharma, IAS</span><span class="font-caption text-on-surface-variant text-[11px] leading-tight">Relief Coordinator, BLR Urban</span></div></div><div class="relative"><button class="h-9 px-space-sm bg-surface-container hover:bg-surface-container-high rounded flex items-center gap-1.5 text-on-surface text-xs font-label-strong"><span class="material-symbols-outlined text-[18px] text-primary">admin_panel_settings</span><span class="hidden sm:inline">Role Tools</span><span class="material-symbols-outlined text-[16px] text-outline">arrow_drop_down</span></button></div><a class="h-9 px-space-sm rounded bg-surface-container-low hover:bg-error-container hover:text-on-error-container text-on-surface flex items-center gap-1 text-xs font-label-strong transition-colors" data-path="login" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span class="hidden md:inline">Sign Out</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header></div><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-low z-40 flex flex-col pt-space-md pb-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="px-space-md mb-space-sm"><span class="font-caption text-xs uppercase tracking-wider text-outline font-semibold">Emergency Operations</span></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary-container font-label-strong"><a aria-current="page" class="flex items-center px-space-md py-2.5 rounded transition-all bg-primary-container text-on-primary-container font-label-strong" data-path="simulate-a-change" href="#" onclick="switchTab('tab-sim'); return false;"><span class="material-symbols-outlined mr-3 text-[20px]">tune</span>Simulate a Change</a><a class="flex items-center px-space-md py-2.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="staff-tools" href="#" onclick="switchTab('tab-staff'); return false;"><span class="material-symbols-outlined mr-3 text-[20px]">shield_person</span>Staff Tools</a><a class="flex items-center px-space-md py-2.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="public-settings-and-accessibility" href="#" onclick="switchTab('tab-settings'); return false;"><span class="material-symbols-outlined mr-3 text-[20px]">accessibility_new</span>Public Settings</a><a class="flex items-center px-space-md py-2.5 rounded text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="public-transparency-and-civic-data-portal" href="#" onclick="switchTab('tab-transparency'); return false;"><span class="material-symbols-outlined mr-3 text-[20px]">query_stats</span>Transparency Portal</a></nav><div class="px-space-md pt-space-sm"><div class="p-space-sm rounded bg-surface-container-lowest flex flex-col gap-1"><div class="flex items-center gap-1 text-tertiary font-label-strong text-xs"><span class="material-symbols-outlined text-[16px]">verified</span>SECURE CITIZEN RAIL</div><span class="font-caption text-[11px] text-on-surface-variant">NIC Protocol v4.2.1 • Encryption Active</span></div></div></aside><div class="pl-64"><main class="relative pt-16 min-h-screen bg-surface w-full px-gutter-desktop py-space-md"><div class="flex flex-col w-full">
+<!-- TOP CONTEXT RIBBON & ALERT NOTICE -->
+<div class="bg-surface-container-low px-space-md py-space-sm mb-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0">emergency_home</span>
+<div class="min-w-0">
+<span class="font-label-strong text-label-strong text-primary tracking-tight">OPERATIONAL CONSOLE // सिमुलेशन एवं प्रशासनिक नियंत्रण</span>
+<span class="font-caption text-caption text-on-surface-variant ml-2 truncate">Karnataka SEOC Node 14 • Authorised Session ID: SEOC-BLR-8924</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+<span class="inline-block w-2 h-2 rounded-full bg-tertiary"></span> Cache Synced: 14:41 IST
+      </span>
+<button class="h-9 px-space-sm bg-surface-container hover:bg-surface-container-high rounded flex items-center gap-1 font-label-strong text-label-strong text-on-surface text-xs" onclick="window.print()">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>Print Shift Brief</span>
+</button>
+</div>
+</div>
+<!-- TAB NAVIGATION BAR -->
+<nav aria-label="Portal Modules" class="w-full bg-surface-container-lowest px-space-md mb-space-lg overflow-x-auto shadow-sm"><div class="flex items-stretch min-w-[720px] gap-space-xs" id="module-tabs"><button class="active-tab flex-1 py-3 px-space-sm flex items-center justify-center gap-2 bg-primary text-on-primary font-label-strong text-label-strong rounded transition-all" id="tab-btn-sim" onclick="switchTab('tab-sim')" type="button"><span class="material-symbols-outlined text-[20px]">tune</span><span class="text-left leading-tight">1. Simulate a Change <span class="block text-xs font-normal opacity-90">(Stage 5 Engine)</span></span></button><button class="flex-1 py-3 px-space-sm flex items-center justify-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong rounded transition-all" id="tab-btn-staff" onclick="switchTab('tab-staff')" type="button"><span class="material-symbols-outlined text-[20px]">badge</span><span class="text-left leading-tight">2. Staff Tools <span class="block text-xs font-normal text-on-surface-variant">(Role Suite &amp; AI Broadcast)</span></span></button><button class="flex-1 py-3 px-space-sm flex items-center justify-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong rounded transition-all" id="tab-btn-settings" onclick="switchTab('tab-settings')" type="button"><span class="material-symbols-outlined text-[20px]">settings_accessibility</span><span class="text-left leading-tight">3. Public Settings <span class="block text-xs font-normal text-on-surface-variant">(&amp; Appearance / A11y)</span></span></button><button class="flex-1 py-3 px-space-sm flex items-center justify-center gap-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong rounded transition-all" id="tab-btn-transparency" onclick="switchTab('tab-transparency')" type="button"><span class="material-symbols-outlined text-[20px]">analytics</span><span class="text-left leading-tight">4. Transparency Portal <span class="block text-xs font-normal text-on-surface-variant">(Civic Data &amp; Audit Trail)</span></span></button></div></nav>
+<!-- ========================================================================= -->
+<!-- SECTION 1: SIMULATE A CHANGE (STAGE 5 LOGISTICS ENGINE) -->
+<!-- ========================================================================= -->
+<section class="tab-panel flex flex-col gap-space-lg" id="tab-sim">
+<!-- Header banner -->
+<div class="bg-surface-container-lowest p-space-md rounded flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-strong text-xs uppercase tracking-wider">Dry-Run Simulation Workspace</span>
+<span class="text-on-surface-variant font-caption text-caption text-xs">Deterministic Civil Logistics Algorithm v5.8</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Stage 5 Crisis Logistics Re-route Simulator</h2>
+<p class="font-body-default text-body-default text-on-surface-variant mt-1">
+          Test logistical contingencies without affecting ground operations. Simulating road inundations, abrupt warehouse deficits, or newly identified pocket wards.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<span class="px-3 py-1.5 rounded bg-surface-container text-on-surface-variant font-caption text-caption text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">lock</span> Live Dispatches Locked
+        </span>
+</div>
+</div>
+<!-- CONFIGURATION CONTROL PANEL -->
+<div class="bg-surface-container-lowest p-space-lg rounded shadow-sm">
+<div class="flex items-center justify-between mb-space-md pb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">swap_calls</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">1. Choose Simulated Variable Overrides</h3>
+</div>
+<span class="font-caption text-caption text-on-surface-variant text-xs">All 3 parameters compute simultaneously on apply</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- OPTION 1: BLOCK A ROUTE -->
+<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-strong text-label-strong text-on-surface flex items-center gap-1.5">
+<span class="w-6 h-6 rounded bg-primary text-on-primary text-xs flex items-center justify-center font-bold">A</span>
+                Block a Critical Corridor
+              </span>
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-caption text-xs font-semibold">Simulated Inundation</span>
+</div>
+<label class="font-caption text-caption text-on-surface-variant text-xs" for="route-select">Target Transit Lifeline:</label>
+<select class="w-full h-12 px-space-md bg-surface-container-lowest text-on-surface font-body-default text-body-default rounded focus:outline-none focus:ring-2 focus:ring-primary" id="route-select">
+<option selected="" value="r4">Route 4 - Bellandur Causeway Bypass (Ch. 14+200)</option>
+<option value="r2">Route 2 - Domlur Flyover Underpass (Low-Lying)</option>
+<option value="r7">Route 7 - Varthur Lake Diversion Link</option>
+<option value="r11">Route 11 - Mahadevapura Ring Feeder</option>
+</select>
+<div class="p-2 rounded bg-surface-container text-xs text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-error">water_do</span>
+<span>Water depth: 1.4m. Standard 4WD &amp; light trucks submerged.</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs text-xs text-secondary font-caption">Status Flag: Simulated Inundation / Blocked (सड़क अवरुद्ध)</div>
+</div>
+<!-- OPTION 2: ADD A NEW AFFECTED AREA -->
+<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-strong text-label-strong text-on-surface flex items-center gap-1.5">
+<span class="w-6 h-6 rounded bg-primary text-on-primary text-xs flex items-center justify-center font-bold">B</span>
+                Add New Affected Area
+              </span>
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-xs font-semibold">Priority Ward</span>
+</div>
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-0.5">Ward / Pocket Name</label>
+<input class="w-full h-10 px-space-sm bg-surface-container-lowest text-on-surface font-body-default text-xs rounded" type="text" value="Ward 174 - Kariyammana Agrahara"/>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-0.5">Affected Population</label>
+<input class="w-full h-10 px-space-sm bg-surface-container-lowest text-on-surface font-body-default text-xs rounded" type="text" value="450 citizens"/>
+</div>
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-0.5">Supply Deprivation</label>
+<input class="w-full h-10 px-space-sm bg-surface-container-lowest text-on-surface font-body-default text-xs rounded" type="text" value="36 hours dry"/>
+</div>
+</div>
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-0.5">Vulnerable Sub-demographic</label>
+<input class="w-full h-10 px-space-sm bg-surface-container-lowest text-on-surface font-body-default text-xs rounded" type="text" value="28 elderly, 14 infants, 6 bedridden"/>
+</div>
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-0.5">Immediate Relief Requisition</label>
+<input class="w-full h-10 px-space-sm bg-surface-container-lowest text-on-surface font-body-default text-xs rounded" type="text" value="Drinking Water (500L), Ready Meals (400)"/>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs text-xs text-secondary font-caption">Calculated Urgency: Stage 4 Triage (Immediate)</div>
+</div>
+<!-- OPTION 3: REDUCE STOCK AT A WAREHOUSE -->
+<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-strong text-label-strong text-on-surface flex items-center gap-1.5">
+<span class="w-6 h-6 rounded bg-primary text-on-primary text-xs flex items-center justify-center font-bold">C</span>
+                Induce Supply Shock
+              </span>
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-caption text-xs font-semibold">Depot Deficit</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Target Depot</label>
+<select class="w-full h-10 px-2 bg-surface-container-lowest text-on-surface text-xs rounded">
+<option selected="">Depot A - Domlur Central</option>
+<option>Depot B - Whitefield South</option>
+<option>Depot C - Yelahanka Railhead</option>
+</select>
+</div>
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Essential Item</label>
+<select class="w-full h-10 px-2 bg-surface-container-lowest text-on-surface text-xs rounded">
+<option selected="">Drinking Water (L)</option>
+<option>Dry Ration Packs</option>
+<option>Emergency Med Kits</option>
+</select>
+</div>
+</div>
+<div>
+<label class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Stock Reduction Quantity</label>
+<div class="flex items-center gap-space-sm">
+<button aria-label="Decrease reduction by 500 liters" class="w-12 h-12 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-sm flex items-center justify-center select-none active:scale-95 transition-transform" onclick="adjustSimDeficit(-500)" type="button">−</button>
+<div class="flex-1 h-12 bg-surface-container-lowest rounded flex items-center justify-center font-headline-sm text-primary px-3" id="sim-deficit-val">
+                  −4,000 L
+                </div>
+<button aria-label="Increase reduction by 500 liters" class="w-12 h-12 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-headline-sm flex items-center justify-center select-none active:scale-95 transition-transform" onclick="adjustSimDeficit(500)" type="button">+</button>
+</div>
+</div>
+<div class="p-2 rounded bg-error-container text-on-error-container text-xs flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span>Available buffer drops from 12,000L to 8,000L at Central Hub.</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs text-xs text-secondary font-caption">Reason: Simulated Flooded Basement Rack B-4</div>
+</div>
+</div>
+<!-- APPLY BUTTON -->
+<div class="mt-space-lg pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-2 text-on-surface-variant text-caption">
+<span class="material-symbols-outlined text-primary text-[20px]">bolt</span>
+<span>Simulation executes non-destructive recalculation across 28 downstream routes.</span>
+</div>
+<button class="w-full sm:w-auto min-w-[280px] h-12 px-space-lg bg-primary hover:bg-primary-container active:bg-on-primary-fixed-variant text-on-primary font-label-strong text-label-strong rounded shadow-sm flex items-center justify-center gap-2 transition-colors" onclick="runSimulationEffect()" type="button">
+<span>Apply change (सिमुलेशन लागू करें)</span>
+<span class="material-symbols-outlined text-[20px]">flash_on</span>
+</button>
+</div>
+</div>
+<!-- NARRATIVE SUMMARY CALLOUT BOX -->
+<div class="bg-surface-container-highest p-space-md rounded flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md"><div class="flex items-start gap-space-md"><div class="w-10 h-10 rounded bg-primary text-on-primary flex items-center justify-center shrink-0 mt-1 md:mt-0 font-bold"><span class="material-symbols-outlined text-[22px]">smart_toy</span></div><div><div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 bg-surface-container-lowest text-primary rounded font-label-strong text-xs uppercase tracking-wide inline-block">[AI Simulated Output - Iteration 03 - Not Live Data]</span><span class="px-2 py-0.5 bg-error-container text-on-error-container rounded text-xs font-semibold">Sandbox Mode</span></div><p class="font-body-strong text-body-strong text-on-surface">"Bridge on Route 4 is blocked. 2 deliveries re-routed through the north perimeter road (+33 mins transit). Village X is now partly fulfilled: 150L short of water. Koramangala Depot buffer allocated to critical medical units."</p><div class="flex flex-wrap items-center gap-space-md mt-2 font-caption text-caption text-on-surface-variant text-xs"><span class="font-semibold text-primary">• 3 requests changed status</span><span class="font-semibold text-on-surface">• 4,200L water moved</span><span class="font-semibold text-error">• 2 routes altered</span><span class="text-secondary">• Convergence calculated in 0.42s</span></div></div></div><div class="flex items-center gap-2 shrink-0 w-full md:w-auto"><button class="flex-1 md:flex-none h-10 px-3 bg-surface-container-lowest hover:bg-surface-container text-on-surface text-xs font-label-strong rounded flex items-center justify-center gap-1" onclick="testAudio()" type="button"><span class="material-symbols-outlined text-[16px]">volume_up</span> Read Aloud</button></div></div>
+<!-- SIDE BY SIDE COMPARISON TABLES -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
+<!-- EARLIER APPROVED PLAN -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">history</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Earlier Approved Plan (योजना A - सक्रिय)</h4>
+</div>
+<span class="px-2.5 py-1 rounded bg-surface-container text-on-surface-variant font-label-strong text-xs">Baseline • 12:00 IST</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-caption text-caption text-xs">
+<thead class="bg-surface-container text-on-surface-variant uppercase">
+<tr>
+<th class="p-2.5">Corridor / Unit</th>
+<th class="p-2.5">Transit Path</th>
+<th class="p-2.5">ETA</th>
+<th class="p-2.5">Water Volume</th>
+<th class="p-2.5">Fulfillment Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-on-surface">
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Route 4 Corridor</td>
+<td class="p-2.5">Direct Causeway</td>
+<td class="p-2.5">25 mins</td>
+<td class="p-2.5">6,000 L</td>
+<td class="p-2.5">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-semibold">100% Fulfilled</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Village X (Sector 12)</td>
+<td class="p-2.5">Via Causeway Bypass</td>
+<td class="p-2.5">32 mins</td>
+<td class="p-2.5">400 L / 400 L</td>
+<td class="p-2.5">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-semibold">0 Shortfall</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Relief Post Domlur</td>
+<td class="p-2.5">Central Feeder</td>
+<td class="p-2.5">18 mins</td>
+<td class="p-2.5">1,200 L</td>
+<td class="p-2.5">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-semibold">Target Met</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Ward 174 Agrahara</td>
+<td class="p-2.5">Not Registered</td>
+<td class="p-2.5">—</td>
+<td class="p-2.5">0 L</td>
+<td class="p-2.5">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant">Unscheduled</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-xs text-on-surface-variant">
+<span>Total Planned Dispatches: 12 Trucks</span>
+<span class="font-semibold text-tertiary">Active in Field</span>
+</div>
+</div>
+<!-- NEW SIMULATED PLAN -->
+<div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-sm mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">science</span>
+<h4 class="font-headline-sm text-headline-sm text-primary">Simulated Result Plan (योजना B - नया प्रस्ताव)</h4>
+</div>
+<span class="px-2.5 py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-strong text-xs">Simulated Iteration 03</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-caption text-caption text-xs">
+<thead class="bg-surface-container text-on-surface-variant uppercase">
+<tr>
+<th class="p-2.5">Corridor / Unit</th>
+<th class="p-2.5">Transit Path</th>
+<th class="p-2.5">ETA Change</th>
+<th class="p-2.5">Water Volume</th>
+<th class="p-2.5">Operational Badge</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-on-surface">
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Route 4 Corridor</td>
+<td class="p-2.5">North Perimeter Road</td>
+<td class="p-2.5 font-bold text-error">58 mins (+33m)</td>
+<td class="p-2.5">4,800 L</td>
+<td class="p-2.5">
+<!-- RE-ROUTED DOUBLE-BORDER PATTERN -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container text-on-surface font-semibold text-xs border-2 border-primary">
+<span class="material-symbols-outlined text-[14px]">sync_alt</span> [🔄 RE-ROUTED // Double-border]
+                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Village X (Sector 12)</td>
+<td class="p-2.5">North Perimeter Road</td>
+<td class="p-2.5">65 mins (+33m)</td>
+<td class="p-2.5 font-bold text-error">250 L (150L Short)</td>
+<td class="p-2.5">
+<!-- NEW SHORTFALL DOTTED PATTERN -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-error-container text-on-error-container font-semibold text-xs border-2 border-dotted border-error">
+<span class="material-symbols-outlined text-[14px]">crisis_alert</span> [🚨 NEW SHORTFALL // Dotted]
+                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Depot A Stocks</td>
+<td class="p-2.5">Sub-depot Reallocation</td>
+<td class="p-2.5">Constant</td>
+<td class="p-2.5 text-secondary">8,000 L Available</td>
+<td class="p-2.5">
+<!-- CHANGED STRIPED PATTERN -->
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold text-xs border border-dashed border-secondary">
+<span class="material-symbols-outlined text-[14px]">change_circle</span> [⚠️ CHANGED // Striped]
+                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low">
+<td class="p-2.5 font-semibold">Ward 174 Agrahara</td>
+<td class="p-2.5">Auxiliary Tractor Link</td>
+<td class="p-2.5">48 mins</td>
+<td class="p-2.5">500 L Dispatched</td>
+<td class="p-2.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-semibold text-xs">
+<span class="material-symbols-outlined text-[14px]">add_task</span> [✅ INCLUDED IN PIPELINE]
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-xs text-on-surface-variant">
+<span>Net Route Travel Delay: +66 vehicle hours</span>
+<span class="font-semibold text-error">Critical Water Rationing Enforced</span>
+</div>
+</div>
+</div>
+<!-- OPERATIONAL ACTION CONTROLS -->
+<div class="bg-surface-container-low p-space-md rounded flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px]">security</span>
+<div class="flex flex-col">
+<span class="font-label-strong text-label-strong text-on-surface text-sm">Operational Authorization Guardrail</span>
+<span class="font-caption text-caption text-on-surface-variant text-xs">Approving new plan will instantly notify field truck dispatchers via NIC SMS Gateway &amp; update live manifests.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm w-full sm:w-auto">
+<button class="flex-1 sm:flex-none h-12 px-space-lg rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong transition-colors flex items-center justify-center gap-2" onclick="undoSimulation()" type="button">
+<span class="material-symbols-outlined text-[20px]">undo</span>
+<span>Undo simulation (वापस लें)</span>
+</button>
+<button class="flex-1 sm:flex-none h-12 px-space-lg rounded bg-tertiary hover:bg-tertiary-container text-on-tertiary font-label-strong text-label-strong transition-colors flex items-center justify-center gap-2 shadow-sm" onclick="promptPlanApproval()" type="button">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+<span>Accept new plan (स्वीकार करें)</span>
+<span class="px-1.5 py-0.5 rounded bg-on-tertiary text-tertiary text-[11px] font-bold">2FA Required</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ========================================================================= -->
+<!-- SECTION 2: STAFF TOOLS (ROLE-BASED MODULAR SUITE) -->
+<!-- ========================================================================= -->
+<section class="tab-panel hidden flex flex-col gap-space-lg" id="tab-staff"><div class="bg-surface-container-lowest p-space-md rounded flex flex-col md:flex-row md:items-center justify-between gap-space-md"><div><div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-label-strong text-xs uppercase tracking-wider">Role-Based Rapid Terminal</span><span class="text-on-surface-variant font-caption text-caption text-xs">Officer: Rajesh Sharma, IAS • SEOC Node 14</span></div><h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Staff Field Operations, AI Inventory &amp; Multi-Lingual Broadcast Suite</h2><p class="font-body-default text-body-default text-on-surface-variant mt-1">Tactical triage for emergency shelters, hospital wards, warehouse allocations, and emergency multilingual broadcasting.</p></div><div class="flex items-center gap-space-sm shrink-0"><span class="font-caption text-caption text-xs px-2.5 py-1 rounded bg-tertiary-fixed text-on-tertiary-fixed flex items-center gap-1 font-semibold"><span class="material-symbols-outlined text-[16px]">wifi</span> Telemetry Synchronized</span></div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm mb-space-sm border-b border-surface-container gap-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">night_shelter</span><h3 class="font-headline-sm text-headline-sm text-on-surface">1. Critical Shelters &amp; Hospital Node Status</h3></div><span class="font-caption text-caption text-on-surface-variant text-xs">Real-time ground occupancy &amp; triage status</span></div><div class="overflow-x-auto"><table class="w-full text-left font-caption text-caption text-xs"><thead class="bg-surface-container text-on-surface-variant uppercase"><tr><th class="p-2.5">Facility / Unit</th><th class="p-2.5">Type</th><th class="p-2.5">Capacity / Occupancy</th><th class="p-2.5">Triage Readiness</th><th class="p-2.5">Oxygen &amp; Generator</th><th class="p-2.5">Staff On Duty</th><th class="p-2.5 text-right">Quick Action</th></tr></thead><tbody class="divide-y divide-surface-container text-on-surface"><tr class="hover:bg-surface-container-low"><td class="p-2.5 font-semibold text-primary">Sector 4 Community Hall (SEOC-SH-402)</td><td class="p-2.5">Relief Shelter</td><td class="p-2.5"><div class="flex items-center gap-2"><span>212 / 300 (71%)</span><div class="w-16 bg-surface-container h-1.5 rounded-full"><div class="bg-primary h-full rounded-full" style="width: 71%;"></div></div></div></td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-semibold">Ready (Green)</span></td><td class="p-2.5">Dual Genset • 100% Fuel</td><td class="p-2.5">8 SDRF / 3 Nurses</td><td class="p-2.5 text-right"><button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold" type="button">Update Capacity</button></td></tr><tr class="hover:bg-surface-container-low"><td class="p-2.5 font-semibold text-primary">Victoria Relief Hospital Ward 4</td><td class="p-2.5">Tertiary Hospital</td><td class="p-2.5"><div class="flex items-center gap-2"><span>42 / 50 ICU (84%)</span><div class="w-16 bg-surface-container h-1.5 rounded-full"><div class="bg-error h-full rounded-full" style="width: 84%;"></div></div></div></td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-semibold">Critical Care Peak</span></td><td class="p-2.5">O2: 32 Cylinders Safe</td><td class="p-2.5">14 Med Staff (Dr. Rao)</td><td class="p-2.5 text-right"><button class="px-2.5 py-1 bg-primary text-on-primary rounded font-semibold" type="button">Dispatch 108</button></td></tr><tr class="hover:bg-surface-container-low"><td class="p-2.5 font-semibold text-primary">Bellandur Govt High School Relief Camp</td><td class="p-2.5">Temporary Camp</td><td class="p-2.5"><div class="flex items-center gap-2"><span>165 / 200 (82%)</span><div class="w-16 bg-surface-container h-1.5 rounded-full"><div class="bg-secondary h-full rounded-full" style="width: 82%;"></div></div></div></td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-semibold">Water Shortfall</span></td><td class="p-2.5">Genset Operational</td><td class="p-2.5">6 Volunteers / 1 MO</td><td class="p-2.5 text-right"><button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold" type="button">Log Requisition</button></td></tr></tbody></table></div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm mb-space-sm border-b border-surface-container gap-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">inventory_2</span><h3 class="font-headline-sm text-headline-sm text-on-surface">2. Warehouse Inventory &amp; AI-Assisted Supply Planning</h3></div><span class="px-2 py-0.5 bg-primary-fixed text-on-primary-fixed rounded text-xs font-semibold">Predictive Replenishment Engine</span></div><div class="overflow-x-auto mb-space-md"><table class="w-full text-left font-caption text-caption text-xs"><thead class="bg-surface-container text-on-surface-variant uppercase"><tr><th class="p-2.5">Depot Node</th><th class="p-2.5">Verified Inventory</th><th class="p-2.5">Pending Demand</th><th class="p-2.5">Potential Deficit</th><th class="p-2.5">AI Recommendation Horizon</th><th class="p-2.5 text-right">Staff Approval</th></tr></thead><tbody class="divide-y divide-surface-container text-on-surface"><tr class="hover:bg-surface-container-low"><td class="p-2.5 font-semibold text-primary">Depot A - Domlur Central</td><td class="p-2.5">8,000L Water, 1,200 Ration Packs</td><td class="p-2.5">9,500L Water</td><td class="p-2.5 font-bold text-error">−1,500L (in 3 hrs)</td><td class="p-2.5"><span class="font-semibold text-on-surface">Recommend transfer from Depot C: 3,500L</span> (94% confidence, IMD runoff forecast)</td><td class="p-2.5 text-right"><label class="inline-flex items-center gap-1 cursor-pointer"><input checked="" class="w-4 h-4 accent-primary" type="checkbox"/><span class="text-xs font-semibold text-tertiary">Approved</span></label></td></tr><tr class="hover:bg-surface-container-low"><td class="p-2.5 font-semibold text-primary">Depot B - Whitefield South</td><td class="p-2.5">14,200L Water, 4,800 Meals</td><td class="p-2.5">6,200L Water</td><td class="p-2.5 text-tertiary font-semibold">Buffer Stable (+8,000L)</td><td class="p-2.5">Stage 5 safe. Standby for Ward 174 tractor transshipment.</td><td class="p-2.5 text-right"><label class="inline-flex items-center gap-1 cursor-pointer"><input checked="" class="w-4 h-4 accent-primary" type="checkbox"/><span class="text-xs font-semibold text-tertiary">Approved</span></label></td></tr><tr class="hover:bg-surface-container-low"><td class="p-2.5 font-semibold text-primary">Depot C - Yelahanka Railhead</td><td class="p-2.5">22,000L Water, 15,000 ORS</td><td class="p-2.5">4,000L Water</td><td class="p-2.5 text-tertiary font-semibold">High Surplus (+18,000L)</td><td class="p-2.5">Release 3,500L Convoy CNV-90 immediately to South sector.</td><td class="p-2.5 text-right"><label class="inline-flex items-center gap-1 cursor-pointer"><input checked="" class="w-4 h-4 accent-primary" type="checkbox"/><span class="text-xs font-semibold text-tertiary">Approved</span></label></td></tr></tbody></table></div><div class="p-3 bg-surface-container-low rounded flex items-center justify-between text-xs"><span class="flex items-center gap-1.5 text-on-surface"><span class="material-symbols-outlined text-primary text-[18px]">verified_user</span> 3 Staff-approved automated transfers scheduled for dispatch via NIC Transport Gateway.</span><button class="px-3 py-1.5 bg-primary text-on-primary rounded font-label-strong hover:bg-primary-container" onclick="alert('Warehouse transfer orders signed &amp; queued!')" type="button">Commit Inter-Depot Transfers</button></div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-sm mb-space-sm border-b border-surface-container gap-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">record_voice_over</span><h3 class="font-headline-sm text-headline-sm text-on-surface">3. Multi-Language Emergency Broadcast / Announcement Composer</h3></div><span class="px-2.5 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded font-label-strong text-xs">12 Indic Languages Engine</span></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md mb-space-md"><div class="lg:col-span-2 flex flex-col gap-space-sm"><div><label class="font-caption text-caption text-on-surface-variant text-xs block mb-1 font-semibold">Author Source Broadcast (English / मूल संदेश)</label><textarea class="w-full h-24 p-2.5 bg-surface-container-lowest border border-outline-variant rounded text-on-surface font-body-default text-xs focus:outline-none focus:ring-2 focus:ring-primary" id="broadcast-source-text">URGENT RELIEF NOTICE: Route 4 Bellandur Causeway is inundated. Drinking water distribution diverted to Sector 4 Community Hall and Ward 174 Agrahara High School. Emergency SOS: Dial 112.</textarea></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm"><div><label class="font-caption text-caption text-on-surface-variant text-xs block mb-1 font-semibold">Target Audience</label><select class="w-full h-10 px-2.5 bg-surface-container-low border border-outline-variant text-on-surface font-body-default text-xs rounded"><option>All Citizens in Affected Zones</option><option>Evacuation Camps &amp; Relief Centers</option><option>First Responders &amp; NDRF Units</option></select></div><div><label class="font-caption text-caption text-on-surface-variant text-xs block mb-1 font-semibold">Target Region / Pocket Wards</label><select class="w-full h-10 px-2.5 bg-surface-container-low border border-outline-variant text-on-surface font-body-default text-xs rounded"><option>Ward 142 Bellandur &amp; Ward 174 Agrahara</option><option>All Bengaluru East &amp; South Zones</option><option>Full District High-Water Perimeter</option></select></div></div></div><div class="bg-surface-container-low p-space-sm rounded flex flex-col justify-between"><div class="space-y-2"><span class="font-label-strong text-xs text-on-surface block font-semibold">12 Indic Language Translation Engine</span><p class="font-caption text-[11px] text-on-surface-variant">Instant neural translation verified against NDMA civil safety terminology dictionary.</p><button class="w-full h-10 bg-primary hover:bg-primary-container text-on-primary font-label-strong text-xs rounded flex items-center justify-center gap-1.5 shadow-sm transition-colors" onclick="alert('Generated translations across 12 Indic languages. Review draft tiles below.')" type="button"><span class="material-symbols-outlined text-[16px]">translate</span> One-Tap Translate (12 Scripts)</button></div><div class="text-[11px] text-on-surface-variant mt-2">Citizens receive alert in their saved preferred language with a direct link to the original English source notice.</div></div></div><div class="mb-space-md"><span class="font-label-strong text-xs text-on-surface block mb-2 font-semibold">Translation Review &amp; Telemetry Status (12 Official Indian Languages)</span><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2"><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">हिन्दी (Hindi)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Verified Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">महत्वपूर्ण सूचना: रूट 4 बेलंदूर कॉजवे जलमग्न है...</p><div class="flex items-center justify-between text-[10px] text-tertiary font-semibold mt-1"><span>4,820 Delivered</span><span>0 Failed</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">ಕನ್ನಡ (Kannada)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Verified Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">ತುರ್ತು ಸೂಚನೆ: ಮಾರ್ಗ 4 ಬೆಳ್ಳಂದೂರು ಕಾಸ್‌ವೇ ಮುಳುಗಡೆಯಾಗಿದೆ...</p><div class="flex items-center justify-between text-[10px] text-tertiary font-semibold mt-1"><span>6,104 Delivered</span><span>12 Retrying</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">தமிழ் (Tamil)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Verified Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">அவசர அறிவிப்பு: பாதை 4 பெல்லந்தூர் பாலம் வெள்ளத்தில்...</p><div class="flex items-center justify-between text-[10px] text-tertiary font-semibold mt-1"><span>2,140 Delivered</span><span>0 Failed</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">తెలుగు (Telugu)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Verified Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">అత్యవసర సమాచారం: రూట్ 4 బెల్లందూరు కాజ్‌వే మునిగిపోయింది...</p><div class="flex items-center justify-between text-[10px] text-tertiary font-semibold mt-1"><span>3,025 Delivered</span><span>0 Failed</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">മലയാളം (Malayalam)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">അടിയന്തര മുന്നറിയിപ്പ്: റൂട്ട് 4 ബെള്ളന്തൂർ കോസ്‌വേ...</p><div class="flex items-center justify-between text-[10px] text-on-surface-variant font-semibold mt-1"><span>890 Queued</span><span>0 Failed</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">मराठी (Marathi)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">तातडीची सूचना: रूट 4 बेलंदूर कॉजवे पाण्याखाली...</p><div class="flex items-center justify-between text-[10px] text-on-surface-variant font-semibold mt-1"><span>640 Queued</span><span>0 Failed</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">বাংলা (Bengali)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">জরুরি সতর্কবার্তা: রুট ৪ বেল্লান্দুর কজওয়ে প্লাবিত...</p><div class="flex items-center justify-between text-[10px] text-on-surface-variant font-semibold mt-1"><span>510 Queued</span><span>0 Failed</span></div></div><div class="p-2.5 bg-surface-container-low rounded border border-surface-container"><div class="flex items-center justify-between mb-1"><span class="font-bold text-xs text-on-surface">ગુજરાતી (Gujarati)</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold">Ready</span></div><p class="text-[11px] text-on-surface-variant truncate">તાત્કાલિક ચેતવણી: રૂટ 4 બેલંદુર કોઝવે ડૂબી ગયો છે...</p><div class="flex items-center justify-between text-[10px] text-on-surface-variant font-semibold mt-1"><span>430 Queued</span><span>0 Failed</span></div></div></div></div><div class="pt-space-sm border-t border-surface-container flex flex-col sm:flex-row items-center justify-between gap-space-md"><div class="text-xs text-on-surface-variant flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[18px]">encrypted</span><span>Cryptographically signed with Officer NIC Digital Key: R-SHARMA-8924</span></div><button class="w-full sm:w-auto min-w-[280px] h-12 px-space-lg bg-primary hover:bg-primary-container text-on-primary font-label-strong rounded shadow-sm flex items-center justify-center gap-2" onclick="alert('EMERGENCY BROADCAST TRANSMITTED across all 12 Indian Languages via NIC Telecom Cell Broadcast &amp; WhatsApp Wire.')" type="button"><span>Sign &amp; Dispatch Broadcast (अधिकृत प्रसारण जारी करें)</span><span class="material-symbols-outlined text-[20px]">campaign</span></button></div></div></section>
+<!-- ========================================================================= -->
+<!-- SECTION 3: PUBLIC SETTINGS & ACCESSIBILITY -->
+<!-- ========================================================================= -->
+<section class="tab-panel hidden flex flex-col gap-space-lg" id="tab-settings"><div class="bg-surface-container-lowest p-space-md rounded flex flex-col md:flex-row md:items-center justify-between gap-space-md"><div><div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-strong text-xs uppercase tracking-wider">Universal Indian Civic Access</span><span class="text-on-surface-variant font-caption text-caption text-xs">WCAG 2.2 AAA &amp; GIGW Compliance</span></div><h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Public Settings, Appearance &amp; Accessibility</h2><p class="font-body-default text-body-default text-on-surface-variant mt-1">Configure appearance themes, Indic multi-script preferences, high-contrast and battery savers, and officer account credentials.</p></div><div class="flex items-center gap-2"><button class="h-10 px-space-md rounded bg-primary hover:bg-primary-container text-on-primary font-label-strong text-xs flex items-center gap-1.5 shadow-sm" onclick="autoDetectLanguage()" type="button"><span class="material-symbols-outlined text-[18px]">my_location</span><span>Choose automatically from my location (स्थान से चुनें)</span></button></div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-surface-container"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">palette</span><h3 class="font-headline-sm text-headline-sm text-on-surface">1. Appearance &amp; Visual Theme Mode</h3></div><span class="font-caption text-caption text-on-surface-variant text-xs">Instant live switching</span></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md"><button class="theme-opt-btn p-space-md rounded border-2 border-primary bg-surface-container-low text-left flex flex-col justify-between transition-all" id="theme-btn-light" onclick="setPortalTheme('light')" type="button"><div class="flex items-center justify-between mb-2"><span class="font-label-strong text-xs text-on-surface flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">light_mode</span> Light Mode</span><span class="w-4 h-4 rounded-full bg-primary flex items-center justify-center text-[10px] text-on-primary">✓</span></div><p class="text-[11px] text-on-surface-variant">Optimized for daytime direct sunlight and outdoor coordination.</p></button><button class="theme-opt-btn p-space-md rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-left flex flex-col justify-between transition-all" id="theme-btn-dark" onclick="setPortalTheme('dark')" type="button"><div class="flex items-center justify-between mb-2"><span class="font-label-strong text-xs text-on-surface flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[18px]">dark_mode</span> Dark Mode</span><span class="w-4 h-4 rounded-full border border-outline-variant"></span></div><p class="text-[11px] text-on-surface-variant">Night shift SEOC operations with reduced glare and eye strain.</p></button><button class="theme-opt-btn p-space-md rounded border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-low text-left flex flex-col justify-between transition-all" id="theme-btn-system" onclick="setPortalTheme('system')" type="button"><div class="flex items-center justify-between mb-2"><span class="font-label-strong text-xs text-on-surface flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[18px]">settings_brightness</span> System Preference</span><span class="w-4 h-4 rounded-full border border-outline-variant"></span></div><p class="text-[11px] text-on-surface-variant">Follows operating system dark/light schedule automatically.</p></button></div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><div class="flex items-center justify-between pb-space-sm mb-space-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">translate</span><h3 class="font-headline-sm text-headline-sm text-on-surface">2. Language Preference // भाषा चयन</h3></div><span class="font-caption text-caption text-on-surface-variant text-xs">12 Official Regional Indian Scripts</span></div><div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-space-xs" id="lang-grid"><button class="lang-opt h-14 p-2 rounded bg-primary text-on-primary flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">English</span><span class="text-[11px] opacity-80">Default System</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">हिन्दी</span><span class="text-[11px] text-on-surface-variant">Hindi</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">ಕನ್ನಡ</span><span class="text-[11px] text-on-surface-variant">Kannada</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">தமிழ்</span><span class="text-[11px] text-on-surface-variant">Tamil</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">తెలుగు</span><span class="text-[11px] text-on-surface-variant">Telugu</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">বাংলা</span><span class="text-[11px] text-on-surface-variant">Bengali</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">मराठी</span><span class="text-[11px] text-on-surface-variant">Marathi</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">ગુજરાતી</span><span class="text-[11px] text-on-surface-variant">Gujarati</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">മലയാളം</span><span class="text-[11px] text-on-surface-variant">Malayalam</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">ଓଡ଼ିଆ</span><span class="text-[11px] text-on-surface-variant">Odia</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">ਪੰਜਾਬੀ</span><span class="text-[11px] text-on-surface-variant">Punjabi</span></button><button class="lang-opt h-14 p-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex flex-col items-center justify-center font-label-strong text-xs transition-colors" onclick="selectLang(this)" type="button"><span class="text-sm font-bold">অসমীয়া</span><span class="text-[11px] text-on-surface-variant">Assamese</span></button></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg"><div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between"><div><div class="flex items-center justify-between pb-space-sm mb-space-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">contrast</span><h3 class="font-headline-sm text-headline-sm text-on-surface">3. Tactile Accessibility Adaptations</h3></div><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-xs font-semibold">WCAG 2.2 AAA</span></div><div class="mb-space-sm"><div class="flex items-center justify-between mb-1"><span class="font-caption text-caption text-on-surface-variant text-xs">Tactile Text Resizing:</span><span class="font-label-strong text-xs text-primary font-bold" id="font-scale-pct">100% (Default)</span></div><div class="flex items-center gap-space-sm"><button aria-label="Decrease text scale" class="h-10 w-12 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-xs" onclick="adjustTextScale(-10)" type="button">A−</button><input class="flex-1 accent-primary h-2 bg-surface-container rounded-lg cursor-pointer" id="font-slider" max="200" min="100" oninput="updateTextScale(this.value)" step="10" type="range" value="100"/><button aria-label="Increase text scale" class="h-10 w-12 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-bold text-sm" onclick="adjustTextScale(10)" type="button">A+</button></div></div><div class="space-y-2"><div class="flex items-center justify-between p-2 rounded bg-surface-container-low"><div class="flex flex-col"><span class="font-label-strong text-xs text-on-surface">High-Contrast Mode (Pure Black &amp; Amber)</span><span class="font-caption text-[11px] text-on-surface-variant">Optimized contrast for extreme glare and low vision</span></div><input class="w-5 h-5 accent-primary rounded" type="checkbox"/></div><div class="flex items-center justify-between p-2 rounded bg-surface-container-low"><div class="flex flex-col"><span class="font-label-strong text-xs text-on-surface">OpenDyslexic Font Option</span><span class="font-caption text-[11px] text-on-surface-variant">Weighted baseline font for reading clarity</span></div><input class="w-5 h-5 accent-primary rounded" type="checkbox"/></div><div class="flex items-center justify-between p-2 rounded bg-surface-container-low"><div class="flex flex-col"><span class="font-label-strong text-xs text-on-surface">Minimum 48px Touch Targets</span><span class="font-caption text-[11px] text-on-surface-variant">Enlarges interactive levers for rugged field touchscreens</span></div><input checked="" class="w-5 h-5 accent-primary rounded" type="checkbox"/></div></div></div><div class="mt-space-md pt-space-sm text-xs text-secondary font-caption">Settings persist in local browser sandbox (No cross-site tracking).</div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm flex flex-col justify-between"><div><div class="flex items-center justify-between pb-space-sm mb-space-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">notifications_active</span><h3 class="font-headline-sm text-headline-sm text-on-surface">4. Alert Siren &amp; Notifications</h3></div><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-caption text-xs font-semibold">Audible Alarms</span></div><div class="space-y-2 mb-space-sm"><div class="flex items-center justify-between p-2 rounded bg-surface-container-low"><div class="flex flex-col"><span class="font-label-strong text-xs text-on-surface">Stage 5 Critical Siren Tone</span><span class="font-caption text-[11px] text-on-surface-variant">Sounds piercing 85dB alert for urgent evacuation</span></div><input checked="" class="w-5 h-5 accent-primary rounded" type="checkbox"/></div><div class="flex items-center justify-between p-2 rounded bg-surface-container-low"><div class="flex flex-col"><span class="font-label-strong text-xs text-on-surface">NIC SMS &amp; WhatsApp Backup Wire</span><span class="font-caption text-[11px] text-on-surface-variant">Sends instant offline duplicate to +91 98450 XXXXX</span></div><input checked="" class="w-5 h-5 accent-primary rounded" type="checkbox"/></div><div class="flex items-center justify-between p-2 rounded bg-surface-container-low"><div class="flex flex-col"><span class="font-label-strong text-xs text-on-surface">Low Battery Quiet Throttling</span><span class="font-caption text-[11px] text-on-surface-variant">Halts vibration and non-critical pings below 15%</span></div><input checked="" class="w-5 h-5 accent-primary rounded" type="checkbox"/></div></div></div><div class="p-2.5 rounded bg-surface-container-low flex items-center justify-between text-xs"><span class="text-on-surface-variant font-caption">Active Official: Rajesh Sharma (IAS) • 2FA Active</span><button class="px-2.5 py-1 bg-surface-container hover:bg-surface-container-high rounded text-primary font-semibold" type="button">Manage Credentials</button></div></div></div></section>
+<!-- ========================================================================= -->
+<!-- SECTION 4: PUBLIC TRANSPARENCY & CIVIC DATA PORTAL -->
+<!-- ========================================================================= -->
+<section class="tab-panel hidden flex flex-col gap-space-lg" id="tab-transparency"><div class="bg-surface-container-lowest p-space-md rounded flex flex-col md:flex-row md:items-center justify-between gap-space-md"><div><div class="flex items-center gap-2 mb-1"><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-strong text-xs uppercase tracking-wider">Open Civic Accountability</span><span class="text-on-surface-variant font-caption text-caption text-xs">Zero-PII Public Integrity &amp; RTI Act 2005 Compliant</span></div><h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Public Transparency, Civic Data &amp; Audit Trail Portal</h2><p class="font-body-default text-body-default text-on-surface-variant mt-1">Publicly verifiable humanitarian relief metrics, immutable SEOC transaction hashes, and open machine-readable datasets.</p></div><div class="flex items-center gap-2"><button class="h-10 px-space-md rounded bg-primary hover:bg-primary-container text-on-primary font-label-strong text-xs flex items-center gap-1.5 shadow-sm" onclick="alert('Downloading Open Civic Dataset (CSV/JSON format)...')" type="button"><span class="material-symbols-outlined text-[18px]">download</span><span>Download District Data Pack</span></button><button class="h-10 px-space-md rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-xs flex items-center gap-1.5 shadow-sm" onclick="alert('Generating RTI Section 4 Disclosure Audit PDF...')" type="button"><span class="material-symbols-outlined text-[18px]">picture_as_pdf</span><span>RTI Compliance Report</span></button></div></div><div class="grid grid-cols-2 md:grid-cols-5 gap-space-sm"><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><span class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Total Relief Funds Allocated</span><span class="font-headline-md text-headline-md text-primary font-bold block">₹14.80 Cr</span><span class="text-[11px] text-tertiary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span> SDRF State Budget</span></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><span class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Potable Water Dispatched</span><span class="font-headline-md text-headline-md text-on-surface font-bold block">4,82,000 L</span><span class="text-[11px] text-on-surface-variant">Across 28 Corridors</span></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><span class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Ration Meals Distributed</span><span class="font-headline-md text-headline-md text-on-surface font-bold block">98,420 Pkts</span><span class="text-[11px] text-tertiary font-semibold">100% Calorie Standard</span></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><span class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Verified Beneficiaries</span><span class="font-headline-md text-headline-md text-primary font-bold block">32,180</span><span class="text-[11px] text-on-surface-variant">Zero Citizen PII Exposed</span></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><span class="font-caption text-caption text-on-surface-variant text-xs block mb-1">Delivery Verification Rate</span><span class="font-headline-md text-headline-md text-tertiary font-bold block">98.4%</span><span class="text-[11px] text-tertiary font-semibold">GPS &amp; OTP Confirmed</span></div></div><div class="bg-surface-container-lowest p-space-md rounded shadow-sm"><div class="flex items-center justify-between pb-space-xs mb-space-sm"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-[22px]">gavel</span><h3 class="font-headline-sm text-headline-sm text-on-surface">Immutable SEOC Audit &amp; Dispatch Ledger</h3></div><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-xs font-semibold">NIC SHA-256 Validated</span></div><div class="overflow-x-auto"><table class="w-full text-left font-caption text-caption text-xs"><thead class="bg-surface-container text-on-surface-variant uppercase"><tr><th class="p-2.5">Timestamp (IST)</th><th class="p-2.5">Incident Code</th><th class="p-2.5">Operational Action Taken</th><th class="p-2.5">Authorizing Officer</th><th class="p-2.5">Status</th><th class="p-2.5">Cryptographic Hash Seal</th></tr></thead><tbody class="divide-y divide-surface-container text-on-surface font-mono"><tr class="hover:bg-surface-container-low"><td class="p-2.5 text-on-surface">14:38:12</td><td class="p-2.5 font-bold text-primary">INC-BLR-092</td><td class="p-2.5 font-sans">Inter-depot buffer transfer: 3,500L to Depot A</td><td class="p-2.5 font-sans">R. Sharma, IAS</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-sans font-semibold">Confirmed Live</span></td><td class="p-2.5 text-[11px] text-on-surface-variant">0x7f9a8b...12c4e</td></tr><tr class="hover:bg-surface-container-low"><td class="p-2.5 text-on-surface">14:31:05</td><td class="p-2.5 font-bold text-primary">INC-BLR-088</td><td class="p-2.5 font-sans">Route 2 Bypass activated via Domlur Feeder</td><td class="p-2.5 font-sans">N. Murthy, SEOC</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-sans font-semibold">Confirmed Live</span></td><td class="p-2.5 text-[11px] text-on-surface-variant">0x3a42d1...99ef0</td></tr><tr class="hover:bg-surface-container-low"><td class="p-2.5 text-on-surface">14:15:40</td><td class="p-2.5 font-bold text-secondary">SIM-RUN-003</td><td class="p-2.5 font-sans">Dry-run simulation iteration 03 evaluated</td><td class="p-2.5 font-sans">Deterministic Engine v5.8</td><td class="p-2.5"><span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-sans font-semibold">Simulation Only</span></td><td class="p-2.5 text-[11px] text-on-surface-variant">0x88c201...44bb1</td></tr></tbody></table></div></div><div class="bg-surface-container-lowest p-space-lg rounded shadow-sm"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm mb-space-sm"><div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">table_chart</span><h3 class="font-headline-sm text-headline-sm text-on-surface">Area-Wise Relief Fulfillment Ledger</h3></div><p class="font-caption text-caption text-on-surface-variant text-xs">Data updated 10 minutes ago • All personal identifying information removed for privacy (Zero-PII).</p></div><div class="flex items-center gap-2"><button class="h-9 px-3 rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-xs flex items-center gap-1" id="chart-toggle-btn" onclick="toggleChartView()" type="button"><span class="material-symbols-outlined text-[16px]">bar_chart</span><span>Switch to Accessible Chart</span></button></div></div><div class="overflow-x-auto" id="transparency-table-view"><table class="w-full text-left font-caption text-caption text-xs"><thead class="bg-surface-container text-on-surface-variant uppercase"><tr><th class="p-3">Ward / Zone</th><th class="p-3 text-right">Total Requests</th><th class="p-3 text-right">Fulfilled (100%)</th><th class="p-3 text-right">Partly Fulfilled</th><th class="p-3 text-right">Unmet / Pending</th><th class="p-3 text-right">Fulfillment Rate</th></tr></thead><tbody class="divide-y divide-surface-container text-on-surface font-medium"><tr class="hover:bg-surface-container-low"><td class="p-3 font-semibold text-primary">Ward 174 - Mahadevapura</td><td class="p-3 text-right font-mono">1,420</td><td class="p-3 text-right font-mono text-tertiary">1,180</td><td class="p-3 text-right font-mono text-secondary">160</td><td class="p-3 text-right font-mono text-error">80</td><td class="p-3 text-right font-bold text-tertiary">83.1%</td></tr><tr class="hover:bg-surface-container-low"><td class="p-3 font-semibold text-primary">Ward 150 - Bellandur</td><td class="p-3 text-right font-mono">2,850</td><td class="p-3 text-right font-mono text-tertiary">1,940</td><td class="p-3 text-right font-mono text-secondary">510</td><td class="p-3 text-right font-mono text-error">400</td><td class="p-3 text-right font-bold text-secondary">68.0%</td></tr><tr class="hover:bg-surface-container-low"><td class="p-3 font-semibold text-primary">Ward 175 - Bommanahalli</td><td class="p-3 text-right font-mono">980</td><td class="p-3 text-right font-mono text-tertiary">910</td><td class="p-3 text-right font-mono text-secondary">45</td><td class="p-3 text-right font-mono text-error">25</td><td class="p-3 text-right font-bold text-tertiary">92.8%</td></tr><tr class="hover:bg-surface-container-low"><td class="p-3 font-semibold text-primary">Ward 84 - Varthur</td><td class="p-3 text-right font-mono">1,120</td><td class="p-3 text-right font-mono text-tertiary">780</td><td class="p-3 text-right font-mono text-secondary">210</td><td class="p-3 text-right font-mono text-error">130</td><td class="p-3 text-right font-bold text-secondary">69.6%</td></tr><tr class="hover:bg-surface-container-low"><td class="p-3 font-semibold text-primary">Ward 112 - Domlur Outer</td><td class="p-3 text-right font-mono">640</td><td class="p-3 text-right font-mono text-tertiary">610</td><td class="p-3 text-right font-mono text-secondary">20</td><td class="p-3 text-right font-mono text-error">10</td><td class="p-3 text-right font-bold text-tertiary">95.3%</td></tr></tbody><tfoot class="bg-surface-container font-semibold text-on-surface"><tr><td class="p-3">TOTAL (BENGALURU URBAN)</td><td class="p-3 text-right font-mono">7,010</td><td class="p-3 text-right font-mono text-tertiary">5,420</td><td class="p-3 text-right font-mono text-secondary">945</td><td class="p-3 text-right font-mono text-error">645</td><td class="p-3 text-right font-bold text-tertiary">77.3% NET</td></tr></tfoot></table></div><div class="hidden py-space-md" id="transparency-chart-view"><div class="space-y-space-md"><div><div class="flex justify-between text-xs mb-1 font-semibold"><span>Mahadevapura (1,420 Requests)</span><span>83.1% Fulfilled</span></div><div class="w-full bg-surface-container h-6 rounded flex overflow-hidden text-[10px] font-bold text-on-primary text-center"><div class="bg-tertiary flex items-center justify-center" style="width: 83.1%;">1,180 Fulfilled</div><div class="bg-secondary flex items-center justify-center" style="width: 11.2%;">160 Partial</div><div class="bg-error flex items-center justify-center" style="width: 5.7%;">80 Unmet</div></div></div><div><div class="flex justify-between text-xs mb-1 font-semibold"><span>Bellandur (2,850 Requests)</span><span>68.0% Fulfilled</span></div><div class="w-full bg-surface-container h-6 rounded flex overflow-hidden text-[10px] font-bold text-on-primary text-center"><div class="bg-tertiary flex items-center justify-center" style="width: 68%;">1,940 Fulfilled</div><div class="bg-secondary flex items-center justify-center" style="width: 17.9%;">510 Partial</div><div class="bg-error flex items-center justify-center" style="width: 14.1%;">400 Unmet</div></div></div><div><div class="flex justify-between text-xs mb-1 font-semibold"><span>Bommanahalli (980 Requests)</span><span>92.8% Fulfilled</span></div><div class="w-full bg-surface-container h-6 rounded flex overflow-hidden text-[10px] font-bold text-on-primary text-center"><div class="bg-tertiary flex items-center justify-center" style="width: 92.8%;">910 Fulfilled</div><div class="bg-secondary flex items-center justify-center" style="width: 4.6%;">45 Partial</div><div class="bg-error flex items-center justify-center" style="width: 2.6%;">25 Unmet</div></div></div></div><div class="flex items-center gap-space-md mt-space-md text-xs font-semibold justify-center"><span class="flex items-center gap-1"><span class="w-3 h-3 bg-tertiary rounded-sm"></span> Fulfilled (Safe)</span><span class="flex items-center gap-1"><span class="w-3 h-3 bg-secondary rounded-sm"></span> Partly Fulfilled</span><span class="flex items-center gap-1"><span class="w-3 h-3 bg-error rounded-sm"></span> Unmet (Active Queue)</span></div></div></div></section>
+<!-- ========================================================================= -->
+<!-- FLOATING PERSISTENT EMERGENCY CALL BAR (ACCESSIBILITY STANDARD) -->
+<!-- ========================================================================= -->
+<aside aria-label="Emergency Hotlines" class="sticky bottom-3 z-30 mt-space-lg w-full bg-error text-on-error p-space-sm rounded shadow-lg flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="w-10 h-10 rounded-full bg-surface-container-lowest text-error flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[24px]">call</span>
+</span>
+<div>
+<span class="font-label-strong text-label-strong text-on-error uppercase tracking-wider block text-xs">Emergency Lifeline Action (राष्ट्रीय आपातकालीन हेल्पलाइन)</span>
+<span class="font-headline-sm text-headline-sm text-on-error">EMERGENCY SOS: DIAL 112 (TOLL FREE)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm w-full sm:w-auto">
+<a class="h-11 px-3 bg-surface-container-lowest text-error hover:bg-surface-container font-label-strong text-xs rounded flex items-center gap-1 justify-center shrink-0" href="tel:1070">
+<span class="material-symbols-outlined text-[18px]">shield</span> SDMA: 1070
+      </a>
+<a class="h-11 px-3 bg-surface-container-lowest text-error hover:bg-surface-container font-label-strong text-xs rounded flex items-center gap-1 justify-center shrink-0" href="tel:108">
+<span class="material-symbols-outlined text-[18px]">ambulance</span> Ambulance: 108
+      </a>
+<a class="h-11 px-3 bg-surface-container-lowest text-error hover:bg-surface-container font-label-strong text-xs rounded flex items-center gap-1 justify-center shrink-0" href="tel:101">
+<span class="material-symbols-outlined text-[18px]">fire_truck</span> Fire: 101
+      </a>
+</div>
+</aside>
+</div>
+<!-- ========================================================================= -->
+<!-- JAVASCRIPT: TABBING, SIMULATION LOGIC, TACTILE INTERACTION -->
+<!-- ========================================================================= -->
+<script>
+  // TAB SWITCHING
+  function switchTab(targetId) {
+    const tabs = ['tab-sim', 'tab-staff', 'tab-settings', 'tab-transparency'];
+    const btnPrefix = 'tab-btn-';
+    
+    tabs.forEach(id => {
+      const panel = document.getElementById(id);
+      const shortCode = id.replace('tab-', '');
+      const btn = document.getElementById(btnPrefix + shortCode);
+      
+      if (id === targetId) {
+        panel.classList.remove('hidden');
+        btn.classList.remove('bg-surface-container', 'text-on-surface');
+        btn.classList.add('bg-primary', 'text-on-primary');
+      } else {
+        panel.classList.add('hidden');
+        btn.classList.add('bg-surface-container', 'text-on-surface');
+        btn.classList.remove('bg-primary', 'text-on-primary');
+      }
+    });
+  }
+
+  // SIMULATION QUANTITY STEPPER
+  let currentDeficit = 4000;
+  function adjustSimDeficit(delta) {
+    currentDeficit += delta;
+    if (currentDeficit < 500) currentDeficit = 500;
+    if (currentDeficit > 12000) currentDeficit = 12000;
+    const el = document.getElementById('sim-deficit-val');
+    if (el) el.innerText = '−' + currentDeficit.toLocaleString('en-IN') + ' L';
+  }
+
+  function runSimulationEffect() {
+    const btn = event.currentTarget;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">refresh</span> <span>Calculating 28 Lifelines...</span>';
+    setTimeout(() => {
+      btn.innerHTML = '<span>Apply change (सिमुलेशन लागू करें)</span> <span class="material-symbols-outlined text-[20px]">flash_on</span>';
+      alert('Simulation convergence complete: 3 critical routes adjusted. Review comparison table below.');
+    }, 450);
+  }
+
+  function undoSimulation() {
+    if (confirm('Revert all simulated parameters back to earlier approved Baseline Plan?')) {
+      alert('Simulation cleared. Baseline Plan restored.');
+    }
+  }
+
+  function promptPlanApproval() {
+    const code = prompt('SECURITY GUARDRAIL: Enter your 6-digit Officer OTP / Aadhaar MPIN to commit new plan to live SEOC dispatchers:', '784102');
+    if (code) {
+      alert('Plan Commit Authorized. Live dispatch instructions transmitted to 12 field units.');
+    }
+  }
+
+  // STAFF OCCUPANCY STEPPER
+  let shelterOccupants = 212;
+  const maxShelter = 300;
+  function adjustOccupancy(delta) {
+    shelterOccupants += delta;
+    if (shelterOccupants < 0) shelterOccupants = 0;
+    if (shelterOccupants > maxShelter) shelterOccupants = maxShelter;
+    const txt = document.getElementById('shelter-occupants-txt');
+    const bar = document.getElementById('shelter-progress-bar');
+    const pct = Math.round((shelterOccupants / maxShelter) * 100);
+    if (txt) txt.innerText = shelterOccupants;
+    if (bar) bar.style.width = pct + '%';
+  }
+
+  // MEDICAL ADMIN STEPPERS
+  function stepCounter(id, delta) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let val = parseInt(el.innerText, 10) || 0;
+    val += delta;
+    if (val < 0) val = 0;
+    el.innerText = val < 10 ? '0' + val : val;
+  }
+
+  // ACCESSIBILITY / SETTINGS HELPERS
+  function selectLang(btn) {
+    document.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.remove('bg-primary', 'text-on-primary');
+      b.classList.add('bg-surface-container', 'text-on-surface');
+    });
+    btn.classList.remove('bg-surface-container', 'text-on-surface');
+    btn.classList.add('bg-primary', 'text-on-primary');
+  }
+
+  function autoDetectLanguage() {
+    alert('Detected location: Karnataka State. Interface primary language switched to Kannada (ಕನ್ನಡ) & English.');
+  }
+
+  function testAudio() {
+    alert('Audio playback: "Route 4 Bellandur Causeway is blocked. Nearest open shelter is Sector 4 Community Hall."');
+  }
+
+  function updateTextScale(val) {
+    const pct = document.getElementById('font-scale-pct');
+    if (pct) pct.innerText = val + '%';
+  }
+
+  function adjustTextScale(delta) {
+    const slider = document.getElementById('font-slider');
+    if (slider) {
+      let val = parseInt(slider.value, 10) + delta;
+      if (val < 100) val = 100;
+      if (val > 200) val = 200;
+      slider.value = val;
+      updateTextScale(val);
+    }
+  }
+
+  // GEOLOCATION ACTIONS
+  function confirmDeleteLoc() {
+    document.getElementById('del-loc-btn').classList.add('hidden');
+    document.getElementById('del-loc-confirm').classList.remove('hidden');
+  }
+
+  function cancelDeleteLoc() {
+    document.getElementById('del-loc-confirm').classList.add('hidden');
+    document.getElementById('del-loc-btn').classList.remove('hidden');
+  }
+
+  function executeDeleteLoc() {
+    document.getElementById('del-loc-box').innerHTML = '<div class="p-2 text-xs text-on-surface-variant font-semibold">Saved device location purged. GPS permissions reset.</div>';
+  }
+
+  // TRANSPARENCY CHART TOGGLE
+  function toggleChartView() {
+    const tbl = document.getElementById('transparency-table-view');
+    const chrt = document.getElementById('transparency-chart-view');
+    const btn = document.getElementById('chart-toggle-btn');
+    if (tbl.classList.contains('hidden')) {
+      tbl.classList.remove('hidden');
+      chrt.classList.add('hidden');
+      btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">bar_chart</span><span>Switch to Accessible Chart</span>';
+    } else {
+      tbl.classList.add('hidden');
+      chrt.classList.remove('hidden');
+      btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">table_chart</span><span>Show as Accessible Table</span>';
+    }
+  }
+</script></main></div></body></html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-on-surface": "#e6f2ff", "on-secondary-fixed": "#0b1d29", "error": "#ba1a1a", "inverse-primary": "#a2c9ff", "tertiary": "#00512c", "outline-variant": "#c1c7d2", "on-tertiary-fixed-variant": "#00522c", "surface-variant": "#d6e4f2", "surface-tint": "#0e60a6", "primary-fixed-dim": "#a2c9ff", "surface-container-highest": "#d6e4f2", "surface-bright": "#f6f9ff", "background": "#f6f9ff", "on-secondary-fixed-variant": "#384956", "on-primary-fixed": "#001c38", "inverse-surface": "#25323c", "on-surface-variant": "#414751", "surface-container-low": "#ebf5ff", "secondary-fixed": "#d3e5f6", "surface-dim": "#cedce9", "on-tertiary-container": "#8debac", "tertiary-fixed": "#98f6b7", "primary-fixed": "#d3e4ff", "on-primary": "#ffffff", "primary-container": "#0b5fa5", "on-background": "#101d27", "surface": "#f6f9ff", "secondary-fixed-dim": "#b7c9d9", "tertiary-container": "#006c3c", "on-primary-container": "#bfd9ff", "tertiary-fixed-dim": "#7dda9c", "surface-container-high": "#dceaf8", "surface-container-lowest": "#ffffff", "secondary": "#4f606f", "on-primary-fixed-variant": "#004881", "on-surface": "#101d27", "on-tertiary": "#ffffff", "on-secondary-container": "#556675", "on-error": "#ffffff", "outline": "#727782", "on-tertiary-fixed": "#00210f", "error-container": "#ffdad6", "secondary-container": "#d3e5f6", "surface-container": "#e2effe", "on-error-container": "#93000a", "on-secondary": "#ffffff", "primary": "#00477f" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem", "space-xs": "0.25rem", "space-xl": "2rem", "margin": "1rem", "margin-desktop": "2rem", "space-sm": "0.5rem", "gutter": "1rem" }, fontFamily: { "body-strong": ["Noto Sans"], "headline-lg-mobile": ["Noto Sans"], "headline-sm": ["Noto Sans"], "label-strong": ["Noto Sans"], "headline-lg": ["Noto Sans"], "headline-md": ["Noto Sans"], "body-default": ["Noto Sans"], "label-default": ["Noto Sans"], "caption": ["Noto Sans"] }, fontSize: { "body-strong": ["18px", {"lineHeight": "26px", "fontWeight": "600"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}], "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}], "label-strong": ["16px", {"lineHeight": "22px", "fontWeight": "600"}], "headline-lg": ["28px", {"lineHeight": "36px", "fontWeight": "700"}], "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "700"}], "body-default": ["18px", {"lineHeight": "26px", "fontWeight": "400"}], "label-default": ["16px", {"lineHeight": "22px", "fontWeight": "400"}], "caption": ["16px", {"lineHeight": "20px", "fontWeight": "400"}] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface font-body-default text-on-surface antialiased pt-safe pb-safe min-h-screen"><main class="flex flex-col relative w-full bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<!-- 1. Top Government Utility Minimal Brand Bar -->
+<div class="w-full bg-surface-container-high px-space-md py-space-sm flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-label-strong">security</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-strong text-label-strong text-on-surface leading-tight">DisasterReady India</span>
+<span class="font-caption text-caption text-on-surface-variant leading-none">Government Emergency Portal • राष्ट्रीय आपदा पोर्टल</span>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-2 py-1 rounded">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-caption text-caption text-on-surface font-semibold">112 ACTIVE</span>
+</div>
+</div>
+<!-- Tricolor Authority Bar -->
+<div class="w-full h-1 flex rounded-full overflow-hidden mt-1">
+<div class="w-1/3 bg-[#FF9933]"></div>
+<div class="w-1/3 bg-surface-container-lowest"></div>
+<div class="w-1/3 bg-tertiary"></div>
+</div>
+</div>
+<!-- Main Content Container -->
+<div class="flex flex-col px-space-md pt-space-md space-y-space-md">
+<!-- 2. Stacked Multi-Script Heading -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col space-y-1">
+<div class="flex items-center gap-1.5 text-primary mb-1">
+<span class="material-symbols-outlined text-label-strong">translate</span>
+<span class="font-label-strong text-label-strong uppercase tracking-wider text-primary">Language Preference</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Choose your language</h1>
+<p class="font-headline-md text-headline-md text-secondary">अपनी भाषा चुनें</p>
+<p class="font-headline-sm text-headline-sm text-on-surface-variant">உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்</p>
+</div>
+<!-- 3. Location Action Block -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col space-y-space-sm">
+<button class="w-full bg-primary text-on-primary min-h-[52px] px-space-md py-space-sm rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-space-sm text-left active:bg-primary-container transition-colors" id="loc-btn" onclick="triggerLocationDetect()">
+<span class="material-symbols-outlined text-headline-md shrink-0">my_location</span>
+<div class="flex flex-col py-1">
+<span class="leading-tight">Use my location to pick my language</span>
+<span class="font-caption text-caption text-on-primary-container leading-tight mt-0.5">स्थान से स्वतः भाषा चुनें</span>
+</div>
+</button>
+<div class="flex items-center gap-2 px-1 pt-1">
+<span class="material-symbols-outlined text-outline text-label-default shrink-0">lock</span>
+<p class="font-caption text-caption text-on-surface-variant leading-snug">
+          We use your location only to suggest your regional language. It is never saved or tracked.
+        </p>
+</div>
+<!-- State B: Location Detected Simulation Banner (Hidden by default, triggered or toggled) -->
+<div class="hidden bg-surface-container-high p-space-md rounded-lg flex flex-col space-y-space-sm mt-space-sm" id="state-detected">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-headline-sm shrink-0">near_me</span>
+<div>
+<span class="font-label-strong text-label-strong text-on-surface block">Tamil Nadu detected (चेन्नई / தமிழ்நாடு)</span>
+<span class="font-body-default text-body-default text-on-surface-variant">Show this emergency application in தமிழ்?</span>
+</div>
+</div>
+<div class="flex gap-space-sm pt-1">
+<button class="flex-1 bg-primary text-on-primary min-h-[48px] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-1" onclick="selectLanguage('ta')">
+<span class="material-symbols-outlined text-label-strong">done</span> Yes, use தமிழ்
+          </button>
+<button class="flex-1 bg-surface-container-lowest text-on-surface min-h-[48px] rounded-lg font-label-strong text-label-strong flex items-center justify-center" onclick="dismissDetectedState()">
+            No, select manual
+          </button>
+</div>
+</div>
+<!-- State C: Fallback / Opt-Out Notice (Toggleable) -->
+<div class="hidden bg-surface-container-low p-space-sm rounded-lg flex items-center gap-2" id="state-fallback">
+<span class="material-symbols-outlined text-secondary text-label-strong shrink-0">info</span>
+<p class="font-caption text-caption text-on-surface-variant">
+          No location shared. Select your preferred state language below. SOS remains accessible instantly.
+        </p>
+</div>
+</div>
+<!-- 5. Divider with Centered Plain Text -->
+<div class="flex items-center gap-space-md py-1">
+<div class="flex-1 h-0.5 bg-surface-variant"></div>
+<span class="font-label-default text-label-default text-on-surface-variant uppercase tracking-wide px-2">or pick a language / या चुनें</span>
+<div class="flex-1 h-0.5 bg-surface-variant"></div>
+</div>
+<!-- 6. Language Selection Grid / List (12 Scheduled Languages) -->
+<div class="flex flex-col space-y-2" id="language-list">
+<!-- 1. English -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="en" onclick="selectCard(this, 'en')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">English</span>
+<span class="font-caption text-caption text-on-surface-variant">English</span>
+</div>
+</div>
+<button aria-label="Listen English" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('English')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 2. Hindi -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="hi" onclick="selectCard(this, 'hi')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">हिन्दी</span>
+<span class="font-caption text-caption text-on-surface-variant">Hindi</span>
+</div>
+</div>
+<button aria-label="Listen Hindi" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('हिन्दी')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 3. Tamil -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="ta" onclick="selectCard(this, 'ta')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">தமிழ்</span>
+<span class="font-caption text-caption text-on-surface-variant">Tamil</span>
+</div>
+</div>
+<button aria-label="Listen Tamil" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('தமிழ்')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 4. Telugu -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="te" onclick="selectCard(this, 'te')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">తెలుగు</span>
+<span class="font-caption text-caption text-on-surface-variant">Telugu</span>
+</div>
+</div>
+<button aria-label="Listen Telugu" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('తెలుగు')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 5. Kannada -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="kn" onclick="selectCard(this, 'kn')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">ಕನ್ನಡ</span>
+<span class="font-caption text-caption text-on-surface-variant">Kannada</span>
+</div>
+</div>
+<button aria-label="Listen Kannada" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('ಕನ್ನಡ')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 6. Malayalam -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="ml" onclick="selectCard(this, 'ml')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">മലയാളം</span>
+<span class="font-caption text-caption text-on-surface-variant">Malayalam</span>
+</div>
+</div>
+<button aria-label="Listen Malayalam" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('മലയാളം')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 7. Bengali -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="bn" onclick="selectCard(this, 'bn')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">বাংলা</span>
+<span class="font-caption text-caption text-on-surface-variant">Bengali</span>
+</div>
+</div>
+<button aria-label="Listen Bengali" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('বাংলা')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 8. Marathi -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="mr" onclick="selectCard(this, 'mr')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">मराठी</span>
+<span class="font-caption text-caption text-on-surface-variant">Marathi</span>
+</div>
+</div>
+<button aria-label="Listen Marathi" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('मराठी')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 9. Gujarati -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="gu" onclick="selectCard(this, 'gu')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">ગુજરાતી</span>
+<span class="font-caption text-caption text-on-surface-variant">Gujarati</span>
+</div>
+</div>
+<button aria-label="Listen Gujarati" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('ગુજરાતી')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 10. Odia -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="or" onclick="selectCard(this, 'or')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">ଓଡ଼ିଆ</span>
+<span class="font-caption text-caption text-on-surface-variant">Odia</span>
+</div>
+</div>
+<button aria-label="Listen Odia" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('ଓଡ଼ିଆ')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 11. Punjabi -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="pa" onclick="selectCard(this, 'pa')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">ਪੰਜਾਬੀ</span>
+<span class="font-caption text-caption text-on-surface-variant">Punjabi</span>
+</div>
+</div>
+<button aria-label="Listen Punjabi" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('ਪੰਜਾਬੀ')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+<!-- 12. Assamese -->
+<div class="lang-card bg-surface-container-lowest min-h-[56px] rounded-lg px-space-md py-2.5 flex items-center justify-between cursor-pointer active:bg-surface-container transition-colors" data-lang="as" onclick="selectCard(this, 'as')">
+<div class="flex items-center gap-space-md flex-1">
+<span class="radio-indicator w-5 h-5 rounded-full flex items-center justify-center bg-surface-variant text-on-primary">
+<span class="check-icon hidden material-symbols-outlined text-[14px]">check</span>
+</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong text-on-surface">অসমীয়া</span>
+<span class="font-caption text-caption text-on-surface-variant">Assamese</span>
+</div>
+</div>
+<button aria-label="Listen Assamese" class="w-12 h-12 flex items-center justify-center rounded-full bg-surface-container-low text-primary active:bg-surface-variant shrink-0" onclick="event.stopPropagation(); playPronunciation('অসমীয়া')" type="button">
+<span class="material-symbols-outlined text-headline-sm">volume_up</span>
+</button>
+</div>
+</div>
+<!-- Live Toast Feedback for Audio Playback -->
+<div class="hidden fixed top-4 left-4 right-4 z-50 bg-inverse-surface text-inverse-on-surface p-space-sm rounded-lg flex items-center gap-2" id="audio-toast">
+<span class="material-symbols-outlined text-primary-fixed-dim">volume_up</span>
+<span class="font-label-default text-label-default" id="toast-text">Playing language pronunciation...</span>
+</div>
+</div>
+<!-- 7. Sticky Thumb-Zone Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest px-space-md pt-3 pb-safe flex flex-col space-y-2 shadow-lg">
+<div class="flex items-center justify-between gap-3">
+<button class="flex-1 bg-primary text-on-primary min-h-[52px] rounded-lg px-space-md py-2 font-body-strong text-body-strong flex items-center justify-center gap-2 active:bg-primary-container transition-colors" id="submit-btn" onclick="submitSelection()">
+<span>Continue / आगे बढ़ें</span>
+<span class="material-symbols-outlined text-headline-sm">arrow_forward</span>
+</button>
+<!-- 8. Fixed Emergency Help Button Trigger -->
+<button aria-label="Emergency Help" class="min-h-[52px] px-4 rounded-lg bg-error text-on-error font-body-strong text-body-strong flex items-center justify-center gap-1.5 active:bg-on-error-container shrink-0" onclick="toggleSOSModal(true)">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span>SOS 112</span>
+</button>
+</div>
+<p class="font-caption text-caption text-on-surface-variant text-center pb-1">
+      You can change your language anytime from the top utility bar • शीर्ष पट्टी से कभी भी बदलें
+    </p>
+</div>
+<!-- 8. Interactive Emergency Bottom Sheet Modal -->
+<div class="hidden fixed inset-0 z-50 flex flex-col justify-end bg-inverse-surface/60" id="sos-modal">
+<div class="w-full bg-surface-container-lowest rounded-t-xl p-space-md flex flex-col space-y-space-md">
+<div class="flex items-center justify-between pb-2 border-b border-surface-variant">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-headline-md" style="font-variation-settings: 'FILL' 1;">crisis_alert</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Emergency SOS Assistance</h3>
+<span class="font-caption text-caption text-on-surface-variant">Immediate Government Response Lines</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface" onclick="toggleSOSModal(false)">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Action: National Emergency 112 -->
+<a class="bg-error text-on-error min-h-[56px] px-space-md rounded-lg flex items-center justify-between active:bg-on-error-container transition-colors" href="tel:112">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-headline-md" style="font-variation-settings: 'FILL' 1;">call</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong">Call National Emergency: 112</span>
+<span class="font-caption text-caption text-error-container">Police, Fire, Disaster Relief (Toll-Free)</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-headline-sm">chevron_right</span>
+</a>
+<!-- Action: Ambulance 108 -->
+<a class="bg-surface-container-high text-on-surface min-h-[52px] px-space-md rounded-lg flex items-center justify-between active:bg-surface-variant transition-colors" href="tel:108">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-headline-md text-error">medical_services</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong">Medical Ambulance: 108</span>
+<span class="font-caption text-caption text-on-surface-variant">Trauma &amp; Immediate First Aid</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-headline-sm text-outline">chevron_right</span>
+</a>
+<!-- Action: SMS Location Relay -->
+<a class="bg-surface-container-high text-on-surface min-h-[52px] px-space-md rounded-lg flex items-center justify-between active:bg-surface-variant transition-colors" href="sms:112?body=EMERGENCY%20SOS%3A%20Need%20immediate%20disaster%20rescue%20at%20my%20GPS%20location.">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-headline-md text-primary">sms</span>
+<div class="flex flex-col">
+<span class="font-body-strong text-body-strong">Send GPS Coordinates via SMS</span>
+<span class="font-caption text-caption text-on-surface-variant">Low-signal SMS to 112 Headquarters</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-headline-sm text-outline">chevron_right</span>
+</a>
+<!-- Cancel Dismiss -->
+<button class="w-full bg-surface-container text-on-surface min-h-[48px] rounded-lg font-label-strong text-label-strong" onclick="toggleSOSModal(false)">
+        Cancel / वापस जाएं
+      </button>
+<div class="pb-safe"></div>
+</div>
+</div>
+</div>
+<script>
+  let selectedCode = 'en';
+
+  // Preselect English by default
+  window.addEventListener('DOMContentLoaded', () => {
+    const defaultCard = document.querySelector('[data-lang="en"]');
+    if (defaultCard) selectCard(defaultCard, 'en');
+  });
+
+  function selectCard(cardElement, langCode) {
+    selectedCode = langCode;
+    // Reset all cards
+    document.querySelectorAll('.lang-card').forEach(card => {
+      card.classList.remove('bg-surface-container-high');
+      card.classList.add('bg-surface-container-lowest');
+      const radio = card.querySelector('.radio-indicator');
+      radio.classList.remove('bg-primary');
+      radio.classList.add('bg-surface-variant');
+      const check = card.querySelector('.check-icon');
+      check.classList.add('hidden');
+    });
+
+    // Mark current selected
+    cardElement.classList.remove('bg-surface-container-lowest');
+    cardElement.classList.add('bg-surface-container-high');
+    const curRadio = cardElement.querySelector('.radio-indicator');
+    curRadio.classList.remove('bg-surface-variant');
+    curRadio.classList.add('bg-primary');
+    const curCheck = cardElement.querySelector('.check-icon');
+    curCheck.classList.remove('hidden');
+  }
+
+  function selectLanguage(langCode) {
+    const targetCard = document.querySelector(`[data-lang="${langCode}"]`);
+    if (targetCard) {
+      selectCard(targetCard, langCode);
+      targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function triggerLocationDetect() {
+    const stateBanner = document.getElementById('state-detected');
+    const fallbackBanner = document.getElementById('state-fallback');
+    
+    // Simulate active detection
+    stateBanner.classList.remove('hidden');
+    fallbackBanner.classList.add('hidden');
+    stateBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function dismissDetectedState() {
+    document.getElementById('state-detected').classList.add('hidden');
+    document.getElementById('state-fallback').classList.remove('hidden');
+  }
+
+  function playPronunciation(langName) {
+    const toast = document.getElementById('audio-toast');
+    const toastText = document.getElementById('toast-text');
+    toastText.textContent = `Speaking: "${langName}"`;
+    toast.classList.remove('hidden');
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(langName);
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 2200);
+  }
+
+  function toggleSOSModal(show) {
+    const modal = document.getElementById('sos-modal');
+    if (show) {
+      modal.classList.remove('hidden');
+    } else {
+      modal.classList.add('hidden');
+    }
+  }
+
+  function submitSelection() {
+    const toast = document.getElementById('audio-toast');
+    const toastText = document.getElementById('toast-text');
+    toastText.textContent = `Language confirmed. Loading live safety dashboard...`;
+    toast.classList.remove('hidden');
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 2000);
+  }
+</script></main></body></html>

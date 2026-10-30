@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>DisasterReady India - National Disaster Management</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "surface-container-low": "#ebf5ff",
+        "surface-variant": "#d6e4f2",
+        "primary-fixed": "#d3e4ff",
+        "on-primary-fixed-variant": "#004881",
+        "error-container": "#ffdad6",
+        "on-secondary": "#ffffff",
+        "on-surface-variant": "#414751",
+        "error": "#ba1a1a",
+        "inverse-surface": "#25323c",
+        "surface-container-high": "#dceaf8",
+        "surface-tint": "#0e60a6",
+        "secondary-fixed": "#d3e5f6",
+        "surface-dim": "#cedce9",
+        "on-surface": "#101d27",
+        "on-secondary-container": "#556675",
+        "secondary": "#4f606f",
+        "outline": "#727782",
+        "primary": "#00477f",
+        "tertiary": "#00512c",
+        "secondary-fixed-dim": "#b7c9d9",
+        "on-error-container": "#93000a",
+        "on-primary-fixed": "#001c38",
+        "on-secondary-fixed": "#0b1d29",
+        "tertiary-fixed": "#98f6b7",
+        "inverse-on-surface": "#e6f2ff",
+        "tertiary-container": "#006c3c",
+        "surface-container-highest": "#d6e4f2",
+        "secondary-container": "#d3e5f6",
+        "inverse-primary": "#a2c9ff",
+        "surface-container-lowest": "#ffffff",
+        "primary-container": "#0b5fa5",
+        "on-tertiary-fixed": "#00210f",
+        "surface-bright": "#f6f9ff",
+        "on-primary-container": "#bfd9ff",
+        "on-tertiary": "#ffffff",
+        "surface": "#f6f9ff",
+        "on-tertiary-fixed-variant": "#00522c",
+        "background": "#f6f9ff",
+        "primary-fixed-dim": "#a2c9ff",
+        "on-tertiary-container": "#8debac",
+        "on-secondary-fixed-variant": "#384956",
+        "outline-variant": "#c1c7d2",
+        "on-background": "#101d27",
+        "tertiary-fixed-dim": "#7dda9c",
+        "on-primary": "#ffffff",
+        "surface-container": "#e2effe",
+        "on-error": "#ffffff"
+      },
+      borderRadius: {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      spacing: {
+        "space-md": "1rem",
+        "margin-desktop": "2rem",
+        "margin": "1rem",
+        "gutter": "1rem",
+        "space-sm": "0.5rem",
+        "space-xl": "2rem",
+        "space-lg": "1.5rem",
+        "gutter-desktop": "1.5rem",
+        "space-xs": "0.25rem"
+      },
+      fontFamily: {
+        "label-default": ["Noto Sans"],
+        "headline-md": ["Noto Sans"],
+        "body-default": ["Noto Sans"],
+        "headline-sm": ["Noto Sans"],
+        "label-strong": ["Noto Sans"],
+        "headline-lg": ["Noto Sans"],
+        "body-strong": ["Noto Sans"],
+        "caption": ["Noto Sans"],
+        "headline-lg-mobile": ["Noto Sans"]
+      },
+      fontSize: {
+        "label-default": ["16px", { lineHeight: "22px", fontWeight: "400" }],
+        "headline-md": ["22px", { lineHeight: "28px", fontWeight: "700" }],
+        "body-default": ["18px", { lineHeight: "26px", fontWeight: "400" }],
+        "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+        "label-strong": ["16px", { lineHeight: "22px", fontWeight: "600" }],
+        "headline-lg": ["28px", { lineHeight: "36px", fontWeight: "700" }],
+        "body-strong": ["18px", { lineHeight: "26px", fontWeight: "600" }],
+        "caption": ["16px", { lineHeight: "20px", fontWeight: "400" }],
+        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }]
+      }
+    }
+  }
+};</script><style>
+@layer base {
+  html, body {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    overscroll-behavior: none;
+    font-family: 'Noto Sans', sans-serif;
+  }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+  main > :first-child { margin-top: 0 !important; }
+  main > :last-child { margin-bottom: 0 !important; }
+}
+::-webkit-scrollbar { display: none; }
+
+/* Dark mode theme token mapping */
+html.dark body {
+  background-color: #101820;
+  color: #F2F6F8;
+}
+html.dark .bg-surface {
+  background-color: #101820 !important;
+}
+html.dark .bg-surface-container-high {
+  background-color: #1E2D38 !important;
+  color: #F2F6F8 !important;
+}
+html.dark .bg-white {
+  background-color: #17232D !important;
+  color: #F2F6F8 !important;
+}
+html.dark .text-on-surface {
+  color: #F2F6F8 !important;
+}
+html.dark .text-on-surface-variant {
+  color: #B4C1CA !important;
+}
+html.dark .text-\[\#14212B\] {
+  color: #F2F6F8 !important;
+}
+html.dark .text-\[\#4A5B69\] {
+  color: #B4C1CA !important;
+}
+html.dark .border-\[\#D3DBE3\] {
+  border-color: #344653 !important;
+}
+html.dark .bg-\[\#F5F7FA\] {
+  background-color: #1E2D38 !important;
+}
+html.dark .bg-\[\#EBF5FF\] {
+  background-color: #182B3A !important;
+}
+html.dark .border-\[\#0B5FA5\]\/30 {
+  border-color: #4A9DDA/40 !important;
+}
+html.dark header, html.dark nav {
+  background-color: rgba(16, 24, 32, 0.95) !important;
+}
+</style></head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen transition-colors duration-200"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[24px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Toggle Light/Dark Theme" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center border border-[#D3DBE3] transition-colors" id="themeToggleBtn" title="Theme: Light / Dark / System" type="button"><span class="material-symbols-outlined text-[20px]" id="themeIcon">dark_mode</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" id="headerAudioBtn" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2 flex-wrap"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><a class="font-label-strong text-label-strong text-primary hover:underline" href="#">Live Dashboard</a></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full">
+<!-- Interactive Simulation State Selector Tabs -->
+<div class="w-full pt-2 pb-1 overflow-x-auto no-scrollbar">
+<div aria-label="Simulation state preview" class="flex items-center gap-1.5 min-w-max pb-1" id="stateSelectorPills" role="tablist">
+<span class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider pr-1">Preview:</span>
+<button aria-selected="true" class="state-tab-btn active min-h-[40px] px-3 py-1.5 rounded-full bg-[#0B5FA5] text-white text-[13px] font-label-strong border border-transparent shadow-sm flex items-center gap-1" data-state="flood" role="tab" type="button">
+<span class="material-symbols-outlined text-[16px]">flood</span>
+      Active Flash Flood Alert (Default)
+    </button>
+<button aria-selected="false" class="state-tab-btn min-h-[40px] px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface text-[13px] font-label-strong border border-[#D3DBE3] hover:border-[#0B5FA5] flex items-center gap-1" data-state="clear" role="tab" type="button">
+<span class="material-symbols-outlined text-[16px] text-[#1B7F4B]">check_circle</span>
+      No Active Alert / All Clear (शांत स्थिति)
+    </button>
+<button aria-selected="false" class="state-tab-btn min-h-[40px] px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface text-[13px] font-label-strong border border-[#D3DBE3] hover:border-[#0B5FA5] flex items-center gap-1" data-state="offline" role="tab" type="button">
+<span class="material-symbols-outlined text-[16px] text-[#8A4B00]">cloud_off</span>
+      Offline / Low-Data Mode
+    </button>
+<button aria-selected="false" class="state-tab-btn min-h-[40px] px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface text-[13px] font-label-strong border border-[#D3DBE3] hover:border-[#0B5FA5] flex items-center gap-1" data-state="stale" role="tab" type="button">
+<span class="material-symbols-outlined text-[16px] text-[#BA1A1A]">location_disabled</span>
+      Location Unavailable / Stale Data
+    </button>
+</div>
+</div>
+<!-- Offline Cache Notice Banner (Institutional Civic Utility Pattern) -->
+<div class="w-full bg-[#FFF3DC] border-b border-[#D3DBE3] px-margin py-2.5 flex items-center justify-between transition-colors" id="cacheNoticeBanner">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[#8A4B00] text-[20px] shrink-0" style="font-variation-settings: 'FILL' 0;">cloud_done</span>
+<span class="font-caption text-caption text-[#8A4B00] truncate" id="cacheNoticeText">
+<strong>Cached Live:</strong> Operational for offline guidance • High Priority • Alert network active.
+</span>
+</div>
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="px-2 py-0.5 rounded bg-surface text-[#8A4B00] border border-[#8A4B00]/30 font-caption text-[12px] font-semibold">
+    Low-Bandwidth Mode
+  </span>
+<span class="px-2 py-0.5 rounded bg-[#8A4B00] text-white font-caption text-[12px] font-semibold">
+    High Priority
+  </span>
+</div>
+</div>
+<div class="flex flex-col gap-4 py-3">
+<!-- 1. HAZARD ALERT (Top Urgent Public Safety Block) -->
+<section aria-labelledby="hazard-heading" class="w-full">
+<div class="w-full bg-[#FCE8E6] border border-[#B3261E] rounded-lg p-4 flex flex-col gap-3 transition-colors duration-150" id="alertCard">
+<!-- Badge & Metadata Header -->
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#B3261E] text-on-error">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-strong text-[14px] uppercase tracking-wide">URGENT CIVIC ALERT</span>
+</div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white border border-[#B3261E]/30 text-[#B3261E] font-caption text-caption">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span>Official NDMA • SDMA Field Confirmed</span>
+</div>
+</div>
+<!-- Headline & Plain Language Instructions -->
+<div class="flex flex-col gap-1" id="alertTextContainer">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-[#B3261E] leading-tight" id="hazard-heading">
+  Move to higher ground now.
+</h2>
+<p class="font-headline-sm text-headline-sm text-[#14212B]">
+  तुरंत ऊंचे स्थान पर जाएं।
+</p>
+<p class="font-body-default text-body-default text-[#14212B] mt-1">
+  Heavy flash flooding is expected in your sector within <strong>2 hours</strong>. River levels exceed warning threshold at Barrage 4.
+</p>
+<p class="font-caption text-caption text-[#4A5B69]">
+  अगले 2 घंटों में आपके क्षेत्र में भारी बाढ़ की संभावना है। तत्काल सुरक्षित पक्के भवन में शरण लें।
+</p>
+</div>
+<!-- Alert Meta Info Bar -->
+<div class="pt-2 border-t border-[#F5C2BE] flex flex-wrap items-center justify-between text-[#4A5B69] font-caption text-caption gap-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>Issued: 14:28 IST (4 min ago) <span class="text-[12px] opacity-75">[Demo Data]</span></span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">pin_drop</span>
+<span>Zone: South Catchment Basin / Sector 9-14</span>
+</div>
+</div>
+<!-- Actions Cluster -->
+<div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+<a aria-label="See what to do now and follow evacuation checklist" class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="#">
+<span>See what to do</span>
+<span class="font-label-default text-[15px] opacity-90">(निर्देश देखें)</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+<button aria-label="Listen to hazard alert announcement in audio format" class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButton" type="button">
+<span class="material-symbols-outlined text-[20px] text-[#0B5FA5]">volume_up</span>
+<span id="ttsLabel">Listen to alert (सुनें)</span>
+</button>
+</div>
+</div>
+<!-- Safe Mode / Simulation Bar -->
+<div class="mt-2 w-full bg-white border border-[#D3DBE3] rounded-lg p-2.5 flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-[#0B5FA5] text-[20px] shrink-0">wrong_location</span>
+<span class="font-caption text-caption text-[#14212B]">
+  Not in this sector? <button class="underline font-semibold text-[#0B5FA5] hover:text-[#084A82]" type="button">Switch district</button>
+</span>
+</div>
+<button class="shrink-0 min-h-[40px] px-3 py-1 text-[13px] font-label-strong text-[#0B5FA5] hover:text-[#084A82] border border-[#0B5FA5]/30 rounded bg-white hover:bg-[#F5F7FA]" id="toggleSafeView" type="button">
+  Toggle Simulation
+</button>
+</div>
+</section>
+<!-- Multilingual Admin Announcement Banner -->
+<section aria-label="Administrative Multilingual Broadcast" class="w-full">
+<div class="w-full bg-[#EBF5FF] border border-[#0B5FA5]/30 rounded-lg p-3 flex flex-col gap-2">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#0B5FA5] text-[20px]">campaign</span>
+<span class="font-label-strong text-label-strong text-[#14212B]">Official Government Broadcast • आधिकारिक विज्ञप्ति</span>
+</div>
+<div class="flex items-center gap-2">
+<label class="sr-only" for="langSelect">Change language</label>
+<select class="text-[13px] bg-white border border-[#D3DBE3] text-[#14212B] rounded px-2 py-1 min-h-[36px]" id="langSelect">
+<option value="en">English</option>
+<option selected="" value="hi">हिंदी (Hindi)</option>
+<option value="bn">বাংলা (Bengali)</option>
+<option value="ta">தமிழ் (Tamil)</option>
+<option value="te">తెలుగు (Telugu)</option>
+<option value="mr">मराठी (Marathi)</option>
+</select>
+<button class="text-[13px] font-semibold text-[#0B5FA5] hover:underline min-h-[36px] px-1" id="toggleOriginalTextBtn" type="button">
+          Original announcement (English)
+        </button>
+</div>
+</div>
+<div class="bg-white rounded p-2.5 border border-[#D3DBE3]" id="broadcastMessageBox">
+<p class="font-body-default text-[15px] text-[#14212B]" id="broadcastText">
+        "NDRF की 4 टीमें और राज्य राहत दल दक्षिण बैराज तटबंध पर तैनात हैं। सभी नागरिक सुरक्षित शेल्टर की ओर प्रस्थान करें।"
+      </p>
+<span class="text-[12px] text-[#4A5B69] block mt-1">Source: State Disaster Management Authority • Live Dispatch Node</span>
+</div>
+</div>
+</section>
+<!-- AI ADDITIONS: DisasterReady AI Copilot Card -->
+<section aria-label="DisasterReady AI Emergency Copilot" class="w-full">
+<div class="w-full bg-[#EBF5FF] border border-[#0B5FA5]/30 rounded-lg p-3.5 flex flex-col gap-3 shadow-[0_1px_8px_rgba(0,0,0,0.04)]" id="copilotCard">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-lg bg-[#0B5FA5] text-white flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-strong text-label-strong text-[#14212B]">DisasterReady AI Copilot • NDMA Assist</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[11px] font-semibold bg-[#138808] text-white">Live Copilot</span>
+</div>
+<span class="font-caption text-[12px] text-[#4A5B69]">आपदा साथी • Bilingual Voice &amp; Text Guidance</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded bg-white text-[#0B5FA5] border border-[#0B5FA5]/30 font-caption text-[12px] font-semibold">Demo Mode</span>
+</div>
+<p class="font-body-default text-[14px] text-[#14212B]">
+      Ask about nearby hazards, safer routes, shelters, hospitals, or supplies in your language.
+    </p>
+<!-- Quick Prompt Chips -->
+<div class="flex flex-wrap gap-1.5">
+<button class="copilot-chip min-h-[44px] px-2.5 py-1 rounded bg-white hover:bg-[#EBF5FF] border border-[#D3DBE3] text-[13px] font-label-strong text-[#0B5FA5] flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">alt_route</span>
+<span>Safe route to dry ground</span>
+</button>
+<button class="copilot-chip min-h-[44px] px-2.5 py-1 rounded bg-white hover:bg-[#EBF5FF] border border-[#D3DBE3] text-[13px] font-label-strong text-[#0B5FA5] flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">home_pin</span>
+<span>Nearest active shelter</span>
+</button>
+<button class="copilot-chip min-h-[44px] px-2.5 py-1 rounded bg-white hover:bg-[#EBF5FF] border border-[#D3DBE3] text-[13px] font-label-strong text-[#0B5FA5] flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">inventory_2</span>
+<span>Where are food packets?</span>
+</button>
+<button class="copilot-chip min-h-[44px] px-2.5 py-1 rounded bg-white hover:bg-[#EBF5FF] border border-[#D3DBE3] text-[13px] font-label-strong text-[#0B5FA5] flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">support_agent</span>
+<span>Emergency 112 guidance</span>
+</button>
+</div>
+<!-- Natural Language Input Bar -->
+<div class="relative flex items-center gap-1 bg-white border border-[#D3DBE3] rounded-lg p-1">
+<label class="sr-only" for="aiUserInput">Ask DisasterReady AI Assistant</label>
+<input class="w-full text-[14px] px-2.5 py-1.5 border-0 focus:ring-0 text-[#14212B] bg-transparent outline-none" id="aiUserInput" placeholder="Type your question or emergency need..." type="text"/>
+<button aria-label="Speak using microphone" class="min-w-[44px] min-h-[44px] rounded-lg text-[#0B5FA5] hover:bg-[#EBF5FF] flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+<button aria-label="Send query to AI" class="min-w-[44px] min-h-[44px] rounded-lg bg-[#0B5FA5] text-white hover:bg-[#084A82] flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+<!-- Data Freshness Label & Integration Contract -->
+<div class="flex items-center justify-between text-[12px] text-[#4A5B69] px-0.5 flex-wrap gap-1">
+<span>Status: Live Verified AI • Demo Mode (No fabricated data)</span>
+<span class="flex items-center gap-1 text-[#1B7F4B] font-semibold"><span class="w-2 h-2 rounded-full bg-[#1B7F4B]"></span>Online</span>
+</div>
+</div>
+</section>
+<!-- 2. FOUR FULL-WIDTH OPERATIONAL ACTION ROWS -->
+<section aria-label="Priority Emergency Operations" class="w-full flex flex-col gap-2.5">
+<div class="flex items-center justify-between px-0.5">
+<span class="font-label-strong text-label-strong text-[#14212B] uppercase tracking-wide">
+  Immediate Actions • तत्काल कदम
+</span>
+<span class="font-caption text-caption text-[#4A5B69]">Tap any row</span>
+</div>
+<!-- Action Row 1: Get to safety -->
+<a aria-label="Get to safety: Find a safe road to a shelter, check evacuation status" class="w-full bg-white border border-[#D3DBE3] hover:border-[#0B5FA5] rounded-lg p-3.5 flex items-center justify-between gap-3 min-h-[64px] transition-colors" href="#">
+<div class="w-12 h-12 rounded-lg bg-[#E6F4EC] text-[#1B7F4B] flex items-center justify-center shrink-0 border border-[#1B7F4B]/30">
+<span class="material-symbols-outlined text-[28px]">directions_walk</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-body-strong text-body-strong text-[#14212B] leading-snug">Get to safety</span>
+<span class="font-label-strong text-[14px] text-[#4A5B69]">सुरक्षित स्थान पर जाएं</span>
+<span class="inline-flex items-center px-2 py-0.2 rounded text-[12px] font-semibold bg-[#E6F4EC] text-[#1B7F4B] border border-[#1B7F4B]/30">
+  Live Safe Routes
+</span>
+</div>
+<p class="font-caption text-caption text-[#4A5B69] truncate">
+  Find a safe road to a shelter, check evacuation status. (मार्ग खोजें)
+</p>
+</div>
+<div class="shrink-0 text-[#4A5B69]">
+<span class="material-symbols-outlined text-[24px]">chevron_right</span>
+</div>
+</a>
+<!-- Action Row 2: Ask for supplies -->
+<a aria-label="Ask for supplies: Request clean drinking water, dry rations, medical kit" class="w-full bg-white border border-[#D3DBE3] hover:border-[#0B5FA5] rounded-lg p-3.5 flex items-center justify-between gap-3 min-h-[64px] transition-colors" href="#">
+<div class="w-12 h-12 rounded-lg bg-[#EBF5FF] text-[#0B5FA5] flex items-center justify-center shrink-0 border border-[#0B5FA5]/30">
+<span class="material-symbols-outlined text-[28px]">inventory_2</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-body-strong text-body-strong text-[#14212B] leading-snug">Ask for supplies</span>
+<span class="font-label-strong text-[14px] text-[#4A5B69]">राहत सामग्री मांगें</span>
+<span class="inline-flex items-center px-2 py-0.2 rounded text-[12px] font-semibold bg-[#EBF5FF] text-[#0B5FA5] border border-[#0B5FA5]/30">
+  NDRF Airdrops
+</span>
+</div>
+<p class="font-caption text-caption text-[#4A5B69] truncate">
+  Request clean drinking water, dry rations, medical kit. (राशन व दवा)
+</p>
+</div>
+<div class="shrink-0 text-[#4A5B69]">
+<span class="material-symbols-outlined text-[24px]">chevron_right</span>
+</div>
+</a>
+<!-- Action Row 3: Check my request -->
+<a aria-label="Check my request: Track boat rescue ETA, volunteer team dispatch" class="w-full bg-white border border-[#D3DBE3] hover:border-[#0B5FA5] rounded-lg p-3.5 flex items-center justify-between gap-3 min-h-[64px] transition-colors" href="#">
+<div class="w-12 h-12 rounded-lg bg-[#F5F7FA] text-[#14212B] flex items-center justify-center shrink-0 border border-[#D3DBE3]">
+<span class="material-symbols-outlined text-[28px]">fact_check</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-body-strong text-body-strong text-[#14212B] leading-snug">Check my request</span>
+<span class="font-label-strong text-[14px] text-[#4A5B69]">अनुरोध स्थिति देखें</span>
+<span class="inline-flex items-center px-2 py-0.2 rounded text-[12px] font-semibold bg-[#FFF3DC] text-[#8A4B00] border border-[#8A4B00]/30">
+  1 Active Ticket
+</span>
+</div>
+<p class="font-caption text-caption text-[#4A5B69] truncate">
+  Track boat rescue ETA, volunteer team dispatch, and supply status.
+</p>
+</div>
+<div class="shrink-0 text-[#4A5B69]">
+<span class="material-symbols-outlined text-[24px]">chevron_right</span>
+</div>
+</a>
+<!-- Action Row 4: Call for help -->
+<div class="w-full bg-[#FFF7F6] border border-[#F5C2BE] rounded-lg p-3.5 flex flex-col gap-2.5">
+<div class="flex items-center justify-between gap-3">
+<div class="w-12 h-12 rounded-lg bg-[#B3261E] text-on-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">phone_in_talk</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-body-strong text-body-strong text-[#B3261E] leading-snug">Call for help</span>
+<span class="font-label-strong text-[14px] text-[#14212B]">आपातकालीन सहायता</span>
+</div>
+<p class="font-caption text-caption text-[#4A5B69]">
+  Instant voice lines • Operators connect in under 15 seconds.
+</p>
+</div>
+</div>
+<!-- Direct Dial Line Strip -->
+<div class="grid grid-cols-2 gap-2 pt-1 border-t border-[#F5C2BE]">
+<a aria-label="Direct Call Police and Disaster 112" class="min-h-[48px] px-3 bg-[#B3261E] text-white rounded font-body-strong text-[16px] flex items-center justify-center gap-1.5 text-center" href="tel:112">
+<span class="material-symbols-outlined text-[20px]">call</span>
+<span>Dial 112 (All India)</span>
+</a>
+<a aria-label="Direct Call Ambulance 108" class="min-h-[48px] px-3 bg-white text-[#B3261E] border border-[#B3261E] rounded font-body-strong text-[16px] flex items-center justify-center gap-1.5 text-center" href="tel:108">
+<span class="material-symbols-outlined text-[20px]">medical_services</span>
+<span>Dial 108 (Ambulance)</span>
+</a>
+</div>
+</div>
+<!-- Extra Operational Shortcut: Safe places near you -->
+<a aria-label="Safe places near you: Shelters and hospitals directory" class="w-full bg-white border border-[#D3DBE3] hover:border-[#0B5FA5] rounded-lg p-3.5 flex items-center justify-between gap-3 min-h-[64px] transition-colors" href="#">
+<div class="w-12 h-12 rounded-lg bg-[#EBF5FF] text-[#0B5FA5] flex items-center justify-center shrink-0 border border-[#0B5FA5]/30">
+<span class="material-symbols-outlined text-[28px]">local_hospital</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-body-strong text-body-strong text-[#14212B] leading-snug">Safe places near you</span>
+<span class="font-label-strong text-[14px] text-[#4A5B69]">आश्रय और अस्पताल</span>
+<span class="inline-flex items-center px-2 py-0.2 rounded text-[12px] font-semibold bg-[#E6F4EC] text-[#1B7F4B] border border-[#1B7F4B]/30">
+  8 Verified
+</span>
+</div>
+<p class="font-caption text-caption text-[#4A5B69] truncate">
+  Community relief camps, flood shelters, and emergency medical trauma centres.
+</p>
+</div>
+<div class="shrink-0 text-[#4A5B69]">
+<span class="material-symbols-outlined text-[24px]">chevron_right</span>
+</div>
+</a>
+</section>
+<!-- 3. ASSISTED MODE TOGGLE ROW -->
+<section aria-labelledby="assisted-toggle-heading" class="w-full">
+<div class="w-full bg-white border border-[#D3DBE3] rounded-lg p-3.5 flex items-start gap-3">
+<div class="pt-0.5">
+<input aria-labelledby="assisted-label-en assisted-label-hi" class="w-6 h-6 rounded border-[#727782] text-[#0B5FA5] focus:ring-0 cursor-pointer accent-[#0B5FA5]" id="assistedModeCheck" type="checkbox"/>
+</div>
+<label class="flex flex-col cursor-pointer flex-1" for="assistedModeCheck">
+<span class="font-body-strong text-body-strong text-[#14212B]" id="assisted-label-en">
+  I'm helping another person
+</span>
+<span class="font-label-strong text-label-strong text-[#4A5B69]" id="assisted-label-hi">
+  मैं किसी अन्य व्यक्ति या परिवार की मदद कर रहा हूँ
+</span>
+<p class="font-caption text-caption text-[#4A5B69] mt-1 leading-relaxed">
+  When turned on, forms and distress requests will ask for the other person's location and phone number instead of yours.
+</p>
+</label>
+<span class="material-symbols-outlined text-[#4A5B69] text-[22px] shrink-0 mt-0.5">supervised_user_circle</span>
+</div>
+</section>
+<!-- 4. SECONDARY UTILITY QUICK LINKS ROW (3-Column Tile Layout) -->
+<section aria-label="Civil Preparedness Utilities" class="w-full">
+<div class="grid grid-cols-3 gap-2">
+<!-- Link 1: Preparedness Guide -->
+<a aria-label="Prepare for a disaster guide" class="bg-white border border-[#D3DBE3] hover:border-[#0B5FA5] rounded-lg p-2.5 flex flex-col items-center justify-center text-center gap-1 min-h-[96px] transition-colors" href="#">
+<div class="w-9 h-9 rounded-full bg-[#EBF5FF] text-[#0B5FA5] flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">menu_book</span>
+</div>
+<span class="font-label-strong text-[14px] text-[#14212B] leading-tight">Prepare</span>
+<span class="font-caption text-[12px] text-[#4A5B69] leading-tight">तैयारी निर्देश</span>
+</a>
+<!-- Link 2: I am safe checkin -->
+<button aria-label="Mark yourself safe in government civic register or send SMS check-in" class="bg-white border border-[#D3DBE3] hover:border-[#1B7F4B] rounded-lg p-2.5 flex flex-col items-center justify-center text-center gap-1 min-h-[96px] transition-colors" id="markSafeBtn" type="button">
+<div class="w-9 h-9 rounded-full bg-[#E6F4EC] text-[#1B7F4B] flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
+</div>
+<span class="font-label-strong text-[14px] text-[#14212B] leading-tight">I'm Safe</span>
+<span class="font-caption text-[12px] text-[#4A5B69] leading-tight">मैं सुरक्षित हूँ</span>
+</button>
+<!-- Link 3: Settings & Offline Packs -->
+<a aria-label="Download offline maps and language accessibility settings" class="bg-white border border-[#D3DBE3] hover:border-[#0B5FA5] rounded-lg p-2.5 flex flex-col items-center justify-center text-center gap-1 min-h-[96px] transition-colors" href="#">
+<div class="w-9 h-9 rounded-full bg-[#F5F7FA] text-[#14212B] flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">tune</span>
+</div>
+<span class="font-label-strong text-[14px] text-[#14212B] leading-tight">Offline Pack</span>
+<span class="font-caption text-[12px] text-[#4A5B69] leading-tight">ऑफ़लाइन नक्शे</span>
+</a>
+</div>
+</section>
+<!-- 5. OFFICIAL GOVERNMENT HELPLINES & ACCESSIBILITY FOOTER -->
+<footer class="w-full mt-2 bg-white border border-[#D3DBE3] rounded-lg p-4 flex flex-col gap-3.5 text-[#14212B]">
+<div class="flex items-center justify-between border-b border-[#D3DBE3] pb-2.5">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[#0B5FA5] text-[20px]">contacts</span>
+<h3 class="font-label-strong text-label-strong uppercase tracking-wide">
+  National Emergency Direct Lines
+</h3>
+</div>
+<span class="font-caption text-[13px] text-[#4A5B69]">Toll-Free 24x7</span>
+</div>
+<!-- Helpline Directory Grid -->
+<div class="grid grid-cols-2 gap-2 font-caption text-caption">
+<a class="p-2.5 rounded bg-[#F5F7FA] border border-[#D3DBE3] flex flex-col hover:bg-[#EBF5FF]" href="tel:112">
+<span class="font-body-strong text-body-strong text-[#0B5FA5]">112</span>
+<span class="text-[#4A5B69] text-[13px]">National Emergency (पुलिस / राहत)</span>
+</a>
+<a class="p-2.5 rounded bg-[#F5F7FA] border border-[#D3DBE3] flex flex-col hover:bg-[#EBF5FF]" href="tel:108">
+<span class="font-body-strong text-body-strong text-[#0B5FA5]">108</span>
+<span class="text-[#4A5B69] text-[13px]">Ambulance Services (एम्बुलेंस)</span>
+</a>
+<a class="p-2.5 rounded bg-[#F5F7FA] border border-[#D3DBE3] flex flex-col hover:bg-[#EBF5FF]" href="tel:1078">
+<span class="font-body-strong text-body-strong text-[#0B5FA5]">1078</span>
+<span class="text-[#4A5B69] text-[13px]">NDMA Disaster Line (आपदा प्रकोष्ठ)</span>
+</a>
+<a class="p-2.5 rounded bg-[#F5F7FA] border border-[#D3DBE3] flex flex-col hover:bg-[#EBF5FF]" href="sms:51969?body=HELP">
+<span class="font-body-strong text-body-strong text-[#0B5FA5]">SMS 51969</span>
+<span class="text-[#4A5B69] text-[13px]">No Internet Help (एसएमएस रिपोर्ट)</span>
+</a>
+</div>
+<!-- Institutional Administrative Links -->
+<div class="flex flex-wrap items-center justify-between pt-2 border-t border-[#D3DBE3] text-[13px] text-[#4A5B69] gap-2">
+<a class="hover:text-[#0B5FA5] underline font-semibold" href="#">Official Staff Sign-In</a>
+<span>•</span>
+<a class="hover:text-[#0B5FA5] underline" href="#">Official Staff Portal</a>
+<span>•</span>
+<a class="hover:text-[#0B5FA5] underline" href="#">Practice Drill Mode</a>
+<span>•</span>
+<button class="hover:text-[#0B5FA5] font-semibold" id="fontScaleBtn" type="button">Font Size (A / A+)</button>
+</div>
+<div class="flex flex-col gap-1 text-[12px] text-[#4A5B69] pt-1">
+<p>National Disaster Management Authority (NDMA) • Ministry of Home Affairs, Government of India.</p>
+<p>Low-bandwidth standard public utility edition • Compliance GIGW 3.0 &amp; WCAG 2.1 AA.</p>
+</div>
+</footer>
+</div>
+<!-- JavaScript Interactivity -->
+<script>
+(function initHomePage() {
+  // Theme Toggle (Light / Dark / System)
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeIcon = document.getElementById('themeIcon');
+  const root = document.documentElement;
+  const modes = ['light', 'dark'];
+  let currentTheme = localStorage.getItem('disaster_theme') || 'light';
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      themeIcon.textContent = 'light_mode';
+    } else {
+      root.classList.remove('dark');
+      themeIcon.textContent = 'dark_mode';
+    }
+    localStorage.setItem('disaster_theme', theme);
+  }
+
+  applyTheme(currentTheme);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', function () {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(currentTheme);
+    });
+  }
+
+  // Audio announcement toggle simulation
+  const ttsButton = document.getElementById('ttsButton');
+  const ttsLabel = document.getElementById('ttsLabel');
+  const headerAudioBtn = document.getElementById('headerAudioBtn');
+  let isPlaying = false;
+
+  function toggleAudio() {
+    isPlaying = !isPlaying;
+    if (isPlaying) {
+      if (ttsButton) ttsButton.classList.add('bg-[#EBF5FF]', 'border-[#0B5FA5]');
+      if (ttsLabel) ttsLabel.textContent = 'Playing audio (रोकें)...';
+      if (headerAudioBtn) headerAudioBtn.classList.add('bg-[#0B5FA5]', 'text-white');
+    } else {
+      if (ttsButton) ttsButton.classList.remove('bg-[#EBF5FF]', 'border-[#0B5FA5]');
+      if (ttsLabel) ttsLabel.textContent = 'Listen to alert (सुनें)';
+      if (headerAudioBtn) headerAudioBtn.classList.remove('bg-[#0B5FA5]', 'text-white');
+    }
+  }
+
+  if (ttsButton) ttsButton.addEventListener('click', toggleAudio);
+  if (headerAudioBtn) headerAudioBtn.addEventListener('click', toggleAudio);
+
+  // Simulation State Pills
+  const stateBtns = document.querySelectorAll('.state-tab-btn');
+  const alertCard = document.getElementById('alertCard');
+  const cacheNoticeBanner = document.getElementById('cacheNoticeBanner');
+  const cacheNoticeText = document.getElementById('cacheNoticeText');
+
+  const statesData = {
+    flood: {
+      cardClass: 'w-full bg-[#FCE8E6] border border-[#B3261E] rounded-lg p-4 flex flex-col gap-3 transition-colors duration-150',
+      html: `
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#B3261E] text-on-error">
+            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+            <span class="font-label-strong text-[14px] uppercase tracking-wide">URGENT CIVIC ALERT</span>
+          </div>
+          <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white border border-[#B3261E]/30 text-[#B3261E] font-caption text-caption">
+            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+            <span>Official NDMA • SDMA Field Confirmed</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-[#B3261E] leading-tight" id="hazard-heading">
+            Move to higher ground now.
+          </h2>
+          <p class="font-headline-sm text-headline-sm text-[#14212B]">
+            तुरंत ऊंचे स्थान पर जाएं।
+          </p>
+          <p class="font-body-default text-body-default text-[#14212B] mt-1">
+            Heavy flash flooding is expected in your sector within <strong>2 hours</strong>. River levels exceed warning threshold at Barrage 4.
+          </p>
+          <p class="font-caption text-caption text-[#4A5B69]">
+            अगले 2 घंटों में आपके क्षेत्र में भारी बाढ़ की संभावना है। तत्काल सुरक्षित पक्के भवन में शरण लें।
+          </p>
+        </div>
+        <div class="pt-2 border-t border-[#F5C2BE] flex flex-wrap items-center justify-between text-[#4A5B69] font-caption text-caption gap-2">
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">schedule</span>
+            <span>Issued: 14:28 IST (4 min ago) <span class="text-[12px] opacity-75">[Demo Data]</span></span>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px]">pin_drop</span>
+            <span>Zone: South Catchment Basin / Sector 9-14</span>
+          </div>
+        </div>
+        <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <a class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="#">
+            <span>See what to do</span>
+            <span class="font-label-default text-[15px] opacity-90">(निर्देश देखें)</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </a>
+          <button class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButtonSub" type="button">
+            <span class="material-symbols-outlined text-[20px] text-[#0B5FA5]">volume_up</span>
+            <span>Listen to alert (सुनें)</span>
+          </button>
+        </div>
+      `,
+      bannerText: '<strong>Cached Live:</strong> Operational for offline guidance • High Priority • Alert network active.'
+    },
+    clear: {
+      cardClass: 'w-full bg-[#E6F4EC] border border-[#1B7F4B] rounded-lg p-4 flex flex-col gap-3 transition-colors duration-150',
+      html: `
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#1B7F4B] text-white">
+            <span class="material-symbols-outlined text-[18px]">verified</span>
+            <span class="font-label-strong text-[14px] uppercase tracking-wide">No Active Alert / All Clear</span>
+          </div>
+          <div class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white border border-[#1B7F4B]/30 text-[#1B7F4B] font-caption text-caption">
+            <span>IMD / SDMA Safe Clearance [Demo Data]</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-[#1B7F4B] leading-tight">
+            Your area is currently safe.
+          </h2>
+          <p class="font-headline-sm text-headline-sm text-[#14212B]">
+            वर्तमान में आपके क्षेत्र में कोई तत्काल खतरा नहीं है (शांत स्थिति)।
+          </p>
+          <p class="font-body-default text-body-default text-[#14212B] mt-1">
+            River discharge is within safe bounds. Keep household emergency kit ready and monitor official bulletins.
+          </p>
+        </div>
+      `,
+      bannerText: '<strong>All Clear:</strong> Normal civic surveillance mode • 112 Active.'
+    },
+    offline: {
+      cardClass: 'w-full bg-[#FFF3DC] border border-[#8A4B00] rounded-lg p-4 flex flex-col gap-3 transition-colors duration-150',
+      html: `
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#8A4B00] text-white">
+            <span class="material-symbols-outlined text-[18px]">cloud_off</span>
+            <span class="font-label-strong text-[14px] uppercase tracking-wide">Offline / Low-Data Mode</span>
+          </div>
+          <span class="font-caption text-[#8A4B00] font-semibold">Mesh Cache Active [Demo Data]</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-[#8A4B00] leading-tight">
+            Operating from local offline cache.
+          </h2>
+          <p class="font-headline-sm text-headline-sm text-[#14212B]">
+            इंटरनेट अनुपलब्ध। स्थानीय ऑफ़लाइन डेटा सक्रिय।
+          </p>
+          <p class="font-body-default text-body-default text-[#14212B] mt-1">
+            SMS fallback helpline active via <strong>51969</strong>. Safe routes and shelter guidelines remain fully readable without internet.
+          </p>
+        </div>
+      `,
+      bannerText: '<strong>Offline Mode Active:</strong> Reading from secure cached device storage.'
+    },
+    stale: {
+      cardClass: 'w-full bg-[#F5F7FA] border border-[#727782] rounded-lg p-4 flex flex-col gap-3 transition-colors duration-150',
+      html: `
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#727782] text-white">
+            <span class="material-symbols-outlined text-[18px]">location_disabled</span>
+            <span class="font-label-strong text-[14px] uppercase tracking-wide">Location Unavailable / Stale Data</span>
+          </div>
+          <span class="font-caption text-[#727782] font-semibold">GPS Signal Lost [Demo Data]</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-[#14212B] leading-tight">
+            Enable location or pick your district.
+          </h2>
+          <p class="font-headline-sm text-headline-sm text-[#14212B]">
+            सटीक चेतावनी के लिए अपना जिला चुनें।
+          </p>
+          <p class="font-body-default text-body-default text-[#14212B] mt-1">
+            Displaying cached alerts from 35 mins ago. Re-enable location services or select your municipal zone manually.
+          </p>
+        </div>
+      `,
+      bannerText: '<strong>Notice:</strong> Location signal weak. Alerts may be stale.'
+    }
+  };
+
+  stateBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      stateBtns.forEach(b => {
+        b.classList.remove('bg-[#0B5FA5]', 'text-white', 'active');
+        b.classList.add('bg-surface-container-high', 'text-on-surface');
+        b.setAttribute('aria-selected', 'false');
+      });
+      this.classList.add('bg-[#0B5FA5]', 'text-white', 'active');
+      this.classList.remove('bg-surface-container-high', 'text-on-surface');
+      this.setAttribute('aria-selected', 'true');
+
+      const st = this.getAttribute('data-state');
+      if (statesData[st]) {
+        alertCard.className = statesData[st].cardClass;
+        alertCard.innerHTML = statesData[st].html;
+        cacheNoticeText.innerHTML = statesData[st].bannerText;
+      }
+    });
+  });
+
+  // Safe mode toggle switch shortcut
+  const toggleSafeView = document.getElementById('toggleSafeView');
+  if (toggleSafeView) {
+    toggleSafeView.addEventListener('click', function () {
+      const clearBtn = document.querySelector('.state-tab-btn[data-state="clear"]');
+      const floodBtn = document.querySelector('.state-tab-btn[data-state="flood"]');
+      if (alertCard.classList.contains('bg-[#FCE8E6]')) {
+        if (clearBtn) clearBtn.click();
+      } else {
+        if (floodBtn) floodBtn.click();
+      }
+    });
+  }
+
+  // Copilot chips quick autofill
+  const chips = document.querySelectorAll('.copilot-chip');
+  const aiInput = document.getElementById('aiUserInput');
+  chips.forEach(chip => {
+    chip.addEventListener('click', function () {
+      if (aiInput) {
+        aiInput.value = this.innerText.trim();
+        aiInput.focus();
+      }
+    });
+  });
+
+  // Floating AI trigger focus
+  const floatingAiTrigger = document.getElementById('floatingAiTrigger');
+  if (floatingAiTrigger && aiInput) {
+    floatingAiTrigger.addEventListener('click', function () {
+      aiInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      aiInput.focus();
+    });
+  }
+
+  // Mark Safe Quick Action
+  const markSafeBtn = document.getElementById('markSafeBtn');
+  if (markSafeBtn) {
+    markSafeBtn.addEventListener('click', function () {
+      alert('Govt Civil Register: Marked as SAFE for Current Location GPS Coordinates.');
+    });
+  }
+
+  // Assisted Mode Notice
+  const assistedModeCheck = document.getElementById('assistedModeCheck');
+  if (assistedModeCheck) {
+    assistedModeCheck.addEventListener('change', function (e) {
+      if (e.target.checked) {
+        alert('Assisted Mode Activated: You are filing on behalf of another citizen.');
+      }
+    });
+  }
+
+  // Multilingual toggle English/Original
+  const toggleOriginalTextBtn = document.getElementById('toggleOriginalTextBtn');
+  const broadcastText = document.getElementById('broadcastText');
+  let isOriginalEn = false;
+  if (toggleOriginalTextBtn && broadcastText) {
+    toggleOriginalTextBtn.addEventListener('click', function () {
+      isOriginalEn = !isOriginalEn;
+      if (isOriginalEn) {
+        broadcastText.innerText = '"4 NDRF teams and state disaster response forces are positioned at South Barrage embankment. All residents are advised to proceed towards designated safe shelters."';
+        toggleOriginalTextBtn.innerText = 'हिंदी अनुवाद (Hindi)';
+      } else {
+        broadcastText.innerText = '"NDRF की 4 टीमें और राज्य राहत दल दक्षिण बैराज तटबंध पर तैनात हैं। सभी नागरिक सुरक्षित शेल्टर की ओर प्रस्थान करें।"';
+        toggleOriginalTextBtn.innerText = 'Original announcement (English)';
+      }
+    });
+  }
+
+  // Font size scaler
+  const fontScaleBtn = document.getElementById('fontScaleBtn');
+  let isLargeFont = false;
+  if (fontScaleBtn) {
+    fontScaleBtn.addEventListener('click', function () {
+      isLargeFont = !isLargeFont;
+      document.body.style.fontSize = isLargeFont ? '19px' : '';
+    });
+  }
+})();
+</script>
+</div></main>
+<!-- FLOATING COPILOT TRIGGER (Bottom-Left: strictly non-obscuring of SOS button) -->
+<div class="fixed bottom-24 left-4 z-50">
+<button aria-label="DisasterReady AI Copilot" class="min-h-[48px] px-3.5 py-2.5 rounded-full bg-[#0B5FA5] text-white font-label-strong text-label-strong flex items-center gap-1.5 shadow-[0_4px_16px_rgba(11,95,165,0.35)] hover:bg-[#084A82] border border-white/30" id="floatingAiTrigger" type="button">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span>Ask AI Copilot</span>
+</button>
+</div>
+<!-- PERSISTENT SOS TRIGGER (Bottom-Right: 100% visible and prioritized) -->
+<div class="fixed bottom-24 right-4 z-50">
+<a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112">
+<span class="material-symbols-outlined text-[22px]">emergency</span>
+<span>SOS 112</span>
+</a>
+</div>
+<!-- PERSISTENT BOTTOM TAB NAVIGATION -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong">
+<div class="flex justify-around items-center h-20 px-2">
+<a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] transition-colors text-primary font-body-strong" data-path="live-dashboard" href="#">
+<span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+<span class="font-caption text-caption">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#">
+<span class="material-symbols-outlined text-[24px]">map</span>
+<span class="font-caption text-caption">Routes</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="relief-shelters" href="#">
+<span class="material-symbols-outlined text-[24px]">home_pin</span>
+<span class="font-caption text-caption">Shelters</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="preparedness-guides" href="#">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+<span class="font-caption text-caption">Guides</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#">
+<span class="material-symbols-outlined text-[24px]">contact_phone</span>
+<span class="font-caption text-caption">Helplines</span>
+</a>
+</div>
+</nav>
+</body></html>

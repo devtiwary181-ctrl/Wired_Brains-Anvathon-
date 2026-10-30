@@ -1,0 +1,444 @@
+[
+  {
+    "folder": "01-language-location",
+    "title": "01-language-location",
+    "buttons_count": 19,
+    "sample_buttons": [
+      "my_location Use my location to pick my language \u0938\u094d",
+      "done Yes, use \u0ba4\u0bae\u0bbf\u0bb4\u0bcd",
+      "No, select manual",
+      "Listen English",
+      "Listen Hindi",
+      "Listen Tamil",
+      "Listen Telugu",
+      "Listen Kannada",
+      "Listen Malayalam",
+      "Listen Bengali"
+    ],
+    "inputs_count": 0,
+    "inputs": [],
+    "selects_count": 0,
+    "copilot_features": []
+  },
+  {
+    "folder": "02-citizen-dashboard",
+    "title": "DisasterReady India - National Disaster Management",
+    "buttons_count": 21,
+    "sample_buttons": [
+      "Change Language",
+      "Toggle Light/Dark Theme",
+      "Listen to Screen Content",
+      "flood Active Flash Flood Alert (Default)",
+      "check_circle No Active Alert / All Clear (\u0936\u093e\u0902\u0924 \u0938\u094d\u0925",
+      "cloud_off Offline / Low-Data Mode",
+      "location_disabled Location Unavailable / Stale Dat",
+      "Listen to hazard alert announcement in audio format",
+      "Switch district",
+      "Toggle Simulation"
+    ],
+    "inputs_count": 2,
+    "inputs": [
+      "text: Type your question or emergency need...",
+      "checkbox: assistedModeCheck"
+    ],
+    "selects_count": 1,
+    "copilot_features": [
+      "Copilot Card -->",
+      "Copilot\" class=\"w-full\">",
+      "copilotCard\">",
+      "Copilot \u2022 NDMA Assist",
+      "Copilot",
+      "copilot-chip min-h-[44px] px-2.5 py-1 rounded bg-white hover:bg-[#EBF5FF] border border",
+      "Natural Language Input Bar -->",
+      "Assistant"
+    ]
+  },
+  {
+    "folder": "03-get-to-safety-step-1",
+    "title": "DisasterReady India - National Disaster Management",
+    "buttons_count": 23,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Toggle Theme",
+      "Back to Home",
+      "Listen to situation summary in audio",
+      "flood Flood 3 \u092c\u093e\u0922\u093c check_circle",
+      "landslide Landslide 1 \u092d\u0942\u0938\u094d\u0916\u0932\u0928 check_circle",
+      "earthquake Quake 0 \u092d\u0942\u0915\u0902\u092a radio_button_unchecked",
+      "cyclone Cyclone 0 \u091a\u0915\u094d\u0930\u0935\u093e\u0924 radio_button_unchecked",
+      "local_fire_department Wildfire/Fire 0 \u0906\u0917/\u0926\u093e\u0935\u093e\u0928\u0932 ra"
+    ],
+    "inputs_count": 1,
+    "inputs": [
+      "checkbox: unverifiedToggle"
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "AI-Generated Local Hazard Summary & Copilot Actions -->",
+      "Copilot Quick Action Buttons -->",
+      "Copilot Quick Actions:"
+    ]
+  },
+  {
+    "folder": "04-get-to-safety-step-2",
+    "title": "DisasterReady India - Choose your journey (\u092e\u093e\u0930\u094d\u0917 \u091a\u0941\u0928\u0947\u0902)",
+    "buttons_count": 35,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content (\u0938\u0941\u0928\u0947\u0902)",
+      "Toggle Light/Dark Theme",
+      "Listen to this page in Hindi and English",
+      "Stop sharing location",
+      "Permission Denied / Manual",
+      "Low Connectivity / Cached",
+      "my_location Use my location (\u092e\u0947\u0930\u0940 \u0938\u094d\u0925\u093f\u0924\u093f \u0915\u093e \u0909\u092a\u092f\u094b\u0917 ",
+      "format_list_bulleted Choose from list (\u0938\u0942\u091a\u0940 \u0938\u0947 \u091a\u0941\u0928",
+      "pin_drop Tap on map (\u092e\u093e\u0928\u091a\u093f\u0924\u094d\u0930 \u092a\u0930 \u091a\u0941\u0928\u0947\u0902) Select coo"
+    ],
+    "inputs_count": 2,
+    "inputs": [
+      "search: Type colony, bus stand, or ward number...",
+      "checkbox: group-travel-checkbox"
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "COPILOT DESTINATION INTERPRETATION -->",
+      "ai-copilot-heading\" class=\"flex flex-col gap-space-sm bg-surface-container-lowest p",
+      "ai-copilot-heading\">",
+      "Natural Language Destination Assist",
+      "Copilot on Bottom-Left, SOS on Bottom-Right) -->",
+      "Copilot\" class=\"min-h-[48px] px-4 py-2 rounded-full bg-primary-container text-on-primar",
+      "Copilot"
+    ]
+  },
+  {
+    "folder": "05-get-to-safety-step-4",
+    "title": "DisasterReady India - National Disaster Management",
+    "buttons_count": 31,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Toggle Theme Dark Light",
+      "Back to Step 2",
+      "Listen to page contents",
+      "Listen to Recommended Route Explanation",
+      "Show on map",
+      "Show on map",
+      "Show on map",
+      "policy Why this route? (\u092e\u093e\u0930\u094d\u0917 \u091a\u092f\u0928 \u0915\u093e \u0906\u0927\u093e\u0930 \u0935 \u0938\u0941\u0930\u0915\u094d\u0937"
+    ],
+    "inputs_count": 4,
+    "inputs": [
+      "radio: route-b-input",
+      "radio: route-a-input",
+      "radio: route-c-input",
+      "checkbox: live-share-toggle"
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "Copilot for Route Assistance\" class=\"min-h-[44px] px-3 py-1.5 rounded-full bg-surface-c",
+      "Copilot: High-ridge route is confirmed safe. I am monitoring your walking path in real",
+      "Copilot"
+    ]
+  },
+  {
+    "folder": "06-get-to-safety-step-5",
+    "title": "DisasterReady India - National Disaster Management",
+    "buttons_count": 23,
+    "sample_buttons": [
+      "Toggle Theme",
+      "Change Language",
+      "Listen to Screen Content",
+      "arrow_back Back to Route (\u0935\u093e\u092a\u0938)",
+      "Listen to page contents in Hindi and English",
+      "check_circle Hill Road (Near High Ridge Junction) ",
+      "pin_drop Tap on map (\u092e\u093e\u0928\u091a\u093f\u0924\u094d\u0930 \u092a\u0930 \u091a\u0941\u0928\u0947\u0902) chevron_ri",
+      "my_location Use Current GPS (\u0935\u0930\u094d\u0924\u092e\u093e\u0928 \u0938\u094d\u0925\u093e\u0928) Accura",
+      "search Enter landmark / \u0938\u0921\u093c\u0915 \u0928\u093e\u092e \u0916\u094b\u091c\u0947\u0902 keyboard",
+      "tsunami Flooded (\u092c\u093e\u0922\u093c)"
+    ],
+    "inputs_count": 0,
+    "inputs": [],
+    "selects_count": 0,
+    "copilot_features": [
+      "Assistant",
+      "Copilot\" class=\"min-h-[44px] px-space-md py-1 rounded-full bg-primary-container text-on",
+      "Copilot"
+    ]
+  },
+  {
+    "folder": "07-safe-places",
+    "title": "DisasterReady India - National Disaster Management",
+    "buttons_count": 30,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Listen to shelters status",
+      "Speech to text search",
+      "Shelters 4 Open",
+      "Hospitals 2 Avail",
+      "All Safe 6 Total",
+      "format_list_bulleted List View",
+      "map Map View",
+      "All (\u0938\u092d\u0940)"
+    ],
+    "inputs_count": 2,
+    "inputs": [
+      "search: Search shelters and hospitals",
+      "text: AI Shelter Finder Query"
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "AI-Assisted Nearby Resource Finder (DisasterReady AI Smart Haven Finder) -->",
+      "ai-haven-prompt\" type=\"text\" value=\"Find shelter with wheelchair ramp, power backup",
+      "natural language match\" class=\"absolute inset-y-0 right-0 pr-2.5 flex items-center text-primary",
+      "ai-recommendation-box\">",
+      "natural language filters -->",
+      "ai-haven-prompt');",
+      "ai-recommendation-box');"
+    ]
+  },
+  {
+    "folder": "08-emergency-relief",
+    "title": "Ask For Supplies - DisasterReady India",
+    "buttons_count": 53,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Go back to Home",
+      "Listen to screen audio in Hindi and English",
+      "Change",
+      "mic Voice Intake",
+      "Analyze",
+      "water_drop check_circle Drinking water \u092a\u0940\u0928\u0947 \u0915\u093e \u092a\u093e\u0928",
+      "rice_bowl check_circle Food rations \u092d\u094b\u091c\u0928 \u0935 \u0930\u093e\u0936\u0928",
+      "medical_services check_circle Medicines &amp; Kit "
+    ],
+    "inputs_count": 3,
+    "inputs": [
+      "text: Plain language needs intake",
+      "text: Other supplies description",
+      "tel: Enter 10-digit number"
+    ],
+    "selects_count": 0,
+    "copilot_features": []
+  },
+  {
+    "folder": "09-relief-tracking",
+    "title": "Ask For Supplies - DisasterReady India",
+    "buttons_count": 21,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Listen to tracking details",
+      "\ud83d\udfe2 1. Active In-Transit check",
+      "\u26a0\ufe0f 2. Hazard Detour (+45m) alt_route",
+      "\ud83d\udce1 3. Stale GPS (&gt;15m) signal_cellular_nodata",
+      "\ud83d\udcf4 4. Offline Device Cache cloud_off",
+      "Test Invalid ID Error",
+      "Voice input for request number",
+      "Voice input for phone number"
+    ],
+    "inputs_count": 2,
+    "inputs": [
+      "text: e.g. DR-1042",
+      "tel: e.g. 98451 22334"
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "assistant strictly reflects telemetry confirmed by the NDRF civil dispatch server. It doe"
+    ]
+  },
+  {
+    "folder": "10-relief-tracking-alternative",
+    "title": "Ask For Supplies - DisasterReady India",
+    "buttons_count": 23,
+    "sample_buttons": [
+      "Change Language",
+      "Toggle Dark / Light Mode",
+      "Listen to Screen Content",
+      "[Live In-Transit]",
+      "[Delayed Alert]",
+      "[Offline / Cached]",
+      "[Request Not Found]",
+      "Listen to tracking details",
+      "Recent requests dropdown",
+      "Voice input for request number"
+    ],
+    "inputs_count": 2,
+    "inputs": [
+      "text: e.g. DR-1042",
+      "tel: e.g. 98451 22334"
+    ],
+    "selects_count": 0,
+    "copilot_features": []
+  },
+  {
+    "folder": "11-preparedness",
+    "title": "Ask For Supplies - DisasterReady India",
+    "buttons_count": 21,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Mode: Live (\u0938\u0915\u094d\u0930\u093f\u092f) \u2197",
+      "Practice Drill (\u0905\u092d\u094d\u092f\u093e\u0938)",
+      "warning Alerts (\u091a\u0947\u0924\u093e\u0935\u0928\u0940)",
+      "neurology AI Guide (\u090f\u0906\u0908 \u0938\u093e\u0925\u0940)",
+      "medical_services First Aid (\u092a\u094d\u0930\u093e\u0925\u092e\u093f\u0915 \u091a\u093f\u0915\u093f\u0924\u094d\u0938\u093e)",
+      "checklist Household Checklist (\u0918\u0930 \u0915\u0940 \u0924\u0948\u092f\u093e\u0930\u0940)",
+      "group Family Plan (\u092a\u093e\u0930\u093f\u0935\u093e\u0930\u093f\u0915 \u092f\u094b\u091c\u0928\u093e)",
+      "how_to_reg Safe Check-in (\u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0938\u0942\u091a\u0928\u093e)"
+    ],
+    "inputs_count": 12,
+    "inputs": [
+      "text: \u0909\u0926\u093e: 4 \u0932\u094b\u0917, 1 \u092c\u0941\u091c\u093c\u0941\u0930\u094d\u0917 - \u092c\u093e\u0922\u093c \u092e\u0947\u0902 \u0915\u094d\u092f\u093e \u0915\u0930\u0947\u0902?",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "text: Search by name, phone or Aadhaar..."
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "Assistant -->",
+      "ai-chip px-3 py-1.5 rounded-lg bg-primary text-on-primary font-caption text-caption",
+      "ai-chip px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-cap",
+      "ai-chip');"
+    ]
+  },
+  {
+    "folder": "12-emergency-help",
+    "title": "Ask For Supplies - DisasterReady India",
+    "buttons_count": 36,
+    "sample_buttons": [
+      "Change Language",
+      "Listen to Screen Content",
+      "Toggle Theme",
+      "Listen to page instructions in Hindi and English",
+      "stop_circle Stop sharing (\u0930\u094b\u0915\u0947\u0902)",
+      "Sector 4 Relief Camp",
+      "Indiranagar Metro Stn",
+      "Silk Board Flyover",
+      "list Choose from list",
+      "send Send now (\u0905\u092d\u0940 \u092d\u0947\u091c\u0947\u0902) \u2192"
+    ],
+    "inputs_count": 0,
+    "inputs": [],
+    "selects_count": 0,
+    "copilot_features": []
+  },
+  {
+    "folder": "13-staff-login",
+    "title": "13-staff-login",
+    "buttons_count": 32,
+    "sample_buttons": [
+      "Theme Switcher",
+      "login 1. Sign In",
+      "verified_user 2. Verify 2FA",
+      "shield 3. Session Active",
+      "how_to_reg Setup Key",
+      "magic_button Autofill Demo Credentials (\u0938\u094d\u0935\u0924\u0903 \u092d\u0930\u0947\u0902",
+      "Step 1 Sign In",
+      "Step 2: 2FA Prompt",
+      "Toggle Error",
+      "Toggle password visibility"
+    ],
+    "inputs_count": 12,
+    "inputs": [
+      "text: officer@demo.in or NDMA-EMP-8492",
+      "password: Enter your secret password",
+      "text: input",
+      "text: input",
+      "text: input",
+      "text: input",
+      "text: input",
+      "text: input",
+      "checkbox: trust-device",
+      "text: e.g. 849201",
+      "checkbox: backup-stored",
+      "text: 6-digit code"
+    ],
+    "selects_count": 0,
+    "copilot_features": [
+      "Copilot &amp; Resource Allocation tools unlock only post-authentication."
+    ]
+  },
+  {
+    "folder": "14-authority-dashboard",
+    "title": "14-authority-dashboard",
+    "buttons_count": 58,
+    "sample_buttons": [
+      "apps Tools expand_more",
+      "logout Sign Out",
+      "Force Refresh",
+      "1 Overview &amp; Situation",
+      "2 Prioritise Requests",
+      "3 Plan Dispatch &amp; Logistics",
+      "4 Outcome &amp; Verification",
+      "5 Simulate Influx",
+      "Reset Filters",
+      "Map View"
+    ],
+    "inputs_count": 10,
+    "inputs": [
+      "text: Search ID, depot, asset...",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "range: range-urgency",
+      "range: range-people",
+      "range: range-vuln",
+      "range: range-aging",
+      "password: \u2022 \u2022 \u2022 \u2022 \u2022 \u2022"
+    ],
+    "selects_count": 10,
+    "copilot_features": []
+  },
+  {
+    "folder": "15-staff-tools-settings",
+    "title": "15-staff-tools-settings",
+    "buttons_count": 41,
+    "sample_buttons": [
+      "refresh",
+      "admin_panel_settings Role Tools arrow_drop_down",
+      "print Print Shift Brief",
+      "tune 1. Simulate a Change (Stage 5 Engine)",
+      "badge 2. Staff Tools (Role Suite &amp; AI Broadcas",
+      "settings_accessibility 3. Public Settings (&amp; A",
+      "analytics 4. Transparency Portal (Civic Data &amp;",
+      "Decrease reduction by 500 liters",
+      "Increase reduction by 500 liters",
+      "Apply change (\u0938\u093f\u092e\u0941\u0932\u0947\u0936\u0928 \u0932\u093e\u0917\u0942 \u0915\u0930\u0947\u0902) flash_on"
+    ],
+    "inputs_count": 15,
+    "inputs": [
+      "text: input",
+      "text: input",
+      "text: input",
+      "text: input",
+      "text: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "range: font-slider",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input",
+      "checkbox: input"
+    ],
+    "selects_count": 5,
+    "copilot_features": [
+      "AI-Assisted Supply Planning"
+    ]
+  }
+]

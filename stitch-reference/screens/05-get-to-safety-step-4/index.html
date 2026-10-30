@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>DisasterReady India - National Disaster Management</title><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container-low": "#ebf5ff", "surface-variant": "#d6e4f2", "primary-fixed": "#d3e4ff", "on-primary-fixed-variant": "#004881", "error-container": "#ffdad6", "on-secondary": "#ffffff", "on-surface-variant": "#414751", "error": "#ba1a1a", "inverse-surface": "#25323c", "surface-container-high": "#dceaf8", "surface-tint": "#0e60a6", "secondary-fixed": "#d3e5f6", "surface-dim": "#cedce9", "on-surface": "#101d27", "on-secondary-container": "#556675", "secondary": "#4f606f", "outline": "#727782", "primary": "#00477f", "tertiary": "#00512c", "secondary-fixed-dim": "#b7c9d9", "on-error-container": "#93000a", "on-primary-fixed": "#001c38", "on-secondary-fixed": "#0b1d29", "tertiary-fixed": "#98f6b7", "inverse-on-surface": "#e6f2ff", "tertiary-container": "#006c3c", "surface-container-highest": "#d6e4f2", "secondary-container": "#d3e5f6", "inverse-primary": "#a2c9ff", "surface-container-lowest": "#ffffff", "primary-container": "#0b5fa5", "on-tertiary-fixed": "#00210f", "surface-bright": "#f6f9ff", "on-primary-container": "#bfd9ff", "on-tertiary": "#ffffff", "surface": "#f6f9ff", "on-tertiary-fixed-variant": "#00522c", "background": "#f6f9ff", "primary-fixed-dim": "#a2c9ff", "on-tertiary-container": "#8debac", "on-secondary-fixed-variant": "#384956", "outline-variant": "#c1c7d2", "on-background": "#101d27", "tertiary-fixed-dim": "#7dda9c", "on-primary": "#ffffff", "surface-container": "#e2effe", "on-error": "#ffffff" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-sm": "0.5rem", "space-xl": "2rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem", "space-xs": "0.25rem" }, fontFamily: { "label-default": ["Noto Sans"], "headline-md": ["Noto Sans"], "body-default": ["Noto Sans"], "headline-sm": ["Noto Sans"], "label-strong": ["Noto Sans"], "headline-lg": ["Noto Sans"], "body-strong": ["Noto Sans"], "caption": ["Noto Sans"], "headline-lg-mobile": ["Noto Sans"] }, fontSize: { "label-default": ["16px", { lineHeight: "22px", fontWeight: "400" }], "headline-md": ["22px", { lineHeight: "28px", fontWeight: "700" }], "body-default": ["18px", { lineHeight: "26px", fontWeight: "400" }], "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }], "label-strong": ["16px", { lineHeight: "22px", fontWeight: "600" }], "headline-lg": ["28px", { lineHeight: "36px", fontWeight: "700" }], "body-strong": ["18px", { lineHeight: "26px", fontWeight: "600" }], "caption": ["16px", { lineHeight: "20px", fontWeight: "400" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;background-color:#f6f9ff;font-family:'Noto Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><button aria-label="Toggle Theme Dark Light" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-surface-container transition-colors" onclick="document.documentElement.classList.toggle('dark')" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><span class="font-label-strong text-label-strong text-primary">Live Dashboard</span></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full text-on-surface">
+<!-- TOP CONTEXT & STEP PROGRESSION -->
+<div class="w-full flex flex-col gap-space-sm mb-space-md">
+<div class="flex items-center justify-between">
+<button aria-label="Back to Step 2" class="inline-flex items-center gap-1 min-h-[48px] px-2 text-on-surface hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span class="font-label-strong text-label-strong">← Back to Step 2 (वापस)</span>
+</button>
+<span class="font-label-strong text-label-strong text-on-surface-variant">Step 4 of 5 • 80% Complete</span>
+</div>
+<!-- Official High-Contrast Linear Progress Bar -->
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" class="w-full bg-surface-variant h-2.5 rounded-full overflow-hidden" role="progressbar">
+<div class="bg-primary-container h-full w-[80%] rounded-full"></div>
+</div>
+</div>
+<!-- TITLE BLOCK -->
+<div class="w-full bg-surface-container-low rounded-lg p-space-sm mb-space-sm flex flex-col gap-2 border-b border-surface-variant"><div class="flex items-center justify-between flex-wrap gap-1"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[18px]">sensors</span><span class="font-label-strong text-label-strong text-[14px] text-on-surface">NDMA Real-Time Sensor Feed</span><span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption text-[12px]">Live 2m ago</span></div><div class="flex items-center gap-1 font-caption text-caption text-on-surface-variant"><span class="material-symbols-outlined text-tertiary text-[16px]">verified_user</span><span>Confidence: <strong>High (94%)</strong></span></div></div><div class="flex items-center justify-between gap-1 flex-wrap text-[13px] font-caption text-caption text-on-surface-variant bg-surface-container-lowest p-2 rounded"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[16px]">security</span>Stale Data Guard: Routes never marked safe without verified live sensor telemetry (&lt;15m)</span><div class="flex items-center gap-1"><span class="font-label-strong text-label-strong text-[12px] text-secondary">Mode:</span><span class="px-1.5 py-0.5 rounded bg-tertiary-fixed/30 text-tertiary font-label-strong text-label-strong text-[11px]">Connected Live</span></div></div></div><div class="w-full flex flex-col gap-space-xs mb-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-tight">
+        Compare &amp; select safe route • मार्ग तुलना और चयन
+      </h1>
+<button aria-label="Listen to page contents" class="min-h-[48px] px-space-sm bg-surface-container-high hover:bg-surface-variant text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong shrink-0" type="button">
+<span class="material-symbols-outlined text-[20px]">volume_up</span>
+<span>Listen (सुनें)</span>
+</button>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px] text-primary">location_on</span>
+<p class="font-body-strong text-body-strong text-on-surface">
+        Destination: Community Hall Relief Center, Sector 4 <span class="inline-block px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption ml-1">84 beds open</span>
+</p>
+</div>
+</div>
+<!-- 1. RECOMMENDED ROUTE BANNER -->
+<div class="w-full bg-tertiary-fixed/30 rounded-lg p-space-md mb-space-md"><div class="flex items-start justify-between gap-space-sm mb-space-xs"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-tertiary text-[24px]">verified</span><span class="font-body-strong text-body-strong text-tertiary">Recommended: Route B (Bypass via Higher Ridge)</span></div><button aria-label="Listen to Recommended Route Explanation" class="min-h-[48px] px-2 text-tertiary font-label-strong text-label-strong inline-flex items-center gap-1 hover:underline" type="button"><span class="material-symbols-outlined text-[18px]">volume_up</span><span class="text-[14px]">Audio</span></button></div><p class="font-body-default text-body-default text-on-surface">Takes 6 minutes longer (24 min total on foot) but completely avoids the flooded Canal Road underpass and stays on certified high ground.</p><p class="font-caption text-caption text-on-surface-variant mt-1">6 मिनट अधिक लगते हैं (पैदल 24 मिनट), पर नहर अंडरपास के जलभराव से पूर्ण सुरक्षित और उच्च भूभाग पर स्थित है।</p><div class="mt-space-sm p-space-sm bg-surface-container-lowest rounded-lg border-b border-surface-variant flex flex-col gap-1"><div class="flex items-center gap-1.5 text-tertiary font-label-strong text-label-strong text-[14px]"><span class="material-symbols-outlined text-[18px]">compare_arrows</span><span>Why Route B is chosen over faster Route A:</span></div><p class="font-caption text-caption text-on-surface">Even though Route A is 6 minutes faster (1.2 km vs 1.6 km), Route A passes through Canal Road Underpass submerged under <strong>4.2 ft rapid water</strong> with high risk of submerged manholes. Route B strictly follows certified elevated terrain with 0 hazard points.</p></div></div>
+<!-- 2. ROUTE COMPARISON CARDS (3 Stacked options) -->
+<div aria-label="Evacuation Route Choices" class="w-full flex flex-col gap-space-md mb-space-lg" role="radiogroup">
+<!-- ROUTE B: RECOMMENDED & SELECTED -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md bg-surface-container-low" id="route-b-card">
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<input aria-labelledby="route-b-title" checked="" class="w-6 h-6 text-primary focus:ring-primary" id="route-b-input" name="selected-route" type="radio" value="route-b"/>
+<div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-strong text-label-strong text-[14px] mb-1">
+<span class="material-symbols-outlined text-[16px]">grade</span> Recommended / अनुशंसित
+            </span>
+<label class="block font-headline-sm text-headline-sm text-on-surface cursor-pointer" for="route-b-input" id="route-b-title">
+              Route B: High Ridge Bypass
+            </label>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-tertiary block">24 min</span>
+<span class="font-caption text-caption text-on-surface-variant block">1.6 km on foot</span>
+</div>
+</div>
+<div class="w-full bg-surface-container rounded-lg p-space-sm flex flex-col gap-1 mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">shield</span>
+<span class="font-body-strong text-body-strong text-tertiary">None (0 hazard points detected)</span>
+</div>
+<div class="flex items-center gap-2 font-body-default text-body-default text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-[20px]">check_circle</span>
+<span>0 blocked roads • Clear elevated route</span>
+</div>
+<div class="flex items-center gap-2 font-body-default text-body-default text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span>Safe window: Stable for &gt;3 hours. Zero flood risk.</span>
+</div>
+</div>
+<div class="text-on-surface">
+<span class="font-label-strong text-label-strong block mb-1">Key verification points:</span>
+<ul class="flex flex-col gap-1.5 font-body-default text-body-default">
+<li class="flex items-center justify-between">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[18px]">verified</span>
+              Passes elevated flyover walkway (Safe)
+            </span>
+<button class="text-primary font-label-strong text-label-strong text-[14px] hover:underline" onclick="highlightMapFeature('flyover')" type="button">Show on map</button>
+</li>
+<li class="flex items-center justify-between">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[18px]">check</span>
+              Stays 450 m clear of flooded Canal underpass
+            </span>
+<button class="text-primary font-label-strong text-label-strong text-[14px] hover:underline" onclick="highlightMapFeature('buffer')" type="button">Show on map</button>
+</li>
+</ul>
+</div>
+</div>
+<!-- ROUTE A: FASTEST BUT RISKY -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md opacity-95" id="route-a-card">
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<input aria-labelledby="route-a-title" class="w-6 h-6 text-primary focus:ring-primary" id="route-a-input" name="selected-route" type="radio" value="route-a"/>
+<div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-strong text-label-strong text-[14px] mb-1">
+<span class="material-symbols-outlined text-[16px]">warning</span> Risky • Not Advised
+            </span>
+<label class="block font-headline-sm text-headline-sm text-on-surface cursor-pointer" for="route-a-input" id="route-a-title">
+              Route A: Direct Canal Road
+            </label>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-error block">18 min</span>
+<span class="font-caption text-caption text-on-surface-variant block">1.2 km on foot</span>
+</div>
+</div>
+<!-- Critical hazard banner -->
+<div class="w-full bg-error-container text-on-error-container rounded-lg p-space-sm flex flex-col gap-1 mb-space-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-error text-[20px] shrink-0 mt-0.5">crisis_alert</span>
+<span class="font-body-strong text-body-strong">Water on this road is 4.2 ft deep. Impassable for foot and passenger cars.</span>
+</div>
+<div class="flex items-center gap-2 font-caption text-caption text-error">
+<span class="material-symbols-outlined text-[18px]">trending_up</span>
+<span>Rapidly deteriorating: Water rising 4 inches/hour.</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 text-on-surface font-body-default text-body-default">
+<div class="flex items-center justify-between">
+<span class="flex items-center gap-1.5 text-error">
+<span class="material-symbols-outlined text-[18px]">block</span>
+            1 blocked segment: Canal Road Underpass
+          </span>
+<button class="text-primary font-label-strong text-label-strong text-[14px] hover:underline" onclick="highlightMapFeature('underpass')" type="button">Show on map</button>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">High risk of submerged manholes and electrical conduits.</span>
+</div>
+</div>
+<!-- ROUTE C: OUTER RING DETOUR -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md" id="route-c-card">
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<input aria-labelledby="route-c-title" class="w-6 h-6 text-primary focus:ring-primary" id="route-c-input" name="selected-route" type="radio" value="route-c"/>
+<div>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-strong text-label-strong text-[14px] mb-1">
+<span class="material-symbols-outlined text-[16px]">info</span> Clear but Long
+            </span>
+<label class="block font-headline-sm text-headline-sm text-on-surface cursor-pointer" for="route-c-input" id="route-c-title">
+              Route C: Outer Ring Detour
+            </label>
+</div>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm text-on-surface block">38 min</span>
+<span class="font-caption text-caption text-on-surface-variant block">2.8 km on foot</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 text-on-surface font-body-default text-body-default">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">check</span>
+<span>0 blocked roads • 1 minor puddle near storm drain</span>
+</div>
+<div class="flex items-center gap-2 font-caption text-caption text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>Safe window: ~2 hours before storm runoff accumulates</span>
+</div>
+</div>
+</div>
+</div><div class="w-full bg-surface-container-lowest rounded-lg p-space-md mb-space-md flex flex-col gap-space-sm shadow-sm"><div class="flex items-center justify-between border-b pb-space-xs"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[22px]">table_chart</span><h2 class="font-headline-sm text-headline-sm text-on-surface">Route Trade-Off Matrix • तुलना सारणी</h2></div><span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-caption text-caption text-[12px]">3 Options</span></div><div class="overflow-hidden rounded-lg bg-surface-container-low"><div class="grid grid-cols-3 gap-1 p-2 bg-surface-container font-label-strong text-label-strong text-[13px] text-center"><div class="p-1 text-tertiary bg-surface-container-lowest rounded">Route B (Chosen)</div><div class="p-1 text-error">Route A (Direct)</div><div class="p-1 text-secondary">Route C (Detour)</div></div><div class="p-space-sm flex flex-col gap-2 font-caption text-caption"><div class="flex justify-between items-center py-1 border-b border-surface-variant/40"><span>Foot Time (पैदल समय)</span><div class="grid grid-cols-3 w-1/2 text-center font-label-strong text-label-strong"><span class="text-tertiary">24 min</span><span class="text-error">18 min</span><span class="text-on-surface">38 min</span></div></div><div class="flex justify-between items-center py-1 border-b border-surface-variant/40"><span>Walking Distance</span><div class="grid grid-cols-3 w-1/2 text-center"><span>1.6 km</span><span>1.2 km</span><span>2.8 km</span></div></div><div class="flex justify-between items-center py-1 border-b border-surface-variant/40"><span>Flood Hazard Level</span><div class="grid grid-cols-3 w-1/2 text-center font-label-strong text-label-strong"><span class="text-tertiary">None (0)</span><span class="text-error">4.2 ft Flood</span><span class="text-secondary">Puddle (&lt;2in)</span></div></div><div class="flex justify-between items-center py-1 border-b border-surface-variant/40"><span>Safe Time Window</span><div class="grid grid-cols-3 w-1/2 text-center"><span>&gt;3 Hours</span><span class="text-error">0 Min (Blocked)</span><span>~2 Hours</span></div></div><div class="flex justify-between items-center py-1"><span>Terrain Elevation</span><div class="grid grid-cols-3 w-1/2 text-center font-label-strong text-label-strong"><span class="text-tertiary">+12 m High</span><span class="text-error">-4 m Low Canal</span><span>+2 m Level</span></div></div></div></div></div>
+<!-- 3. EXPANDABLE SECTION: WHY THIS ROUTE? -->
+<div class="w-full bg-surface-container-lowest rounded-lg mb-space-md overflow-hidden">
+<button aria-controls="why-explanation-panel" aria-expanded="false" class="w-full min-h-[48px] px-space-md py-space-sm flex items-center justify-between text-left font-label-strong text-label-strong text-on-surface hover:bg-surface-container-low transition-colors" id="why-toggle-btn" type="button">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">policy</span>
+<span>Why this route? (मार्ग चयन का आधार व सुरक्षा मानदंड)</span>
+</span>
+<span class="material-symbols-outlined text-[20px] transition-transform" id="why-toggle-icon">expand_more</span>
+</button>
+<div class="hidden px-space-md pb-space-md pt-2 bg-surface-container-low flex flex-col gap-space-sm" id="why-explanation-panel">
+<p class="font-body-default text-body-default text-on-surface">
+        We calculated travel time, ground elevation, verified road blockages, and confidence of official NDMA field reports.
+      </p>
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-sm flex flex-col gap-2">
+<div class="flex justify-between items-center text-[15px]">
+<span class="font-body-strong text-body-strong text-on-surface">Flood avoidance (High ground priority)</span>
+<span class="font-label-strong text-label-strong text-tertiary">Weight 50%</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-1/2"></div>
+</div>
+<div class="flex justify-between items-center text-[15px]">
+<span class="font-body-strong text-body-strong text-on-surface">Road clearance (Barricades &amp; Debris)</span>
+<span class="font-label-strong text-label-strong text-tertiary">Weight 30%</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[30%]"></div>
+</div>
+<div class="flex justify-between items-center text-[15px]">
+<span class="font-body-strong text-body-strong text-on-surface">Speed &amp; Distance (Walking time)</span>
+<span class="font-label-strong text-label-strong text-secondary">Weight 20%</span>
+</div>
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[20%]"></div>
+</div>
+</div>
+<div class="inline-flex items-center gap-2 px-space-sm py-1.5 bg-surface-container-high rounded-lg font-caption text-caption text-on-surface">
+<span class="material-symbols-outlined text-primary text-[18px]">gshield</span>
+<span>Active Configuration: <strong>Maximum Safety (कड़ा सुरक्षा मोड)</strong></span>
+</div>
+</div>
+</div><div class="w-full bg-surface-container-lowest rounded-lg p-space-md mb-space-md flex flex-col gap-space-sm shadow-sm"><div class="flex items-center justify-between"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[22px]">radar</span><span class="font-headline-sm text-headline-sm text-on-surface">AI In-Transit Guard (मार्ग की सक्रिय निगरानी)</span></div><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-strong text-label-strong text-[12px]"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>Active</span></div><p class="font-body-default text-body-default text-on-surface-variant">Continuous deterministic monitoring tracks upstream sluice gate releases, rain intensity, road barricades, and crowdsourcing reports along Route B.</p><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-2"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5 font-label-strong text-label-strong text-[14px] text-tertiary"><span class="material-symbols-outlined text-[18px]">check_circle</span><span>Live Guard Telemetry (Updated 1m ago)</span></div><span class="font-caption text-caption text-on-surface-variant text-[12px]">IMD &amp; Traffic Hub</span></div><p class="font-caption text-caption text-on-surface">Minor water accumulation reported on Outer Ring Detour; <strong>High Ridge (Route B) remains 100% dry and unobstructed.</strong> No reroute necessary.</p><div class="flex items-center gap-1.5 pt-1 text-[12px] font-caption text-caption text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[16px]">lock</span><span>Protection Promise: DisasterReady will never automatically alter your route without your explicit confirmation.</span></div></div></div>
+<!-- 4. INTERACTIVE CRISIS MAP CARD -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md mb-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[22px]">map</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Interactive Evacuation Map</h2>
+</div>
+<button class="min-h-[48px] px-2 text-primary font-label-strong text-label-strong text-[14px] hover:underline" id="toggle-map-view" type="button">
+        Show as text list (सूची देखें)
+      </button>
+</div>
+<!-- Map Canvas Display with high contrast schematic SVG -->
+<div class="relative w-full h-72 bg-surface-container-low rounded-lg overflow-hidden flex flex-col justify-between p-3" id="map-container">
+<!-- Vector crisis map simulation -->
+<svg class="absolute inset-0 w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+<!-- Flood hazard hatched territory -->
+<rect fill="#BA1A1A" fill-opacity="0.12" height="90" rx="6" width="130" x="130" y="100"></rect>
+<path d="M 130 110 L 250 190 M 150 100 L 260 180 M 170 100 L 260 160" stroke="#BA1A1A" stroke-opacity="0.3" stroke-width="1.5"></path>
+<text fill="#93000A" font-size="11" font-weight="700" x="140" y="150">FLOODED CANAL (4.2 FT)</text>
+<!-- Route C (Grey Dashed Detour) -->
+<path d="M 50 250 C 40 180, 80 50, 200 40 C 270 30, 340 70, 350 140" fill="none" stroke="#727782" stroke-dasharray="6 6" stroke-width="4"></path>
+<!-- Route A (Red Direct, blocked) -->
+<path d="M 50 250 L 150 160 L 230 145 L 350 140" fill="none" stroke="#BA1A1A" stroke-dasharray="5 5" stroke-width="4"></path>
+<!-- Blocked cross symbol on Route A -->
+<circle cx="190" cy="152" fill="#FFDAD6" r="10" stroke="#BA1A1A" stroke-width="2"></circle>
+<path d="M 184 146 L 196 158 M 196 146 L 184 158" stroke="#BA1A1A" stroke-width="2.5"></path>
+<!-- Route B (Recommended Solid Green Safe Trail) -->
+<path d="M 50 250 C 70 230, 100 240, 120 220 C 150 190, 140 120, 210 90 C 260 70, 310 90, 350 140" fill="none" stroke="#00512C" stroke-linecap="round" stroke-width="6"></path>
+<!-- Start marker: You Are Here -->
+<circle cx="50" cy="250" fill="#0B5FA5" r="9"></circle>
+<circle cx="50" cy="250" r="14" stroke="#0B5FA5" stroke-opacity="0.5" stroke-width="2"></circle>
+<text fill="#101D27" font-size="12" font-weight="700" x="20" y="278">You (Silk Board)</text>
+<!-- End marker: Relief Shelter -->
+<circle cx="350" cy="140" fill="#006C3C" r="10"></circle>
+<path d="M 345 140 L 349 144 L 356 136" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<text fill="#00210F" font-size="12" font-weight="700" x="290" y="125">Relief Center</text>
+</svg>
+<!-- Map Overlaid Floating Controls -->
+<div class="relative z-10 flex justify-between items-start"><div class="flex items-center gap-1.5"><span class="inline-flex items-center gap-1 px-2.5 py-1 bg-surface-container-lowest/95 rounded-lg text-[13px] font-label-strong text-label-strong shadow-sm"><span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span> High-Ridge Path Active</span><button class="px-2 py-1 bg-surface-container-lowest/95 rounded-lg text-[12px] font-label-strong text-label-strong shadow-sm text-primary hover:bg-surface-container" onclick="alert('Switched to Satellite + Contour overlay.')" type="button">Satellite View</button></div><div class="flex flex-col gap-1 bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden"><button aria-label="Zoom in on evacuation map" class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-container" type="button">+</button><div class="w-full h-px bg-surface-variant"></div><button aria-label="Zoom out on evacuation map" class="w-10 h-10 flex items-center justify-center text-on-surface hover:bg-surface-container" type="button">-</button></div></div>
+<div class="relative z-10 flex justify-between items-end">
+<button class="min-h-[44px] px-3 bg-surface-container-lowest/95 rounded-lg text-primary text-[14px] font-label-strong text-label-strong flex items-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+<span>Center on me</span>
+</button>
+<span class="px-2 py-1 bg-surface-container-highest/90 text-on-surface-variant font-caption text-caption text-[12px] rounded">
+          Offline GPS Mode
+        </span>
+</div>
+</div>
+<!-- Data mode fallback assurance notice -->
+<div class="flex items-center gap-2 text-on-surface-variant font-caption text-caption bg-surface-container-high/60 p-space-sm rounded-lg">
+<span class="material-symbols-outlined text-[18px] text-primary">cloud_done</span>
+<span>Low-data mode: Vector map loaded offline. Full textual directions remain 100% accessible without internet.</span>
+</div>
+</div>
+<!-- 5. STEP-BY-STEP LANDMARK-BASED DIRECTIONS -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md mb-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between border-b pb-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Turn-by-Turn Safe Directions</h2>
+<button aria-label="Listen to all steps" class="text-primary font-label-strong text-label-strong text-[14px] inline-flex items-center gap-1 hover:underline" type="button">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
+<span>Listen All (सभी सुनें)</span>
+</button>
+</div>
+<!-- Route Filter Tab Bar -->
+<div class="flex rounded-lg bg-surface-container p-1 gap-1" role="tablist">
+<button aria-selected="true" class="flex-1 min-h-[44px] py-1 px-2 rounded-lg font-label-strong text-label-strong text-center bg-surface-container-lowest text-primary" role="tab" type="button">
+        Route B (Active)
+      </button>
+<button aria-selected="false" class="flex-1 min-h-[44px] py-1 px-2 rounded-lg font-label-strong text-label-strong text-center text-on-surface-variant hover:text-on-surface" role="tab" type="button">
+        Route A (Risky)
+      </button>
+<button aria-selected="false" class="flex-1 min-h-[44px] py-1 px-2 rounded-lg font-label-strong text-label-strong text-center text-on-surface-variant hover:text-on-surface" role="tab" type="button">
+        Route C (Long)
+      </button>
+</div>
+<!-- Landmark Milestones List -->
+<ol class="flex flex-col gap-space-sm mt-space-xs" list-style="none">
+<!-- STEP 1 -->
+<li class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-1">
+<div class="flex items-start justify-between">
+<span class="font-body-strong text-body-strong text-primary">Step 1: Start at BTM Silk Board Junction</span>
+<span class="font-caption text-caption text-on-surface-variant">300 m</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+          Head North on the Outer Ring elevated service ramp. Keep IOCL Petrol Pump on your right side.
+        </p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check</span> Pavement clear and elevated
+          </span>
+<button aria-label="Listen step 1" class="min-h-[44px] px-2 text-on-surface-variant hover:text-primary flex items-center gap-1 text-[13px] font-label-strong text-label-strong" type="button">
+<span class="material-symbols-outlined text-[16px]">volume_up</span> Play
+          </button>
+</div>
+</li>
+<!-- STEP 2 -->
+<li class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-1">
+<div class="flex items-start justify-between">
+<span class="font-body-strong text-body-strong text-primary">Step 2: Turn sharp left at Lord Ganesha Temple</span>
+<span class="font-caption text-caption text-on-surface-variant">500 m</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+          Take the High Ridge Road ascend. Avoid the lower descent towards Canal Road.
+        </p>
+<!-- Critical Landmark Warning -->
+<div class="bg-error-container text-on-error-container p-2 rounded-lg flex items-center gap-2 text-[14px] font-body-strong text-body-strong">
+<span class="material-symbols-outlined text-error text-[18px]">warning</span>
+<span>Caution: DO NOT descend right side toward Canal underpass.</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-on-surface-variant">Landmark: Large saffron temple flag</span>
+<button aria-label="Listen step 2" class="min-h-[44px] px-2 text-on-surface-variant hover:text-primary flex items-center gap-1 text-[13px] font-label-strong text-label-strong" type="button">
+<span class="material-symbols-outlined text-[16px]">volume_up</span> Play
+          </button>
+</div>
+</li>
+<!-- STEP 3 -->
+<li class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-1">
+<div class="flex items-start justify-between">
+<span class="font-body-strong text-body-strong text-primary">Step 3: Pass Sector 4 Government Primary School</span>
+<span class="font-caption text-caption text-on-surface-variant">450 m</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+          Walk straight along the paved ridge avenue. Ground level is dry and verified safe by ward marshal.
+        </p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> Ward officer stationed here
+          </span>
+<button aria-label="Listen step 3" class="min-h-[44px] px-2 text-on-surface-variant hover:text-primary flex items-center gap-1 text-[13px] font-label-strong text-label-strong" type="button">
+<span class="material-symbols-outlined text-[16px]">volume_up</span> Play
+          </button>
+</div>
+</li>
+<!-- STEP 4 -->
+<li class="bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-1">
+<div class="flex items-start justify-between">
+<span class="font-body-strong text-body-strong text-primary">Step 4: Arrive at Community Hall Relief Center</span>
+<span class="font-caption text-caption text-on-surface-variant">350 m</span>
+</div>
+<p class="font-body-default text-body-default text-on-surface">
+          Enter through main security gate on 9th Cross Road. NDRF medical helpdesk is directly inside the entrance.
+        </p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">medical_services</span> Medical triage available
+          </span>
+<button aria-label="Listen step 4" class="min-h-[44px] px-2 text-on-surface-variant hover:text-primary flex items-center gap-1 text-[13px] font-label-strong text-label-strong" type="button">
+<span class="material-symbols-outlined text-[16px]">volume_up</span> Play
+          </button>
+</div>
+</li>
+</ol>
+</div>
+<!-- 6. FALLBACK DESTINATION CARD -->
+<div class="w-full bg-surface-container-high rounded-lg p-space-md mb-space-md flex flex-col gap-space-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">swap_calls</span>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface">Fallback Destination Ready</span>
+<p class="font-body-default text-body-default text-on-surface">
+          If Community Hall fills up upon arrival, your automatic backup is <strong>Government Girls High School, Indiranagar</strong> (1.9 km, 35 beds remaining).
+        </p>
+</div>
+</div>
+<button class="w-full min-h-[48px] px-space-md py-space-sm bg-surface-container-lowest hover:bg-surface-container text-primary font-body-strong text-body-strong rounded-lg flex items-center justify-center gap-2 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">sync_alt</span>
+<span>Switch destination to backup (बैकअप पर बदलें)</span>
+</button>
+</div>
+<!-- 7. SHARE & LIVE SAFETY COORDINATION -->
+<div class="w-full bg-surface-container-lowest rounded-lg p-space-md mb-space-lg flex flex-col gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">Share Route &amp; Safety Coordination</span>
+<!-- 3 Actionable Sharing buttons -->
+<div class="grid grid-cols-3 gap-2">
+<button class="min-h-[48px] px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-strong text-label-strong flex flex-col items-center justify-center gap-1" onclick="alert('Route text ready for SMS transmission.')" type="button">
+<span class="material-symbols-outlined text-[20px]">sms</span>
+<span class="text-[14px]">SMS Route</span>
+</button>
+<button class="min-h-[48px] px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-strong text-label-strong flex flex-col items-center justify-center gap-1" onclick="alert('Opening WhatsApp with verified route packet.')" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary">chat</span>
+<span class="text-[14px]">WhatsApp</span>
+</button>
+<button class="min-h-[48px] px-2 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-strong text-label-strong flex flex-col items-center justify-center gap-1" onclick="copyDirections()" type="button">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+<span class="text-[14px]" id="copy-btn-text">Copy Text</span>
+</button>
+</div>
+<!-- Live Location Broadcast Toggle -->
+<div class="w-full bg-surface-container-low rounded-lg p-space-sm flex flex-col gap-2 mt-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">share_location</span>
+<span class="font-body-strong text-body-strong text-on-surface">Share live location with family &amp; NDRF</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="live-share-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-surface-variant after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary"></div>
+</label>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+        Location transmitted strictly to authorized emergency services and chosen emergency contacts. Never stored publicly.
+      </p>
+<!-- Dynamic Active Broadcast Banner -->
+<div class="hidden flex items-center justify-between bg-tertiary-fixed text-on-tertiary-fixed px-space-sm py-2 rounded-lg" id="live-active-indicator">
+<div class="flex items-center gap-2 font-label-strong text-label-strong">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary animate-pulse"></span>
+<span>Transmitting live GPS ping...</span>
+</div>
+<button class="min-h-[44px] px-2.5 bg-error text-on-error font-label-strong text-label-strong text-[14px] rounded-lg" onclick="stopSharing()" type="button">
+          Stop Sharing
+        </button>
+</div>
+</div>
+</div>
+<!-- 8. THUMB-ZONE ACTION BUTTONS & OFFLINE PILL -->
+<div class="w-full flex flex-col gap-space-sm mb-space-lg">
+<!-- Offline status badge -->
+<div class="w-full flex items-center justify-center gap-1.5 py-1 text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[18px] text-tertiary">offline_pin</span>
+<span>Directions cached on device • No internet needed while moving</span>
+</div>
+<!-- Primary Big CTA -->
+<button class="w-full min-h-[52px] h-[52px] bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm rounded-lg flex items-center justify-center gap-2 transition-colors shadow-none" onclick="proceedToNavigation()" type="button">
+<span>Start this route (मार्ग शुरू करें)</span>
+<span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+</button>
+<!-- Secondary Hazard Reporting CTA -->
+<button class="w-full min-h-[48px] px-space-md py-space-sm bg-surface-container-lowest hover:bg-surface-container text-on-surface font-body-strong text-body-strong rounded-lg flex items-center justify-center gap-2 transition-colors" onclick="reportHazard()" type="button">
+<span class="material-symbols-outlined text-error text-[20px]">report</span>
+<span>Report a hazard or road closure (सड़क रुकावट की सूचना दें)</span>
+</button>
+</div>
+</div>
+<script>
+  // Accordion toggle for "Why this route?"
+  const whyBtn = document.getElementById('why-toggle-btn');
+  const whyPanel = document.getElementById('why-explanation-panel');
+  const whyIcon = document.getElementById('why-toggle-icon');
+
+  if (whyBtn && whyPanel) {
+    whyBtn.addEventListener('click', () => {
+      const isExpanded = whyBtn.getAttribute('aria-expanded') === 'true';
+      whyBtn.setAttribute('aria-expanded', !isExpanded);
+      whyPanel.classList.toggle('hidden');
+      whyIcon.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+  }
+
+  // Live Location Toggle Interactions
+  const shareToggle = document.getElementById('live-share-toggle');
+  const activeIndicator = document.getElementById('live-active-indicator');
+
+  if (shareToggle && activeIndicator) {
+    shareToggle.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        activeIndicator.classList.remove('hidden');
+      } else {
+        activeIndicator.classList.add('hidden');
+      }
+    });
+  }
+
+  function stopSharing() {
+    if (shareToggle) {
+      shareToggle.checked = false;
+      activeIndicator.classList.add('hidden');
+    }
+  }
+
+  function copyDirections() {
+    const textToCopy = "DisasterReady Safe Route: Route B (High Ridge Bypass) to Community Hall Sector 4. Distance: 1.6 km, walking 24 min. Avoids flooded Canal Rd.";
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      const btnText = document.getElementById('copy-btn-text');
+      if (btnText) {
+        btnText.innerText = "Copied!";
+        setTimeout(() => { btnText.innerText = "Copy Text"; }, 2000);
+      }
+    });
+  }
+
+  function highlightMapFeature(feature) {
+    alert("Showing " + feature + " verification pin on offline vector canvas.");
+  }
+
+  function proceedToNavigation() {
+    alert("Step 5 Launched: GPS active turn-by-turn guidance initiated.");
+  }
+
+  function reportHazard() {
+    alert("Navigating to Field Hazard Reporting Portal (Step 6 / Citizen Intake).");
+  }
+
+  // Radio button card styling logic
+  const radioInputs = document.querySelectorAll('input[name="selected-route"]');
+  radioInputs.forEach(input => {
+    input.addEventListener('change', () => {
+      document.querySelectorAll('[id$="-card"]').forEach(card => {
+        card.classList.remove('bg-surface-container-low');
+      });
+      if (input.checked) {
+        const parentCard = input.closest('[id$="-card"]');
+        if (parentCard) parentCard.classList.add('bg-surface-container-low');
+      }
+    });
+  });
+</script></main><div class="fixed bottom-24 right-4 z-50"><div class="flex flex-col items-end gap-2"><button aria-label="Ask AI Copilot for Route Assistance" class="min-h-[44px] px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-strong text-label-strong flex items-center gap-1.5 shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-variant" onclick="alert('AI Evacuation Copilot: High-ridge route is confirmed safe. I am monitoring your walking path in real time.')" type="button"><span class="material-symbols-outlined text-[20px] text-primary">smart_toy</span><span>Ask AI Copilot</span></button><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span>SOS 112</span></a></div></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="relief-shelters" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="preparedness-guides" href="#"><span class="material-symbols-outlined text-[24px]">menu_book</span><span class="font-caption text-caption">Guides</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav></body></html>

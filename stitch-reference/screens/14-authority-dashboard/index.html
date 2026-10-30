@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-primary-container": "#bfd9ff", "inverse-surface": "#25323c", "secondary": "#4f606f", "secondary-container": "#d3e5f6", "surface-tint": "#0e60a6", "on-primary-fixed": "#001c38", "surface-dim": "#cedce9", "tertiary-fixed-dim": "#7dda9c", "on-secondary": "#ffffff", "surface-container-low": "#ebf5ff", "primary": "#00477f", "outline": "#727782", "surface-container": "#e2effe", "on-secondary-fixed": "#0b1d29", "on-tertiary-fixed-variant": "#00522c", "on-background": "#101d27", "error-container": "#ffdad6", "on-primary": "#ffffff", "surface-variant": "#d6e4f2", "surface-bright": "#f6f9ff", "surface-container-highest": "#d6e4f2", "surface-container-high": "#dceaf8", "on-primary-fixed-variant": "#004881", "outline-variant": "#c1c7d2", "tertiary": "#00512c", "on-secondary-fixed-variant": "#384956", "background": "#f6f9ff", "on-secondary-container": "#556675", "on-error": "#ffffff", "on-surface": "#101d27", "secondary-fixed": "#d3e5f6", "inverse-primary": "#a2c9ff", "on-tertiary-fixed": "#00210f", "primary-fixed-dim": "#a2c9ff", "surface-container-lowest": "#ffffff", "inverse-on-surface": "#e6f2ff", "on-surface-variant": "#414751", "tertiary-fixed": "#98f6b7", "tertiary-container": "#006c3c", "secondary-fixed-dim": "#b7c9d9", "on-error-container": "#93000a", "on-tertiary": "#ffffff", "primary-container": "#0b5fa5", "primary-fixed": "#d3e4ff", "surface": "#f6f9ff", "error": "#ba1a1a", "on-tertiary-container": "#8debac" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xl": "2rem", "gutter-desktop": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "margin-desktop": "2rem", "margin": "1rem", "space-md": "1rem", "gutter": "1rem", "space-lg": "1.5rem" }, fontFamily: { "body-strong": ["Noto Sans"], "headline-lg-mobile": ["Noto Sans"], "headline-sm": ["Noto Sans"], "label-strong": ["Noto Sans"], "headline-lg": ["Noto Sans"], "caption": ["Noto Sans"], "body-default": ["Noto Sans"], "label-default": ["Noto Sans"], "headline-md": ["Noto Sans"] }, fontSize: { "body-strong": ["18px", { "lineHeight": "26px", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "label-strong": ["16px", { "lineHeight": "22px", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }], "caption": ["16px", { "lineHeight": "20px", "fontWeight": "400" }], "body-default": ["18px", { "lineHeight": "26px", "fontWeight": "400" }], "label-default": ["16px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "700" }] } } } };</script></head><body class="bg-surface font-body-default text-body-default text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest"><div class="h-1 bg-gradient-to-r from-[#FF9933] via-[#FFFFFF] to-[#138808] w-full"></div><div class="h-20 w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[32px]">emergency</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">DISASTER READY PORTAL</span><span class="px-1.5 py-0.5 rounded bg-surface-container-highest font-caption text-caption text-on-surface-variant">NDMA • GOI</span></div><span class="font-caption text-caption text-on-surface-variant">Relief Operations Command &amp; Logistics Infrastructure</span></div></div><div class="flex items-center gap-space-lg"><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container font-caption text-caption text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-tertiary">wifi</span><span>Live Feed: Bengaluru Urban SEOC</span><span class="font-label-strong text-label-strong text-on-surface">• 14:32 IST</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded bg-surface-container-low font-caption text-caption text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-secondary">timer</span><span>Inactivity:</span><span class="font-label-strong text-label-strong text-on-surface">14:58</span></div><div class="h-8 w-[1px] bg-surface-variant"></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-strong text-label-strong text-on-surface leading-tight">Rajesh Sharma, IAS</span><span class="font-caption text-caption text-on-surface-variant leading-tight">Relief Coordinator, Bengaluru Urban</span></div></div><div class="relative group"><button class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container hover:bg-surface-container-high transition-colors font-label-strong text-label-strong text-on-surface" type="button"><span class="material-symbols-outlined text-[20px] text-primary">apps</span><span>Tools</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><div class="absolute right-0 top-full mt-1 w-64 rounded-lg bg-surface-container-lowest p-space-xs hidden group-hover:block z-50"><div class="px-space-sm py-1 font-caption text-caption text-on-surface-variant font-bold uppercase">Operational Modules</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="shelter-manager" href="#"><span class="material-symbols-outlined text-[18px]">night_shelter</span>Shelter Manager</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="hospital-admin" href="#"><span class="material-symbols-outlined text-[18px]">local_hospital</span>Hospital Admin</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="warehouse-operations" href="#"><span class="material-symbols-outlined text-[18px]">warehouse</span>Warehouse Hub</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="responders-deployment" href="#"><span class="material-symbols-outlined text-[18px]">groups</span>Responders Cadre</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="resource-offers" href="#"><span class="material-symbols-outlined text-[18px]">volunteer_activism</span>Resource Offers</a><div class="h-[1px] bg-surface-variant my-1"></div><div class="px-space-sm py-1 font-caption text-caption text-on-surface-variant font-bold uppercase">Oversight &amp; Review</div><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="transparency-metrics" href="#"><span class="material-symbols-outlined text-[18px]">visibility</span>Transparency Portal</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="after-action-report" href="#"><span class="material-symbols-outlined text-[18px]">description</span>After-Action Report</a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-default text-label-default transition-colors" data-path="audit-log" href="#"><span class="material-symbols-outlined text-[18px]">history_toggle_off</span>System Audit Log</a></div></div><button class="flex items-center gap-space-xs px-space-md py-space-xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong transition-colors" type="button"><span class="material-symbols-outlined text-[20px] text-error">logout</span><span>Sign Out</span></button></div></div></header><aside class="fixed left-0 top-20 bottom-0 w-72 bg-surface-container-lowest z-40 flex flex-col justify-between p-space-md"><div class="flex flex-col gap-space-lg"><div class="flex flex-col gap-1"><span class="font-caption text-caption uppercase text-on-surface-variant tracking-wider font-bold">Relief Lifecycle Stages</span><span class="font-caption text-caption text-on-surface-variant">Active Incident: MON-BLR-FLOODS-24</span></div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-body-strong rounded-lg"><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-body-strong rounded-lg" data-path="stage-1-overview" href="#"><span class="flex items-center justify-center w-6 h-6 rounded bg-surface-container font-label-strong text-label-strong text-primary">1</span><span class="font-label-strong text-label-strong">1. Overview</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="stage-2-prioritise" href="#"><span class="flex items-center justify-center w-6 h-6 rounded bg-surface-container font-label-strong text-label-strong text-primary">2</span><span class="font-label-strong text-label-strong">2. Prioritise</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="stage-3-plan" href="#"><span class="flex items-center justify-center w-6 h-6 rounded bg-surface-container font-label-strong text-label-strong text-primary">3</span><span class="font-label-strong text-label-strong">3. Plan</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="stage-4-outcome" href="#"><span class="flex items-center justify-center w-6 h-6 rounded bg-surface-container font-label-strong text-label-strong text-primary">4</span><span class="font-label-strong text-label-strong">4. Outcome</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="stage-5-simulate" href="#"><span class="flex items-center justify-center w-6 h-6 rounded bg-surface-container font-label-strong text-label-strong text-primary">5</span><span class="font-label-strong text-label-strong">5. Simulate</span></a></nav></div><div class="flex flex-col gap-space-sm pt-space-md"><div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1"><div class="flex items-center gap-space-xs font-label-strong text-label-strong text-primary"><span class="material-symbols-outlined text-[18px]">verified_user</span><span>NDRF Control Line</span></div><span class="font-caption text-caption text-on-surface-variant">Direct Hotlink: 011-24363260</span></div><div class="flex items-center justify-between font-caption text-caption text-on-surface-variant px-space-xs"><span>Portal v4.2.1</span><span class="text-tertiary font-bold">NIC Connected</span></div></div></aside><div class="pl-72"><main class="w-full pt-20 px-space-lg pb-space-xl bg-surface min-h-screen"><div class="flex flex-col w-full gap-space-lg">
+<!-- Operational Degraded Banner (Government Utility Spec) -->
+<div class="bg-secondary-container text-on-secondary-fixed rounded-lg p-space-sm flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-primary">sync</span>
+<span class="font-label-strong text-label-strong">Live Ops Mode: Bengaluru Urban Flood Incident (MON-BLR-FLOODS-24)</span>
+<span class="text-caption font-caption bg-surface-container-lowest px-2 py-0.5 rounded text-on-surface-variant font-mono">SEOC SYNC: 14:32:10 IST</span>
+<span class="text-caption font-caption bg-surface-container-high text-on-surface px-2 py-0.5 rounded font-label-strong flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">info</span> [Demo Data] Simulation Prototype • Audit Sandbox</span></div>
+<div class="flex items-center gap-space-md text-caption font-caption">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span> 3 Warehouses Synced</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span> 18 Dispatch Units Live</span>
+<button class="bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded font-label-strong text-label-strong text-primary transition-colors">Force Refresh</button>
+</div>
+</div>
+<!-- Interactive Stage Ribbon (Tabs Controller) -->
+<div class="bg-surface-container-lowest rounded-lg p-space-xs flex flex-wrap items-center justify-between gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs" id="stage-tabs-container">
+<button class="stage-tab-btn flex items-center gap-space-xs px-space-md py-space-xs rounded font-label-strong text-label-strong bg-primary text-on-primary" id="tab-btn-1" onclick="switchStage(1)">
+<span class="w-5 h-5 rounded-full bg-on-primary text-primary flex items-center justify-center text-caption font-caption font-bold">1</span>
+<span>Overview &amp; Situation</span>
+</button>
+<button class="stage-tab-btn flex items-center gap-space-xs px-space-md py-space-xs rounded font-label-strong text-label-strong bg-surface hover:bg-surface-container text-on-surface" id="tab-btn-2" onclick="switchStage(2)">
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-caption font-caption font-bold">2</span>
+<span>Prioritise Requests</span>
+</button>
+<button class="stage-tab-btn flex items-center gap-space-xs px-space-md py-space-xs rounded font-label-strong text-label-strong bg-surface hover:bg-surface-container text-on-surface" id="tab-btn-3" onclick="switchStage(3)">
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-caption font-caption font-bold">3</span>
+<span>Plan Dispatch &amp; Logistics</span>
+</button>
+<button class="stage-tab-btn flex items-center gap-space-xs px-space-md py-space-xs rounded font-label-strong text-label-strong bg-surface hover:bg-surface-container text-on-surface" id="tab-btn-4" onclick="switchStage(4)">
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-caption font-caption font-bold">4</span>
+<span>Outcome &amp; Verification</span>
+</button>
+<button class="stage-tab-btn flex items-center gap-space-xs px-space-md py-space-xs rounded font-label-strong text-label-strong bg-surface hover:bg-surface-container text-on-surface" id="tab-btn-5" onclick="switchStage(5)">
+<span class="w-5 h-5 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center text-caption font-caption font-bold">5</span>
+<span>Simulate Influx</span>
+</button>
+</div>
+<div class="flex items-center gap-space-sm px-space-xs">
+<span class="font-caption text-caption text-on-surface-variant">Lifecycle State:</span>
+<span class="bg-surface-container px-2 py-0.5 rounded font-label-strong text-label-strong text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Stage 1 Active
+      </span>
+</div>
+</div><div class="bg-surface-container-lowest rounded-lg p-space-sm flex flex-col gap-space-xs border border-surface-variant"><div class="flex flex-wrap items-center justify-between gap-space-sm"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[20px]">tune</span><span class="font-label-strong text-label-strong text-on-surface">EOC Multi-Dimensional Filters</span><span class="font-caption text-caption text-on-surface-variant">(Real-time situational parameters)</span></div><div class="flex items-center gap-space-xs"><button class="text-caption font-caption text-primary hover:underline font-label-strong" onclick="document.querySelectorAll('.eoc-filter-select').forEach(s =&gt; s.selectedIndex=0);" type="button">Reset Filters</button></div></div><div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-space-xs"><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Region / Ward</label><select class="eoc-filter-select h-8 px-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant"><option value="all">All Wards (142, 150, 174)</option><option value="142">Ward 142 Bellandur</option><option value="150">Ward 150 HSR Layout</option><option value="174">Ward 174 Indiranagar</option></select></div><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Hazard Type</label><select class="eoc-filter-select h-8 px-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant"><option value="all">All Hazards</option><option value="urban-flood">Urban Flood</option><option value="waterlogging">Waterlogging</option><option value="power-outage">Power Outage</option></select></div><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Severity</label><select class="eoc-filter-select h-8 px-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant"><option value="all">All Severities</option><option value="critical">Critical / Red</option><option value="warning">Warning / Orange</option><option value="watch">Watch / Yellow</option></select></div><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Time Window</label><select class="eoc-filter-select h-8 px-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant"><option value="4h">Last 4 Hours / Realtime</option><option value="1h">Last 1 Hour</option><option value="12h">Last 12 Hours</option><option value="24h">Last 24 Hours</option></select></div><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Resource Type</label><select class="eoc-filter-select h-8 px-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant"><option value="all">All Resources</option><option value="water">Drinking Water (L)</option><option value="rations">Rations &amp; Food</option><option value="medical">Medical Kits</option><option value="boats">Inflatable Boats / Assets</option></select></div><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Verification Status</label><select class="eoc-filter-select h-8 px-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant"><option value="all">All (Verified &amp; Reports)</option><option value="verified">[Verified IMD/SDMA]</option><option value="unverified">[Unverified Citizen Report]</option><option value="forecast">[AI Hydrological Forecast]</option></select></div><div class="flex flex-col gap-0.5"><label class="font-caption text-caption text-on-surface-variant font-bold">Search Telemetry</label><div class="relative"><input class="w-full h-8 pl-6 pr-2 bg-surface rounded text-caption font-caption text-on-surface border border-surface-variant" placeholder="Search ID, depot, asset..." type="text"/><span class="material-symbols-outlined absolute left-1.5 top-1.5 text-[14px] text-on-surface-variant">search</span></div></div></div></div>
+<!-- STAGE 1: OVERVIEW & SITUATION (Default visible) -->
+<section class="flex flex-col gap-space-lg" id="stage-panel-1">
+<!-- 4 High-Density Summary Metric Tiles -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-default text-label-default text-on-surface-variant">Total Emergency Requests</span>
+<span class="material-symbols-outlined text-primary text-[22px]">assignment</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">1,482</span>
+<span class="font-caption text-caption text-tertiary bg-surface-container px-1.5 py-0.5 rounded font-bold">+18 in last hour</span>
+</div>
+<div class="mt-space-xs font-caption text-caption text-on-surface-variant">Validated via 112, Sahaya &amp; Citizen Form</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-default text-label-default text-on-surface-variant">People Affected (Tracked)</span>
+<span class="material-symbols-outlined text-primary text-[22px]">groups</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">6,840</span>
+<span class="font-caption text-caption text-on-surface-variant bg-surface-container-low px-1.5 py-0.5 rounded">1,820 families</span>
+</div>
+<div class="mt-space-xs font-caption text-caption text-on-surface-variant">Across 14 affected flood polygons</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-default text-label-default text-error">Requests Unmet (Critical)</span>
+<span class="material-symbols-outlined text-error text-[22px]">error</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-error tracking-tight">318</span>
+<span class="font-caption text-caption bg-error-container text-on-error-container px-2 py-0.5 rounded font-bold">Needs Allocation</span>
+</div>
+<div class="mt-space-xs font-caption text-caption text-on-surface-variant">84 requests pending &gt; 8 hours</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-label-default text-label-default text-on-surface-variant">Aggregate Stock Level</span>
+<span class="material-symbols-outlined text-tertiary text-[22px]">inventory_2</span>
+</div>
+<div class="mt-space-sm flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-tertiary tracking-tight">68%</span>
+<span class="font-caption text-caption bg-surface-container px-1.5 py-0.5 rounded text-on-surface-variant">3 Depots Live</span>
+</div>
+<div class="mt-space-xs font-caption text-caption text-on-surface-variant">Safe run rate: 19.4 operational hours</div>
+</div>
+</div><div class="bg-surface-container-low rounded-lg p-space-sm flex flex-wrap items-center justify-between gap-space-sm border border-surface-variant"><div class="flex items-center gap-space-md text-caption font-caption"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-primary">airport_shuttle</span><span class="font-label-strong text-label-strong text-on-surface">18 Dispatch Units:</span><span class="text-tertiary font-bold">12 Active In-Transit</span><span class="text-on-surface-variant">• 4 Staging</span><span class="text-on-surface-variant">• 2 Standby/Maint</span></div><div class="h-4 w-[1px] bg-surface-variant"></div><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-tertiary">night_shelter</span><span class="font-label-strong text-label-strong text-on-surface">8 Active Shelters:</span><span class="text-on-surface-variant">1,840 / 2,500 Beds Occupied</span><span class="bg-surface-container-high px-1.5 py-0.5 rounded font-bold text-primary">74% Capacity</span></div></div><div class="flex items-center gap-space-sm text-caption font-caption"><span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded font-label-strong flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span> SOP Phase 2 Active</span><span class="text-on-surface-variant font-mono">Last Dispatch Cycle: 14:28 IST</span></div></div>
+<!-- GIS Situation Map & Logistics Split -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column: Map & Route Status Canvas (7 Cols) -->
+<div class="xl:col-span-7 flex flex-col gap-space-md bg-surface-container-lowest p-space-md rounded-lg">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-xs bg-surface-container-lowest">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">map</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">GIS Situation &amp; Corridor Mobility</h2>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Bengaluru Urban East &amp; South Flood Zones • Live GPS Vehicles</p>
+</div>
+<div class="flex items-center gap-space-xs"><div class="hidden md:flex items-center gap-space-xs mr-2 text-caption font-caption text-on-surface-variant"><label class="flex items-center gap-1 cursor-pointer"><input checked="" class="accent-primary" type="checkbox"/> Flood Zones</label><label class="flex items-center gap-1 cursor-pointer"><input checked="" class="accent-primary" type="checkbox"/> Corridors</label><label class="flex items-center gap-1 cursor-pointer"><input checked="" class="accent-primary" type="checkbox"/> Depots</label><label class="flex items-center gap-1 cursor-pointer"><input checked="" class="accent-primary" type="checkbox"/> NDRF Units</label></div>
+<span class="font-caption text-caption text-on-surface-variant mr-1">Display:</span>
+<button class="px-space-sm py-1 rounded font-label-strong text-label-strong bg-primary text-on-primary" id="view-mode-map" onclick="toggleMapTableView('map')">Map View</button>
+<button class="px-space-sm py-1 rounded font-label-strong text-label-strong bg-surface-container text-on-surface hover:bg-surface-container-high" id="view-mode-table" onclick="toggleMapTableView('table')">Table View</button>
+</div>
+</div>
+<!-- Interactive Visual GIS Map View Container -->
+<div class="relative w-full h-[440px] bg-surface-container rounded-lg overflow-hidden select-none" id="gis-map-container">
+<!-- Static GIS Base Representation with Grid overlay -->
+<div class="absolute inset-0 bg-surface-container-high flex flex-col justify-between p-space-sm opacity-90">
+<div class="flex justify-between font-mono text-caption text-on-surface-variant">
+<span>LAT: 12.9716° N / LON: 77.5946° E</span>
+<span>SCALE: 1:25,000 SECTOR GRID</span>
+</div>
+<div class="flex justify-between font-mono text-caption text-on-surface-variant">
+<span>PROJECTION: EPSG 3857 (WGS84)</span>
+<span>DATUM: SURVEY OF INDIA</span>
+</div>
+</div>
+<!-- Stylized Geo Polygons & Water Inundation -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+<!-- Major Waterbody (Bellandur Lake Inundation Zone) -->
+<path d="M 120 180 Q 220 140 340 190 T 520 230 T 700 210 L 680 340 L 400 360 L 150 310 Z" fill="#ebf5ff" opacity="0.8"></path>
+<!-- Severe Flood Risk Polygon Bellandur -->
+<polygon fill="#ffdad6" opacity="0.55" points="180,190 320,180 380,260 260,310 160,250"></polygon>
+<!-- High Risk Polygon HSR Layout -->
+<polygon fill="#ffdad6" opacity="0.35" points="360,260 480,250 510,340 390,360"></polygon>
+<!-- Transit Routes -->
+<!-- Safe corridor Outer Ring Rd to Depot A -->
+<path d="M 80,80 L 220,130 L 330,160 L 440,160" fill="none" stroke="#00512c" stroke-dasharray="6,4" stroke-width="4"></path>
+<!-- Blocked Route Old Airport Rd -->
+<path d="M 330,160 L 410,210 L 520,230" fill="none" stroke="#ba1a1a" stroke-width="4"></path>
+<!-- Active boat delivery path -->
+<path d="M 230,220 L 310,240 L 340,290" fill="none" stroke="#00477f" stroke-dasharray="4,4" stroke-width="3"></path>
+</svg>
+<!-- Affected Ward Pins -->
+<!-- Bellandur Ward (Severe - Red) -->
+<div class="absolute top-[220px] left-[220px] -translate-x-1/2 -translate-y-1/2 bg-surface-container-lowest px-2 py-1 rounded shadow-sm flex items-center gap-1 cursor-pointer">
+<span class="w-3 h-3 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-strong text-label-strong text-error">Bellandur (Severe)</span>
+</div>
+<!-- HSR Sector 4 (High - Orange) -->
+<div class="absolute top-[290px] left-[430px] -translate-x-1/2 -translate-y-1/2 bg-surface-container-lowest px-2 py-1 rounded shadow-sm flex items-center gap-1 cursor-pointer">
+<span class="w-3 h-3 rounded-full bg-[#8A4B00]"></span>
+<span class="font-label-strong text-label-strong text-on-surface">HSR Sec-4 (High)</span>
+</div>
+<!-- Indiranagar (Medium - Yellow) -->
+<div class="absolute top-[100px] left-[180px] -translate-x-1/2 -translate-y-1/2 bg-surface-container-lowest px-2 py-1 rounded shadow-sm flex items-center gap-1 cursor-pointer">
+<span class="w-3 h-3 rounded-full bg-[#ca8a04]"></span>
+<span class="font-label-strong text-label-strong text-on-surface">Indiranagar (Medium)</span>
+</div>
+<!-- Depot A (Central Warehouse) -->
+<div class="absolute top-[60px] left-[60px] bg-primary text-on-primary px-2 py-1 rounded shadow-sm flex items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">warehouse</span>
+<span class="font-label-strong text-label-strong">Depot A (Domlur Hub)</span>
+</div>
+<!-- Depot B (Koramangala Indoor Stadium) -->
+<div class="absolute top-[370px] left-[130px] bg-primary text-on-primary px-2 py-1 rounded shadow-sm flex items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">warehouse</span>
+<span class="font-label-strong text-label-strong">Depot B (Koramangala)</span>
+</div>
+<!-- Depot C (Whitefield Goods Yard) -->
+<div class="absolute top-[80px] right-[40px] bg-primary text-on-primary px-2 py-1 rounded shadow-sm flex items-center gap-1 cursor-pointer">
+<span class="material-symbols-outlined text-[16px]">warehouse</span>
+<span class="font-label-strong text-label-strong">Depot C (Whitefield)</span>
+</div>
+<!-- Blocked Underpass Pin -->
+<div class="absolute top-[195px] left-[400px] bg-surface-container-lowest text-error px-2 py-1 rounded shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">block</span>
+<span class="font-caption text-caption font-bold">Old Airport Rd Underpass Submerged (3.8ft)</span>
+</div>
+<!-- Last-Mile Delivery Units on the Field -->
+<!-- Inflatable Boat -->
+<div class="absolute top-[250px] left-[270px] bg-surface-container-lowest px-1.5 py-0.5 rounded shadow-sm flex items-center gap-1 text-primary">
+<span class="text-caption">🚤</span>
+<span class="font-caption text-caption font-bold">Boat-03 (NDRF)</span>
+</div>
+<!-- Heavy Tractor -->
+<div class="absolute top-[330px] left-[360px] bg-surface-container-lowest px-1.5 py-0.5 rounded shadow-sm flex items-center gap-1 text-on-surface">
+<span class="text-caption">🚜</span>
+<span class="font-caption text-caption font-bold">Tractor-08 (Civil)</span>
+</div>
+<!-- NDMA Drone -->
+<div class="absolute top-[140px] left-[370px] bg-surface-container-lowest px-1.5 py-0.5 rounded shadow-sm flex items-center gap-1 text-primary">
+<span class="text-caption">🚁</span>
+<span class="font-caption text-caption font-bold">Drone-02 (Meds)</span>
+</div>
+<!-- Head-load Volunteer Cadre -->
+<div class="absolute top-[170px] left-[480px] bg-surface-container-lowest px-1.5 py-0.5 rounded shadow-sm flex items-center gap-1 text-tertiary">
+<span class="text-caption">🚶</span>
+<span class="font-caption text-caption font-bold">Volunteers (Cadre-4)</span>
+</div>
+<!-- Legend Bar bottom pinned inside map -->
+<div class="absolute bottom-2 left-2 right-2 bg-surface-container-lowest/95 backdrop-blur-sm p-space-xs rounded flex flex-wrap items-center justify-between text-caption font-caption gap-2">
+<div class="flex items-center gap-space-sm">
+<span class="flex items-center gap-1"><span class="w-3 h-1 bg-[#00512c] rounded"></span> Safe Corridor</span>
+<span class="flex items-center gap-1"><span class="w-3 h-1 bg-error rounded"></span> Blocked Route</span>
+<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-error rounded-full"></span> Severe Inundation</span>
+</div>
+<div class="flex items-center gap-space-sm font-label-strong text-label-strong text-primary">
+<span>Last Mile Units: 4 In-Transit</span>
+</div>
+</div>
+</div>
+<!-- Alternative Table View for Route Status (Toggled via JS) -->
+<div class="hidden w-full overflow-x-auto" id="gis-table-container">
+<table class="w-full text-left font-label-default text-label-default">
+<thead class="bg-surface-container font-label-strong text-label-strong text-on-surface">
+<tr>
+<th class="p-space-sm">Corridor Origin</th>
+<th class="p-space-sm">Destination</th>
+<th class="p-space-sm">Transit Condition</th>
+<th class="p-space-sm">Clearance Est.</th>
+<th class="p-space-sm">Assigned Asset</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant bg-surface-container-lowest">
+<tr class="hover:bg-surface">
+<td class="p-space-sm font-bold">Depot A (Domlur)</td>
+<td class="p-space-sm">Bellandur Primary School Shelter</td>
+<td class="p-space-sm"><span class="bg-error-container text-on-error-container px-2 py-0.5 rounded font-caption text-caption font-bold flex items-center gap-1 w-fit"><span class="material-symbols-outlined text-[14px]">close</span> Inaccessible (Underpass flood)</span></td>
+<td class="p-space-sm">4.5 hrs (Pump en-route)</td>
+<td class="p-space-sm">Rerouted via Boat-03</td>
+</tr>
+<tr class="hover:bg-surface">
+<td class="p-space-sm font-bold">Depot B (Koramangala)</td>
+<td class="p-space-sm">HSR Sec-4 Community Hall</td>
+<td class="p-space-sm"><span class="bg-surface-container-highest text-[#8A4B00] px-2 py-0.5 rounded font-caption text-caption font-bold flex items-center gap-1 w-fit"><span class="material-symbols-outlined text-[14px]">warning</span> Waterlogged (Tractor only)</span></td>
+<td class="p-space-sm">Open to high-axle</td>
+<td class="p-space-sm">Heavy Tractor-08</td>
+</tr>
+<tr class="hover:bg-surface">
+<td class="p-space-sm font-bold">Depot C (Whitefield)</td>
+<td class="p-space-sm">Varthur Lake Relief Camp</td>
+<td class="p-space-sm"><span class="bg-surface-container text-tertiary px-2 py-0.5 rounded font-caption text-caption font-bold flex items-center gap-1 w-fit"><span class="material-symbols-outlined text-[14px]">check</span> Clear &amp; Motorway Safe</span></td>
+<td class="p-space-sm">Immediate (15m)</td>
+<td class="p-space-sm">Tata 407 (NDMA-04)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Column: Warehouse Stock & Immediate Citizen Verification (5 Cols) -->
+<div class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Stock Levels Per Warehouse Panel -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">warehouse</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Depot Stock Levels</h3>
+</div>
+<span class="font-caption text-caption text-on-surface-variant font-mono">Synced 4m ago</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-default text-label-default">
+<thead class="bg-surface-container text-caption font-caption text-on-surface-variant uppercase">
+<tr>
+<th class="p-space-xs">Warehouse</th>
+<th class="p-space-xs">Water (L)</th>
+<th class="p-space-xs">Rations</th>
+<th class="p-space-xs">Med Kits</th>
+<th class="p-space-xs">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant text-caption font-caption">
+<tr class="hover:bg-surface">
+<td class="p-space-xs font-bold text-on-surface">Depot A (Domlur)</td>
+<td class="p-space-xs font-mono">14,200</td>
+<td class="p-space-xs font-mono">2,100</td>
+<td class="p-space-xs font-mono">340</td>
+<td class="p-space-xs"><span class="text-tertiary font-bold">Adequate</span></td>
+</tr>
+<tr class="hover:bg-surface">
+<td class="p-space-xs font-bold text-on-surface">Depot B (Koramangala)</td>
+<td class="p-space-xs font-mono text-error font-bold">1,800</td>
+<td class="p-space-xs font-mono">1,450</td>
+<td class="p-space-xs font-mono">112</td>
+<td class="p-space-xs"><span class="text-error font-bold">Water Low</span></td>
+</tr>
+<tr class="hover:bg-surface">
+<td class="p-space-xs font-bold text-on-surface">Depot C (Whitefield)</td>
+<td class="p-space-xs font-mono">22,000</td>
+<td class="p-space-xs font-mono">3,800</td>
+<td class="p-space-xs font-mono">510</td>
+<td class="p-space-xs"><span class="text-tertiary font-bold">Surplus</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-space-xs bg-surface-container-low p-space-xs rounded flex items-center justify-between text-caption font-caption">
+<span class="text-on-surface-variant">Recommended Inter-Depot Balancing:</span>
+<button class="text-primary font-label-strong text-label-strong hover:underline" onclick="switchStage(3)">Depot C → Depot B Transfer &gt;</button>
+</div>
+</div>
+<!-- Crowdsourced Citizen Hazard Verification Queue -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-error text-[20px]">report_problem</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Hazard Reports for Verification</h3>
+</div>
+<span class="bg-error-container text-on-error-container text-caption font-caption px-2 py-0.5 rounded font-bold">2 Pending Review</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Hazard Row 1 -->
+<div class="p-space-sm bg-surface rounded flex flex-col gap-space-xs" id="hazard-report-1">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="font-label-strong text-label-strong text-on-surface">Submerged Culvert on Safe Ridge Bypass</div>
+<div class="font-caption text-caption text-on-surface-variant">Water depth reported at 3.5 ft • Impassable for light vehicles</div>
+</div>
+<span class="bg-surface-container text-tertiary font-bold font-caption text-caption px-1.5 py-0.5 rounded">94% Confidence</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span> 12 Citizen Geotagged Photos
+                </span>
+<div class="flex items-center gap-space-xs">
+<button class="px-2 py-1 bg-surface-container-highest hover:bg-surface-variant text-on-surface-variant rounded text-caption font-caption" onclick="resolveHazard(1, 'rejected')">Reject</button>
+<button class="px-2 py-1 bg-primary text-on-primary rounded font-label-strong text-label-strong" onclick="resolveHazard(1, 'verified')">Mark Official</button>
+</div>
+</div>
+</div>
+<!-- Hazard Row 2 -->
+<div class="p-space-sm bg-surface rounded flex flex-col gap-space-xs" id="hazard-report-2">
+<div class="flex items-start justify-between gap-space-sm">
+<div>
+<div class="font-label-strong text-label-strong text-on-surface">Reported structural crack at Varthur Lake Sluice</div>
+<div class="font-caption text-caption text-on-surface-variant">Unconfirmed by irrigation team • Risk of secondary overflow</div>
+</div>
+<span class="bg-surface-container-highest text-[#8A4B00] font-bold font-caption text-caption px-1.5 py-0.5 rounded">62% Confidence</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">sensors</span> 2 Citizen Reports • PWD Team Dispatched
+                </span>
+<div class="flex items-center gap-space-xs">
+<button class="px-2 py-1 bg-surface-container-highest hover:bg-surface-variant text-on-surface-variant rounded text-caption font-caption" onclick="resolveHazard(2, 'rejected')">Reject</button>
+<button class="px-2 py-1 bg-secondary text-on-secondary rounded font-label-strong text-label-strong" onclick="resolveHazard(2, 'verified')">Hold for PWD</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-md border border-surface-variant shadow-sm"><div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-xs border-b border-surface-variant"><div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[24px]">psychology</span><h3 class="font-headline-sm text-headline-sm text-on-surface">DisasterReady AI Intelligence • EOC Decision Support</h3><span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-caption text-caption font-bold">Hydrological &amp; Logistics Assist</span></div><p class="font-caption text-caption text-on-surface-variant mt-0.5"><strong>Human-in-the-Loop Protocol:</strong> AI Decision Support strictly recommends — requires Authorized Human Officer Sign-off. Never executes automated dispatch.</p></div><div class="flex items-center gap-space-xs"><span class="bg-surface-container text-tertiary px-2 py-1 rounded text-caption font-caption font-mono font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">online_prediction</span> Continuous Inference Active (v3.4-EOC)</span></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md"><div class="bg-surface rounded-lg p-space-sm flex flex-col justify-between border border-surface-variant gap-space-sm"><div class="flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="bg-error-container text-on-error-container text-caption font-caption px-1.5 py-0.5 rounded font-bold">Road Disruption Forecast</span><span class="font-caption text-caption text-error font-mono font-bold">88% Confidence</span></div><div class="font-label-strong text-label-strong text-on-surface">Old Airport Rd Underpass Cutoff Imminent</div><div class="text-caption font-caption text-on-surface-variant"><span class="font-bold text-on-surface">Horizon: +45m</span> • Runoff telemetry indicates water depth will exceed 4.2ft by 15:30 IST. 3 delivery vehicles approaching corridor.</div><div class="flex items-center gap-1 mt-0.5"><span class="bg-surface-container-high text-on-surface-variant px-1.5 py-0.5 rounded text-caption font-caption font-mono">[AI Hydrological Forecast]</span><span class="bg-surface-container text-tertiary px-1.5 py-0.5 rounded text-caption font-caption font-mono">[Verified IMD/SDMA]</span></div></div><div class="flex items-center justify-end gap-space-xs pt-space-xs border-t border-surface-variant"><button class="px-2 py-1 bg-surface-container hover:bg-surface-variant rounded text-caption font-caption text-on-surface-variant" onclick="alert('Telemetry: Gauge #41 sensor logged 3.8ft rising +0.12ft/10m.')" type="button">Inspect Telemetry</button><button class="px-2.5 py-1 bg-primary text-on-primary rounded font-label-strong text-label-strong hover:bg-primary-container" onclick="alert('Accepted: Safe Ridge Corridor reroute transmitted to Boat-03 and Tractor-08.')" type="button">Accept Reroute</button></div></div><div class="bg-surface rounded-lg p-space-sm flex flex-col justify-between border border-surface-variant gap-space-sm"><div class="flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="bg-surface-container-highest text-[#8A4B00] text-caption font-caption px-1.5 py-0.5 rounded font-bold">Depot Depletion Warning</span><span class="font-caption text-caption text-primary font-mono font-bold">92% Confidence</span></div><div class="font-label-strong text-label-strong text-on-surface">Depot B Water Exhaustion in 2h 15m</div><div class="text-caption font-caption text-on-surface-variant"><span class="font-bold text-on-surface">Horizon: 2.5h</span> • Drinking water consumption rate at Koramangala Depot exceeds receipts. Recommends immediate 4,000L inter-depot buffer transfer from Surplus Depot C.</div><div class="flex items-center gap-1 mt-0.5"><span class="bg-surface-container-high text-on-surface-variant px-1.5 py-0.5 rounded text-caption font-caption font-mono">[AI Allocation Recommendation]</span></div></div><div class="flex items-center justify-end gap-space-xs pt-space-xs border-t border-surface-variant"><button class="px-2 py-1 bg-surface-container hover:bg-surface-variant rounded text-caption font-caption text-on-surface-variant" onclick="alert('Quantity adjustment opened.')" type="button">Modify Qty</button><button class="px-2.5 py-1 bg-primary text-on-primary rounded font-label-strong text-label-strong hover:bg-primary-container" onclick="switchStage(3);" type="button">Approve Transfer Order</button></div></div><div class="bg-surface rounded-lg p-space-sm flex flex-col justify-between border border-surface-variant gap-space-sm"><div class="flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="bg-surface-container text-tertiary text-caption font-caption px-1.5 py-0.5 rounded font-bold">Urgent Citizen Triage Cluster</span><span class="font-caption text-caption text-tertiary font-mono font-bold">96% Verification</span></div><div class="font-label-strong text-label-strong text-on-surface">Bellandur Sector 4 High-Vulnerability Group</div><div class="text-caption font-caption text-on-surface-variant"><span class="font-bold text-on-surface">Ward 142</span> • 14 unfulfilled requests clustered in Low-lying Sector 4 with 6 seniors and 2 infants. Inundation depth reported at 2.8ft.</div><div class="flex items-center gap-1 mt-0.5"><span class="bg-surface-container text-tertiary px-1.5 py-0.5 rounded text-caption font-caption font-mono">[Verified IMD/SDMA]</span><span class="bg-surface-container-highest text-[#8A4B00] px-1.5 py-0.5 rounded text-caption font-caption font-mono">[Unverified Citizen Report]</span></div></div><div class="flex items-center justify-end gap-space-xs pt-space-xs border-t border-surface-variant"><button class="px-2 py-1 bg-surface-container hover:bg-surface-variant rounded text-caption font-caption text-on-surface-variant" onclick="switchStage(2);" type="button">Review Requests</button><button class="px-2.5 py-1 bg-primary text-on-primary rounded font-label-strong text-label-strong hover:bg-primary-container" onclick="alert('Batch assigned to NDRF Boat 04 for immediate staging.');" type="button">Batch Assign to NDRF</button></div></div></div></div>
+</section>
+<!-- STAGE 2: PRIORITISE REQUESTS PANEL (Shown when Stage 2 is active) -->
+<section class="hidden flex flex-col gap-space-lg" id="stage-panel-2">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column: Ranked Table (8 Cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-md bg-surface-container-lowest p-space-md rounded-lg">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">format_list_numbered</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Ranked Priority Ledger (Real-Time Algorithm)</h2>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Deterministic scoring based on vulnerability weights and wait-time aging</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-caption text-caption text-tertiary bg-surface-container px-2 py-1 rounded font-bold">Auto-Rank Engine Active</span>
+<button class="px-space-sm py-1 bg-surface-container hover:bg-surface-container-high rounded text-on-surface font-label-strong text-label-strong flex items-center gap-1" onclick="exportPriorityTable()">
+<span class="material-symbols-outlined text-[18px]">download</span> Export CSV
+            </button>
+</div>
+</div>
+<!-- Ranked Rows Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-default text-label-default">
+<thead class="bg-surface-container font-label-strong text-label-strong text-on-surface">
+<tr>
+<th class="p-space-sm w-16">Rank</th>
+<th class="p-space-sm">Location / Ward</th>
+<th class="p-space-sm">Citizens</th>
+<th class="p-space-sm">Vulnerable Cohort</th>
+<th class="p-space-sm">Urgency</th>
+<th class="p-space-sm">Score</th>
+<th class="p-space-sm text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant bg-surface-container-lowest font-body-default text-body-default">
+<!-- Row #1 -->
+<tr class="hover:bg-surface transition-colors" id="row-rank-1">
+<td class="p-space-sm font-bold text-primary">#1</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Kariyammana Agrahara (Sector 2)</div>
+<div class="font-caption text-caption text-on-surface-variant">Req ID: REQ-BLR-0941 • Logged: 10h ago</div>
+</td>
+<td class="p-space-sm font-mono font-bold">120</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-1 font-caption text-caption">
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">elderly</span> 14</span>
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">child_care</span> 6</span>
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">accessible</span> 2</span>
+</div>
+</td>
+<td class="p-space-sm">
+<span class="bg-error-container text-on-error-container font-bold px-2 py-0.5 rounded text-caption font-caption">Immediate (No Water 30h)</span>
+</td>
+<td class="p-space-sm font-mono font-bold text-primary">94.8</td>
+<td class="p-space-sm text-right">
+<button class="text-caption font-caption bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded text-primary font-bold" onclick="toggleWhyRank(1)">Why #1?</button>
+</td>
+</tr>
+<!-- Expander for Rank #1 -->
+<tr class="hidden bg-surface-container-low" id="why-rank-1">
+<td class="p-space-sm" colspan="7">
+<div class="bg-surface-container-lowest p-space-sm rounded flex flex-col gap-1 text-caption font-caption">
+<div class="font-bold text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">info</span>
+                      Algorithmic Justification (REQ-BLR-0941):
+                    </div>
+<p class="text-on-surface-variant">Base Urgency Score: 40/40 (Critical water depletion &gt; 24h) + People Density Factor: 22/25 (120 individuals) + Vulnerability Count: 24.8/25 (14 seniors, 6 infants under 2 yrs) + Waiting Time Escalation Boost: +8.0 pts (10 hours unresolved). Total calculated priority coefficient: 94.8.</p>
+</div>
+</td>
+</tr>
+<!-- Row #2 -->
+<tr class="hover:bg-surface transition-colors" id="row-rank-2">
+<td class="p-space-sm font-bold text-primary">#2</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Bellandur Lake Gate Relief Camp</div>
+<div class="font-caption text-caption text-on-surface-variant">Req ID: REQ-BLR-0899 • Logged: 12h ago</div>
+</td>
+<td class="p-space-sm font-mono font-bold">340</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-1 font-caption text-caption">
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">elderly</span> 28</span>
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">child_care</span> 19</span>
+</div>
+</td>
+<td class="p-space-sm">
+<span class="bg-error-container text-on-error-container font-bold px-2 py-0.5 rounded text-caption font-caption">High (Rations Depleted)</span>
+</td>
+<td class="p-space-sm font-mono font-bold text-primary">91.2</td>
+<td class="p-space-sm text-right">
+<button class="text-caption font-caption bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded text-primary font-bold" onclick="toggleWhyRank(2)">Why #2?</button>
+</td>
+</tr>
+<!-- Expander for Rank #2 -->
+<tr class="hidden bg-surface-container-low" id="why-rank-2">
+<td class="p-space-sm" colspan="7">
+<div class="bg-surface-container-lowest p-space-sm rounded flex flex-col gap-1 text-caption font-caption">
+<div class="font-bold text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">info</span>
+                      Algorithmic Justification (REQ-BLR-0899):
+                    </div>
+<p class="text-on-surface-variant">High population aggregate (340 citizens) provides heavy population weighting (25/25), combined with 47 verified vulnerable persons. Waiting boost applied +9.6 pts.</p>
+</div>
+</td>
+</tr>
+<!-- Row #3 -->
+<tr class="hover:bg-surface transition-colors" id="row-rank-3">
+<td class="p-space-sm font-bold text-on-surface">#3</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Yemalur Junction Relief Shelter</div>
+<div class="font-caption text-caption text-on-surface-variant">Req ID: REQ-BLR-0988 • Logged: 6h ago</div>
+</td>
+<td class="p-space-sm font-mono font-bold">85</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-1 font-caption text-caption">
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">elderly</span> 9</span>
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">accessible</span> 5</span>
+</div>
+</td>
+<td class="p-space-sm">
+<span class="bg-surface-container-highest text-[#8A4B00] font-bold px-2 py-0.5 rounded text-caption font-caption">High (First Aid Shortage)</span>
+</td>
+<td class="p-space-sm font-mono font-bold text-primary">82.4</td>
+<td class="p-space-sm text-right">
+<button class="text-caption font-caption bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded text-primary font-bold" onclick="toggleWhyRank(3)">Why #3?</button>
+</td>
+</tr>
+<!-- Expander for Rank #3 -->
+<tr class="hidden bg-surface-container-low" id="why-rank-3">
+<td class="p-space-sm" colspan="7">
+<div class="bg-surface-container-lowest p-space-sm rounded flex flex-col gap-1 text-caption font-caption">
+<div class="font-bold text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">info</span>
+                      Algorithmic Justification (REQ-BLR-0988):
+                    </div>
+<p class="text-on-surface-variant">Moderate population size with high disabled/injured ratio. Medical urgency multiplier triggered.</p>
+</div>
+</td>
+</tr>
+<!-- Row #4 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="p-space-sm font-bold text-on-surface">#4</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">HSR Layout Sector 4 Community Hall</div>
+<div class="font-caption text-caption text-on-surface-variant">Req ID: REQ-BLR-1002 • Logged: 4h ago</div>
+</td>
+<td class="p-space-sm font-mono font-bold">210</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-1 font-caption text-caption">
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">elderly</span> 11</span>
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">child_care</span> 14</span>
+</div>
+</td>
+<td class="p-space-sm">
+<span class="bg-surface-container text-on-surface-variant font-bold px-2 py-0.5 rounded text-caption font-caption">Medium (Dry Rations)</span>
+</td>
+<td class="p-space-sm font-mono font-bold text-primary">76.0</td>
+<td class="p-space-sm text-right">
+<button class="text-caption font-caption bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded text-primary font-bold">Why #4?</button>
+</td>
+</tr>
+<!-- Row #5 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="p-space-sm font-bold text-on-surface">#5</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Munnekolala Government High School</div>
+<div class="font-caption text-caption text-on-surface-variant">Req ID: REQ-BLR-1014 • Logged: 3h ago</div>
+</td>
+<td class="p-space-sm font-mono font-bold">60</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-1 font-caption text-caption">
+<span class="bg-surface-container px-1 rounded flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">elderly</span> 4</span>
+</div>
+</td>
+<td class="p-space-sm">
+<span class="bg-surface-container text-on-surface-variant font-bold px-2 py-0.5 rounded text-caption font-caption">Medium (Blankets)</span>
+</td>
+<td class="p-space-sm font-mono font-bold text-primary">68.5</td>
+<td class="p-space-sm text-right">
+<button class="text-caption font-caption bg-surface-container hover:bg-surface-container-high px-2 py-1 rounded text-primary font-bold">Why #5?</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between pt-space-xs border-t border-surface-variant">
+<span class="text-caption font-caption text-on-surface-variant">Showing top 5 of 318 prioritised queues. Priority recalculates every 120 seconds.</span>
+<button class="px-space-md py-space-xs rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong flex items-center gap-1" onclick="promptManualOverride()">
+<span class="material-symbols-outlined text-[18px]">edit_note</span> Manual Override Rank
+          </button>
+</div>
+</div>
+<!-- Right Column: Weights Panel, Fairness Alert, De-duplication (4 Cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- Algorithmic Weight Configuration -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Allocation Weights</h3>
+</div>
+<span class="text-caption font-caption text-tertiary font-bold">Total: 100%</span>
+</div>
+<!-- Weight 1: Urgency -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-strong text-label-strong">
+<span>Urgency Level</span>
+<span class="text-primary font-mono" id="val-weight-urgency">40%</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('urgency', -5)">-</button>
+<input class="w-full accent-primary" id="range-urgency" max="60" min="10" oninput="updateWeightDisplay('urgency', this.value)" type="range" value="40"/>
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('urgency', 5)">+</button>
+</div>
+</div>
+<!-- Weight 2: Number of People -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-strong text-label-strong">
+<span>Number of People Affected</span>
+<span class="text-primary font-mono" id="val-weight-people">25%</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('people', -5)">-</button>
+<input class="w-full accent-primary" id="range-people" max="50" min="10" oninput="updateWeightDisplay('people', this.value)" type="range" value="25"/>
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('people', 5)">+</button>
+</div>
+</div>
+<!-- Weight 3: Vulnerability -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-strong text-label-strong">
+<span>Vulnerability Multiplier (PwD/Seniors)</span>
+<span class="text-primary font-mono" id="val-weight-vuln">25%</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('vuln', -5)">-</button>
+<input class="w-full accent-primary" id="range-vuln" max="50" min="10" oninput="updateWeightDisplay('vuln', this.value)" type="range" value="25"/>
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('vuln', 5)">+</button>
+</div>
+</div>
+<!-- Weight 4: Waiting Time Boost -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-strong text-label-strong">
+<span>Waiting Time Boost (Anti-Starvation)</span>
+<span class="text-primary font-mono" id="val-weight-aging">10%</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('aging', -5)">-</button>
+<input class="w-full accent-primary" id="range-aging" max="30" min="5" oninput="updateWeightDisplay('aging', this.value)" type="range" value="10"/>
+<button class="w-8 h-8 rounded bg-surface-container font-bold text-on-surface hover:bg-surface-container-high flex items-center justify-center" onclick="adjustWeight('aging', 5)">+</button>
+</div>
+</div>
+<div class="mt-space-xs p-space-xs rounded bg-surface text-caption font-caption text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Weights enforce constitutional equity guidelines (NDRF SOP #7).</span>
+</div>
+</div>
+<!-- Fairness Check Warning Box -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs text-[#8A4B00]">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<h4 class="font-label-strong text-label-strong text-on-surface">Algorithmic Fairness Alert</h4>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+<strong class="text-on-surface">Hosur Colony</strong> has waited longest (<span class="text-error font-bold">14 hours</span>) and has been ranked below dispatch threshold 3 operational cycles due to low head count (18 citizens).
+          </p>
+<div class="flex items-center justify-end gap-space-xs pt-1">
+<button class="px-space-sm py-1 bg-surface-container text-caption font-caption rounded text-on-surface-variant" onclick="dismissFairnessAlert()">Dismiss</button>
+<button class="px-space-sm py-1 bg-primary text-on-primary font-label-strong text-label-strong rounded" onclick="elevateRequest('Hosur Colony')">Review &amp; Elevate</button>
+</div>
+</div>
+<!-- Suspicious / Duplicate Flag Notice -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+<h4 class="font-label-strong text-label-strong text-on-surface">Duplicate Request Audit</h4>
+</div>
+<span class="bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded text-caption font-caption font-mono">1 Pair Flagged</span>
+</div>
+<div class="text-caption font-caption text-on-surface-variant bg-surface p-space-xs rounded">
+            REQ-BLR-0941 &amp; REQ-BLR-0945 submitted for same building (Tower 4, Rainbow Drive).
+          </div>
+<div class="flex items-center justify-end gap-space-xs">
+<button class="px-space-sm py-1 bg-primary text-on-primary font-label-strong text-label-strong rounded" onclick="handleMergeRequests()">Merge Requests</button>
+<button class="px-space-sm py-1 bg-surface-container text-caption font-caption rounded text-on-surface-variant" onclick="handleDismissDuplicate()">Keep Separate</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- STAGE 3: PLAN DISPATCH & LOGISTICS (Shown when Stage 3 is active) -->
+<section class="hidden flex flex-col gap-space-lg" id="stage-panel-3">
+<!-- Top Directives Banner -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5">policy</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Autonomous Batch Allocation Dispatch Plan</h2>
+<p class="font-caption text-caption text-on-surface-variant">Logic: Highest-priority requests are fulfilled first. Critical items (potable water, emergency medical packs) receive a guaranteed minimum threshold before secondary items.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="px-space-lg py-space-sm bg-primary hover:bg-[#084A82] text-on-primary font-label-strong text-label-strong rounded flex items-center gap-2" onclick="open2FAApprovalModal()">
+<span class="material-symbols-outlined text-[20px]">verified</span> Approve &amp; Dispatch Plan
+        </button>
+</div>
+</div>
+<!-- Inventory Substitution Banner -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">swap_horizontal_circle</span>
+<div>
+<div class="font-label-strong text-label-strong text-on-surface">Sub-Depot Stock Optimization Recommended</div>
+<div class="font-caption text-caption text-on-surface-variant">Bottled water is depleted at Koramangala Depot B. 5,000 Water Purification Tablets (Halazone 500mg) are on hand at Depot A.</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1 bg-surface-container-highest hover:bg-surface-variant text-on-surface font-label-strong text-label-strong rounded" onclick="applySubstitution()">
+          Apply Substitute Batch
+        </button>
+</div>
+</div>
+<!-- Cluster Dispatch Trips Table -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Cluster Dispatch Run Sheet (Grouped by Asset)</h3>
+</div>
+<span class="font-caption text-caption text-on-surface-variant">Batch Run ID: BATCH-BLR-RUN-04</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-default text-label-default">
+<thead class="bg-surface-container font-label-strong text-label-strong text-on-surface">
+<tr>
+<th class="p-space-sm">Trip / Vehicle ID</th>
+<th class="p-space-sm">Origin Hub</th>
+<th class="p-space-sm">Target Clusters</th>
+<th class="p-space-sm">Manifest &amp; Quantities</th>
+<th class="p-space-sm">Payload Weight</th>
+<th class="p-space-sm">Corridor Est.</th>
+<th class="p-space-sm text-right">Adjustment</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant bg-surface-container-lowest font-body-default text-body-default">
+<!-- Trip 1: Boat 03 -->
+<tr class="hover:bg-surface">
+<td class="p-space-sm">
+<div class="font-bold text-on-surface flex items-center gap-1">
+<span>🚤</span> Boat-03 (NDRF Gemini)
+                </div>
+<div class="font-caption text-caption text-on-surface-variant">Crew: 3 Sub-Inspectors</div>
+</td>
+<td class="p-space-sm font-bold text-primary">Depot A (Domlur)</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Kariyammana Agrahara (#1)</div>
+<div class="font-caption text-caption text-on-surface-variant">Direct boat access via bypass</div>
+</td>
+<td class="p-space-sm">
+<ul class="font-caption text-caption text-on-surface list-disc pl-4 space-y-0.5">
+<li>Water Packets: 600 L</li>
+<li>MRE Food Packs: 240 units</li>
+<li>Emergency First Aid: 12 kits</li>
+</ul>
+</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2" style="width: 85%;"></div>
+</div>
+<span class="font-mono text-caption text-caption font-bold">850/1000 kg</span>
+</div>
+</td>
+<td class="p-space-sm font-mono text-tertiary font-bold">25 mins</td>
+<td class="p-space-sm text-right">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high rounded text-caption font-caption text-on-surface">Modify</button>
+</td>
+</tr>
+<!-- Trip 2: Heavy Tractor 08 -->
+<tr class="hover:bg-surface">
+<td class="p-space-sm">
+<div class="font-bold text-on-surface flex items-center gap-1">
+<span>🚜</span> Tractor-08 (Civil Heavy)
+                </div>
+<div class="font-caption text-caption text-on-surface-variant">High clearance axle (4.2ft water)</div>
+</td>
+<td class="p-space-sm font-bold text-primary">Depot B (Koramangala)</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Bellandur Camp (#2) + HSR Sec-4 (#4)</div>
+<div class="font-caption text-caption text-on-surface-variant">Multipoint drop run</div>
+</td>
+<td class="p-space-sm">
+<ul class="font-caption text-caption text-on-surface list-disc pl-4 space-y-0.5">
+<li>Dry Ration Packets: 500 bags</li>
+<li>Baby Care Nutrition: 60 units</li>
+<li>Water Jerricans: 400 L</li>
+</ul>
+</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2" style="width: 92%;"></div>
+</div>
+<span class="font-mono text-caption text-caption font-bold">2.3/2.5 T</span>
+</div>
+</td>
+<td class="p-space-sm font-mono text-tertiary font-bold">40 mins</td>
+<td class="p-space-sm text-right">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high rounded text-caption font-caption text-on-surface">Modify</button>
+</td>
+</tr>
+<!-- Trip 3: NDMA Med Drone 02 -->
+<tr class="hover:bg-surface">
+<td class="p-space-sm">
+<div class="font-bold text-on-surface flex items-center gap-1">
+<span>🚁</span> Drone-02 (Rapid Medical)
+                </div>
+<div class="font-caption text-caption text-on-surface-variant">Direct aerial coordinate drop</div>
+</td>
+<td class="p-space-sm font-bold text-primary">Depot C (Whitefield)</td>
+<td class="p-space-sm">
+<div class="font-bold text-on-surface">Yemalur Junction Shelter (#3)</div>
+<div class="font-caption text-caption text-on-surface-variant">Isolated roof coordinate drop</div>
+</td>
+<td class="p-space-sm">
+<ul class="font-caption text-caption text-on-surface list-disc pl-4 space-y-0.5">
+<li>Anti-Venom / Antibiotic Kits: 15</li>
+<li>Insulin Cold Packs: 8 units</li>
+<li>Water Purifier Tablets: 2,000 tabs</li>
+</ul>
+</td>
+<td class="p-space-sm">
+<div class="flex items-center gap-2">
+<div class="w-24 bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-2" style="width: 60%;"></div>
+</div>
+<span class="font-mono text-caption text-caption font-bold">12/20 kg</span>
+</div>
+</td>
+<td class="p-space-sm font-mono text-tertiary font-bold">8 mins</td>
+<td class="p-space-sm text-right">
+<button class="px-2 py-1 bg-surface-container hover:bg-surface-container-high rounded text-caption font-caption text-on-surface">Modify</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs border-t border-surface-variant">
+<div class="font-caption text-caption text-on-surface-variant">
+          Total Scheduled Payload: <strong>3.16 Metric Tons</strong> across 3 vehicles • 92% of critical demand satisfied
+        </div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-space-xs bg-surface-container hover:bg-surface-container-high text-on-surface font-label-strong text-label-strong rounded">
+            Simulate Route Feasibility
+          </button>
+<button class="px-space-md py-space-xs bg-primary text-on-primary font-label-strong text-label-strong rounded" onclick="open2FAApprovalModal()">
+            Lock &amp; Commit Run
+          </button>
+</div>
+</div>
+</div>
+</section>
+<!-- STAGE 4: OUTCOME & VERIFICATION (Shown when Stage 4 is active) -->
+<section class="hidden flex flex-col gap-space-lg" id="stage-panel-4">
+<!-- Outcome Overview Split -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column: Actual vs Fulfilled Ledger (8 Cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-md bg-surface-container-lowest p-space-md rounded-lg">
+<div class="flex items-center justify-between pb-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">fact_check</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Dispatch Fulfilment &amp; Variance Ledger</h2>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Batch Run #03 Completion Records &amp; Reasons for Partial Delivery</p>
+</div>
+<button class="px-space-sm py-1 bg-surface-container hover:bg-surface-container-high rounded text-on-surface font-label-strong text-label-strong flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">print</span> Print Delivery Slips
+          </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-label-default text-label-default">
+<thead class="bg-surface-container font-label-strong text-label-strong text-on-surface">
+<tr>
+<th class="p-space-sm">Request ID</th>
+<th class="p-space-sm">Location</th>
+<th class="p-space-sm">Status</th>
+<th class="p-space-sm">Item Variance / Shortfall</th>
+<th class="p-space-sm">Root Cause</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant bg-surface-container-lowest font-body-default text-body-default">
+<tr class="hover:bg-surface">
+<td class="p-space-sm font-mono font-bold text-on-surface">REQ-0941</td>
+<td class="p-space-sm font-bold text-on-surface">Kariyammana Agrahara</td>
+<td class="p-space-sm"><span class="bg-surface-container text-tertiary font-bold px-2 py-0.5 rounded text-caption font-caption">Fulfilled</span></td>
+<td class="p-space-sm">
+<div class="text-caption font-caption text-on-surface">Water: 600/600 L • Rations: 240/240</div>
+</td>
+<td class="p-space-sm text-caption font-caption text-on-surface-variant">None (Clean delivery)</td>
+</tr>
+<tr class="hover:bg-surface">
+<td class="p-space-sm font-mono font-bold text-on-surface">REQ-0899</td>
+<td class="p-space-sm font-bold text-on-surface">Bellandur Lake Gate</td>
+<td class="p-space-sm"><span class="bg-surface-container-highest text-[#8A4B00] font-bold px-2 py-0.5 rounded text-caption font-caption">Partly Fulfilled</span></td>
+<td class="p-space-sm">
+<div class="text-caption font-caption text-on-surface">Water: 400 of 600 L delivered (<span class="text-error font-bold">-200 L</span>)</div>
+</td>
+<td class="p-space-sm text-caption font-caption text-error font-bold">Depot B Water Shortage</td>
+</tr>
+<tr class="hover:bg-surface">
+<td class="p-space-sm font-mono font-bold text-on-surface">REQ-0920</td>
+<td class="p-space-sm font-bold text-on-surface">Varthur Lake School</td>
+<td class="p-space-sm"><span class="bg-error-container text-on-error-container font-bold px-2 py-0.5 rounded text-caption font-caption">Not Fulfilled</span></td>
+<td class="p-space-sm">
+<div class="text-caption font-caption text-on-surface">Blankets: 0/150 • Meds: 0/30</div>
+</td>
+<td class="p-space-sm text-caption font-caption text-error font-bold">Culvert road cut off</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Totals & Prescriptive Guidance Box -->
+<div class="bg-surface-container-low p-space-md rounded flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-label-strong text-label-strong">
+<span>Overall Batch Fulfilment Rate: 78.4%</span>
+<span class="text-error font-mono">Shortfall: 200 L Water, 150 Blankets</span>
+</div>
+<div class="font-caption text-caption text-on-surface-variant">
+<strong>Prescriptive Correction:</strong> Needs 200 more water packets re-dispatched from Depot C (Whitefield) or deployment of a second shallow-draft vessel to bypass Varthur culvert.
+          </div>
+</div>
+</div>
+<!-- Right Column: Shortage Forecast & Auto-Escalation (4 Cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<!-- Shortage Forecast -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">trending_down</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Stock Burn Forecast</h3>
+</div>
+<span class="bg-surface-container text-on-surface-variant text-caption font-caption px-1.5 py-0.5 rounded font-mono">18h Horizon</span>
+</div>
+<div class="flex flex-col gap-space-sm text-caption font-caption">
+<div class="p-space-xs bg-surface rounded flex flex-col gap-1">
+<div class="flex justify-between font-bold text-on-surface">
+<span>Drinking Water 1L Sachets</span>
+<span class="text-error font-mono">Depleted in 18 hrs</span>
+</div>
+<div class="text-on-surface-variant">Ward demand outpacing local depot receipts.</div>
+<div class="bg-surface-container-low p-1 rounded font-bold text-primary flex items-center justify-between">
+<span>Suggestion: Inter-District Transfer</span>
+<button class="underline hover:text-primary-container">Request 500 Units Mysuru</button>
+</div>
+</div>
+<div class="p-space-xs bg-surface rounded flex flex-col gap-1">
+<div class="flex justify-between font-bold text-on-surface">
+<span>Baby Food &amp; Infant Lactogen</span>
+<span class="text-[#8A4B00] font-mono">Depleted in 26 hrs</span>
+</div>
+<div class="text-on-surface-variant">19 families newly registered in HSR Sec-4 camp.</div>
+</div>
+</div>
+</div>
+<!-- Over-12-Hour Escalation Queue -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-error">
+<span class="material-symbols-outlined text-[20px]">alarm</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Stalled Queue Escalation</h3>
+</div>
+<span class="bg-error-container text-on-error-container text-caption font-caption px-1.5 py-0.5 rounded font-bold">1 Stalled</span>
+</div>
+<div class="p-space-sm bg-surface rounded flex flex-col gap-space-xs" id="stall-card">
+<div class="font-label-strong text-label-strong text-on-surface">Hosur Colony (REQ-0811)</div>
+<div class="font-caption text-caption text-on-surface-variant">Waiting elapsed: <strong class="text-error font-mono">14 hrs 18 mins</strong>. Automatic regulatory SLA breached under Karnataka Disaster Management Act.</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-caption text-caption text-on-surface-variant">Status: Pending PWD</span>
+<button class="px-space-sm py-1 bg-error text-on-error font-label-strong text-label-strong rounded flex items-center gap-1" onclick="escalateToSupervisor()">
+<span class="material-symbols-outlined text-[16px]">priority_high</span> Escalate to DC / SEOC
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- STAGE 5: SIMULATE INFLUX (Shown when Stage 5 is active) -->
+<section class="hidden flex flex-col gap-space-lg" id="stage-panel-5">
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">model_training</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Crisis Influx &amp; Breached Embankment Simulator</h2>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">Model sudden 500 mm rain surge, lake breaches, or multi-bridge closures to test buffer safety margins</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-space-xs bg-primary text-on-primary font-label-strong text-label-strong rounded flex items-center gap-1" onclick="runSimulation()">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span> Run Simulation Model
+          </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-md bg-surface rounded-lg flex flex-col gap-space-xs">
+<label class="font-label-strong text-label-strong text-on-surface">Simulated Influx Volume</label>
+<select class="h-12 px-space-sm bg-surface-container-lowest rounded text-on-surface font-body-default text-body-default" id="sim-influx">
+<option value="1">+500 Additional Families (+2,000 citizens)</option>
+<option selected="" value="2">+1,200 Additional Families (Varthur Lake Sluice Failure)</option>
+<option value="3">+3,000 Additional Families (Catastrophic Basin Surge)</option>
+</select>
+<span class="font-caption text-caption text-on-surface-variant">Increases water and ration demand model</span>
+</div>
+<div class="p-space-md bg-surface rounded-lg flex flex-col gap-space-xs">
+<label class="font-label-strong text-label-strong text-on-surface">Corridor Cutoff Scenario</label>
+<select class="h-12 px-space-sm bg-surface-container-lowest rounded text-on-surface font-body-default text-body-default" id="sim-cutoff">
+<option value="1">Sarjapur Road Cutoff Only</option>
+<option selected="" value="2">Outer Ring Road Underpass + Bellandur Overpass Closed</option>
+<option value="3">Complete Road Network Inundation (Air/Boat Only)</option>
+</select>
+<span class="font-caption text-caption text-on-surface-variant">Forces autonomous re-routing to boats and drones</span>
+</div>
+<div class="p-space-md bg-surface rounded-lg flex flex-col gap-space-xs">
+<label class="font-label-strong text-label-strong text-on-surface">Mutual Aid Dispatch</label>
+<select class="h-12 px-space-sm bg-surface-container-lowest rounded text-on-surface font-body-default text-body-default" id="sim-aid">
+<option value="1">Local Bengaluru Urban Assets Only</option>
+<option selected="" value="2">Request 10 NDRF Inflatable Zodiacs from Mysuru Base</option>
+<option value="3">Mobilize Air Force Helicopter Airdrop (Yelahanka AFS)</option>
+</select>
+<span class="font-caption text-caption text-on-surface-variant">Incorporate external replenishment timelines</span>
+</div>
+</div>
+<!-- Simulation Projection Output Container -->
+<div class="p-space-md bg-surface-container-low rounded-lg flex flex-col gap-space-sm" id="sim-results">
+<div class="flex items-center justify-between">
+<div class="font-label-strong text-label-strong text-on-surface flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">analytics</span>
+<span>Simulation Projection Matrix: Run Scenario #2 (Varthur Lake Sluice Failure)</span>
+</div>
+<span class="text-caption font-caption bg-surface-container px-2 py-0.5 rounded font-mono">Predicted Outcome</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md text-caption font-caption">
+<div class="bg-surface-container-lowest p-space-sm rounded">
+<div class="text-on-surface-variant">Depot Buffer Exhaustion:</div>
+<div class="text-headline-sm font-headline-sm text-error font-mono">6.4 Hours</div>
+<div class="text-on-surface-variant">Depot B completely dry without Mysuru convoy.</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded">
+<div class="text-on-surface-variant">Unmet Queue Peak:</div>
+<div class="text-headline-sm font-headline-sm text-error font-mono">1,140 Citizens</div>
+<div class="text-on-surface-variant">Critical unmet threshold crossed at 19:00 IST.</div>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded">
+<div class="text-on-surface-variant">Required Action Plan:</div>
+<div class="text-headline-sm font-headline-sm text-tertiary font-mono">Trigger Stage 4 SOP</div>
+<div class="text-on-surface-variant">Prefetch rations to Whitefield high ground now.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2FA Re-verification Modal (Triggered by Stage 3 Approval) -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-space-md" id="approval-modal">
+<div class="bg-surface-container-lowest rounded-lg max-w-lg w-full p-space-lg flex flex-col gap-space-md shadow-xl">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs text-primary">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Officer Authorization &amp; 2FA</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="close2FAApprovalModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+        You are committing dispatch orders for <strong class="text-on-surface">3.16 Metric Tons of relief materials</strong> across 3 logistics units. This action officially transmits electronic dispatch vouchers to Depot Managers.
+      </p>
+<div class="bg-surface p-space-sm rounded flex flex-col gap-1 text-caption font-caption">
+<div class="flex justify-between">
+<span class="text-on-surface-variant">Authorizing Officer:</span>
+<span class="font-bold text-on-surface">Rajesh Sharma, IAS (Relief Coordinator)</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant">SEOC Terminal:</span>
+<span class="font-mono text-on-surface">BLR-URB-SEOC-TERM-02</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-strong text-label-strong text-on-surface">Enter DSC / Aadhaar eSign OTP</label>
+<input class="h-12 px-space-sm bg-surface rounded text-center tracking-widest text-headline-sm font-mono font-bold text-on-surface" id="auth-otp" maxlength="6" placeholder="• • • • • •" type="password"/>
+<span class="font-caption text-caption text-on-surface-variant">OTP transmitted to NIC-registered mobile ending in 9402</span>
+</div>
+<div class="flex items-center justify-end gap-space-xs pt-space-xs">
+<button class="px-space-md py-space-xs bg-surface-container hover:bg-surface-container-high rounded font-label-strong text-label-strong text-on-surface" onclick="close2FAApprovalModal()">Cancel</button>
+<button class="px-space-lg py-space-xs bg-primary hover:bg-[#084A82] text-on-primary font-label-strong text-label-strong rounded flex items-center gap-1" onclick="confirmPlanDispatch()">
+<span class="material-symbols-outlined text-[18px]">lock_open</span> Confirm &amp; Release Orders
+        </button>
+</div>
+</div>
+</div>
+<!-- Manual Override Reason Modal -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-space-md" id="override-modal">
+<div class="bg-surface-container-lowest rounded-lg max-w-lg w-full p-space-lg flex flex-col gap-space-md shadow-xl">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs text-[#8A4B00]">
+<span class="material-symbols-outlined text-[24px]">gavel</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Mandatory Reasoned Override</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeOverrideModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="font-caption text-caption text-on-surface-variant">
+        Under statutory transparency rules, manually overriding algorithmic priority requires an audit-logged justification note before ranks can be modified.
+      </p>
+<div class="flex flex-col gap-1">
+<label class="font-label-strong text-label-strong text-on-surface">Select Statutory Override Ground</label>
+<select class="h-12 px-space-sm bg-surface rounded text-on-surface font-body-default text-body-default">
+<option>Direct instruction from Chief Secretary / Disaster Management Authority</option>
+<option>Critical medical emergency verified on ground via VHF radio</option>
+<option>Access route closure imminent within next 30 minutes</option>
+<option>Shelter structural integrity threat</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-strong text-label-strong text-on-surface">Detailed Ground Observation (Audit Logged)</label>
+<textarea class="p-space-sm bg-surface rounded text-on-surface font-caption text-caption" placeholder="Provide precise context, caller identity, and ground report reference..." rows="3"></textarea>
+</div>
+<div class="flex items-center justify-end gap-space-xs pt-space-xs">
+<button class="px-space-md py-space-xs bg-surface-container hover:bg-surface-container-high rounded font-label-strong text-label-strong text-on-surface" onclick="closeOverrideModal()">Cancel</button>
+<button class="px-space-md py-space-xs bg-primary text-on-primary font-label-strong text-label-strong rounded" onclick="submitManualOverride()">Commit Override</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Client-side Interactive Operation Logic -->
+<script>
+  // Stage Tab Navigation Controller
+  function switchStage(stageNum) {
+    // Hide all panels
+    for (let i = 1; i <= 5; i++) {
+      const panel = document.getElementById('stage-panel-' + i);
+      const tabBtn = document.getElementById('tab-btn-' + i);
+      if (panel) {
+        panel.classList.add('hidden');
+      }
+      if (tabBtn) {
+        tabBtn.classList.remove('bg-primary', 'text-on-primary');
+        tabBtn.classList.add('bg-surface', 'text-on-surface');
+        const badge = tabBtn.querySelector('span');
+        if (badge) {
+          badge.classList.remove('bg-on-primary', 'text-primary');
+          badge.classList.add('bg-surface-container-highest', 'text-on-surface-variant');
+        }
+      }
+    }
+
+    // Activate selected panel & button
+    const targetPanel = document.getElementById('stage-panel-' + stageNum);
+    const targetBtn = document.getElementById('tab-btn-' + stageNum);
+    if (targetPanel) {
+      targetPanel.classList.remove('hidden');
+    }
+    if (targetBtn) {
+      targetBtn.classList.remove('bg-surface', 'text-on-surface');
+      targetBtn.classList.add('bg-primary', 'text-on-primary');
+      const badge = targetBtn.querySelector('span');
+      if (badge) {
+        badge.classList.remove('bg-surface-container-highest', 'text-on-surface-variant');
+        badge.classList.add('bg-on-primary', 'text-primary');
+      }
+    }
+  }
+
+  // GIS Map / Table View Toggle
+  function toggleMapTableView(view) {
+    const mapContainer = document.getElementById('gis-map-container');
+    const tableContainer = document.getElementById('gis-table-container');
+    const btnMap = document.getElementById('view-mode-map');
+    const btnTable = document.getElementById('view-mode-table');
+
+    if (view === 'map') {
+      mapContainer.classList.remove('hidden');
+      tableContainer.classList.add('hidden');
+      btnMap.classList.replace('bg-surface-container', 'bg-primary');
+      btnMap.classList.replace('text-on-surface', 'text-on-primary');
+      btnTable.classList.replace('bg-primary', 'bg-surface-container');
+      btnTable.classList.replace('text-on-primary', 'text-on-surface');
+    } else {
+      mapContainer.classList.add('hidden');
+      tableContainer.classList.remove('hidden');
+      btnTable.classList.replace('bg-surface-container', 'bg-primary');
+      btnTable.classList.replace('text-on-surface', 'text-on-primary');
+      btnMap.classList.replace('bg-primary', 'bg-surface-container');
+      btnMap.classList.replace('text-on-primary', 'text-on-surface');
+    }
+  }
+
+  // Hazard Report verification handler
+  function resolveHazard(id, action) {
+    const card = document.getElementById('hazard-report-' + id);
+    if (card) {
+      if (action === 'verified') {
+        card.innerHTML = '<div class="p-space-xs bg-surface-container text-tertiary font-label-strong text-label-strong flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> Marked as Official Field Hazard. GIS Map updated.</div>';
+      } else {
+        card.innerHTML = '<div class="p-space-xs bg-surface-container text-on-surface-variant font-label-strong text-label-strong flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">cancel</span> Hazard Report Rejected / Archiving.</div>';
+      }
+      setTimeout(() => {
+        card.style.display = 'none';
+      }, 2500);
+    }
+  }
+
+  // Why this rank expander toggle
+  function toggleWhyRank(rankNum) {
+    const exp = document.getElementById('why-rank-' + rankNum);
+    if (exp) {
+      exp.classList.toggle('hidden');
+    }
+  }
+
+  // Dynamic Slider Weight updating
+  function updateWeightDisplay(key, val) {
+    const label = document.getElementById('val-weight-' + key);
+    if (label) {
+      label.innerText = val + '%';
+    }
+  }
+
+  function adjustWeight(key, delta) {
+    const input = document.getElementById('range-' + key);
+    if (input) {
+      let current = parseInt(input.value);
+      let newVal = Math.min(Math.max(current + delta, parseInt(input.min)), parseInt(input.max));
+      input.value = newVal;
+      updateWeightDisplay(key, newVal);
+    }
+  }
+
+  // Fairness Alert Dismiss & Elevate
+  function dismissFairnessAlert() {
+    alert('Fairness Alert dismissed for current cycle. Will recur after 120 minutes if unaddressed.');
+  }
+
+  function elevateRequest(location) {
+    alert(location + ' has been manually moved into Top Tier Priority by Officer Override.');
+    switchStage(2);
+  }
+
+  function handleMergeRequests() {
+    alert('REQ-BLR-0941 and REQ-BLR-0945 merged successfully into single dispatch package.');
+  }
+
+  function handleDismissDuplicate() {
+    alert('Audited: Requests confirmed separate independent units.');
+  }
+
+  // Substitution Action
+  function applySubstitution() {
+    alert('Substitution Applied: Koramangala Depot water deficit offset using 5,000 Water Purification Tablets from Depot A.');
+  }
+
+  // 2FA Approval Modal Controls
+  function open2FAApprovalModal() {
+    document.getElementById('approval-modal').classList.remove('hidden');
+  }
+
+  function close2FAApprovalModal() {
+    document.getElementById('approval-modal').classList.add('hidden');
+  }
+
+  function confirmPlanDispatch() {
+    const otp = document.getElementById('auth-otp').value;
+    close2FAApprovalModal();
+    alert('Authorization Accepted. 3.16 MT Relief Manifest Transmitted to Depots. Transitioning to Outcome Stage...');
+    switchStage(4);
+  }
+
+  // Manual Override Reason Modal Controls
+  function promptManualOverride() {
+    document.getElementById('override-modal').classList.remove('hidden');
+  }
+
+  function closeOverrideModal() {
+    document.getElementById('override-modal').classList.add('hidden');
+  }
+
+  function submitManualOverride() {
+    closeOverrideModal();
+    alert('Manual override recorded in NIC Central Audit Log. Ranks adjusted.');
+  }
+
+  // Escalation action
+  function escalateToSupervisor() {
+    const stallCard = document.getElementById('stall-card');
+    if (stallCard) {
+      stallCard.innerHTML = '<div class="p-space-xs bg-surface-container text-tertiary font-label-strong text-label-strong flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">done_all</span> Incident escalated directly to Deputy Commissioner (DC) Desk. SMS Broadcast dispatched.</div>';
+    }
+  }
+
+  // Simulation Trigger
+  function runSimulation() {
+    const res = document.getElementById('sim-results');
+    if (res) {
+      res.classList.add('ring-2', 'ring-primary');
+      setTimeout(() => {
+        res.classList.remove('ring-2', 'ring-primary');
+        alert('Simulation computation finished across 14 flood zones. Model results refreshed.');
+      }, 600);
+    }
+  }
+
+  function exportPriorityTable() {
+    alert('Downloading verified priority snapshot CSV (Govt of Karnataka NDMA Format)...');
+  }
+</script></main></div></body></html>
