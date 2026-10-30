@@ -1,4 +1,3 @@
-  "trackingToken": "DR-<43-character-random-base64url-token>",
 # DisasterReady India — Complete API Contract Specification
 
 ## 1. Global Conventions
@@ -40,19 +39,26 @@
   - Returns GeoJSON FeatureCollection of flood polygons and blocked points.
 
 ### B. Safe Routing & Evacuation
-- `POST /routing/calculate-safe-routes`
+- `GET /maps/config`
+  - Returns only the browser-restricted Maps JavaScript API key; never returns the private server key.
+- `GET /geo/search?q={landmark}`
+  - Geocodes a debounced place query through the private server-side Geocoding API credential. Short queries return an empty list without a provider request.
+- `POST /routes/compare`
   - **Request:**
     ```json
     {
-      "origin": { "lat": 28.6139, "lng": 77.2090 },
-      "destination": { "lat": 28.6500, "lng": 77.2300 },
-      "transitMode": "WALKING",
-      "vulnerabilities": { "elderly": true, "infants": false, "wheelchair": true }
+      "origin": { "lat": 12.9716, "lng": 77.5946 },
+      "destination": { "lat": 12.9750, "lng": 77.6000 },
+      "travelMode": "WALK"
     }
     ```
-  - **Response:** Array of evaluated routes:
-    - Route A: `isSafest: true`, Elevation profile, segment depth risk: `0cm`, ETA: `24 mins`.
-    - Route B: `isSafest: false`, Caution: `15cm waterlogged culvert`, ETA: `16 mins`.
+  - Calls the Google Routes API for alternatives, intersects returned geometry with active PostGIS hazard polygons and stored road closures, and returns distance, duration, geometry, intersections, risk factors, source, and timestamps.
+  - Returns an explicit `ROUTES_NOT_CONFIGURED`, provider error, no-alternatives, or risk-data-unavailable response. It never substitutes an invented route.
+- `POST /routes/check-risk`
+  - **Request:** selected route coordinates, previously known feature IDs, previous risk score and freshness factor.
+  - Checks the saved route geometry against current hazard and closure records. Material changes include a new recorded closure, new verified severe hazard, a score change of at least five points, or a worsening freshness bucket.
+  - Monitoring is stateless and only runs while the citizen explicitly enables it on the comparison screen.
+- See [ROUTING_DESIGN.md](ROUTING_DESIGN.md) for risk weights, assumptions, freshness thresholds, key restrictions, and known limitations.
 
 ### C. Safe Places Directory (Shelters & Hospitals)
 - `GET /facilities?districtId={uuid}&type=SHELTER&hasMedical=true&page=1`
@@ -99,7 +105,7 @@
   - **Response:**
     ```json
     {
-      "trackingToken": "RELIEF-IN-8492-XQ7",
+      "trackingToken": "DR-<43-character-random-base64url-token>",
       "initialStage": "STAGE_1_TRIAGED",
       "estimatedResponseTime": "Within 45-60 mins",
       "smsNotificationSent": true

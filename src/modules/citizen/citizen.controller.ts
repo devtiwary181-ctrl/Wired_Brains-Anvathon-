@@ -5,9 +5,47 @@
  */
 import { Request, Response, NextFunction } from 'express';
 import { citizenService } from './citizen.service.js';
+import { checkRouteRisk, compareRoutes, geocodeSearch, getMapsBrowserConfig } from './routing.service.js';
 import path from 'path';
 
 export class CitizenController {
+  async compareRoutes(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await compareRoutes(req.body);
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async checkRouteRisk(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await checkRouteRisk(req.body);
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async searchPlaces(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+      const result = await geocodeSearch(query);
+      res.status(200).json({ success: true, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async mapsConfig(_req: Request, res: Response, next: NextFunction) {
+    try {
+      res.setHeader('Cache-Control', 'no-store');
+      res.status(200).json({ success: true, data: getMapsBrowserConfig() });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // ---------------------------------------------------------------------------
   // 1. GEO / LOCATION
   // ---------------------------------------------------------------------------

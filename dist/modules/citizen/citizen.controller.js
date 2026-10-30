@@ -1,5 +1,43 @@
 import { citizenService } from './citizen.service.js';
+import { checkRouteRisk, compareRoutes, geocodeSearch, getMapsBrowserConfig } from './routing.service.js';
 export class CitizenController {
+    async compareRoutes(req, res, next) {
+        try {
+            const result = await compareRoutes(req.body);
+            res.status(200).json({ success: true, data: result });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async checkRouteRisk(req, res, next) {
+        try {
+            const result = await checkRouteRisk(req.body);
+            res.status(200).json({ success: true, data: result });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async searchPlaces(req, res, next) {
+        try {
+            const query = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+            const result = await geocodeSearch(query);
+            res.status(200).json({ success: true, data: result });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async mapsConfig(_req, res, next) {
+        try {
+            res.setHeader('Cache-Control', 'no-store');
+            res.status(200).json({ success: true, data: getMapsBrowserConfig() });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
     // ---------------------------------------------------------------------------
     // 1. GEO / LOCATION
     // ---------------------------------------------------------------------------

@@ -8,7 +8,7 @@
    - Admin routes are gated behind custom middleware that checks valid signed sessions and verifies IP/user-agent consistency.
 2. **Citizen Anonymity & Dignity First:**
    - Under catastrophic conditions, citizens must never face biometric, Aadhaar, password, or OTP barriers to find shelter, report danger, or request drinking water.
-   - Request tracking relies on cryptographically generated high-entropy random identifiers (`e.g., RELIEF-IN-8492-XQ7` generated via `crypto.randomBytes(16)`). This prevents sequential ID enumeration attacks.
+   - Request tracking relies on opaque 256-bit bearer tokens generated with `crypto.randomBytes(32)`. Tokens are case-sensitive, never sequential, and must not be published in logs or demos.
 
 ---
 

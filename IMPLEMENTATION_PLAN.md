@@ -33,11 +33,9 @@ In accordance with the **Mandatory Integration Rule**, every feature phase follo
 - [x] Verified spatial distance queries using `ST_DWithin` and `ST_Distance` in sub-10ms latency.
 - [x] Created database test suite (`tests/database.test.ts`) with 100% passing tests (7/7 total test cases passing).
 
-### Phase 3: Safe Route Navigation & Hazard-Aware Engine
-- **Backend:** Implement `/api/v1/routing/calculate-safe-routes` evaluating routes against flood polygons and elevation profiles.
-- **Frontend Integration:**
-  - Wire **Page 4 (Choose Journey - Step 2)** destination search, mobility mode selector, and vulnerability profile checklist.
-  - Wire **Page 5 (Route Comparison - Step 4)** side-by-side route cards (Safest vs Shortest), elevation profile visualization, turn-by-turn waypoint list, and offline PDF/Text export.
+### Phase 5: Geolocation, Maps & Route Intelligence
+- **Backend:** `POST /api/v1/routes/compare` requests Google Routes alternatives, checks PostGIS hazard polygons and recorded closures, applies the documented configurable risk heuristic, and returns explicit provider/data errors without fabricated routes.
+- **Frontend Integration:** Page 4 collects GPS/manual origin and geocoded destinations; Page 5 renders API alternatives on Google Maps and monitors material hazard, closure, and freshness changes. Configure separate restricted browser/server keys before live use.
 
 ### Phase 4: Citizen Hazard Reporting & Safe Places Directory
 - **Backend:** Implement `/api/v1/hazards/report` with file upload handling, and `/api/v1/facilities` with distance sorting and real-time bed capacity counters.
@@ -46,7 +44,7 @@ In accordance with the **Mandatory Integration Rule**, every feature phase follo
   - Wire **Page 7 (Shelters & Hospitals)** category tabs, medical/power filters, live bed availability pills, and direct telephone dialers.
 
 ### Phase 5: Supplies Requisition, High-Entropy Tracking & SOS Toolkit
-- **Backend:** Implement `/api/v1/relief-requests` token generator (`RELIEF-IN-8492-XQ7`), multi-stage triage workflow, and `/relief-requests/track/:token`.
+- **Backend:** Implement `/api/v1/relief-requests` with opaque 256-bit tracking tokens, multi-stage triage workflow, and `/relief-requests/track/:token`.
 - **Frontend Integration:**
   - Wire **Page 8 (Supplies Request)** headcount steppers, emergency item checkboxes, stranded context selector, and submission confirmation.
   - Wire **Page 9 & 10 (Request Tracking)** real-time delivery timeline, ETA countdown, and location update modal.

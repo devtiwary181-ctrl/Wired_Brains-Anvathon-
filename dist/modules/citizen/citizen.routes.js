@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { citizenController } from './citizen.controller.js';
 import { validateRequest } from '../../middleware/validate.js';
 import { evidenceUpload } from '../../middleware/upload.js';
-import { publicRateLimiter, hazardReportRateLimiter, reliefRequestRateLimiter, sosRateLimiter, } from '../../middleware/rateLimiter.js';
+import { publicRateLimiter, hazardReportRateLimiter, reliefRequestRateLimiter, sosRateLimiter, mapsQueryRateLimiter, } from '../../middleware/rateLimiter.js';
 export const citizenRouter = Router();
 // ---------------------------------------------------------------------------
 // Zod Schemas
@@ -66,11 +66,30 @@ const facilitiesQuerySchema = z.object({
 }).refine((query) => (query.lat === undefined) === (query.lng === undefined), {
     message: 'Latitude and longitude must be provided together.',
 });
+const coordinateSchema = z.object({
+    lat: z.coerce.number().min(-90).max(90),
+    lng: z.coerce.number().min(-180).max(180),
+});
+const compareRoutesSchema = z.object({
+    origin: coordinateSchema,
+    destination: coordinateSchema,
+    travelMode: z.enum(['WALK', 'BICYCLE', 'DRIVE', 'TWO_WHEELER']).default('WALK'),
+}).refine(({ origin, destination }) => origin.lat !== destination.lat || origin.lng !== destination.lng, {
+    message: 'Origin and destination must be different locations.',
+});
+const routeRiskCheckSchema = z.object({
+    coordinates: z.array(coordinateSchema).min(2).max(1000),
+    knownFeatureIds: z.array(z.string().max(100)).max(1000).optional(),
+    previousRiskScore: z.coerce.number().min(0).max(100).optional(),
+    previousFreshness: z.coerce.number().min(0).max(1).optional(),
+});
 // ---------------------------------------------------------------------------
 // Screen 01 — Language & Location Onboarding
 // ---------------------------------------------------------------------------
 citizenRouter.get('/geo/reverse-geocode', publicRateLimiter, (req, res, next) => citizenController.reverseGeocode(req, res, next));
 citizenRouter.get('/geo/districts', publicRateLimiter, (req, res, next) => citizenController.searchDistricts(req, res, next));
+citizenRouter.get('/geo/search', mapsQueryRateLimiter, (req, res, next) => citizenController.searchPlaces(req, res, next));
+citizenRouter.get('/maps/config', mapsQueryRateLimiter, (req, res, next) => citizenController.mapsConfig(req, res, next));
 // ---------------------------------------------------------------------------
 // Screen 02 — Citizen Dashboard (aggregated feed)
 // ---------------------------------------------------------------------------
@@ -84,6 +103,8 @@ citizenRouter.get('/announcements', publicRateLimiter, (req, res, next) => citiz
 // Screens 03–05 — Hazard Overview Map
 // ---------------------------------------------------------------------------
 citizenRouter.get('/hazards/spatial', publicRateLimiter, (req, res, next) => citizenController.getSpatialHazards(req, res, next));
+citizenRouter.post('/routes/compare', mapsQueryRateLimiter, validateRequest({ body: compareRoutesSchema }), (req, res, next) => citizenController.compareRoutes(req, res, next));
+citizenRouter.post('/routes/check-risk', mapsQueryRateLimiter, validateRequest({ body: routeRiskCheckSchema }), (req, res, next) => citizenController.checkRouteRisk(req, res, next));
 // ---------------------------------------------------------------------------
 // Screen 06 — Hazard Reporting (Step 5 in Get-to-Safety wizard)
 // Rate-limited + optional multipart photo upload

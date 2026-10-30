@@ -142,6 +142,48 @@ describe('Screens 03–05 — Hazard Map', () => {
   });
 });
 
+describe('Phase 5 — Route provider contract', () => {
+  it('POST /api/v1/routes/compare rejects identical locations', async () => {
+    const res = await request(app).post('/api/v1/routes/compare').send({
+      origin: { lat: 12.9, lng: 77.6 },
+      destination: { lat: 12.9, lng: 77.6 },
+      travelMode: 'WALK',
+    });
+    expect(res.status).toBe(400);
+  });
+
+  it('POST /api/v1/routes/compare refuses to fabricate routes without a provider key', async () => {
+    const res = await request(app).post('/api/v1/routes/compare').send({
+      origin: { lat: 12.9, lng: 77.6 },
+      destination: { lat: 12.91, lng: 77.61 },
+      travelMode: 'WALK',
+    });
+    expect(res.status).toBe(503);
+    expect(res.body.error.code).toBe('ROUTES_NOT_CONFIGURED');
+  });
+
+  it('GET /api/v1/maps/config does not expose a server credential', async () => {
+    const res = await request(app).get('/api/v1/maps/config');
+    expect([200, 503]).toContain(res.status);
+    if (res.status === 200) {
+      expect(res.body.data.browserApiKey).not.toBe(process.env.GOOGLE_MAPS_API_KEY);
+    }
+  });
+
+  it('GET /api/v1/geo/search returns an empty list for too-short queries without a provider call', async () => {
+    const res = await request(app).get('/api/v1/geo/search?q=ab');
+    expect(res.status).toBe(200);
+    expect(res.body.data).toEqual([]);
+  });
+
+  it('POST /api/v1/routes/check-risk rejects incomplete route geometry', async () => {
+    const res = await request(app).post('/api/v1/routes/check-risk').send({
+      coordinates: [{ lat: 12.9, lng: 77.6 }],
+    });
+    expect(res.status).toBe(400);
+  });
+});
+
 // ============================================================================
 // Screen 06 — Hazard Reporting
 // ============================================================================

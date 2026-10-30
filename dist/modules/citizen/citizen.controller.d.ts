@@ -5,6 +5,10 @@
  */
 import { Request, Response, NextFunction } from 'express';
 export declare class CitizenController {
+    compareRoutes(req: Request, res: Response, next: NextFunction): Promise<void>;
+    checkRouteRisk(req: Request, res: Response, next: NextFunction): Promise<void>;
+    searchPlaces(req: Request, res: Response, next: NextFunction): Promise<void>;
+    mapsConfig(_req: Request, res: Response, next: NextFunction): Promise<void>;
     reverseGeocode(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined>;
     searchDistricts(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined>;
     getDashboard(req: Request, res: Response, next: NextFunction): Promise<void>;

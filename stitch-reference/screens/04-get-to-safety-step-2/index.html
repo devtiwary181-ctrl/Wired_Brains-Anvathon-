@@ -247,7 +247,7 @@
 <!-- 3 Action Options (Radio group) -->
 <div aria-labelledby="origin-heading" class="grid grid-cols-1 gap-space-xs pt-1" role="radiogroup">
 <!-- Option 1: Selected -->
-<button aria-checked="true" class="min-h-[52px] w-full p-space-sm bg-surface-container-low rounded-lg flex items-center justify-between text-left border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary" role="radio" type="button">
+<button aria-checked="false" class="min-h-[52px] w-full p-space-sm bg-surface-container rounded-lg flex items-center justify-between text-left hover:bg-surface-container-high transition-colors focus:outline-none" role="radio" type="button">
 <div class="flex items-center gap-space-sm">
 <div class="w-9 h-9 rounded-lg bg-tertiary text-on-tertiary flex items-center justify-center shrink-0">
 <span class="material-symbols-outlined text-[20px]">my_location</span>
@@ -255,8 +255,8 @@
 <div>
 <div class="font-label-strong text-label-strong text-on-surface">Use my location (मेरी स्थिति का उपयोग करें)</div>
 <div class="font-caption text-caption text-tertiary flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">check_circle</span>
-<span>Active • GPS accurate to 12m</span>
+<span class="material-symbols-outlined text-[16px]">radio_button_unchecked</span>
+<span>Not selected • GPS accuracy shown after permission</span>
 <span class="text-secondary ml-1 hover:underline cursor-pointer">(Correct manually)</span>
 </div>
 </div>
@@ -684,4 +684,268 @@
 </a>
 </div>
 </nav>
+<script src="../../api-client.js"></script>
+<script>
+  (function() {
+    const DR = window.DisasterReadyAPI;
+    const originSection = document.querySelector('#origin-heading')?.closest('section');
+    const destinationSection = document.querySelector('#destination-heading')?.closest('section');
+    if (!originSection || !destinationSection) return;
+
+    let origin = null;
+    let destination = null;
+    let travelMode = 'WALK';
+    let facilityType = 'SHELTER';
+    let searchTimer;
+    const status = document.createElement('p');
+    status.id = 'route-journey-status';
+    status.className = 'font-caption text-caption text-on-surface-variant';
+    status.setAttribute('role', 'status');
+    const originSummary = originSection.querySelector('p');
+    if (originSummary) originSummary.textContent = 'Origin not set. Use GPS or select a location manually.';
+    originSection.querySelectorAll('*').forEach(element => {
+      if (element.children.length === 0 && /GPS Confirmed|High Confidence|Detected near Silk Board|Active • GPS accurate to 12m/i.test(element.textContent || '')) {
+        element.textContent = 'Location accuracy will be shown after selection.';
+      }
+    });
+    function markOriginOption(activeIndex) {
+      originSection.querySelectorAll('[role="radio"]').forEach((option, index) => {
+        const selected = index === activeIndex;
+        option.setAttribute('aria-checked', String(selected));
+        option.classList.toggle('bg-surface-container-low', selected);
+        option.classList.toggle('border-2', selected);
+        option.classList.toggle('border-primary/40', selected);
+        const indicator = option.querySelector(':scope > span.material-symbols-outlined');
+        if (indicator) indicator.textContent = selected ? 'radio_button_checked' : 'radio_button_unchecked';
+      });
+    }
+    Array.from(originSection.querySelectorAll('button')).filter(button => /Permission Denied \/ Manual|Low Connectivity \/ Cached/i.test(button.textContent)).forEach(button => {
+      button.closest('.flex.items-center')?.setAttribute('hidden', '');
+      button.hidden = true;
+    });
+
+    const field = (labelText, id, type, placeholder) => {
+      const wrapper = document.createElement('label');
+      wrapper.className = 'flex flex-col gap-1 font-caption text-caption';
+      wrapper.textContent = labelText;
+      const input = document.createElement('input');
+      input.id = id;
+      input.type = type;
+      input.placeholder = placeholder;
+      input.className = 'w-full min-h-[44px] px-3 rounded-lg border border-outline bg-white';
+      wrapper.append(input);
+      return { wrapper, input };
+    };
+
+    const originSearch = document.getElementById('landmark-search');
+    const originResults = document.createElement('div');
+    originResults.id = 'origin-place-results';
+    originResults.className = 'flex flex-col gap-1';
+    originSearch?.parentElement?.parentElement?.insertAdjacentElement('afterend', originResults);
+    const manualOrigin = document.createElement('div');
+    manualOrigin.className = 'grid grid-cols-2 gap-2';
+    const originLat = field('Origin latitude', 'manual-origin-lat', 'number', 'Latitude');
+    const originLng = field('Origin longitude', 'manual-origin-lng', 'number', 'Longitude');
+    originLat.input.step = originLng.input.step = 'any';
+    const confirmOrigin = document.createElement('button');
+    confirmOrigin.type = 'button';
+    confirmOrigin.className = 'col-span-2 min-h-[44px] rounded-lg bg-surface-container-high text-primary font-label-strong';
+    confirmOrigin.textContent = 'Confirm manual origin';
+    manualOrigin.append(originLat.wrapper, originLng.wrapper, confirmOrigin);
+    originSection.append(manualOrigin);
+
+    function setOrigin(coordinates, label, accuracy) {
+      origin = coordinates;
+      DR.storage.setLocation(coordinates.lat, coordinates.lng);
+      markOriginOption(/GPS/i.test(label) ? 0 : /manual/i.test(label) ? 2 : 1);
+      if (originSummary) originSummary.textContent = `Current origin: ${label} (${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)})`;
+      status.textContent = accuracy == null ? 'Manual location selected.' : `GPS accuracy: approximately ${Math.round(accuracy)} m.`;
+      loadFacilities();
+    }
+
+    function renderPlaceResults(container, places, onChoose) {
+      container.replaceChildren();
+      places.forEach(place => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'min-h-[44px] px-3 py-2 text-left rounded-lg bg-surface-container-low hover:bg-surface-container-high';
+        button.textContent = place.label;
+        button.addEventListener('click', () => onChoose(place));
+        container.append(button);
+      });
+    }
+
+    originSearch?.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      const query = originSearch.value.trim();
+      originResults.replaceChildren();
+      if (query.length < 3) return;
+      status.textContent = 'Searching origin landmarks…';
+      searchTimer = setTimeout(async () => {
+        try {
+          const places = await DR.geo.searchPlaces(query);
+          renderPlaceResults(originResults, places, place => {
+            setOrigin(place.coordinates, place.label);
+            originSearch.value = place.label;
+            originResults.replaceChildren();
+          });
+          status.textContent = places.length ? 'Select an origin from the results.' : 'No matching places found.';
+        } catch (error) {
+          status.textContent = error.message || 'Origin search is unavailable.';
+        }
+      }, 350);
+    });
+
+    confirmOrigin.addEventListener('click', () => {
+      const lat = Number(originLat.input.value);
+      const lng = Number(originLng.input.value);
+      if (!Number.isFinite(lat) || lat < -90 || lat > 90 || !Number.isFinite(lng) || lng < -180 || lng > 180) {
+        status.textContent = 'Enter a valid latitude and longitude.';
+        return;
+      }
+      setOrigin({ lat, lng }, 'manually confirmed coordinates');
+    });
+
+    const originOptions = originSection.querySelectorAll('[role="radio"]');
+    originOptions[0]?.addEventListener('click', () => {
+      status.textContent = 'Requesting GPS location permission…';
+      if (!navigator.geolocation) {
+        status.textContent = 'GPS is unavailable. Use landmark search or manual coordinates.';
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(position => {
+        const accuracy = position.coords.accuracy;
+        if (accuracy > 500 && !window.confirm(`GPS accuracy is approximately ${Math.round(accuracy)} m. Use this location anyway, or choose a place manually?`)) {
+          status.textContent = 'GPS location not confirmed. Choose a place manually or retry GPS.';
+          return;
+        }
+        setOrigin({ lat: position.coords.latitude, lng: position.coords.longitude }, 'GPS location', accuracy);
+      }, error => {
+        status.textContent = error.code === 1
+          ? 'Location permission denied. Search a landmark or enter coordinates manually.'
+          : 'GPS position unavailable. Search a landmark or enter coordinates manually.';
+      }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+    });
+    originOptions[1]?.addEventListener('click', () => originSearch?.focus());
+    originOptions[2]?.addEventListener('click', () => originLat.input.focus());
+    const stopSharing = Array.from(originSection.querySelectorAll('button')).find(button => /stop sharing/i.test(button.textContent));
+    stopSharing?.addEventListener('click', () => {
+      origin = null;
+      localStorage.removeItem('dr_lat');
+      localStorage.removeItem('dr_lng');
+      localStorage.removeItem('dr_citizen_lat');
+      localStorage.removeItem('dr_citizen_lng');
+      if (originSummary) originSummary.textContent = 'Origin not set. Use GPS or select a location manually.';
+      status.textContent = 'Location sharing stopped and saved coordinates removed.';
+    });
+
+    const destinationTabs = destinationSection.querySelectorAll('[role="tab"]');
+    const oldDestinationNodes = Array.from(destinationSection.children).slice(2);
+    oldDestinationNodes.forEach(node => { node.hidden = true; });
+    const destinationPanel = document.createElement('div');
+    destinationPanel.className = 'flex flex-col gap-2';
+    const destinationSearch = field('Search destination, shelter, hospital or landmark', 'route-destination-search', 'search', 'Search an area or destination');
+    destinationPanel.append(destinationSearch.wrapper);
+    const destinationResults = document.createElement('div');
+    destinationResults.id = 'destination-place-results';
+    destinationResults.className = 'flex flex-col gap-1';
+    destinationPanel.append(destinationResults);
+    const facilityResults = document.createElement('div');
+    facilityResults.id = 'route-facility-results';
+    facilityResults.className = 'flex flex-col gap-2';
+    destinationPanel.append(facilityResults);
+    destinationSection.append(destinationPanel);
+
+    function selectDestination(item) {
+      destination = item.coordinates;
+      destinationPanel.dataset.selectedPlace = item.label;
+      sessionStorage.setItem('dr_route_destination_label', item.label);
+      destinationSearch.input.value = item.label;
+      destinationResults.replaceChildren();
+      status.textContent = `Destination selected: ${item.label}`;
+    }
+
+    destinationSearch.input.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      const query = destinationSearch.input.value.trim();
+      destinationResults.replaceChildren();
+      if (query.length < 3) return;
+      status.textContent = 'Searching destination…';
+      searchTimer = setTimeout(async () => {
+        try {
+          const places = await DR.geo.searchPlaces(query);
+          renderPlaceResults(destinationResults, places, selectDestination);
+          status.textContent = places.length ? 'Select a destination from the results.' : 'No matching destinations found.';
+        } catch (error) {
+          status.textContent = error.message || 'Destination search is unavailable.';
+        }
+      }, 350);
+    });
+
+    async function loadFacilities() {
+      if (!origin) return;
+      facilityResults.textContent = 'Loading verified destination facilities…';
+      try {
+        const facilities = await DR.facilities.get({ facilityType, lat: origin.lat, lng: origin.lng, radiusKm: 50 });
+        facilityResults.replaceChildren();
+        const candidates = facilities.filter(item => item.isVerified && item.operatingStatus !== 'DAMAGED_CLOSED');
+        if (!candidates.length) {
+          facilityResults.textContent = 'No verified facilities are listed within 50 km. Search a destination landmark instead.';
+          return;
+        }
+        candidates.forEach(item => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'p-3 text-left rounded-lg border border-outline-variant bg-surface-container-lowest';
+          button.textContent = `${item.name} • ${item.distanceKm} km • ${item.operatingStatus.replaceAll('_', ' ')}`;
+          button.addEventListener('click', () => selectDestination({ label: `${item.name}, ${item.address}`, coordinates: item.coordinates }));
+          facilityResults.append(button);
+        });
+      } catch (error) {
+        facilityResults.textContent = error.message || 'Facility destinations are unavailable.';
+      }
+    }
+
+    destinationTabs.forEach((tab, index) => tab.addEventListener('click', () => {
+      facilityType = index === 1 ? 'HOSPITAL' : 'SHELTER';
+      loadFacilities();
+    }));
+    const savedOrigin = DR.storage.getLocation();
+    if (savedOrigin.lat != null && savedOrigin.lng != null) {
+      originLat.input.value = savedOrigin.lat;
+      originLng.input.value = savedOrigin.lng;
+      setOrigin(savedOrigin, 'saved coordinates');
+    }
+
+    const modeButtons = Array.from(document.querySelectorAll('main button')).filter(button => /On foot|Two-wheeler|Car \/ Auto|Ambulance \(108\)/i.test(button.textContent));
+    const modeMap = ['WALK', 'TWO_WHEELER', 'DRIVE', 'DRIVE'];
+    modeButtons.forEach((button, index) => button.addEventListener('click', () => { travelMode = modeMap[index]; }));
+
+    const findRoutes = Array.from(document.querySelectorAll('main button')).find(button => /Find routes/i.test(button.textContent));
+    findRoutes?.addEventListener('click', async event => {
+      event.preventDefault();
+      if (!origin || !destination) {
+        status.textContent = 'Choose an origin and destination before comparing routes.';
+        return;
+      }
+      findRoutes.disabled = true;
+      const originalLabel = findRoutes.textContent;
+      sessionStorage.setItem('dr_route_mode', travelMode);
+      findRoutes.textContent = 'Requesting route alternatives…';
+      status.textContent = 'Checking Google route alternatives against recorded hazards and road closures…';
+      try {
+        sessionStorage.setItem('dr_route_origin', JSON.stringify(origin));
+        sessionStorage.setItem('dr_route_destination', JSON.stringify(destination));
+        sessionStorage.setItem('dr_route_mode', travelMode);
+        window.location.href = '../05-get-to-safety-step-4/index.html';
+      } catch (error) {
+        status.textContent = error.message || 'Route provider unavailable. No route has been generated.';
+      } finally {
+        findRoutes.disabled = false;
+        findRoutes.textContent = originalLabel;
+      }
+    });
+    findRoutes?.insertAdjacentElement('afterend', status);
+  })();
+</script>
 </body></html>

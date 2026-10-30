@@ -13,6 +13,7 @@ import {
   hazardReportRateLimiter,
   reliefRequestRateLimiter,
   sosRateLimiter,
+  mapsQueryRateLimiter,
 } from '../../middleware/rateLimiter.js';
 
 export const citizenRouter = Router();
@@ -78,6 +79,26 @@ const facilitiesQuerySchema = z.object({
   message: 'Latitude and longitude must be provided together.',
 });
 
+const coordinateSchema = z.object({
+  lat: z.coerce.number().min(-90).max(90),
+  lng: z.coerce.number().min(-180).max(180),
+});
+
+const compareRoutesSchema = z.object({
+  origin: coordinateSchema,
+  destination: coordinateSchema,
+  travelMode: z.enum(['WALK', 'BICYCLE', 'DRIVE', 'TWO_WHEELER']).default('WALK'),
+}).refine(({ origin, destination }) => origin.lat !== destination.lat || origin.lng !== destination.lng, {
+  message: 'Origin and destination must be different locations.',
+});
+
+const routeRiskCheckSchema = z.object({
+  coordinates: z.array(coordinateSchema).min(2).max(1000),
+  knownFeatureIds: z.array(z.string().max(100)).max(1000).optional(),
+  previousRiskScore: z.coerce.number().min(0).max(100).optional(),
+  previousFreshness: z.coerce.number().min(0).max(1).optional(),
+});
+
 // ---------------------------------------------------------------------------
 // Screen 01 — Language & Location Onboarding
 // ---------------------------------------------------------------------------
@@ -86,6 +107,12 @@ citizenRouter.get('/geo/reverse-geocode', publicRateLimiter, (req, res, next) =>
 );
 citizenRouter.get('/geo/districts', publicRateLimiter, (req, res, next) =>
   citizenController.searchDistricts(req, res, next),
+);
+citizenRouter.get('/geo/search', mapsQueryRateLimiter, (req, res, next) =>
+  citizenController.searchPlaces(req, res, next),
+);
+citizenRouter.get('/maps/config', mapsQueryRateLimiter, (req, res, next) =>
+  citizenController.mapsConfig(req, res, next),
 );
 
 // ---------------------------------------------------------------------------
@@ -110,6 +137,12 @@ citizenRouter.get('/announcements', publicRateLimiter, (req, res, next) =>
 // ---------------------------------------------------------------------------
 citizenRouter.get('/hazards/spatial', publicRateLimiter, (req, res, next) =>
   citizenController.getSpatialHazards(req, res, next),
+);
+citizenRouter.post('/routes/compare', mapsQueryRateLimiter, validateRequest({ body: compareRoutesSchema }), (req, res, next) =>
+  citizenController.compareRoutes(req, res, next),
+);
+citizenRouter.post('/routes/check-risk', mapsQueryRateLimiter, validateRequest({ body: routeRiskCheckSchema }), (req, res, next) =>
+  citizenController.checkRouteRisk(req, res, next),
 );
 
 // ---------------------------------------------------------------------------

@@ -104,6 +104,10 @@
       if (!q || q.length < 2) return [];
       return get(`/geo/districts?q=${encodeURIComponent(q)}`);
     },
+    async searchPlaces(q) {
+      if (!q || q.trim().length < 3) return [];
+      return get(`/geo/search?q=${encodeURIComponent(q.trim())}`);
+    },
     /**
      * Detect GPS location, reverse geocode, and persist to storage.
      * Resolves with { lat, lng, district } or rejects with reason.
@@ -141,6 +145,38 @@
           { enableHighAccuracy: true, timeout: 10000 }
         );
       });
+    },
+  };
+
+  const routing = {
+    compare({ origin, destination, travelMode = 'WALK' }) {
+      return post('/routes/compare', { origin, destination, travelMode });
+    },
+    checkRisk({ coordinates, knownFeatureIds, previousRiskScore }) {
+      return post('/routes/check-risk', { coordinates, knownFeatureIds, previousRiskScore });
+    },
+  };
+
+  const maps = {
+    load() {
+      if (window.google?.maps?.importLibrary) return window.google.maps.importLibrary('maps');
+      if (window._drMapsLoadPromise) return window._drMapsLoadPromise;
+      window._drMapsLoadPromise = get('/maps/config').then((config) => new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        const params = new URLSearchParams({ key: config.browserApiKey, loading: 'async', libraries: 'maps,marker', v: 'weekly' });
+        script.src = `https://maps.googleapis.com/maps/api/js?${params}`;
+        script.async = true;
+        script.onerror = () => reject(new Error('Google Maps JavaScript API failed to load.'));
+        script.onload = () => {
+          if (!window.google?.maps?.importLibrary) return reject(new Error('Google Maps JavaScript API is unavailable.'));
+          resolve(window.google.maps.importLibrary('maps'));
+        };
+        document.head.append(script);
+      })).catch((error) => {
+        window._drMapsLoadPromise = null;
+        throw error;
+      });
+      return window._drMapsLoadPromise;
     },
   };
 
@@ -330,6 +366,8 @@
   window.DisasterReadyAPI = {
     storage,
     geo,
+    routing,
+    maps,
     dashboard,
     alerts,
     announcements,

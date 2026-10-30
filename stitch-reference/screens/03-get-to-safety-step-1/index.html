@@ -691,14 +691,14 @@
     filterPanel.append(layers);
     mapViewport.parentElement.insertBefore(filterPanel, mapViewport);
 
-    const liveSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    liveSvg.setAttribute('viewBox', '0 0 640 360');
-    liveSvg.setAttribute('role', 'img');
-    liveSvg.setAttribute('aria-label', 'Map of reported hazard markers and hazard polygons');
-    liveSvg.setAttribute('class', 'w-full h-full bg-surface-container-low');
+    const liveMap = document.createElement('div');
+    liveMap.id = 'google-hazard-map';
+    liveMap.setAttribute('role', 'application');
+    liveMap.setAttribute('aria-label', 'Google map of reported hazards and hazard polygons');
+    liveMap.className = 'w-full h-full bg-surface-container-low';
     const staticSvg = mapViewport.querySelector('svg');
     if (staticSvg) staticSvg.hidden = true;
-    mapViewport.append(liveSvg);
+    mapViewport.append(liveMap);
     const mapStatus = document.createElement('p');
     mapStatus.className = 'p-2 font-caption text-caption';
     mapViewport.insertAdjacentElement('afterend', mapStatus);
@@ -712,45 +712,75 @@
     hazardList.insertAdjacentElement('afterend', safetyNotice);
     btnList?.addEventListener('click', () => hazardList.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     let hazards = [];
+    let googleMap;
+    let hazardOverlays = [];
 
-    const createSvg = (name, attributes) => {
-      const element = document.createElementNS('http://www.w3.org/2000/svg', name);
-      Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, String(value)));
-      return element;
-    };
+    async function initializeGoogleMap() {
+      if (googleMap) return;
+      try {
+        await DR.maps.load();
+        const savedLocation = DR.storage.getLocation();
+        const initialCenter = savedLocation.lat != null && savedLocation.lng != null
+          ? { lat: savedLocation.lat, lng: savedLocation.lng }
+          : hazards[0]?.coordinates || { lat: 20.5937, lng: 78.9629 };
+        googleMap = new window.google.maps.Map(liveMap, {
+          center: initialCenter,
+          zoom: savedLocation.lat != null ? 12 : hazards.length ? 11 : 5,
+          mapTypeControl: false,
+          streetViewControl: false,
+        });
+        if (btnMapSatToggle) {
+          btnMapSatToggle.addEventListener('click', () => {
+            googleMap?.setMapTypeId(googleMap.getMapTypeId() === 'roadmap' ? 'hybrid' : 'roadmap');
+          });
+        }
+        mapStatus.textContent = 'Google Maps • Hazard records from DisasterReady API. Empty map coverage is not a safety indication.';
+      } catch (error) {
+        mapStatus.textContent = error.message || 'Google Maps JavaScript API is unavailable. The live map could not be displayed.';
+        liveMap.textContent = mapStatus.textContent;
+      }
+    }
+
     const renderHazards = () => {
-      liveSvg.replaceChildren(createSvg('rect', { x: 0, y: 0, width: 640, height: 360, fill: '#eaf2f8' }));
-      for (let x = 80; x < 640; x += 80) liveSvg.append(createSvg('path', { d: `M ${x} 0 V 360`, stroke: '#d6e4f2' }));
-      for (let y = 60; y < 360; y += 60) liveSvg.append(createSvg('path', { d: `M 0 ${y} H 640`, stroke: '#d6e4f2' }));
-      const polygonCoords = hazards.flatMap(h => h.polygons.flatMap(p => Array.isArray(p.coordinates) ? p.coordinates.filter(point => Array.isArray(point) && point.length >= 2 && point.every(Number.isFinite)) : []));
-      const allPoints = [...hazards.map(h => [h.coordinates.lat, h.coordinates.lng]), ...polygonCoords];
-      if (!allPoints.length) return;
-      const latitudes = allPoints.map(point => point[0]);
-      const longitudes = allPoints.map(point => point[1]);
-      const minLat = Math.min(...latitudes), maxLat = Math.max(...latitudes);
-      const minLng = Math.min(...longitudes), maxLng = Math.max(...longitudes);
-      const project = ([lat, lng]) => ({
-        x: 28 + ((lng - minLng) / (maxLng - minLng || 1)) * 584,
-        y: 28 + ((maxLat - lat) / (maxLat - minLat || 1)) * 304,
-      });
+      if (!googleMap) return;
+      hazardOverlays.forEach(overlay => overlay.setMap(null));
+      hazardOverlays = [];
       if (document.getElementById('hazard-layer-polygons').checked) {
         hazards.forEach(h => h.polygons.forEach(p => {
-          if (!Array.isArray(p.coordinates) || p.coordinates.length < 3) return;
-          const points = p.coordinates.filter(point => Array.isArray(point) && point.length >= 2 && point.every(Number.isFinite)).map(point => {
-            const projected = project(point);
-            return `${projected.x},${projected.y}`;
-          }).join(' ');
-          if (points) liveSvg.append(createSvg('polygon', { points, fill: '#ba1a1a', 'fill-opacity': '0.2', stroke: '#ba1a1a', 'stroke-width': 2 }));
+          const coordinates = Array.isArray(p.coordinates) ? p.coordinates : [];
+          if (coordinates.length < 3 || !coordinates.every(point => Array.isArray(point) && point.length >= 2 && point.every(Number.isFinite))) return;
+          const polygon = new window.google.maps.Polygon({
+            paths: coordinates.map(([lat, lng]) => ({ lat, lng })),
+            strokeColor: '#ba1a1a',
+            strokeOpacity: 0.9,
+            strokeWeight: 2,
+            fillColor: '#ba1a1a',
+            fillOpacity: 0.2,
+            map: googleMap,
+          });
+          hazardOverlays.push(polygon);
         }));
       }
       if (document.getElementById('hazard-layer-markers').checked) {
         hazards.forEach(h => {
-          const point = project([h.coordinates.lat, h.coordinates.lng]);
-          const marker = createSvg('circle', { cx: point.x, cy: point.y, r: 8, fill: ['CRITICAL', 'SEVERE'].includes(h.severity) ? '#ba1a1a' : '#8a4b00', stroke: '#fff', 'stroke-width': 3 });
-          const title = createSvg('title', {});
-          title.textContent = `${h.hazardType}: ${h.severity}, ${h.reportCategory}`;
-          marker.append(title);
-          liveSvg.append(marker);
+          const marker = new window.google.maps.Marker({
+            position: h.coordinates,
+            map: googleMap,
+            title: `${h.hazardType}: ${h.severity}, ${h.reportCategory}`,
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              scale: 8,
+              fillColor: ['CRITICAL', 'SEVERE'].includes(h.severity) ? '#ba1a1a' : '#8a4b00',
+              fillOpacity: 1,
+              strokeColor: '#ffffff',
+              strokeWeight: 2,
+            },
+          });
+          const content = document.createElement('div');
+          content.textContent = `${h.hazardType.replaceAll('_', ' ')} • ${h.severity} • ${h.reportCategory.replaceAll('_', ' ')} • ${h.freshness}`;
+          const info = new window.google.maps.InfoWindow({ content });
+          marker.addListener('click', () => info.open({ map: googleMap, anchor: marker }));
+          hazardOverlays.push(marker);
         });
       }
     };
@@ -789,10 +819,21 @@
           since,
         });
         mapStatus.textContent = `${hazards.length} hazard records • Fetched ${new Date().toLocaleString()}`;
+        const headline = Array.from(document.querySelectorAll('h2')).find(element => /roads near you are flooded/i.test(element.textContent || ''));
+        if (headline) headline.textContent = hazards.length
+          ? `${hazards.length} recorded hazard report${hazards.length === 1 ? '' : 's'} match these filters.`
+          : 'No hazard records match these filters. This does not indicate the area is safe.';
+        const authorityStamp = Array.from(document.querySelectorAll('span')).find(element => /Official NDMA & State Disaster Cell/i.test(element.textContent || ''));
+        if (authorityStamp) authorityStamp.textContent = 'Source: DisasterReady hazard records';
+        await initializeGoogleMap();
         renderHazards();
         renderList();
       } catch {
         mapStatus.textContent = 'Hazard data is unavailable. Check your connection; do not infer safety from a missing map layer.';
+        const headline = Array.from(document.querySelectorAll('h2')).find(element => /roads near you are flooded/i.test(element.textContent || ''));
+        if (headline) headline.textContent = 'Live hazard information is unavailable. Follow official emergency instructions.';
+        const authorityStamp = Array.from(document.querySelectorAll('span')).find(element => /Official NDMA & State Disaster Cell/i.test(element.textContent || ''));
+        if (authorityStamp) authorityStamp.textContent = 'Live source unavailable';
         hazardList.textContent = 'No live hazard data could be loaded.';
       }
     };

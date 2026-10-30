@@ -60,4 +60,15 @@ export const sosRateLimiter = rateLimit({
         },
     },
 });
+/** Google Maps-backed public queries: 10 provider requests / minute per IP */
+export const mapsQueryRateLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        error: { code: 'MAPS_RATE_LIMIT', message: 'Too many map or route requests. Wait briefly and try again.' },
+    },
+});
 //# sourceMappingURL=rateLimiter.js.map

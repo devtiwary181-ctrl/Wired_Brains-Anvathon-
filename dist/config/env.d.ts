@@ -7,6 +7,12 @@ export declare const env: {
     JWT_SECRET: string;
     SESSION_SECRET: string;
     GOOGLE_MAPS_API_KEY: string;
+    GOOGLE_MAPS_BROWSER_API_KEY: string;
+    ROUTE_RISK_W1: number;
+    ROUTE_RISK_W2: number;
+    ROUTE_RISK_W3: number;
+    ROUTE_RISK_W4: number;
+    ROUTE_RISK_W5: number;
     SMS_PROVIDER_API_KEY: string;
     SMS_SENDER_ID: string;
     AI_PROVIDER_API_KEY: string;
