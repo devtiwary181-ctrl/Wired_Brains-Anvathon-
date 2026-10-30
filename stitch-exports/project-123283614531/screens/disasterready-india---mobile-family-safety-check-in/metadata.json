@@ -1,0 +1,17 @@
+{
+  "screenId": "2d278acf11a54e6daaa6cb7e5cf28a55",
+  "screenName": "projects/12328361453191949681/screens/2d278acf11a54e6daaa6cb7e5cf28a55",
+  "displayName": "",
+  "label": "DisasterReady India - Mobile Family Safety & Check-in",
+  "title": "DisasterReady India - Mobile Family Safety & Check-in",
+  "prompt": "Mobile Family Status Registry & I Am Safe Check-in (G3-G5 /prepare/family, /prepare/safe): \"Tell my family I am safe\" primary action with one-tap SMS/WhatsApp broadcast to saved emergency contacts. Family safety plan summary: designated high-ground meeting point (Ward 9 Community Hall / Sonpur Shelter), registered family members with status badges (Safe: circle-check, Needs Help: triangle-exclamation). Missing person search & report queue with \"Checked by staff\" official badge. Go-bag offline survival checklist with checkboxes (Torch, Drinking Water, Medicines, Documents, Radio, Power bank). No decorative cards, authoritative government styling.",
+  "projectId": "12328361453191949681",
+  "width": "780",
+  "height": "4122",
+  "htmlResource": "projects/12328361453191949681/screens/2d278acf11a54e6daaa6cb7e5cf28a55/fileEntries/html",
+  "screenshotResource": "projects/12328361453191949681/screens/2d278acf11a54e6daaa6cb7e5cf28a55/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 390,
+  "instanceHeight": 2061
+}

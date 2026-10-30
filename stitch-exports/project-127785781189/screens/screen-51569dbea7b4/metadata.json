@@ -1,0 +1,17 @@
+{
+  "screenId": "51569dbea7b44b548f93ba63c66743b6",
+  "screenName": "projects/12778578118982908076/screens/51569dbea7b44b548f93ba63c66743b6",
+  "displayName": "",
+  "label": "",
+  "title": "Operations Overview \u2013 Sky Controls",
+  "prompt": "Create the Operations Overview screen showing the \"Sky Control & Atmospheric Engine\" fully expanded as an interactive modal / popover drawer over the dashboard.\nLayout & Components:\n1. Underneath, visible through frosted dark glass (rgba(18,18,19,0.7) blur 20px), is the Operations Overview screen.\n2. The Sky Control panel is prominently opened:\n   - Header: \"Atmospheric Scene Engine\" with subtitle \"Deterministic NWP / Neural Gated Shader Preview\" and an \"Auto (Follows Forecast)\" pill toggle (currently OFF / Manual Override).\n   - Mode Switch: \"Strict Monochrome\" switch (toggle switch with caption: \"When ON, locks --accent to #E9DFCB sand and removes condition color cues\").\n   - Ambient Intensity Slider: Sleek range slider from 0% to 100% set to 75% with tick marks (Subtle, Operational 35%, Cinematic 75%, Full 100%).\n   - Ambient Motion Toggle: \"Dynamic Physics & Particle Engine\" (ON / OFF).\n   - The 13 Scene Chips in a structured, clean grid or scrollable matrix showing all 13 required weather scenes:\n     1. Snow (Flakes & frost vignette)\n     2. Rain (Slanted streaks & ripples)\n     3. Heavy Rain / Cloudburst (Dense deluge)\n     4. Thunderstorm & Lightning (Active, selected with purple accent outline)\n     5. Hot / Heatwave (Shimmer & sun glare)\n     6. Cold / Cold Wave (Icy mist & frost dendrites)\n     7. Clear / Sunny (Pale sun disc & rays)\n     8. Cloudy (Stratified grey cloud banks)\n     9. Fog / Haze (Low rolling mist strata)\n     10. High Wind (Horizontal velocity streaks)\n     11. Cyclone (Rotational vortex spiral)\n     12. Dust Storm (Loess particle sweep)\n     13. Night (Dark base & lunar ambient)\n   - Each chip includes a miniature visual thumbnail / icon and condition label, with the active chip highlighted.\n   - Live Caption preview below the slider: \"Now showing: Thunderstorm \u00b7 +48h \u00b7 Manual Override\".\n3. Style: Refined dark command center, Syne display typography for titles, frosted glass panels with 1px border `rgba(255,255,255,0.12)`, tabular numbers, monochrome palette with only small accent touches.",
+  "projectId": "12778578118982908076",
+  "width": "780",
+  "height": "1768",
+  "htmlResource": "projects/12778578118982908076/screens/51569dbea7b44b548f93ba63c66743b6/fileEntries/html",
+  "screenshotResource": "projects/12778578118982908076/screens/51569dbea7b44b548f93ba63c66743b6/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 390,
+  "instanceHeight": 884
+}

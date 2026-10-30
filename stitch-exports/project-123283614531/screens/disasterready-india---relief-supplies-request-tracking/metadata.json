@@ -1,0 +1,17 @@
+{
+  "screenId": "ceddc50390004786a38d6a5da1db8d68",
+  "screenName": "projects/12328361453191949681/screens/ceddc50390004786a38d6a5da1db8d68",
+  "displayName": "",
+  "label": "DisasterReady India - Relief Supplies & Request Tracking",
+  "title": "DisasterReady India - Relief Supplies & Request Tracking",
+  "prompt": "DisasterReady India Relief Supplies Request & Live Citizen Tracking Portal.\nKey elements:\n1. 7-Step Relief Request Flow (/supplies/1 to /supplies/done):\n- Step 1: \"What do you need?\" multi-select 56px tiles with Lucide-style 2px stroke line SVGs: Drinking water, Food packets, Medicine kits, Blankets, Tents, Baby food, Sanitation kits. \"I am helping another person\" and \"Assisted entry (helpline operator)\" modes.\n- Step 2: \"How many people?\" large accessible stepper, plus extra care tiles (Infant, Elderly, Pregnant, Disabled, Patient) each with individual count steppers.\n- Step 3: \"How long without supplies?\" (<6h, 6-24h, 1-2d, >2d).\n- Step 4: \"Where are you?\" (Use location, landmark picker with Mohanpur, Bhadrapur, Kharadi, Gandhi Chowk, or map pin).\n- Step 5: Phone number (10-digit validation) with clear DPDP explanation.\n- Step 6: Review & Duplicate detection notice (inline check for nearby existing requests in same ward).\n- Step 7: Confirmation with large token DR-1042, plain-language timeline status, QR code display (deterministic SVG), and download confirmation receipt.\n2. Live Request Tracker (/track/DR-1042):\n- Search by Request Number + Phone.\n- Seeded DR-1042 live tracking view: Timeline stages (Received -> Checked -> Assigned -> On the way -> Delivered).\n- Per-item breakdown: Water (6 of 10 delivered, 4 short - Stock shortage reason), Food (5 of 5 delivered - Fulfilled), Medicine (0 of 2 - Route blocked).\n- Delivery confirmation 4-digit code (4829) with QR verification box and courier verification workflow.\n- Plain-language SMS text fallback builder (DRI#SOS#format).\n- Full speech synthesis read-aloud support.",
+  "projectId": "12328361453191949681",
+  "width": "2560",
+  "height": "2832",
+  "htmlResource": "projects/12328361453191949681/screens/ceddc50390004786a38d6a5da1db8d68/fileEntries/html",
+  "screenshotResource": "projects/12328361453191949681/screens/ceddc50390004786a38d6a5da1db8d68/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 1280,
+  "instanceHeight": 1416
+}

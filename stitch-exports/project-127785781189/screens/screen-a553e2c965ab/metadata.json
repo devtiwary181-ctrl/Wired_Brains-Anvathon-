@@ -1,0 +1,17 @@
+{
+  "screenId": "a553e2c965ab4ec3b3f38c96f2593b27",
+  "screenName": "projects/12778578118982908076/screens/a553e2c965ab4ec3b3f38c96f2593b27",
+  "displayName": "",
+  "label": "",
+  "title": "Operations Overview \u2013 Live Meteorological Globe",
+  "prompt": "Restore the prominent interactive 3D meteorological globe and greatly expand the real-time weather animation across the entire background canvas while preserving all operational data.\n\nKey implementation:\n1. LARGE PROMINENT 3D METEOROLOGICAL GLOBE (45-55% visual stage):\n   - Place a dedicated, high-fidelity interactive 3D canvas viewport (`#interactive-globe-canvas`) centered prominently.\n   - Features dark Earth sphere, graticules (lat/lon lines), subtle vector landmasses emphasizing the Indian Subcontinent (65\u00b0E\u2013100\u00b0E), Arabian Sea, Bay of Bengal, and Himalayas.\n   - Live weather overlays on the globe: Convective storm cloud vortex over Delhi, cyclonic swirl in Arabian Sea, and dynamic precipitation heat glow.\n   - Interactive toolbar on the globe: Rotate drag, Zoom (+/-), Reset View, GPS center, and Layer Switcher (TEMP, PRECIP, WIND, MSLP).\n   - Selected location reticle: New Delhi (28.58\u00b0N, 77.20\u00b0E) with floating telemetry badge (34\u00b0C, Thunderstorm, 91% Confidence).\n\n2. EXPANDED LIVE ATMOSPHERIC ANIMATION (70-90% visual stage):\n   - Full-bleed ambient weather canvas `#weather-particle-canvas` surrounding the globe and extending across the entire page.\n   - Working multi-weather simulation: Thunderstorm with timed lightning branch flashes & ambient flash overlay; Rain streaks with angled velocity; Snow with drifting flakes; Heatwave with shimmer; Fog; Sun with rays; Wind.\n   - Controlled via the 13-chip Sky Control strip (Thunderstorm, Rain, Cloudburst, Cyclone, Heatwave, Dust, Fog, Wind, Cloudy, Sunny, Coldwave, Snow, Night), Intensity slider, and MONO switch.\n\n3. FLOATING DATA PANELS (Preserving 100% of existing content):\n   - Hero telemetry card: New Delhi Safdarjung 34\u00b0C (Feels 36\u00b0C), Thunderstorm, CAPE 2850 J/kg, Wind 18 km/h, Rain 72% (62mm/24h), Humidity 64%, MSLP 1003.8 hPa, Blend Confidence 91%.\n   - Lead-time scrubber (-48h to +240h in 6h steps) with Play/Pause forecast progression.\n   - System Diagnostics (NCUM-G, NEPS-G, BharatFS, GraphCast, AIFS, GenCast, GFS, INSAT-3DR).\n   - Active Synoptic Regimes (Monsoon Trough, Cyclonic Circulation, Western Disturbance).\n   - Priority Extreme Signal: Arabian Sea Cyclone track preserving 72% AI probability.\n   - Saved Stations: Mumbai (29\u00b0C), Bengaluru (22\u00b0C), Shimla (-02\u00b0C), Kochi (28\u00b0C).\n   - Keep script modular, concise, and clean to avoid truncation.",
+  "projectId": "12778578118982908076",
+  "width": "780",
+  "height": "5272",
+  "htmlResource": "projects/12778578118982908076/screens/a553e2c965ab4ec3b3f38c96f2593b27/fileEntries/html",
+  "screenshotResource": "projects/12778578118982908076/screens/a553e2c965ab4ec3b3f38c96f2593b27/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 1736,
+  "instanceHeight": 2117
+}

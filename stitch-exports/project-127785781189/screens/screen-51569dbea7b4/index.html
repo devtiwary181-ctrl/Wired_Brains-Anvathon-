@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Syne:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#131314;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-low": "#1c1b1c", "primary-container": "#d8c9a8", "surface-variant": "#353436", "on-error-container": "#ffdad6", "primary": "#f5e5c3", "on-secondary-fixed": "#201b0f", "on-background": "#e5e2e3", "tertiary": "#ffe3b8", "surface-container": "#201f20", "tertiary-fixed": "#ffdeaa", "surface-dim": "#131314", "surface-tint": "#d4c5a4", "inverse-on-surface": "#313031", "inverse-surface": "#e5e2e3", "secondary": "#cfc6b2", "on-surface-variant": "#cdc6b9", "on-tertiary": "#422c00", "secondary-fixed-dim": "#cfc6b2", "surface-container-highest": "#353436", "secondary-fixed": "#ece1cd", "primary-fixed": "#f1e1bf", "on-secondary-fixed-variant": "#4c4638", "on-tertiary-fixed": "#271900", "surface-container-high": "#2a2a2b", "outline-variant": "#4b463d", "surface": "#131314", "surface-bright": "#3a393a", "outline": "#969084", "on-primary-container": "#5f543a", "on-error": "#690005", "surface-container-lowest": "#0e0e0f", "tertiary-fixed-dim": "#f5bd58", "error-container": "#93000a", "on-tertiary-container": "#714f00", "on-primary": "#383018", "inverse-primary": "#685d43", "on-primary-fixed-variant": "#50462d", "error": "#ffb4ab", "background": "#131314", "on-tertiary-fixed-variant": "#5f4100", "secondary-container": "#4f493a", "tertiary-container": "#fac15b", "on-secondary-container": "#c1b8a5", "primary-fixed-dim": "#d4c5a4", "on-primary-fixed": "#221b06", "on-surface": "#e5e2e3", "on-secondary": "#353022" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "space-xl": "2.5rem", "gutter": "1rem", "margin": "1rem", "space-xs": "0.25rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-lg": "1.5rem", "margin-desktop": "2rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "display-hero": ["Syne"], "headline-lg": ["Syne"], "label-caps": ["JetBrains Mono"], "display-hero-mobile": ["Syne"], "metric-stat-mobile": ["Syne"], "body-lg": ["IBM Plex Sans"], "body-sm": ["IBM Plex Sans"], "body-md": ["IBM Plex Sans"], "headline-md": ["IBM Plex Sans"], "telemetry-data": ["JetBrains Mono"], "headline-sm": ["IBM Plex Sans"], "metric-stat": ["Syne"], "headline-lg-mobile": ["Syne"] }, "fontSize": { "display-hero": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-lg": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-caps": ["0.6875rem", { "lineHeight": "1rem", "letterSpacing": "0.08em", "fontWeight": "600" }], "display-hero-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "metric-stat-mobile": ["1.75rem", { "lineHeight": "2rem", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "0em", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "letterSpacing": "0.01em", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "letterSpacing": "0.005em", "fontWeight": "400" }], "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "telemetry-data": ["0.8125rem", { "lineHeight": "1.25rem", "letterSpacing": "0.02em", "fontWeight": "500" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "0em", "fontWeight": "500" }], "metric-stat": ["2.5rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)]"><div class="h-36 flex flex-col justify-between px-margin py-space-xs"><div class="flex items-center justify-between h-9"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight uppercase">Weathermix</span><span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-secondary border border-outline/20">AI–NWP Fusion · SIH26081</span></div><div class="flex items-center gap-space-xs"><span class="font-telemetry-data text-telemetry-data text-secondary hidden sm:inline">65°E–100°E</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center gap-space-xs h-11"><div class="flex-1 flex items-center bg-surface-container-low rounded-lg px-space-sm py-1.5 gap-space-xs"><span class="material-symbols-outlined text-outline text-[18px]">search</span><input class="bg-transparent text-on-surface font-body-sm text-body-sm w-full outline-none placeholder:text-outline" placeholder="Search lat/lon or grid..." type="text"/><button class="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-caps text-label-caps shrink-0 hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[14px]">my_location</span>GPS</button></div><button class="w-11 h-11 flex items-center justify-center relative rounded-lg bg-surface-container-low text-secondary hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-tertiary-container ring-2 ring-surface"></span></button><button class="w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-low text-secondary hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">filter_drama</span></button></div><div class="flex items-center justify-between h-8 px-space-xs bg-surface-container-lowest/80 rounded"><div class="flex items-center gap-1.5 overflow-hidden"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0"></span><span class="font-telemetry-data text-telemetry-data text-on-surface truncate">Blend: Adaptive neural · 2m temp · +48h · Run 24 Sep 00Z · Valid 26 Sep 00Z · °C</span></div><span class="font-label-caps text-label-caps text-secondary shrink-0 pl-1">SYNC OK</span></div></div></header><main class="flex flex-col relative w-full pt-36 pb-32 bg-surface min-h-screen"><div class="flex flex-col w-full relative select-none">
+<!-- BACKGROUND LAYER: Operations Overview Dashboard (Partially visible beneath frosted scrim) -->
+<div class="flex flex-col w-full px-margin py-space-sm gap-space-md opacity-40 blur-[1px] pointer-events-none">
+<!-- Top Telemetry Summary Strip -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col p-space-sm bg-surface-container-low rounded-xl">
+<span class="font-label-caps text-label-caps text-outline tracking-wider uppercase">Ensemble Spread</span>
+<div class="flex items-baseline gap-space-xs mt-0.5">
+<span class="font-metric-stat-mobile text-metric-stat-mobile text-primary">±1.42°</span>
+<span class="font-telemetry-data text-telemetry-data text-secondary">σ (High Conf.)</span>
+</div>
+</div>
+<div class="flex flex-col p-space-sm bg-surface-container-low rounded-xl">
+<span class="font-label-caps text-label-caps text-outline tracking-wider uppercase">Active Ingestion</span>
+<div class="flex items-baseline gap-space-xs mt-0.5">
+<span class="font-metric-stat-mobile text-metric-stat-mobile text-tertiary">4 / 4</span>
+<span class="font-telemetry-data text-telemetry-data text-secondary">NWP Ingested</span>
+</div>
+</div>
+</div>
+<!-- Background Regional Sounding Card -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-caps text-label-caps text-on-surface">RADAR MOSAIC · SECTOR NORTH</span>
+</div>
+<span class="font-label-caps text-label-caps text-outline">VALID 00Z</span>
+</div>
+<div class="h-28 w-full bg-surface-container rounded-lg flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest to-transparent"></div>
+<svg class="w-full h-full text-outline-variant opacity-30" preserveaspectratio="none" viewbox="0 0 200 80">
+<path d="M0,40 Q25,10 50,45 T100,20 T150,60 T200,30" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+<path d="M0,55 Q40,65 80,35 T140,45 T200,15" fill="none" stroke="currentColor" stroke-dasharray="3,3" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- OVERLAY SCRIM WITH FROSTED BACKDROP -->
+<div class="fixed inset-0 z-40 bg-surface-container-lowest/70 backdrop-blur-md"></div>
+<!-- FOREGROUND MODAL DRAWER: Atmospheric Scene Engine -->
+<div class="fixed inset-x-2 top-24 bottom-20 z-50 flex flex-col bg-surface-container-low/95 backdrop-blur-2xl rounded-2xl shadow-2xl overflow-hidden shadow-black/80">
+<!-- Tactile Drag / Sheet Handle -->
+<div class="flex justify-center pt-2.5 pb-1">
+<div class="w-10 h-1 rounded-full bg-surface-variant"></div>
+</div>
+<!-- Drawer Header -->
+<div class="flex flex-col px-margin pt-1 pb-space-sm bg-surface-container-low">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-6 h-6 rounded flex items-center justify-center bg-surface-container-highest text-primary">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">Sky Control</h2>
+</div>
+<!-- Follows Forecast Pill Toggle -->
+<button class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest text-secondary hover:text-on-surface transition-all" id="toggle-forecast">
+<span class="w-1.5 h-1.5 rounded-full bg-outline" id="forecast-dot"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase" id="forecast-status-label">Manual Override</span>
+</button>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<p class="font-body-sm text-body-sm text-outline">Atmospheric Engine · Deterministic NWP Gated Shader</p>
+<span class="font-label-caps text-label-caps text-primary px-1.5 py-0.5 rounded bg-surface-container-highest">GLSL v3.2</span>
+</div>
+</div>
+<!-- Scrollable Control Center Body -->
+<div class="flex-1 overflow-y-auto px-margin py-space-sm space-y-space-md">
+<!-- Operational Live Preview Banner -->
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-lowest text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Viewport Pipeline Output</span>
+<span class="font-telemetry-data text-telemetry-data text-primary font-semibold" id="live-caption">Now showing: Thunderstorm · +48h · Manual Override</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary text-[20px]">bolt</span>
+</div>
+<!-- Mode Switch: Strict Monochrome -->
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container">
+<div class="flex flex-col pr-space-sm max-w-[78%]">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">contrast</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Strict Monochrome</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Locks operational highlights to parchment sand and strips chromatic alerts.</span>
+</div>
+<button class="w-12 h-6 rounded-full bg-surface-container-highest p-0.5 transition-colors relative flex items-center" id="toggle-monochrome">
+<div class="w-5 h-5 rounded-full bg-outline flex items-center justify-center transition-transform" id="mono-thumb">
+<span class="font-label-caps text-[8px] text-surface-dim font-bold">Ø</span>
+</div>
+</button>
+</div>
+<!-- Ambient Intensity Slider Section -->
+<div class="flex flex-col p-space-sm rounded-xl bg-surface-container gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">flare</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Ambient Intensity</span>
+</div>
+<div class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-low text-primary font-telemetry-data text-telemetry-data">
+<span id="intensity-val">75</span>%
+          </div>
+</div>
+<!-- Custom Sleek Range Scrubber -->
+<div class="relative py-2 flex items-center">
+<input class="w-full h-1.5 bg-surface-container-lowest rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none" id="intensity-range" max="100" min="0" type="range" value="75"/>
+</div>
+<!-- Tick Marks & Calibration Tiers -->
+<div class="flex justify-between items-center text-outline font-label-caps text-label-caps px-1">
+<span class="cursor-pointer hover:text-on-surface" onclick="setIntensity(0)">Subtle (0%)</span>
+<span class="cursor-pointer hover:text-on-surface" onclick="setIntensity(35)">Operational (35%)</span>
+<span class="cursor-pointer text-primary font-bold" onclick="setIntensity(75)">Cinematic (75%)</span>
+<span class="cursor-pointer hover:text-on-surface" onclick="setIntensity(100)">Full (100%)</span>
+</div>
+</div>
+<!-- Dynamic Physics & Particle Engine Toggle -->
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container">
+<div class="flex flex-col pr-space-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">grain</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Dynamic Physics &amp; Particle Engine</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline mt-0.5">Real-time compute shader velocity calculation and screen-space fluid dynamics.</span>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary p-0.5 transition-colors relative flex items-center justify-end" id="toggle-particles">
+<div class="w-5 h-5 rounded-full bg-on-primary flex items-center justify-center transition-transform" id="particle-thumb">
+<span class="material-symbols-outlined text-[12px] text-on-primary">check</span>
+</div>
+</button>
+</div>
+<!-- Atmospheric Scene Matrix Header -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-1.5">
+<span class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Target Atmospheric Matrices</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-secondary font-label-caps text-[10px]">13 Presets</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary">Touch to Force Override</span>
+</div>
+<!-- 13 Scene Matrix Grid -->
+<div class="grid grid-cols-2 gap-space-sm pb-space-lg">
+<!-- 1. Snow -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Snow', 'Flakes &amp; frost vignette', 'ac_unit')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">ac_unit</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">01</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Snow</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Flakes &amp; frost vignette</span>
+</button>
+<!-- 2. Rain -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Rain', 'Slanted streaks &amp; ripples', 'rainy')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">rainy</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">02</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Rain</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Slanted streaks &amp; ripples</span>
+</button>
+<!-- 3. Heavy Rain / Cloudburst -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Heavy Rain', 'Dense cloudburst deluge', 'water_drop')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">03</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Heavy Rain</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Dense deluge &amp; spray</span>
+</button>
+<!-- 4. Thunderstorm & Lightning (ACTIVE) -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container-highest text-left transition-all relative overflow-hidden shadow-lg shadow-black/60" id="active-scene" onclick="selectScene('Thunderstorm', 'Dense squall line with discharge', 'bolt')">
+<div class="absolute top-0 right-0 left-0 h-0.5 bg-primary"></div>
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-caps text-[10px] text-primary font-bold">ACTIVE</span>
+</div>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary leading-tight font-semibold">Thunderstorm</span>
+<span class="font-body-sm text-[11px] text-secondary mt-0.5 line-clamp-1">Lightning discharge &amp; hail</span>
+</button>
+<!-- 5. Hot / Heatwave -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Heatwave', 'Shimmer &amp; high solar glare', 'thermostat')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">thermostat</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">05</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Heatwave</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Thermal shimmer &amp; glare</span>
+</button>
+<!-- 6. Cold / Cold Wave -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Cold Wave', 'Icy mist &amp; frost dendrites', 'severe_cold')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">severe_cold</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">06</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Cold Wave</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Icy mist &amp; dendrites</span>
+</button>
+<!-- 7. Clear / Sunny -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Clear / Sunny', 'Pale sun disc &amp; parallel rays', 'sunny')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">sunny</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">07</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Clear / Sunny</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Pale disc &amp; optical rays</span>
+</button>
+<!-- 8. Cloudy -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Cloudy', 'Stratified grey cloud banks', 'cloud')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">cloud</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">08</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Cloudy</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Stratified grey strata</span>
+</button>
+<!-- 9. Fog / Haze -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Fog / Haze', 'Low rolling ground mist', 'foggy')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">foggy</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">09</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Fog / Haze</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Low rolling mist strata</span>
+</button>
+<!-- 10. High Wind -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('High Wind', 'Horizontal velocity streaks', 'air')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">air</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">10</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">High Wind</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Horizontal streamlines</span>
+</button>
+<!-- 11. Cyclone -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Cyclone', 'Rotational vortex spiral', 'cyclone')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">cyclone</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">11</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Cyclone</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Rotational vortex core</span>
+</button>
+<!-- 12. Dust Storm -->
+<button class="scene-chip group flex flex-col p-2.5 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.98]" onclick="selectScene('Dust Storm', 'Loess aerosol sweep', 'landslide')">
+<div class="flex items-center justify-between w-full mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[18px]">landslide</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">12</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Dust Storm</span>
+<span class="font-body-sm text-[11px] text-outline mt-0.5 line-clamp-1">Aerosol particulate sweep</span>
+</button>
+<!-- 13. Night (Span across both columns for balanced grid) -->
+<button class="scene-chip col-span-2 group flex items-center justify-between p-3 rounded-xl bg-surface-container text-left transition-all hover:bg-surface-container-high active:scale-[0.99]" onclick="selectScene('Night', 'Deep obsidian base with lunar glow', 'bedtime')">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary group-hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">bedtime</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface leading-tight">Night Ambient</span>
+<span class="font-body-sm text-[11px] text-outline">Obsidian substrate · Minimal lunar scattering</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs pr-1">
+<span class="font-label-caps text-[10px] text-outline">13</span>
+<span class="material-symbols-outlined text-outline text-[16px]">chevron_right</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="flex items-center justify-between px-margin py-space-sm bg-surface-container-lowest">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container text-secondary hover:text-on-surface font-label-caps text-label-caps uppercase transition-colors">
+<span class="material-symbols-outlined text-[16px]">restart_alt</span>
+        Reset Shader
+      </button>
+<button class="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-primary text-on-primary font-headline-sm text-body-md font-semibold hover:bg-primary-fixed transition-all shadow-md">
+<span>Apply Viewport</span>
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+</div>
+</div>
+<script>
+    // Live Intensity Slider Handler
+    const range = document.getElementById('intensity-range');
+    const label = document.getElementById('intensity-val');
+    const liveCaption = document.getElementById('live-caption');
+
+    function updateIntensity(val) {
+      if (range) range.value = val;
+      if (label) label.innerText = val;
+    }
+
+    if (range) {
+      range.addEventListener('input', (e) => {
+        updateIntensity(e.target.value);
+      });
+    }
+
+    window.setIntensity = function(val) {
+      updateIntensity(val);
+    };
+
+    // Scene Selection Interaction
+    window.selectScene = function(name, desc, icon) {
+      if (liveCaption) {
+        liveCaption.innerText = `Now showing: ${name} · +48h · Manual Override`;
+      }
+      
+      // Update chips highlight
+      const chips = document.querySelectorAll('.scene-chip');
+      chips.forEach(chip => {
+        chip.classList.remove('bg-surface-container-highest', 'shadow-lg');
+        chip.classList.add('bg-surface-container');
+        const activeBar = chip.querySelector('.bg-primary');
+        if (activeBar && activeBar.tagName === 'DIV' && activeBar.classList.contains('absolute')) {
+          activeBar.remove();
+        }
+      });
+    };
+
+    // Toggle Particle Engine
+    const pToggle = document.getElementById('toggle-particles');
+    let particlesOn = true;
+    if (pToggle) {
+      pToggle.addEventListener('click', () => {
+        particlesOn = !particlesOn;
+        if (particlesOn) {
+          pToggle.className = 'w-12 h-6 rounded-full bg-primary p-0.5 transition-colors relative flex items-center justify-end';
+        } else {
+          pToggle.className = 'w-12 h-6 rounded-full bg-surface-container-highest p-0.5 transition-colors relative flex items-center justify-start';
+        }
+      });
+    }
+
+    // Toggle Monochrome Mode
+    const mToggle = document.getElementById('toggle-monochrome');
+    let monoOn = false;
+    if (mToggle) {
+      mToggle.addEventListener('click', () => {
+        monoOn = !monoOn;
+        if (monoOn) {
+          mToggle.className = 'w-12 h-6 rounded-full bg-primary p-0.5 transition-colors relative flex items-center justify-end';
+        } else {
+          mToggle.className = 'w-12 h-6 rounded-full bg-surface-container-highest p-0.5 transition-colors relative flex items-center justify-start';
+        }
+      });
+    }
+
+    // Toggle Forecast Auto
+    const fToggle = document.getElementById('toggle-forecast');
+    const fDot = document.getElementById('forecast-dot');
+    const fLabel = document.getElementById('forecast-status-label');
+    let autoMode = false;
+    if (fToggle) {
+      fToggle.addEventListener('click', () => {
+        autoMode = !autoMode;
+        if (autoMode) {
+          fDot.className = 'w-1.5 h-1.5 rounded-full bg-primary animate-pulse';
+          fLabel.innerText = 'Auto (Sync Forecast)';
+          fLabel.className = 'font-label-caps text-label-caps text-primary uppercase font-bold';
+        } else {
+          fDot.className = 'w-1.5 h-1.5 rounded-full bg-outline';
+          fLabel.innerText = 'Manual Override';
+          fLabel.className = 'font-label-caps text-label-caps text-on-surface-variant uppercase';
+        }
+      });
+    }
+  </script>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)]" data-active-classes="text-primary font-semibold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="overview" href="#"><span class="material-symbols-outlined text-[22px]">view_quilt</span><span class="font-label-caps text-label-caps">Overview</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="map-and-drilldown" href="#"><span class="material-symbols-outlined text-[22px]">explore</span><span class="font-label-caps text-label-caps">Map</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="blend-ai" href="#"><span class="material-symbols-outlined text-[22px]">neurology</span><span class="font-label-caps text-label-caps">Blend AI</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="extreme" href="#"><span class="material-symbols-outlined text-[22px]">warning</span><span class="font-label-caps text-label-caps">Extreme</span></a><a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="more-analytics" href="#"><span class="material-symbols-outlined text-[22px]">apps</span><span class="font-label-caps text-label-caps">More</span></a></div><div class="h-5 flex items-center justify-center px-gutter bg-surface-container-lowest/90"><span class="font-label-caps text-label-caps text-outline tracking-wider text-[9px] uppercase truncate">DPDP Act 2023 Compliant · Anonymized Telemetry · NCMRWF/IMD/MoES Grid</span></div></nav></body></html>

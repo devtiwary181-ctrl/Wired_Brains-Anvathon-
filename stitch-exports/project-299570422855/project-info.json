@@ -1,0 +1,18 @@
+{
+  "projectId": "2995704228559657523",
+  "projectName": "projects/2995704228559657523",
+  "displayName": "Untitled",
+  "createTime": "2026-10-30T11:55:09.446477Z",
+  "updateTime": "2026-10-30T11:57:57.476682Z",
+  "designSystem": {},
+  "screenInstances": [
+    {
+      "id": "94f6b54e-e167-4617-a869-d943a2209448",
+      "sourceScreen": "projects/2995704228559657523/screens/2137967630348065224",
+      "width": 780,
+      "height": 1768,
+      "label": "disasterready_single_file_app_prompt.md",
+      "type": "SCREEN_INSTANCE"
+    }
+  ]
+}

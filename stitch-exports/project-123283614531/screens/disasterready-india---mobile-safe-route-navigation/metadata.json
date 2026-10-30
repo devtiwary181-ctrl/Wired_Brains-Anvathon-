@@ -1,0 +1,17 @@
+{
+  "screenId": "1d3f72a06bda4f69b4bd02613035adac",
+  "screenName": "projects/12328361453191949681/screens/1d3f72a06bda4f69b4bd02613035adac",
+  "displayName": "",
+  "label": "DisasterReady India - Mobile Safe Route Navigation",
+  "title": "DisasterReady India - Mobile Safe Route Navigation",
+  "prompt": "Mobile Safe Evacuation Routing & Turn-by-Turn (P8 /safety/4): Interactive mobile route evaluation from Gandhi Chowk (N1) to Sonpur Shelter (N10) on foot. Shows Route Comparison: Recommended Route B (24 min, 2.1 km, Low Hazard) vs Route A (Shortest: 18 min, 1.4 km, High Hazard - Flooded underpass) and Route C (Alternative: 28 min, 2.4 km). Plain language explanation: \"Recommended: Route B. It takes 6 minutes longer but avoids the flooded underpass and stays on higher ground.\" Factor breakdown bars (Travel time, Hazard exposure, Road status). Turn-by-turn landmark directions on a vertical route line: \"1. Start at Gandhi Chowk near petrol pump\", \"2. Turn left at Hanuman Temple\", \"3. Ridge traverse along Hill Road\", \"4. Arrive Sonpur Relief Shelter\". Action buttons: \"Start Route B\", \"Share Route & Location\", \"Listen\", \"Report Road Hazard\".",
+  "projectId": "12328361453191949681",
+  "width": "780",
+  "height": "4416",
+  "htmlResource": "projects/12328361453191949681/screens/1d3f72a06bda4f69b4bd02613035adac/fileEntries/html",
+  "screenshotResource": "projects/12328361453191949681/screens/1d3f72a06bda4f69b4bd02613035adac/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 390,
+  "instanceHeight": 2192
+}

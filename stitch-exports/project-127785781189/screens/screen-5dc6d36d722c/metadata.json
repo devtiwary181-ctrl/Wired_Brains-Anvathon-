@@ -1,0 +1,17 @@
+{
+  "screenId": "5dc6d36d722c40a892568f1396483687",
+  "screenName": "projects/12778578118982908076/screens/5dc6d36d722c40a892568f1396483687",
+  "displayName": "",
+  "label": "",
+  "title": "Extreme & Verification Lab",
+  "prompt": "PAGE 6 & PAGE 7: Extreme Weather Early Warning & Model Verification Lab.\n\n1. Extreme Weather Alert Tabs:\n   - Active Tab Switcher: [Heavy Rainfall] | [Heatwave / Tmax] | [High Wind & Gusts]\n   - Cyclone Track Disagreement & Preservation Callout:\n     * Callout Banner: 'CRITICAL EVENT PRESERVATION: Cyclone track bifurcation detected in Arabian Sea. NCUM-G projects landfall at Saurashtra (Gujarat), GraphCast projects track northward toward Sindh. The Weathermix adaptive fusion engine preserves the extreme probability peak at 72% rather than dampening the peak through naive ensemble averaging.'\n   - Exceedance Probability Map & Affected Districts:\n     * P(Rain >= 115.5 mm/24h Very Heavy Rain): Warm severity ramp (sand #E9DFCB -> amber #D9A441 -> copper #C4713B -> brick #A63D2F).\n     * High-risk districts: Raigad (89%), Ratnagiri (84%), Thane (76%), Mumbai Suburban (72%), Valsad (68%).\n   - Peak Risk Timeline (Next 72 hours hourly risk distribution).\n\n2. Verification Lab Scorecards (Evaluating AI vs Physics vs Blend):\n   - Truth Source Toggle: [IMD Gridded 0.25\u00b0] | [ERA5 Reanalysis] | [AWS Surface Network]\n   - Circularity Caution Note: 'Notice: ERA5 verification against AIFS/GraphCast contains reanalysis training overlap; IMD station AWS provides independent ground truth.'\n   - Skill Metric Comparison Table:\n     * Metrics: RMSE (lower is better), MAE, ACC (Anomaly Correlation Coeff), CRPS (Continuous Ranked Probability Score), Brier Score, CSI (Critical Success Index).\n     * Values for NCUM-G, BharatFS, GraphCast, AIFS, and Weathermix Blend.\n     * Highlight Badge: '\u2605 Hybrid Blend cuts RMSE by 14.2% and increases CSI for extreme rain by 18.6% over best single model.'\n   - Chronological Dataset Split: Train (2017-2021) | Validation (2022) | Holdout Test (2023-2025).",
+  "projectId": "12778578118982908076",
+  "width": "780",
+  "height": "5472",
+  "htmlResource": "projects/12778578118982908076/screens/5dc6d36d722c40a892568f1396483687/fileEntries/html",
+  "screenshotResource": "projects/12778578118982908076/screens/5dc6d36d722c40a892568f1396483687/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 390,
+  "instanceHeight": 2688
+}

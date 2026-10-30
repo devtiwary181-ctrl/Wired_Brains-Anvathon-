@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#131314;overflow-x:hidden;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.no-scrollbar::-webkit-scrollbar{display:none;}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
+    :root {
+      --accent: #fac15b;
+      --accent-glow: rgba(250, 193, 91, 0.35);
+      --accent-soft: rgba(250, 193, 91, 0.15);
+    }
+    @keyframes heatShimmer {
+      0% { transform: translateY(0) scaleY(1); opacity: 0.3; }
+      50% { transform: translateY(-14px) scaleY(1.08) skewX(2deg); opacity: 0.65; }
+      100% { transform: translateY(-28px) scaleY(1); opacity: 0.2; }
+    }
+    @keyframes sunRaySpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+    .frosted-glass-card {
+      background: rgba(18, 18, 19, 0.76) !important;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .globe-card-sheen {
+      background: radial-gradient(circle at 50% 25%, rgba(250, 193, 91, 0.08), transparent 70%),
+                  rgba(14, 14, 15, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(250, 193, 91, 0.22);
+    }
+  </style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-low": "#1c1b1c", "primary-container": "#d8c9a8", "surface-variant": "#353436", "on-error-container": "#ffdad6", "primary": "#f5e5c3", "on-secondary-fixed": "#201b0f", "on-background": "#e5e2e3", "tertiary": "#ffe3b8", "surface-container": "#201f20", "tertiary-fixed": "#ffdeaa", "surface-dim": "#131314", "surface-tint": "#d4c5a4", "inverse-on-surface": "#313031", "inverse-surface": "#e5e2e3", "secondary": "#cfc6b2", "on-surface-variant": "#cdc6b9", "on-tertiary": "#422c00", "secondary-fixed-dim": "#cfc6b2", "surface-container-highest": "#353436", "secondary-fixed": "#ece1cd", "primary-fixed": "#f1e1bf", "on-secondary-fixed-variant": "#4c4638", "on-tertiary-fixed": "#271900", "surface-container-high": "#2a2a2b", "outline-variant": "#4b463d", "surface": "#131314", "surface-bright": "#3a393a", "outline": "#969084", "on-primary-container": "#5f543a", "on-error": "#690005", "surface-container-lowest": "#0e0e0f", "tertiary-fixed-dim": "#f5bd58", "error-container": "#93000a", "on-tertiary-container": "#714f00", "on-primary": "#383018", "inverse-primary": "#685d43", "on-primary-fixed-variant": "#50462d", "error": "#ffb4ab", "background": "#131314", "on-tertiary-fixed-variant": "#5f4100", "secondary-container": "#4f493a", "tertiary-container": "#fac15b", "on-secondary-container": "#c1b8a5", "primary-fixed-dim": "#d4c5a4", "on-primary-fixed": "#221b06", "on-surface": "#e5e2e3", "on-secondary": "#353022" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-sm": "0.5rem", "space-xl": "2.5rem", "gutter": "1rem", "margin": "1rem", "space-xs": "0.25rem", "space-md": "1rem", "margin-tablet": "1.5rem", "space-lg": "1.5rem", "margin-desktop": "2rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "display-hero": ["Syne"], "headline-lg": ["Syne"], "label-caps": ["JetBrains Mono"], "display-hero-mobile": ["Syne"], "metric-stat-mobile": ["Syne"], "body-lg": ["IBM Plex Sans"], "body-sm": ["IBM Plex Sans"], "body-md": ["IBM Plex Sans"], "headline-md": ["IBM Plex Sans"], "telemetry-data": ["JetBrains Mono"], "headline-sm": ["IBM Plex Sans"], "metric-stat": ["Syne"], "headline-lg-mobile": ["Syne"] }, "fontSize": { "display-hero": ["3.5rem", { "lineHeight": "4rem", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-lg": ["2rem", { "lineHeight": "2.5rem", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-caps": ["0.6875rem", { "lineHeight": "1rem", "letterSpacing": "0.08em", "fontWeight": "600" }], "display-hero-mobile": ["2.25rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "metric-stat-mobile": ["1.75rem", { "lineHeight": "2rem", "letterSpacing": "-0.01em", "fontWeight": "700" }], "body-lg": ["1rem", { "lineHeight": "1.5rem", "letterSpacing": "0em", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.125rem", "letterSpacing": "0.01em", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.375rem", "letterSpacing": "0.005em", "fontWeight": "400" }], "headline-md": ["1.25rem", { "lineHeight": "1.75rem", "letterSpacing": "-0.01em", "fontWeight": "600" }], "telemetry-data": ["0.8125rem", { "lineHeight": "1.25rem", "letterSpacing": "0.02em", "fontWeight": "500" }], "headline-sm": ["1.125rem", { "lineHeight": "1.5rem", "letterSpacing": "0em", "fontWeight": "500" }], "metric-stat": ["2.5rem", { "lineHeight": "2.75rem", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg-mobile": ["1.5rem", { "lineHeight": "2rem", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } };</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- App Header -->
+<header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.5)] border-b border-outline-variant/30"><div class="h-36 flex flex-col justify-between px-margin py-space-xs"><div class="flex items-center justify-between h-9"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-primary font-bold tracking-tight uppercase">Weathermix</span><span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-surface-container-high text-secondary border border-outline/20">AI–NWP Fusion · SIH26081</span></div><div class="flex items-center gap-space-xs"><span class="font-telemetry-data text-telemetry-data text-secondary hidden sm:inline">65°E–100°E</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center gap-space-xs h-11"><div class="flex-1 flex items-center bg-surface-container-low/90 rounded-lg px-space-sm py-1.5 gap-space-xs border border-outline/10 focus-within:border-primary/50 transition-colors"><span class="material-symbols-outlined text-outline text-[18px]">search</span><input class="bg-transparent text-on-surface font-body-sm text-body-sm w-full outline-none placeholder:text-outline" placeholder="Search lat/lon, station or grid..." type="text"/><button class="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-caps text-label-caps shrink-0 hover:bg-surface-container-high transition-colors" id="btn-gps-trigger"><span class="material-symbols-outlined text-[14px]">my_location</span>GPS</button></div><button class="w-11 h-11 flex items-center justify-center relative rounded-lg bg-surface-container-low text-secondary hover:text-on-surface transition-colors border border-outline/10"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-tertiary-container ring-2 ring-surface animate-ping"></span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-tertiary-container ring-2 ring-surface"></span></button><button class="w-11 h-11 flex items-center justify-center rounded-lg bg-surface-container-low text-secondary hover:text-on-surface transition-colors border border-outline/10" id="ambient-toggle" title="Toggle Atmospheric FX"><span class="material-symbols-outlined text-[20px] text-primary" id="ambient-toggle-icon">filter_drama</span></button></div><div class="flex items-center justify-between h-8 px-space-xs bg-surface-container-lowest/80 rounded border border-outline/10"><div class="flex items-center gap-1.5 overflow-hidden"><span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shrink-0" id="sync-pulse"></span><span class="font-telemetry-data text-telemetry-data text-on-surface truncate" id="top-sync-telemetry">Blend: Adaptive neural · 2m temp · +48h · Run 24 Sep 00Z · Valid 26 Sep 00Z · °C</span></div><span class="font-label-caps text-label-caps text-secondary shrink-0 pl-1 font-bold">SYNC OK</span></div></div></header>
+<!-- Main Stream -->
+<main class="flex flex-col relative w-full pt-36 pb-32 bg-surface min-h-screen"><div class="flex flex-col w-full relative" id="weathermix-overview-root">
+<!-- ========================================================================= -->
+<!-- FULL-STAGE REAL-TIME ATMOSPHERIC ANIMATION CANVAS (Spans entire screen)   -->
+<!-- ========================================================================= -->
+<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none transition-opacity duration-700" id="ambient-weather-layer">
+<!-- Base Dynamic Sky Backdrop Gradient -->
+<div class="absolute inset-0 transition-colors duration-1000 ease-in-out" id="sky-gradient-base" style="background: radial-gradient(130% 90% at 50% -10%, #1e2235 0%, #13141f 45%, #0e0e11 100%);"></div>
+<!-- Thunderstorm Lightning Branch (Organic branching vector) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-10 transition-opacity duration-75" id="svg-lightning-layer" preserveaspectratio="none" viewbox="0 0 500 1000">
+<defs>
+<filter height="180%" id="glowLightning" width="180%" x="-40%" y="-40%"><fegaussianblur stddeviation="8"></fegaussianblur></filter>
+</defs>
+<g id="lightning-bolt-group" style="opacity: 0;">
+<path d="M 370,10 L 342,120 L 368,135 L 320,230 L 344,242 L 298,340 L 314,352 L 270,460" fill="none" opacity="0.95" stroke="#fef08a" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></path>
+<path d="M 342,120 L 305,170 L 318,190" fill="none" opacity="0.75" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M 320,230 L 350,265 L 342,285" fill="none" opacity="0.65" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<circle cx="330" cy="200" fill="#ffffff" filter="url(#glowLightning)" opacity="0.5" r="140"></circle>
+</g>
+</svg>
+<!-- Heatwave Shimmer Layer -->
+<div class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-1000 overflow-hidden" id="heatwave-haze-layer">
+<div class="absolute inset-0 bg-gradient-to-t from-amber-600/20 via-orange-500/10 to-transparent"></div>
+<div class="absolute -bottom-20 left-0 right-0 h-96 opacity-60" style="background: repeating-linear-gradient(0deg, rgba(245,158,11,0.14) 0px, transparent 18px, rgba(251,191,36,0.2) 36px); filter: blur(6px); animation: heatShimmer 3.2s ease-in-out infinite;"></div>
+</div>
+<!-- Coldwave Frost Vignette -->
+<div class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-1000" id="coldwave-frost-layer">
+<div class="absolute inset-0 shadow-[inset_0_0_120px_rgba(186,230,253,0.35)]"></div>
+</div>
+<!-- Lightning Full Screen Flash Overlay -->
+<div class="absolute inset-0 bg-white/40 opacity-0 pointer-events-none transition-opacity duration-100 z-10" id="lightning-flash-overlay"></div>
+<!-- Full-Bleed 60FPS Weather Particle Simulation Canvas -->
+<canvas class="absolute inset-0 w-full h-full pointer-events-none z-20" id="weather-particle-canvas"></canvas>
+<!-- Lower stage soft falloff -->
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#131314]/40 to-[#131314]/90 pointer-events-none z-20"></div>
+</div>
+<!-- ========================================================================= -->
+<!-- FOREGROUND CONTENT STREAM                                                 -->
+<!-- ========================================================================= -->
+<div class="relative z-30 flex flex-col gap-space-md px-margin py-space-sm w-full max-w-xl mx-auto">
+<!-- Atmospheric Sky Controller Bar & Live Synoptic Status -->
+<div class="frosted-glass-card rounded-xl p-space-sm shadow-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="w-2.5 h-2.5 rounded-full shrink-0 transition-colors duration-500 shadow-[0_0_12px_var(--accent)]" id="synoptic-status-dot" style="background-color: var(--accent);"></span>
+<span class="font-telemetry-data text-telemetry-data text-primary truncate font-semibold" id="synoptic-status-caption">Now showing: Thunderstorm · +48h · New Delhi</span>
+</div>
+<div class="flex items-center gap-1.5 shrink-0">
+<button class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-high text-secondary hover:text-primary transition-colors text-[10px] font-label-caps" id="intensity-cycle-btn" title="Cycle FX Intensity">
+<span>INTENSITY:</span>
+<span class="text-primary font-bold" id="intensity-label">HIGH</span>
+</button>
+<button class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps hover:text-primary transition-colors" id="monochrome-toggle" title="Toggle Strict Sand Tone">
+<span id="mono-label">MONO [Ø]</span>
+</button>
+</div>
+</div>
+<!-- Scrubber Playback Controls -->
+<div class="flex flex-col gap-1 pt-1 border-t border-outline-variant/30">
+<div class="flex items-center justify-between text-[11px] font-label-caps">
+<div class="flex items-center gap-1.5">
+<button class="flex items-center justify-center w-6 h-6 rounded bg-primary text-on-primary font-bold shadow-sm hover:opacity-90 active:scale-95 transition-all" id="scrubber-play-btn">
+<span class="material-symbols-outlined text-[15px]" id="play-btn-icon">play_arrow</span>
+</button>
+<span class="text-secondary font-semibold">TIMELINE PLAYBACK:</span>
+<span class="text-primary font-telemetry-data font-bold" id="lead-time-display">+48h LEAD</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-outline text-[10px]">-48h</span>
+<span class="text-primary text-[10px] font-semibold">ANALYSIS → +240h</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<input class="w-full accent-primary h-1.5 bg-surface-container-high rounded-lg cursor-pointer outline-none" id="lead-time-slider" max="240" min="-48" step="6" type="range" value="48"/>
+<span class="font-telemetry-data text-[11px] text-tertiary font-bold shrink-0 min-w-[42px] text-right" id="lead-step-badge">+48h</span>
+</div>
+</div>
+<!-- 13-Scene Sky Strip Switcher -->
+<div class="flex items-center gap-1.5 overflow-x-auto py-1 no-scrollbar text-nowrap" id="scene-chips-container">
+<button class="scene-chip active px-2.5 py-1 rounded bg-primary text-on-primary font-label-caps text-label-caps shrink-0 shadow-sm flex items-center gap-1 transition-all" data-scene="thunderstorm">
+<span class="material-symbols-outlined text-[14px]">thunderstorm</span>Thunderstorm
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="heavy-rain">
+<span class="material-symbols-outlined text-[14px]">rainy_heavy</span>Cloudburst
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="rain">
+<span class="material-symbols-outlined text-[14px]">rainy</span>Rain
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="cyclone">
+<span class="material-symbols-outlined text-[14px]">cyclone</span>Cyclone
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="heatwave">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>Heatwave
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="dust">
+<span class="material-symbols-outlined text-[14px]">landslide</span>Dust Storm
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="fog">
+<span class="material-symbols-outlined text-[14px]">foggy</span>Fog/Haze
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="wind">
+<span class="material-symbols-outlined text-[14px]">air</span>High Wind
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="cloudy">
+<span class="material-symbols-outlined text-[14px]">cloud</span>Cloudy
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="sunny">
+<span class="material-symbols-outlined text-[14px]">wb_sunny</span>Clear/Sunny
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="coldwave">
+<span class="material-symbols-outlined text-[14px]">ac_unit</span>Coldwave
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="snow">
+<span class="material-symbols-outlined text-[14px]">weather_snowy</span>Snow
+</button>
+<button class="scene-chip px-2 py-1 rounded bg-surface-container-high text-secondary hover:text-on-surface font-label-caps text-label-caps shrink-0 flex items-center gap-1 transition-all" data-scene="night">
+<span class="material-symbols-outlined text-[14px]">dark_mode</span>Night Clear
+</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- PROMINENT INTERACTIVE 3D METEOROLOGICAL GLOBE VIEWPORT                    -->
+<!-- ========================================================================= -->
+<div class="relative w-full rounded-2xl globe-card-sheen p-3 shadow-2xl flex flex-col gap-2 overflow-hidden border border-primary/30" id="globe-interactive-container">
+<!-- Top Globe HUD Bar -->
+<div class="flex items-center justify-between z-10">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">public</span>
+<span class="font-headline-sm text-[13px] text-primary font-bold tracking-tight uppercase">SYNOPTIC 3D GLOBE · SUB-CONTINENT FOCUS</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-telemetry-data text-primary text-[11px] font-semibold">65°E–100°E · LIVE ORBIT</span>
+</div>
+</div>
+<!-- 3D Canvas Container -->
+<div class="relative w-full h-72 sm:h-80 rounded-xl overflow-hidden bg-[#0c0d10] cursor-grab active:cursor-grabbing border border-outline-variant/30 flex items-center justify-center select-none" id="globe-viewport">
+<canvas class="w-full h-full block" id="interactive-globe-canvas"></canvas>
+<!-- Interactive Floating Telemetry Reticle Badge -->
+<div class="absolute top-4 left-4 z-20 pointer-events-none flex flex-col gap-0.5 bg-surface-container-lowest/90 border border-primary/40 px-2.5 py-1.5 rounded-lg shadow-lg backdrop-blur-md">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary" id="reticle-status-dot"></span>
+<span class="font-telemetry-data text-[11px] text-primary font-bold" id="globe-reticle-station">NEW DELHI · 28.58°N, 77.20°E</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-[18px] text-on-surface font-bold" id="globe-reticle-temp">34°C</span>
+<span class="font-body-sm text-[11px] text-tertiary font-semibold" id="globe-reticle-cond">Thunderstorm</span>
+<span class="font-label-caps text-[10px] text-secondary font-mono">CONF: 91%</span>
+</div>
+</div>
+<!-- Layer Switcher Floating Pill Strip -->
+<div class="absolute bottom-3 left-3 z-20 flex items-center gap-1 bg-surface-container-lowest/85 backdrop-blur-md border border-outline-variant/40 p-1 rounded-lg">
+<button class="globe-layer-btn active px-2 py-0.5 rounded text-[10px] font-label-caps font-bold bg-primary text-on-primary transition-all" data-layer="PRECIP">PRECIP</button>
+<button class="globe-layer-btn px-2 py-0.5 rounded text-[10px] font-label-caps text-secondary hover:text-on-surface bg-surface-container transition-all" data-layer="TEMP">TEMP</button>
+<button class="globe-layer-btn px-2 py-0.5 rounded text-[10px] font-label-caps text-secondary hover:text-on-surface bg-surface-container transition-all" data-layer="WIND">WIND</button>
+<button class="globe-layer-btn px-2 py-0.5 rounded text-[10px] font-label-caps text-secondary hover:text-on-surface bg-surface-container transition-all" data-layer="MSLP">MSLP</button>
+</div>
+<!-- Navigation & Control floating dock -->
+<div class="absolute bottom-3 right-3 z-20 flex items-center gap-1 bg-surface-container-lowest/85 backdrop-blur-md border border-outline-variant/40 p-1 rounded-lg">
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container text-secondary hover:text-primary transition-colors" id="globe-btn-zoomin" title="Zoom In"><span class="material-symbols-outlined text-[16px]">add</span></button>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container text-secondary hover:text-primary transition-colors" id="globe-btn-zoomout" title="Zoom Out"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<button class="w-7 h-7 flex items-center justify-center rounded bg-surface-container text-secondary hover:text-primary transition-colors" id="globe-btn-reset" title="Recenter India 77°E"><span class="material-symbols-outlined text-[16px]">recenter</span></button>
+</div>
+<!-- Drag prompt overlay -->
+<div class="absolute top-3 right-3 pointer-events-none px-2 py-0.5 rounded bg-surface-container-high/80 border border-outline/20 text-[9px] font-label-caps text-secondary">
+DRAG TO ROTATE 3D ORBIT
+</div>
+</div>
+<div class="flex items-center justify-between px-1 text-[11px] font-telemetry-data text-secondary">
+<span>SPHERICAL ORTHOGRAPHIC PROJECTION · EPSG:4326</span>
+<span class="text-primary font-semibold">ARABIAN SEA CYCLONE &amp; DELHI SQUALL VISUALIZED</span>
+</div>
+</div>
+<!-- Hero Weather Metric Card -->
+<div class="relative overflow-hidden rounded-xl frosted-glass-card shadow-2xl p-space-md flex flex-col gap-space-sm border border-outline/20" id="hero-weather-card">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-tertiary via-primary to-primary-container transition-all duration-700" id="accent-strip" style="background: linear-gradient(90deg, var(--accent), #f5e5c3, #d8c9a8);"></div>
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5 text-on-surface font-headline-sm text-headline-sm font-semibold tracking-tight">
+<span id="hero-station-title">New Delhi (Safdarjung)</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary" id="station-badge">verified</span>
+</div>
+<p class="font-telemetry-data text-telemetry-data text-outline" id="hero-coords-text">lat 28.58°N, 77.20°E · Elev 216m · Station 42182</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-caps text-label-caps" id="validity-badge">VALID 26 SEP 00Z</span>
+<span class="font-body-sm text-body-sm text-secondary" id="hero-lead-badge">+48h Lead</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between pt-1">
+<div class="flex items-baseline gap-2">
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary tracking-tighter transition-all duration-300" id="hero-temp-numeral">34°C</span>
+<span class="font-body-md text-body-md text-secondary" id="hero-feels-text">Feels 36°C</span>
+</div>
+<div class="text-right flex flex-col items-end">
+<span class="font-headline-sm text-headline-sm font-medium transition-colors duration-300" id="hero-condition-text" style="color: var(--accent);">Thunderstorm</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface-variant" id="hero-subcondition-text">Dewpoint 25.4°C · CAPE 2850 J/kg</span>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
+<div class="bg-surface-container-low/90 rounded p-2 flex flex-col border border-outline-variant/20">
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">air</span>WIND SPEED
+</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface font-semibold pt-0.5" id="hero-wind-val">18 km/h WNW</span>
+<span class="font-label-caps text-label-caps text-secondary" id="hero-gusts-val">Gusts to 42 km/h</span>
+</div>
+<div class="bg-surface-container-low/90 rounded p-2 flex flex-col border border-outline-variant/20">
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">water_drop</span>RAIN PROB
+</span>
+<span class="font-telemetry-data text-telemetry-data text-primary font-semibold pt-0.5" id="hero-rain-val">72%</span>
+<span class="font-label-caps text-label-caps text-tertiary" id="hero-precip-accum">62 mm / 24h</span>
+</div>
+<div class="bg-surface-container-low/90 rounded p-2 flex flex-col border border-outline-variant/20">
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">humidity_high</span>HUMIDITY
+</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface font-semibold pt-0.5" id="hero-hum-val">64%</span>
+<span class="font-label-caps text-label-caps text-secondary" id="hero-vpd-val">VPD 1.18 kPa</span>
+</div>
+<div class="bg-surface-container-low/90 rounded p-2 flex flex-col border border-outline-variant/20">
+<span class="font-label-caps text-label-caps text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">compress</span>SURFACE MSLP
+</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface font-semibold pt-0.5" id="hero-mslp-val">1003.8 hPa</span>
+<span class="font-label-caps text-label-caps text-outline">Δ -2.1 hPa/3h</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-1 px-2.5 py-1.5 rounded-lg bg-surface-container-lowest/90 border border-outline-variant/20">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-2 h-2 rounded-full bg-primary shrink-0"></span>
+<span class="font-label-caps text-label-caps text-primary font-semibold truncate" id="hero-blend-confidence">BLEND CONFIDENCE: HIGH · 91%</span>
+</div>
+<span class="font-telemetry-data text-telemetry-data text-secondary truncate pl-2" id="hero-model-consensus">GraphCast + NCUM Consensus</span>
+</div>
+</div>
+<!-- System & Run Diagnostics Ribbon -->
+<div class="frosted-glass-card rounded-xl p-space-sm flex flex-col gap-space-xs shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">memory</span>
+<span class="font-label-caps text-label-caps text-on-surface font-semibold tracking-wider">SYSTEM DIAGNOSTICS</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-telemetry-data text-telemetry-data text-secondary">run_20260924_00</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-caps text-label-caps">6m ago</span>
+</div>
+</div>
+<!-- Models Availability Grid -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">NCUM-G</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>0.25°</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">NEPS-G</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>11-M</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">BharatFS</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>4km AI</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">GraphCast</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>0.25°</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">AIFS (ECMWF)</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Online</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-secondary">GenCast</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-outline"><span class="w-1.5 h-1.5 rounded-full bg-outline"></span>Standby</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">GFS/NCEP</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Sync</span>
+</div>
+<div class="bg-surface-container/90 px-2 py-1 rounded flex items-center justify-between border border-outline-variant/10">
+<span class="font-telemetry-data text-telemetry-data text-on-surface">INSAT-3DR</span>
+<span class="flex items-center gap-1 font-label-caps text-label-caps text-primary"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>Live</span>
+</div>
+</div>
+</div>
+<!-- Active Synoptic Regimes in India -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary font-semibold">ACTIVE SYNOPTIC REGIMES · SUB-CONTINENT</span>
+<span class="font-label-caps text-label-caps text-outline">IMD/NCMRWF BULLETINS</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+<div class="frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-caps text-label-caps text-tertiary-container font-semibold">MONSOON TROUGH</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary-container/20 text-tertiary-container font-label-caps text-[10px]">ACTIVE</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface pt-1">South of normal position; heavy convective bands across Gangetic Plains &amp; Central MP.</p>
+<span class="font-telemetry-data text-telemetry-data text-outline pt-1 text-[11px]">Axis: Ganganagar → Rohtak → Daltonganj</span>
+</div>
+<div class="frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-caps text-label-caps text-tertiary font-semibold">CYCLONIC CIRCULATION</span>
+<span class="px-1.5 py-0.2 rounded bg-tertiary/20 text-tertiary font-label-caps text-[10px]">850 hPa</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface pt-1">Well-marked low over West-central Bay of Bengal off Andhra/Odisha coast.</p>
+<span class="font-telemetry-data text-telemetry-data text-outline pt-1 text-[11px]">Shear vortex tilting SW-ward with height</span>
+</div>
+<div class="frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between gap-1">
+<span class="font-label-caps text-label-caps text-primary font-semibold">WESTERN DISTURBANCE</span>
+<span class="px-1.5 py-0.2 rounded bg-primary/20 text-primary font-label-caps text-[10px]">TROUGH</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface pt-1">Upper tropospheric westerlies along 72°E north of 30°N inducing localized squalls in J&amp;K.</p>
+<span class="font-telemetry-data text-telemetry-data text-outline pt-1 text-[11px]">Interaction with monsoon easterlies in NW India</span>
+</div>
+</div>
+</div>
+<!-- Priority Extreme Weather Signals (+48H) -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container">warning</span>
+<span class="font-label-caps text-label-caps text-on-surface font-semibold">PRIORITY EXTREME SIGNALS (+48H)</span>
+</div>
+<span class="font-label-caps text-label-caps text-tertiary font-bold">2 ACTIVE</span>
+</div>
+<!-- Alert 1 -->
+<div class="frosted-glass-card rounded-xl p-space-sm flex flex-col gap-1 shadow-md">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-caps text-label-caps font-bold">
+ARABIAN SEA CYCLONE TRACK DISCREPANCY
+</span>
+<span class="font-telemetry-data text-telemetry-data text-primary">72% AI PROB</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface pt-1 leading-snug">
+NCUM-G shows direct landfall along Saurashtra (Gujarat); GraphCast shifts track northwest toward Sindh. Weathermix adaptive blend preserves the extreme signal at <span class="font-semibold text-primary">72% probability</span> rather than averaging it away.
+</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-caps text-label-caps text-outline">Max Gusts: 118 km/h · Surge: 1.8m</span>
+<button class="font-label-caps text-label-caps text-primary hover:underline flex items-center gap-0.5 cursor-pointer">
+INSPECT SPREAD <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Alert 2 -->
+<div class="frosted-glass-card rounded-xl p-space-sm flex flex-col gap-1 shadow-md">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-tertiary/20 text-tertiary font-label-caps text-label-caps font-bold">
+MUMBAI METROPOLITAN REGION (MMR)
+</span>
+<span class="font-telemetry-data text-telemetry-data text-primary">64% HIGH RISK</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface pt-1 leading-snug">
+Cloudburst and localized hyper-intense precipitation flagged for Santacruz / Thane corridor (+36h to +48h). Peak hourly rate estimated at <span class="font-semibold text-primary">45–70 mm/hr</span> under offshore trough dynamics.
+</p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-caps text-label-caps text-outline">Convective Available Energy: 3200 J/kg</span>
+<button class="font-label-caps text-label-caps text-primary hover:underline flex items-center gap-0.5 cursor-pointer">
+VIEW SOUNDING <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Saved Locations Quick-Strip -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary font-semibold">SAVED TELEMETRY STATIONS</span>
+<button class="font-label-caps text-label-caps text-primary hover:underline flex items-center gap-0.5 cursor-pointer">
+<span class="material-symbols-outlined text-[12px]">add</span>ADD STATION
+</button>
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div class="station-card frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm cursor-pointer hover:border-primary/50 transition-all" data-station="mumbai">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Mumbai</span>
+<span class="font-telemetry-data text-telemetry-data text-primary font-bold">29°C</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-secondary">Monsoon Surge</span>
+<span class="font-telemetry-data text-telemetry-data text-primary">Rain 82mm</span>
+</div>
+</div>
+<div class="station-card frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm cursor-pointer hover:border-primary/50 transition-all" data-station="bengaluru">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Bengaluru</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface font-bold">22°C</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-secondary">Breezy / Mild</span>
+<span class="font-telemetry-data text-telemetry-data text-outline">Rain 2mm</span>
+</div>
+</div>
+<div class="station-card frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm cursor-pointer hover:border-primary/50 transition-all" data-station="shimla">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Shimla</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface font-bold">-02°C</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-secondary">Mountain Snow</span>
+<span class="font-telemetry-data text-telemetry-data text-outline">Vis &lt;200m</span>
+</div>
+</div>
+<div class="station-card frosted-glass-card rounded-lg p-2.5 flex flex-col justify-between shadow-sm cursor-pointer hover:border-primary/50 transition-all" data-station="kochi">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Kochi</span>
+<span class="font-telemetry-data text-telemetry-data text-on-surface font-bold">28°C</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-secondary">Coastal Westerlies</span>
+<span class="font-telemetry-data text-telemetry-data text-outline">Gusts 42k</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Traceability Note -->
+<div class="rounded-lg frosted-glass-card p-2.5 flex flex-col gap-1 border border-outline-variant/30">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary">NWP/AI ENSEMBLE WEIGHT ALLOCATION</span>
+<span class="font-label-caps text-label-caps text-primary">AUTONOMOUS BAYESIAN</span>
+</div>
+<p class="font-telemetry-data text-telemetry-data text-outline">
+BharatFS (24%) · NCUM-G (21%) · AIFS (20%) · NEPS-G (18%) · GraphCast (17%). DPDP Act 2023 Compliant.
+</p>
+</div>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- COMPREHENSIVE 3D METEOROLOGICAL GLOBE + ATMOSPHERIC ENGINE               -->
+<!-- ========================================================================= -->
+<script>
+(function() {
+  // Elements
+  const root = document.getElementById('weathermix-overview-root');
+  const ambientLayer = document.getElementById('ambient-weather-layer');
+  const particleCanvas = document.getElementById('weather-particle-canvas');
+  const pCtx = particleCanvas.getContext('2d');
+  
+  const globeCanvas = document.getElementById('interactive-globe-canvas');
+  const gCtx = globeCanvas.getContext('2d');
+
+  const skyBase = document.getElementById('sky-gradient-base');
+  const lightningBolt = document.getElementById('lightning-bolt-group');
+  const heatwaveHaze = document.getElementById('heatwave-haze-layer');
+  const coldwaveFrost = document.getElementById('coldwave-frost-layer');
+  const flashOverlay = document.getElementById('lightning-flash-overlay');
+
+  const caption = document.getElementById('synoptic-status-caption');
+  const statusDot = document.getElementById('synoptic-status-dot');
+  const heroTemp = document.getElementById('hero-temp-numeral');
+  const heroCondition = document.getElementById('hero-condition-text');
+  const heroFeels = document.getElementById('hero-feels-text');
+  const heroSubcond = document.getElementById('hero-subcondition-text');
+  const heroWind = document.getElementById('hero-wind-val');
+  const heroGusts = document.getElementById('hero-gusts-val');
+  const heroRain = document.getElementById('hero-rain-val');
+  const heroPrecip = document.getElementById('hero-precip-accum');
+  const heroHum = document.getElementById('hero-hum-val');
+  const heroLead = document.getElementById('hero-lead-badge');
+  const heroConfidence = document.getElementById('hero-blend-confidence');
+  const heroConsensus = document.getElementById('hero-model-consensus');
+  const stationTitle = document.getElementById('hero-station-title');
+  const coordsText = document.getElementById('hero-coords-text');
+
+  const globeReticleStation = document.getElementById('globe-reticle-station');
+  const globeReticleTemp = document.getElementById('globe-reticle-temp');
+  const globeReticleCond = document.getElementById('globe-reticle-cond');
+  const reticleStatusDot = document.getElementById('reticle-status-dot');
+
+  const monoToggle = document.getElementById('monochrome-toggle');
+  const monoLabel = document.getElementById('mono-label');
+  const intensityBtn = document.getElementById('intensity-cycle-btn');
+  const intensityLabel = document.getElementById('intensity-label');
+  const ambientToggle = document.getElementById('ambient-toggle');
+  const chips = document.querySelectorAll('.scene-chip');
+  const stationCards = document.querySelectorAll('.station-card');
+  const slider = document.getElementById('lead-time-slider');
+  const leadDisplay = document.getElementById('lead-time-display');
+  const leadStepBadge = document.getElementById('lead-step-badge');
+  const playBtn = document.getElementById('scrubber-play-btn');
+  const playIcon = document.getElementById('play-btn-icon');
+  const gpsBtn = document.getElementById('btn-gps-trigger');
+
+  // Weather scene data dictionary
+  const sceneProfiles = {
+    'thunderstorm': {
+      caption: 'Now showing: Thunderstorm & Cloudburst · +48h · New Delhi',
+      temp: '34°C', feels: 'Feels 36°C', cond: 'Thunderstorm',
+      subcond: 'Dewpoint 25.4°C · CAPE 2850 J/kg',
+      wind: '18 km/h WNW', gusts: 'Gusts to 48 km/h',
+      rain: '72%', precip: '62 mm / 24h', hum: '64%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 91%',
+      consensus: 'GraphCast + NCUM Consensus',
+      accent: '#fac15b',
+      skyGradient: 'radial-gradient(130% 90% at 50% -10%, #1e2235 0%, #13141f 45%, #0e0e11 100%)'
+    },
+    'heavy-rain': {
+      caption: 'Now showing: Tropical Cloudburst & Monsoonal Deluge · MMR Corridor',
+      temp: '28°C', feels: 'Feels 31°C', cond: 'Severe Cloudburst',
+      subcond: 'Offshore Trough · Precip Rate 65 mm/hr',
+      wind: '28 km/h SW', gusts: 'Gusts to 55 km/h',
+      rain: '95%', precip: '118 mm / 24h', hum: '94%',
+      confidence: 'BLEND CONFIDENCE: VERY HIGH · 94%',
+      consensus: 'BharatFS 4km + NEPS-G 11M',
+      accent: '#38bdf8',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #18283b 0%, #101924 50%, #0d0f12 100%)'
+    },
+    'rain': {
+      caption: 'Now showing: Steady Stratiform Rain · Western Ghats Slope',
+      temp: '26°C', feels: 'Feels 27°C', cond: 'Steady Rain',
+      subcond: 'Orographically Forced Stratus Deck',
+      wind: '16 km/h W', gusts: 'Gusts to 32 km/h',
+      rain: '84%', precip: '38 mm / 24h', hum: '88%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 88%',
+      consensus: 'NCUM-G + AIFS Consensus',
+      accent: '#60a5fa',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #1b2633 0%, #121820 50%, #0e1013 100%)'
+    },
+    'cyclone': {
+      caption: 'Now showing: Severe Cyclonic Storm Spiral Track · Arabian Sea',
+      temp: '27°C', feels: 'Feels 32°C', cond: 'Cyclonic Storm',
+      subcond: 'MSLP 982 hPa · Eye diameter 28 km',
+      wind: '75 km/h S', gusts: 'Gales 118 km/h',
+      rain: '88%', precip: '142 mm / 24h', hum: '92%',
+      confidence: 'EXTREME SPREAD SIGNAL · 72% PROB',
+      consensus: 'GraphCast Divergence vs NCUM Track',
+      accent: '#fac15b',
+      skyGradient: 'radial-gradient(130% 90% at 60% 0%, #2e261a 0%, #1f1a14 50%, #0e0e0f 100%)'
+    },
+    'heatwave': {
+      caption: 'Now showing: Severe Heatwave (Loo Surge) · West Rajasthan / NCR',
+      temp: '46°C', feels: 'Feels 49°C', cond: 'Severe Heatwave',
+      subcond: 'High Solar Insolation · Heat Index Extreme',
+      wind: '22 km/h W', gusts: 'Gusts to 34 km/h',
+      rain: '0%', precip: '0.0 mm / 24h', hum: '18%',
+      confidence: 'BLEND CONFIDENCE: VERY HIGH · 96%',
+      consensus: 'NCUM-G + GFS Thermodynamic Sync',
+      accent: '#f59e0b',
+      skyGradient: 'radial-gradient(130% 90% at 50% -10%, #3d2410 0%, #271609 50%, #120e0c 100%)'
+    },
+    'dust': {
+      caption: 'Now showing: Severe Andhi / Dust Storm · Thar to Gangetic Plain',
+      temp: '38°C', feels: 'Feels 40°C', cond: 'Dust Storm (Andhi)',
+      subcond: 'PM10 > 680 µg/m³ · Vis < 400m',
+      wind: '42 km/h NW', gusts: 'Squalls 68 km/h',
+      rain: '5%', precip: 'Trace / 24h', hum: '24%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 86%',
+      consensus: 'BharatFS Particulate + WRF-Chem',
+      accent: '#d97706',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #362919 0%, #241a10 50%, #110e0c 100%)'
+    },
+    'fog': {
+      caption: 'Now showing: Dense Smog & Radiation Fog Inversion · Indo-Gangetic Basin',
+      temp: '13°C', feels: 'Feels 12°C', cond: 'Dense Fog / Inversion',
+      subcond: 'Boundary Layer Temp Inversion · RVR 150m',
+      wind: '4 km/h CALM', gusts: 'Calm conditions',
+      rain: '10%', precip: '0.2 mm / 24h (dew)', hum: '98%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 90%',
+      consensus: 'NCUM-G 4km Land-Sfc Scheme',
+      accent: '#94a3b8',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #242933 0%, #181b22 50%, #101114 100%)'
+    },
+    'wind': {
+      caption: 'Now showing: High Monsoonal Gale Shear · Konkan & Malabar Shelf',
+      temp: '29°C', feels: 'Feels 33°C', cond: 'High Coastal Gale',
+      subcond: 'LLJ 850 hPa Core at 52 kts',
+      wind: '48 km/h WSW', gusts: 'Squalls 78 km/h',
+      rain: '45%', precip: '16 mm / 24h', hum: '78%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 89%',
+      consensus: 'NEPS-G Ensemble Wind Shear',
+      accent: '#2dd4bf',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #192e2d 0%, #111d1c 50%, #0e1111 100%)'
+    },
+    'cloudy': {
+      caption: 'Now showing: Overcast Monsoon Stratus Deck · Deccan Plateau',
+      temp: '25°C', feels: 'Feels 26°C', cond: 'Overcast Deck',
+      subcond: 'Altostratus Shield · Cloud Cover 8/8',
+      wind: '14 km/h W', gusts: 'Gusts 24 km/h',
+      rain: '25%', precip: '2.5 mm / 24h', hum: '72%',
+      confidence: 'BLEND CONFIDENCE: VERY HIGH · 93%',
+      consensus: 'ECMWF AIFS + GraphCast',
+      accent: '#a1a1aa',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #222329 0%, #16171c 50%, #0f0f12 100%)'
+    },
+    'sunny': {
+      caption: 'Now showing: Clear Solar Insolation · Southern Peninsula',
+      temp: '32°C', feels: 'Feels 33°C', cond: 'Clear / Insolation',
+      subcond: 'UV Index 9.4 · Direct Rad 920 W/m²',
+      wind: '9 km/h NE', gusts: 'Gentle breeze',
+      rain: '0%', precip: '0.0 mm / 24h', hum: '42%',
+      confidence: 'BLEND CONFIDENCE: VERY HIGH · 97%',
+      consensus: 'Full Ensemble Unanimous',
+      accent: '#fbbf24',
+      skyGradient: 'radial-gradient(130% 90% at 50% -10%, #30281b 0%, #1d1912 50%, #11100e 100%)'
+    },
+    'coldwave': {
+      caption: 'Now showing: Severe Himalayan Cold Wave Incursion · Foothills & Plains',
+      temp: '04°C', feels: 'Feels 01°C', cond: 'Severe Coldwave',
+      subcond: 'Catabatic Downslope Wind · Ground Frost',
+      wind: '14 km/h N', gusts: 'Wind Chill 0.8°C',
+      rain: '0%', precip: '0.0 mm / 24h', hum: '54%',
+      confidence: 'BLEND CONFIDENCE: VERY HIGH · 95%',
+      consensus: 'NCUM-G + BharatFS Multi-model',
+      accent: '#38bdf8',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #162438 0%, #0e1724 50%, #0a0f17 100%)'
+    },
+    'snow': {
+      caption: 'Now showing: Active Western Disturbance Blizzard · Pir Panjal / Gulmarg',
+      temp: '-03°C', feels: 'Feels -08°C', cond: 'Alpine Snowfall',
+      subcond: 'Accumulation Rate 3.5 cm/hr · Sub-Zero',
+      wind: '22 km/h NW', gusts: 'Gusts 46 km/h',
+      rain: '85%', precip: '32 cm Snow / 24h', hum: '86%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 92%',
+      consensus: 'BharatFS Mountain Scheme',
+      accent: '#e0f2fe',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #182333 0%, #111721 50%, #0d1014 100%)'
+    },
+    'night': {
+      caption: 'Now showing: Calm Nocturnal Radiative Cooling · Central Highlands',
+      temp: '19°C', feels: 'Feels 19°C', cond: 'Clear Nocturnal Sky',
+      subcond: 'Lunar Illumination 88% · Calm Radiative Loss',
+      wind: '5 km/h E', gusts: 'Calm',
+      rain: '0%', precip: '0.0 mm / 24h', hum: '58%',
+      confidence: 'BLEND CONFIDENCE: HIGH · 94%',
+      consensus: 'NCUM-G Nocturnal Cycle',
+      accent: '#c084fc',
+      skyGradient: 'radial-gradient(120% 90% at 50% -10%, #121526 0%, #0b0d17 50%, #08080a 100%)'
+    }
+  };
+
+  const stationPresets = {
+    'mumbai': { title: 'Mumbai (Santacruz)', coords: 'lat 19.07°N, 72.87°E · Elev 14m · Station 43003', scene: 'heavy-rain', lat: 19.07, lon: 72.87 },
+    'bengaluru': { title: 'Bengaluru (HAL Observatory)', coords: 'lat 12.97°N, 77.59°E · Elev 920m · Station 43295', scene: 'wind', lat: 12.97, lon: 77.59 },
+    'shimla': { title: 'Shimla (Ridge Observatory)', coords: 'lat 31.10°N, 77.17°E · Elev 2205m · Station 42083', scene: 'snow', lat: 31.10, lon: 77.17 },
+    'kochi': { title: 'Kochi (Naval Base)', coords: 'lat 9.93°N, 76.26°E · Elev 3m · Station 43351', scene: 'cyclone', lat: 9.93, lon: 76.26 }
+  };
+
+  // State
+  let currentScene = 'thunderstorm';
+  let activeGlobeLayer = 'PRECIP';
+  let isMonochrome = false;
+  let ambientEnabled = true;
+  let intensityLevel = 1.0;
+  let particles = [];
+  let lightningTimer = null;
+  let isPlaying = false;
+  let playbackInterval = null;
+
+  // Globe 3D camera & interaction parameters
+  let globeRotation = { lon: 77.0, lat: 22.0 }; // Centered on India
+  let globeZoom = 1.0;
+  let isDragging = false;
+  let dragStart = { x: 0, y: 0 };
+  let startRot = { lon: 77.0, lat: 22.0 };
+  let cycloneAngle = 0;
+
+  // Particle Engine Sizing
+  function resizeParticleCanvas() {
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+    initParticles(currentScene);
+  }
+
+  function resizeGlobeCanvas() {
+    const rect = globeCanvas.parentElement.getBoundingClientRect();
+    globeCanvas.width = rect.width;
+    globeCanvas.height = rect.height;
+  }
+
+  window.addEventListener('resize', () => {
+    resizeParticleCanvas();
+    resizeGlobeCanvas();
+  });
+
+  // Particle System
+  function initParticles(scene) {
+    particles = [];
+    const w = particleCanvas.width || window.innerWidth;
+    const h = particleCanvas.height || window.innerHeight;
+    const mult = intensityLevel;
+
+    if (scene === 'thunderstorm' || scene === 'heavy-rain' || scene === 'rain') {
+      const baseCount = scene === 'heavy-rain' ? 160 : (scene === 'thunderstorm' ? 100 : 65);
+      const total = Math.floor(baseCount * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w * 1.3 - (w * 0.15),
+          y: Math.random() * h,
+          len: 16 + Math.random() * (scene === 'heavy-rain' ? 32 : 22),
+          speedY: (scene === 'heavy-rain' ? 15 : 10) + Math.random() * 8,
+          speedX: scene === 'heavy-rain' ? -4 - Math.random() * 3 : -2.5 - Math.random() * 1.5,
+          alpha: 0.15 + Math.random() * (scene === 'heavy-rain' ? 0.7 : 0.45)
+        });
+      }
+    } else if (scene === 'snow') {
+      const total = Math.floor(90 * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          radius: 1.5 + Math.random() * 3.5,
+          speedY: 0.8 + Math.random() * 1.8,
+          osc: Math.random() * Math.PI * 2,
+          oscSpeed: 0.02 + Math.random() * 0.03,
+          windOffset: 0.6 + Math.random() * 0.8,
+          alpha: 0.35 + Math.random() * 0.55
+        });
+      }
+    } else if (scene === 'heatwave') {
+      const total = Math.floor(45 * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          radius: 1 + Math.random() * 2.5,
+          speedY: -0.4 - Math.random() * 0.8,
+          osc: Math.random() * Math.PI * 2,
+          alpha: 0.15 + Math.random() * 0.4
+        });
+      }
+    } else if (scene === 'dust') {
+      const total = Math.floor(120 * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          radius: 1 + Math.random() * 2.8,
+          speedX: 8 + Math.random() * 12,
+          speedY: (Math.random() - 0.4) * 2,
+          alpha: 0.2 + Math.random() * 0.55,
+          color: Math.random() > 0.4 ? 'rgba(217, 119, 6, ' : 'rgba(245, 193, 91, '
+        });
+      }
+    } else if (scene === 'wind') {
+      const total = Math.floor(55 * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          len: 40 + Math.random() * 80,
+          speedX: 14 + Math.random() * 18,
+          speedY: (Math.random() - 0.5) * 1.5,
+          alpha: 0.15 + Math.random() * 0.45
+        });
+      }
+    } else if (scene === 'sunny') {
+      const total = Math.floor(40 * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          radius: 1.2 + Math.random() * 3,
+          speedY: -0.2 - Math.random() * 0.4,
+          speedX: (Math.random() - 0.5) * 0.3,
+          alpha: 0.2 + Math.random() * 0.45
+        });
+      }
+    } else if (scene === 'night') {
+      const total = Math.floor(80 * mult);
+      for (let i = 0; i < total; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * (h * 0.8),
+          radius: 0.8 + Math.random() * 1.8,
+          alpha: 0.2 + Math.random() * 0.7,
+          twinkleSpeed: 0.02 + Math.random() * 0.04,
+          twinkleAngle: Math.random() * Math.PI * 2
+        });
+      }
+    }
+  }
+
+  function renderParticles() {
+    pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+    if (ambientEnabled) {
+      const w = particleCanvas.width;
+      const h = particleCanvas.height;
+
+      if (currentScene === 'thunderstorm' || currentScene === 'heavy-rain' || currentScene === 'rain') {
+        pCtx.lineWidth = 1.2;
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+
+          pCtx.strokeStyle = isMonochrome ? `rgba(236, 225, 205, ${p.alpha})` : `rgba(186, 230, 253, ${p.alpha})`;
+          pCtx.beginPath();
+          pCtx.moveTo(p.x, p.y);
+          pCtx.lineTo(p.x + p.speedX * 1.8, p.y + p.len);
+          pCtx.stroke();
+
+          if (p.y > h || p.x < -40) {
+            p.y = -30;
+            p.x = Math.random() * (w + 100);
+          }
+        }
+      } else if (currentScene === 'snow') {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.osc += p.oscSpeed;
+          p.x += Math.sin(p.osc) * p.windOffset;
+          p.y += p.speedY;
+
+          pCtx.fillStyle = isMonochrome ? `rgba(236, 225, 205, ${p.alpha})` : `rgba(240, 249, 255, ${p.alpha})`;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          pCtx.fill();
+
+          if (p.y > h) { p.y = -10; p.x = Math.random() * w; }
+        }
+      } else if (currentScene === 'heatwave') {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.osc += 0.04;
+          p.x += Math.sin(p.osc) * 0.6;
+          p.y += p.speedY;
+
+          pCtx.fillStyle = isMonochrome ? `rgba(236, 225, 205, ${p.alpha})` : `rgba(251, 191, 36, ${p.alpha})`;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          pCtx.fill();
+
+          if (p.y < 0) { p.y = h + 10; p.x = Math.random() * w; }
+        }
+      } else if (currentScene === 'dust') {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+
+          pCtx.fillStyle = isMonochrome ? `rgba(236, 225, 205, ${p.alpha})` : `${p.color}${p.alpha})`;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          pCtx.fill();
+
+          if (p.x > w + 20) { p.x = -20; p.y = Math.random() * h; }
+        }
+      } else if (currentScene === 'wind') {
+        pCtx.lineWidth = 1.4;
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+
+          pCtx.strokeStyle = isMonochrome ? `rgba(236, 225, 205, ${p.alpha})` : `rgba(203, 213, 225, ${p.alpha})`;
+          pCtx.beginPath();
+          pCtx.moveTo(p.x, p.y);
+          pCtx.lineTo(p.x + p.len, p.y + p.speedY * 2);
+          pCtx.stroke();
+
+          if (p.x > w + 40) { p.x = -p.len - 20; p.y = Math.random() * h; }
+        }
+      } else if (currentScene === 'sunny') {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.y += p.speedY;
+          p.x += p.speedX;
+
+          pCtx.fillStyle = isMonochrome ? `rgba(236, 225, 205, ${p.alpha})` : `rgba(254, 240, 138, ${p.alpha})`;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          pCtx.fill();
+
+          if (p.y < 0) { p.y = h + 10; p.x = Math.random() * w; }
+        }
+      } else if (currentScene === 'night') {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.twinkleAngle += p.twinkleSpeed;
+          const curAlpha = p.alpha * (0.6 + Math.sin(p.twinkleAngle) * 0.4);
+
+          pCtx.fillStyle = isMonochrome ? `rgba(236, 225, 205, ${curAlpha})` : `rgba(248, 250, 252, ${curAlpha})`;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          pCtx.fill();
+        }
+      }
+    }
+    requestAnimationFrame(renderParticles);
+  }
+
+  // =========================================================================
+  // 3D SPHERICAL GLOBE PROJECTION & WEATHER RENDERING
+  // =========================================================================
+  // Convert spherical lat/lon into screen coordinates based on center lon/lat
+  function projectToGlobe(lat, lon, cx, cy, radius) {
+    const rad = Math.PI / 180;
+    const phi = lat * rad;
+    const lambda = lon * rad;
+    const phi0 = globeRotation.lat * rad;
+    const lambda0 = globeRotation.lon * rad;
+
+    const cosC = Math.sin(phi0) * Math.sin(phi) + Math.cos(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0);
+    if (cosC < 0) return null; // Behind globe horizon
+
+    const k = radius;
+    const x = cx + k * (Math.cos(phi) * Math.sin(lambda - lambda0));
+    const y = cy - k * (Math.cos(phi0) * Math.sin(phi) - Math.sin(phi0) * Math.cos(phi) * Math.cos(lambda - lambda0));
+    return { x, y, depth: cosC };
+  }
+
+  // Simplified Landmass contours focusing on India and surrounding geography
+  const landPolygons = [
+    // India mainland & subcontinent
+    [
+      {lat: 36, lon: 74}, {lat: 34, lon: 77}, {lat: 31, lon: 79}, {lat: 28, lon: 88},
+      {lat: 27, lon: 96}, {lat: 22, lon: 92}, {lat: 21, lon: 89}, {lat: 16, lon: 82},
+      {lat: 10, lon: 80}, {lat: 8, lon: 77.5}, {lat: 11, lon: 75.8}, {lat: 15, lon: 73.8},
+      {lat: 20, lon: 72.8}, {lat: 23, lon: 68.5}, {lat: 25, lon: 67}, {lat: 30, lon: 71},
+      {lat: 34, lon: 73}, {lat: 36, lon: 74}
+    ],
+    // Sri Lanka
+    [
+      {lat: 9.8, lon: 80.2}, {lat: 7.0, lon: 81.8}, {lat: 6.0, lon: 80.5}, {lat: 8.5, lon: 79.8}, {lat: 9.8, lon: 80.2}
+    ],
+    // Arabian Peninsula
+    [
+      {lat: 12, lon: 44}, {lat: 16, lon: 53}, {lat: 22, lon: 59}, {lat: 26, lon: 56},
+      {lat: 29, lon: 48}, {lat: 27, lon: 40}, {lat: 20, lon: 40}, {lat: 12, lon: 44}
+    ],
+    // Indochina / SE Asia
+    [
+      {lat: 22, lon: 98}, {lat: 20, lon: 106}, {lat: 11, lon: 108}, {lat: 8, lon: 104},
+      {lat: 14, lon: 100}, {lat: 18, lon: 97}, {lat: 22, lon: 98}
+    ]
+  ];
+
+  function drawGlobe() {
+    gCtx.clearRect(0, 0, globeCanvas.width, globeCanvas.height);
+    const w = globeCanvas.width;
+    const h = globeCanvas.height;
+    const cx = w / 2;
+    const cy = h / 2;
+    const radius = Math.min(w, h) * 0.42 * globeZoom;
+
+    cycloneAngle += 0.035;
+
+    // 1. Globe Ambient Shadow & Base Sphere
+    const sphereGrad = gCtx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.3, radius * 0.1, cx, cy, radius);
+    sphereGrad.addColorStop(0, '#1c1e2b');
+    sphereGrad.addColorStop(0.6, '#10121a');
+    sphereGrad.addColorStop(1, '#090a0f');
+
+    gCtx.beginPath();
+    gCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+    gCtx.fillStyle = sphereGrad;
+    gCtx.fill();
+
+    // 2. Graticules (Latitude & Longitude lines)
+    gCtx.save();
+    gCtx.beginPath();
+    gCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+    gCtx.clip();
+
+    // Latitudes
+    gCtx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+    gCtx.lineWidth = 1;
+    for (let lat = -60; lat <= 60; lat += 20) {
+      gCtx.beginPath();
+      let started = false;
+      for (let lon = -180; lon <= 180; lon += 5) {
+        const pt = projectToGlobe(lat, lon, cx, cy, radius);
+        if (pt) {
+          if (!started) { gCtx.moveTo(pt.x, pt.y); started = true; }
+          else { gCtx.lineTo(pt.x, pt.y); }
+        } else {
+          started = false;
+        }
+      }
+      gCtx.stroke();
+    }
+
+    // Longitudes
+    for (let lon = -180; lon <= 180; lon += 20) {
+      gCtx.beginPath();
+      let started = false;
+      for (let lat = -80; lat <= 80; lat += 5) {
+        const pt = projectToGlobe(lat, lon, cx, cy, radius);
+        if (pt) {
+          if (!started) { gCtx.moveTo(pt.x, pt.y); started = true; }
+          else { gCtx.lineTo(pt.x, pt.y); }
+        } else {
+          started = false;
+        }
+      }
+      gCtx.stroke();
+    }
+
+    // 3. Render Landmasses
+    gCtx.fillStyle = '#232630';
+    gCtx.strokeStyle = '#5a554a';
+    gCtx.lineWidth = 1.3;
+    landPolygons.forEach(poly => {
+      gCtx.beginPath();
+      let first = true;
+      for (let i = 0; i < poly.length; i++) {
+        const pt = projectToGlobe(poly[i].lat, poly[i].lon, cx, cy, radius);
+        if (pt) {
+          if (first) { gCtx.moveTo(pt.x, pt.y); first = false; }
+          else { gCtx.lineTo(pt.x, pt.y); }
+        }
+      }
+      gCtx.closePath();
+      gCtx.fill();
+      gCtx.stroke();
+    });
+
+    // 4. Weather Overlays (Dynamic by Active Layer)
+    if (activeGlobeLayer === 'PRECIP' || activeGlobeLayer === 'TEMP') {
+      // Monsoon trough rain belt across Gangetic plain
+      const bandPts = [
+        projectToGlobe(28, 73, cx, cy, radius),
+        projectToGlobe(27, 80, cx, cy, radius),
+        projectToGlobe(24, 86, cx, cy, radius),
+        projectToGlobe(22, 90, cx, cy, radius)
+      ].filter(p => p !== null);
+
+      if (bandPts.length >= 2) {
+        gCtx.strokeStyle = activeGlobeLayer === 'PRECIP' ? 'rgba(250, 193, 91, 0.45)' : 'rgba(239, 68, 68, 0.45)';
+        gCtx.lineWidth = 16 * globeZoom;
+        gCtx.lineCap = 'round';
+        gCtx.beginPath();
+        gCtx.moveTo(bandPts[0].x, bandPts[0].y);
+        for (let i = 1; i < bandPts.length; i++) gCtx.lineTo(bandPts[i].x, bandPts[i].y);
+        gCtx.stroke();
+      }
+    }
+
+    // Cyclonic Vortex over Arabian Sea (~16°N, 68°E)
+    const cyclonePt = projectToGlobe(16.5, 67.5, cx, cy, radius);
+    if (cyclonePt) {
+      gCtx.save();
+      gCtx.translate(cyclonePt.x, cyclonePt.y);
+      gCtx.rotate(cycloneAngle);
+
+      gCtx.strokeStyle = '#fac15b';
+      gCtx.lineWidth = 2.2;
+      gCtx.setLineDash([8, 4]);
+
+      // 3 spiral arcs
+      for (let r = 8; r <= 32; r += 10) {
+        gCtx.beginPath();
+        gCtx.arc(0, 0, r * globeZoom, 0, Math.PI * 1.5);
+        gCtx.stroke();
+      }
+
+      gCtx.fillStyle = '#ffdeaa';
+      gCtx.beginPath();
+      gCtx.arc(0, 0, 3.5, 0, Math.PI * 2);
+      gCtx.fill();
+      gCtx.restore();
+    }
+
+    // Convective Storm Vortex over Delhi (~28.58°N, 77.20°E)
+    const delhiPt = projectToGlobe(28.58, 77.20, cx, cy, radius);
+    if (delhiPt) {
+      // Glow ring
+      gCtx.beginPath();
+      gCtx.arc(delhiPt.x, delhiPt.y, 14 * globeZoom, 0, Math.PI * 2);
+      gCtx.fillStyle = 'rgba(250, 193, 91, 0.25)';
+      gCtx.fill();
+
+      // Pulsing Station Core
+      gCtx.beginPath();
+      gCtx.arc(delhiPt.x, delhiPt.y, 4, 0, Math.PI * 2);
+      gCtx.fillStyle = '#f5e5c3';
+      gCtx.fill();
+
+      // Reticle Crosshairs
+      gCtx.strokeStyle = 'rgba(250, 193, 91, 0.85)';
+      gCtx.lineWidth = 1;
+      gCtx.beginPath();
+      gCtx.arc(delhiPt.x, delhiPt.y, 8, 0, Math.PI * 2);
+      gCtx.stroke();
+    }
+
+    // Other Cities (Mumbai, Shimla, Kochi)
+    const mumbaiPt = projectToGlobe(19.07, 72.87, cx, cy, radius);
+    if (mumbaiPt) {
+      gCtx.fillStyle = '#38bdf8';
+      gCtx.beginPath();
+      gCtx.arc(mumbaiPt.x, mumbaiPt.y, 3, 0, Math.PI * 2);
+      gCtx.fill();
+    }
+
+    const shimlaPt = projectToGlobe(31.10, 77.17, cx, cy, radius);
+    if (shimlaPt) {
+      gCtx.fillStyle = '#e0f2fe';
+      gCtx.beginPath();
+      gCtx.arc(shimlaPt.x, shimlaPt.y, 3, 0, Math.PI * 2);
+      gCtx.fill();
+    }
+
+    gCtx.restore();
+
+    // 5. Atmospheric Outer Glow & Edge Rim Rimlight
+    gCtx.beginPath();
+    gCtx.arc(cx, cy, radius + 1, 0, Math.PI * 2);
+    gCtx.strokeStyle = 'rgba(250, 193, 91, 0.35)';
+    gCtx.lineWidth = 2.5;
+    gCtx.stroke();
+
+    const atmosphereGrad = gCtx.createRadialGradient(cx, cy, radius * 0.95, cx, cy, radius * 1.08);
+    atmosphereGrad.addColorStop(0, 'transparent');
+    atmosphereGrad.addColorStop(0.7, 'rgba(250, 193, 91, 0.15)');
+    atmosphereGrad.addColorStop(1, 'transparent');
+    gCtx.fillStyle = atmosphereGrad;
+    gCtx.beginPath();
+    gCtx.arc(cx, cy, radius * 1.08, 0, Math.PI * 2);
+    gCtx.fill();
+
+    requestAnimationFrame(drawGlobe);
+  }
+
+  // =========================================================================
+  // INTERACTIVE GLOBE TOUCH & MOUSE CONTROLS
+  // =========================================================================
+  const globeViewport = document.getElementById('globe-viewport');
+
+  globeViewport.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    dragStart = { x: e.clientX, y: e.clientY };
+    startRot = { ...globeRotation };
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - dragStart.x;
+    const dy = e.clientY - dragStart.y;
+    globeRotation.lon = startRot.lon + (dx * 0.45);
+    globeRotation.lat = Math.max(-60, Math.min(75, startRot.lat - (dy * 0.45)));
+  });
+
+  window.addEventListener('mouseup', () => { isDragging = false; });
+
+  // Touch Support
+  globeViewport.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      dragStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      startRot = { ...globeRotation };
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isDragging || e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - dragStart.x;
+    const dy = e.touches[0].clientY - dragStart.y;
+    globeRotation.lon = startRot.lon + (dx * 0.45);
+    globeRotation.lat = Math.max(-60, Math.min(75, startRot.lat - (dy * 0.45)));
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => { isDragging = false; });
+
+  // Globe Buttons (Zoom / Recenter / Layer Switch)
+  document.getElementById('globe-btn-zoomin').addEventListener('click', () => {
+    globeZoom = Math.min(1.6, globeZoom + 0.15);
+  });
+  document.getElementById('globe-btn-zoomout').addEventListener('click', () => {
+    globeZoom = Math.max(0.75, globeZoom - 0.15);
+  });
+  document.getElementById('globe-btn-reset').addEventListener('click', () => {
+    globeRotation = { lon: 77.0, lat: 22.0 };
+    globeZoom = 1.0;
+  });
+
+  document.querySelectorAll('.globe-layer-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.globe-layer-btn').forEach(b => {
+        b.classList.remove('active', 'bg-primary', 'text-on-primary');
+        b.classList.add('bg-surface-container', 'text-secondary');
+      });
+      btn.classList.add('active', 'bg-primary', 'text-on-primary');
+      btn.classList.remove('bg-surface-container', 'text-secondary');
+      activeGlobeLayer = btn.getAttribute('data-layer');
+    });
+  });
+
+  // Thunderstorm Lightning Generator
+  function startLightningTimer() {
+    clearInterval(lightningTimer);
+    if (currentScene !== 'thunderstorm') return;
+
+    lightningTimer = setInterval(() => {
+      if (!ambientEnabled || currentScene !== 'thunderstorm') return;
+      if (Math.random() > 0.3) {
+        lightningBolt.style.opacity = '0.95';
+        flashOverlay.style.opacity = '0.65';
+        setTimeout(() => {
+          flashOverlay.style.opacity = '0.05';
+          lightningBolt.style.opacity = '0.2';
+          setTimeout(() => {
+            flashOverlay.style.opacity = '0.5';
+            lightningBolt.style.opacity = '0.85';
+            setTimeout(() => {
+              flashOverlay.style.opacity = '0';
+              lightningBolt.style.opacity = '0';
+            }, 100);
+          }, 80);
+        }, 90);
+      }
+    }, 4200);
+  }
+
+  // Weather Scene Switcher
+  function setWeatherScene(sceneKey) {
+    const data = sceneProfiles[sceneKey] || sceneProfiles['thunderstorm'];
+    currentScene = sceneKey;
+
+    const accentColor = isMonochrome ? '#ece1cd' : data.accent;
+    document.documentElement.style.setProperty('--accent', accentColor);
+    document.documentElement.style.setProperty('--accent-glow', `${accentColor}40`);
+
+    caption.textContent = data.caption;
+    statusDot.style.backgroundColor = accentColor;
+    statusDot.style.boxShadow = `0 0 12px ${accentColor}`;
+    reticleStatusDot.style.backgroundColor = accentColor;
+    heroTemp.textContent = data.temp;
+    heroCondition.textContent = data.cond;
+    heroCondition.style.color = accentColor;
+    globeReticleCond.textContent = data.cond;
+    globeReticleCond.style.color = accentColor;
+    globeReticleTemp.textContent = data.temp;
+
+    heroFeels.textContent = data.feels;
+    heroSubcond.textContent = data.subcond;
+    heroWind.textContent = data.wind;
+    heroGusts.textContent = data.gusts;
+    heroRain.textContent = data.rain;
+    heroPrecip.textContent = data.precip;
+    heroHum.textContent = data.hum;
+    heroConfidence.textContent = data.confidence;
+    heroConsensus.textContent = data.consensus;
+
+    skyBase.style.background = data.skyGradient;
+
+    heatwaveHaze.style.opacity = sceneKey === 'heatwave' ? '1' : '0';
+    coldwaveFrost.style.opacity = sceneKey === 'coldwave' ? '1' : '0';
+
+    lightningBolt.style.opacity = '0';
+    flashOverlay.style.opacity = '0';
+    startLightningTimer();
+
+    initParticles(sceneKey);
+  }
+
+  // Scrubber Synchronization
+  const leadSceneMap = [
+    { lead: -48, scene: 'night' },
+    { lead: -24, scene: 'fog' },
+    { lead: 0,   scene: 'sunny' },
+    { lead: 24,  scene: 'cloudy' },
+    { lead: 48,  scene: 'thunderstorm' },
+    { lead: 72,  scene: 'heavy-rain' },
+    { lead: 96,  scene: 'cyclone' },
+    { lead: 120, scene: 'wind' },
+    { lead: 144, scene: 'dust' },
+    { lead: 168, scene: 'heatwave' },
+    { lead: 192, scene: 'rain' },
+    { lead: 216, scene: 'coldwave' },
+    { lead: 240, scene: 'snow' }
+  ];
+
+  function syncLeadTime(value) {
+    const leadVal = parseInt(value, 10);
+    const sign = leadVal > 0 ? `+${leadVal}` : `${leadVal}`;
+    const leadStr = `${sign}h`;
+    
+    leadDisplay.textContent = `${leadStr} LEAD`;
+    leadStepBadge.textContent = leadStr;
+    heroLead.textContent = `${leadStr} Lead`;
+
+    let closest = leadSceneMap[0];
+    let minDiff = 999;
+    leadSceneMap.forEach(item => {
+      const diff = Math.abs(item.lead - leadVal);
+      if (diff < minDiff) { minDiff = diff; closest = item; }
+    });
+
+    if (closest.scene !== currentScene) {
+      chips.forEach(c => {
+        if (c.getAttribute('data-scene') === closest.scene) {
+          c.classList.add('bg-primary', 'text-on-primary', 'active');
+          c.classList.remove('bg-surface-container-high', 'text-secondary');
+          c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } else {
+          c.classList.remove('bg-primary', 'text-on-primary', 'active');
+          c.classList.add('bg-surface-container-high', 'text-secondary');
+        }
+      });
+      setWeatherScene(closest.scene);
+    }
+  }
+
+  slider.addEventListener('input', (e) => syncLeadTime(e.target.value));
+
+  playBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    if (isPlaying) {
+      playIcon.textContent = 'pause';
+      playBtn.classList.add('ring-2', 'ring-primary');
+      playbackInterval = setInterval(() => {
+        let val = parseInt(slider.value, 10) + 6;
+        if (val > 240) val = -48;
+        slider.value = val;
+        syncLeadTime(val);
+      }, 1400);
+    } else {
+      playIcon.textContent = 'play_arrow';
+      playBtn.classList.remove('ring-2', 'ring-primary');
+      clearInterval(playbackInterval);
+    }
+  });
+
+  // Scene Chips
+  chips.forEach(btn => {
+    btn.addEventListener('click', () => {
+      chips.forEach(c => {
+        c.classList.remove('bg-primary', 'text-on-primary', 'active');
+        c.classList.add('bg-surface-container-high', 'text-secondary');
+      });
+      btn.classList.add('bg-primary', 'text-on-primary', 'active');
+      btn.classList.remove('bg-surface-container-high', 'text-secondary');
+      setWeatherScene(btn.getAttribute('data-scene'));
+    });
+  });
+
+  // Saved Stations Quick Switching
+  stationCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const stationKey = card.getAttribute('data-station');
+      const preset = stationPresets[stationKey];
+      if (preset) {
+        stationTitle.textContent = preset.title;
+        coordsText.textContent = preset.coords;
+        globeReticleStation.textContent = `${preset.title.toUpperCase()}`;
+        globeRotation.lon = preset.lon;
+        globeRotation.lat = preset.lat;
+
+        chips.forEach(c => {
+          if (c.getAttribute('data-scene') === preset.scene) c.click();
+        });
+      }
+    });
+  });
+
+  gpsBtn.addEventListener('click', () => {
+    stationTitle.textContent = 'New Delhi (Safdarjung)';
+    coordsText.textContent = 'lat 28.58°N, 77.20°E · Elev 216m · Station 42182';
+    globeReticleStation.textContent = 'NEW DELHI · 28.58°N, 77.20°E';
+    globeRotation = { lon: 77.0, lat: 22.0 };
+    globeZoom = 1.0;
+  });
+
+  // Monochrome & Intensity Switches
+  monoToggle.addEventListener('click', () => {
+    isMonochrome = !isMonochrome;
+    if (isMonochrome) {
+      root.classList.add('grayscale', 'contrast-125');
+      monoLabel.textContent = 'MONO [⬤]';
+      monoToggle.classList.add('bg-primary', 'text-on-primary');
+      monoToggle.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+    } else {
+      root.classList.remove('grayscale', 'contrast-125');
+      monoLabel.textContent = 'MONO [Ø]';
+      monoToggle.classList.remove('bg-primary', 'text-on-primary');
+      monoToggle.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+    }
+    setWeatherScene(currentScene);
+  });
+
+  intensityBtn.addEventListener('click', () => {
+    if (intensityLevel === 1.0) {
+      intensityLevel = 1.6;
+      intensityLabel.textContent = 'MAX';
+    } else if (intensityLevel === 1.6) {
+      intensityLevel = 0.5;
+      intensityLabel.textContent = 'LOW';
+    } else {
+      intensityLevel = 1.0;
+      intensityLabel.textContent = 'MED';
+    }
+    initParticles(currentScene);
+  });
+
+  ambientToggle.addEventListener('click', () => {
+    ambientEnabled = !ambientEnabled;
+    ambientLayer.style.opacity = ambientEnabled ? '1' : '0.15';
+    ambientToggle.classList.toggle('text-primary');
+    ambientToggle.classList.toggle('text-outline');
+  });
+
+  // Initial Initialization
+  resizeParticleCanvas();
+  resizeGlobeCanvas();
+  setWeatherScene('thunderstorm');
+  renderParticles();
+  drawGlobe();
+})();
+</script>
+</main>
+<!-- Bottom Tab Navigation -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_12px_rgba(0,0,0,0.6)] border-t border-outline-variant/30" data-active-classes="text-primary font-semibold">
+<div class="flex justify-around items-center h-16 px-space-xs">
+<a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 transition-colors text-primary font-semibold" data-path="overview" href="#">
+<span class="material-symbols-outlined text-[22px]">view_quilt</span>
+<span class="font-label-caps text-label-caps">Overview</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="map-and-drilldown" href="#">
+<span class="material-symbols-outlined text-[22px]">explore</span>
+<span class="font-label-caps text-label-caps">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="blend-ai" href="#">
+<span class="material-symbols-outlined text-[22px]">neurology</span>
+<span class="font-label-caps text-label-caps">Blend AI</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="extreme" href="#">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+<span class="font-label-caps text-label-caps">Extreme</span>
+</a>
+<a class="flex flex-col items-center justify-center min-w-[56px] h-12 gap-0.5 text-secondary hover:text-on-surface transition-colors" data-path="more-analytics" href="#">
+<span class="material-symbols-outlined text-[22px]">apps</span>
+<span class="font-label-caps text-label-caps">More</span>
+</a>
+</div>
+<div class="h-5 flex items-center justify-center px-gutter bg-surface-container-lowest/90 border-t border-outline-variant/20">
+<span class="font-label-caps text-label-caps text-outline tracking-wider text-[9px] uppercase truncate">
+DPDP Act 2023 Compliant · Anonymized Telemetry · NCMRWF/IMD/MoES Grid
+</span>
+</div>
+</nav>
+</body></html>

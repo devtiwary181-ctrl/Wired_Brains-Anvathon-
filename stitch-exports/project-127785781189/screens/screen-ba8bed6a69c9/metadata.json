@@ -1,0 +1,17 @@
+{
+  "screenId": "ba8bed6a69c94c738dc572668b4de5f2",
+  "screenName": "projects/12778578118982908076/screens/ba8bed6a69c94c738dc572668b4de5f2",
+  "displayName": "",
+  "label": "",
+  "title": "Weathermix AI-NWP Logo",
+  "prompt": "Brand logo. - Primary color: #d8c9a8\n- Font: syne\n- Mode: dark\n- Roundness: rounded-sm\n",
+  "projectId": "12778578118982908076",
+  "width": "48",
+  "height": "48",
+  "htmlResource": "projects/12778578118982908076/screens/ba8bed6a69c94c738dc572668b4de5f2/fileEntries/html",
+  "screenshotResource": "projects/12778578118982908076/screens/ba8bed6a69c94c738dc572668b4de5f2/fileEntries/screenshot",
+  "htmlMimeType": "image/svg+xml",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 48,
+  "instanceHeight": 884
+}

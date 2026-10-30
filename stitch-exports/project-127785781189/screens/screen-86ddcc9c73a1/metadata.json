@@ -1,0 +1,17 @@
+{
+  "screenId": "86ddcc9c73a148b4941d089975e99dc8",
+  "screenName": "projects/12778578118982908076/screens/86ddcc9c73a148b4941d089975e99dc8",
+  "displayName": "",
+  "label": "",
+  "title": "Operations Overview \u2013 Heatwave",
+  "prompt": "Duplicate the Operations Overview mobile layout with the EXACT same structure, layout, typography, glass panels (background rgba(18,18,19,0.62), backdrop-filter blur 16px, 1px border rgba(255,255,255,0.10)), and nav bar.\nWEATHER VARIANT: HEATWAVE (Jaipur, 44 \u00b0C).\nDynamic Weather Accent: Warm Sun Yellow #FBBF24 applied strictly to the condition badge, status dot, and slider thumb.\n\nFull-bleed weather background scene:\n- Large soft cream and sand sun glare at the upper right with gentle radial glow.\n- Shimmering heat-haze distortion ripples rising slowly from the mid-ground.\n- Sand-to-copper warm ambient glow along the horizon / bottom perimeter.\n- Monochrome to warm neutral palette (cream, sand, graphite).\n- Vertical gradient mask: 100% visible behind the hero card, fading to ~25% behind the lower data cards so text remains perfectly legible.\n\nHero Data adjustments:\n- City: Jaipur (Sanganer Observatory)\n- Coordinates: lat 26.91\u00b0N, 75.78\u00b0E \u00b7 Elev 390m \u00b7 ID 42348 \u00b7 VALID 26 SEP 00Z \u00b7 +48h Lead\n- Giant Temperature: 44\u00b0C\n- Condition Name: Severe Heatwave & Loo Advection\n- Wind: 18 km/h WNW \u00b7 Gusts to 36 km/h\n- Acc. Precip: 0.0 mm / 24h\n- Humidity: 18% \u00b7 MSLP 1001.4 hPa \u00b7 VPD 4.82 kPa\n- Blend Confidence: 94% (BharatFS & GraphCast consensus on dry continental westerlies)\n\nKeep the diagnostic cards, active synoptic regimes (Heat Low / Anticyclonic ridge over NW India), synoptic radar canvas, and saved telemetry stations.",
+  "projectId": "12778578118982908076",
+  "width": "780",
+  "height": "3646",
+  "htmlResource": "projects/12778578118982908076/screens/86ddcc9c73a148b4941d089975e99dc8/fileEntries/html",
+  "screenshotResource": "projects/12778578118982908076/screens/86ddcc9c73a148b4941d089975e99dc8/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 390,
+  "instanceHeight": 1823
+}

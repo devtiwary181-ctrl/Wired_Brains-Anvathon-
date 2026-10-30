@@ -1,0 +1,17 @@
+{
+  "screenId": "4801d5e2b2104da9a5624ddc8f414eb0",
+  "screenName": "projects/12778578118982908076/screens/4801d5e2b2104da9a5624ddc8f414eb0",
+  "displayName": "",
+  "label": "",
+  "title": "Operations Overview \u2013 Snow",
+  "prompt": "Duplicate the Operations Overview mobile layout with the EXACT same structure, layout, typography, glass panels (background rgba(18,18,19,0.62), backdrop-filter blur 16px, 1px border rgba(255,255,255,0.10)), and nav bar.\nWEATHER VARIANT: SNOW (Shimla, -2 \u00b0C).\nDynamic Weather Accent: Ice Blue #E0F2FE applied strictly to the condition badge, status dot, and slider thumb.\n\nFull-bleed weather background scene:\n- Cold pale-grey sky gradient at the top with subtle frost vignette around the screen corners.\n- Soft white snowflakes of varying sizes (from tiny 1.5px crystals to soft 6px blurred flakes) gently drifting with slight horizontal sway across the screen.\n- Monochromatic ice crystals / frost dendrite pattern softly framing the top and corner edges.\n- Vertical gradient mask: 100% opacity behind the hero card, tapering to 25% opacity behind the bottom data cards.\n\nHero Data adjustments:\n- City: Shimla (Mall Road Ridge)\n- Coordinates: lat 31.10\u00b0N, 77.17\u00b0E \u00b7 Elev 2276m \u00b7 ID 42083 \u00b7 VALID 26 SEP 00Z \u00b7 +48h Lead\n- Giant Temperature: -2\u00b0C\n- Condition Name: Moderate Snowfall & Freezing Fog\n- Wind: 14 km/h NNE \u00b7 Gusts to 32 km/h\n- Acc. Precip / Snowpack: 18 cm / 24h\n- Humidity: 94% \u00b7 Dewpoint: -3.8\u00b0C\n- Blend Confidence: 91% (GraphCast & NCUM-G high agreement on western disturbance trough)\n\nKeep the diagnostic cards, synoptic bulletins (Western Disturbance active over Himachal Pradesh/J&K), synoptic radar map centered over Northern India, and saved telemetry stations.",
+  "projectId": "12778578118982908076",
+  "width": "780",
+  "height": "3550",
+  "htmlResource": "projects/12778578118982908076/screens/4801d5e2b2104da9a5624ddc8f414eb0/fileEntries/html",
+  "screenshotResource": "projects/12778578118982908076/screens/4801d5e2b2104da9a5624ddc8f414eb0/fileEntries/screenshot",
+  "htmlMimeType": "text/html",
+  "screenshotMimeType": "image/png",
+  "instanceWidth": 868,
+  "instanceHeight": 1533
+}
