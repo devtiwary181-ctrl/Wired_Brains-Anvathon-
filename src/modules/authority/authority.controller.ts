@@ -78,6 +78,15 @@ export class AuthorityController {
   async adjustInventory(req: Request, res: Response, next: NextFunction) {
     try { res.json({ success: true, data: await authorityService.adjustInventory(actor(req), routeId(req), req.body, requestIp(req)) }); } catch (error) { next(error); }
   }
+  async inventoryMovements(req: Request, res: Response, next: NextFunction) {
+    try { res.json({ success: true, data: await authorityService.getInventoryMovements(actor(req), req.query.depotId as string | undefined) }); } catch (error) { next(error); }
+  }
+  async acknowledgeSos(req: Request, res: Response, next: NextFunction) {
+    try { res.json({ success: true, data: await authorityService.acknowledgeSos(actor(req), routeId(req), req.body?.notes, requestIp(req)) }); } catch (error) { next(error); }
+  }
+  async updateSosStatus(req: Request, res: Response, next: NextFunction) {
+    try { res.json({ success: true, data: await authorityService.updateSosStatus(actor(req), routeId(req), req.body.status, req.body?.notes, requestIp(req)) }); } catch (error) { next(error); }
+  }
   async listStaff(req: Request, res: Response, next: NextFunction) {
     try { res.json({ success: true, data: await authorityService.listStaff(actor(req)) }); } catch (error) { next(error); }
   }

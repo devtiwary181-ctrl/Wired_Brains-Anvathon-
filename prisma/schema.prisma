@@ -327,9 +327,33 @@ model DepotInventory {
   lastRestockedAt   DateTime    @default(now()) @map("last_restocked_at")
 
   depot             ReliefDepot @relation(fields: [depotId], references: [id], onDelete: Cascade)
+  movements         InventoryMovement[]
 
   @@unique([depotId, itemSku])
   @@map("depot_inventory")
+}
+
+model InventoryMovement {
+  id                String      @id @default(uuid())
+  depotId           String      @map("depot_id")
+  itemSku           String      @map("item_sku")
+  movementType      String      @map("movement_type") // 'CREATE', 'RESTOCK', 'RESERVE', 'ALLOCATE', 'DISPATCH', 'DELIVER', 'CANCEL_RELEASE', 'ADJUSTMENT'
+  quantity          Int
+  previousAvailable Int         @map("previous_available")
+  newAvailable      Int         @map("new_available")
+  previousReserved  Int         @map("previous_reserved")
+  newReserved       Int         @map("new_reserved")
+  referenceId       String?     @map("reference_id")
+  actorId           String?     @map("actor_id")
+  notes             String?
+  createdAt         DateTime    @default(now()) @map("created_at")
+
+  inventoryItem     DepotInventory @relation(fields: [depotId, itemSku], references: [depotId, itemSku], onDelete: Cascade)
+
+  @@index([depotId])
+  @@index([itemSku])
+  @@index([createdAt])
+  @@map("inventory_movements")
 }
 
 // ============================================================================
@@ -337,13 +361,21 @@ model DepotInventory {
 // ============================================================================
 
 model SosRecord {
-  id           String    @id @default(uuid())
-  serviceType  String    @map("service_type") // '112_NATIONAL', '1078_NDRF', '108_AMBULANCE', '101_FIRE'
-  latitude     Float?
-  longitude    Float?
-  triggeredAt  DateTime  @default(now()) @map("triggered_at")
-  resolvedAt   DateTime? @map("resolved_at")
-  status       String    @default("LOGGED") // 'LOGGED', 'RESPONDER_DISPATCHED', 'RESOLVED'
+  id                     String    @id @default(uuid())
+  serviceType            String    @map("service_type") // '112_NATIONAL', '1078_NDRF', '108_AMBULANCE', '101_FIRE', '1091_WOMEN', '1800_NDMA'
+  emergencyType          String?   @map("emergency_type") // 'RESCUE', 'MEDICAL', 'FLOOD_TRAPPED', 'FIRE', 'OTHER'
+  latitude               Float?
+  longitude              Float?
+  gpsAccuracy            Float?    @map("gps_accuracy")
+  affectedPeople         Int       @default(1) @map("affected_people")
+  description            String?
+  contactInfo            String?   @map("contact_info")
+  triggeredAt            DateTime  @default(now()) @map("triggered_at")
+  acknowledgedAt         DateTime? @map("acknowledged_at")
+  acknowledgedByStaffId  String?   @map("acknowledged_by_staff_id")
+  responderNotes         String?   @map("responder_notes")
+  resolvedAt             DateTime? @map("resolved_at")
+  status                 String    @default("LOGGED") // 'LOGGED', 'ACKNOWLEDGED', 'RESPONDER_DISPATCHED', 'RESOLVED'
 
   @@map("sos_records")
 }

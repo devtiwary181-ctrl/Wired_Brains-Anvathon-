@@ -273,23 +273,94 @@
   };
 
   // ---------------------------------------------------------------------------
-  // Module: Relief Requests
+  // Module: Relief Requests (with Offline Draft & Sync Protection)
   // ---------------------------------------------------------------------------
   const relief = {
     async submit(data) {
+      if (!navigator.onLine) {
+        // Save draft locally with clear NOT SENT status
+        const offlineQueue = JSON.parse(localStorage.getItem('dr_offline_relief_queue') || '[]');
+        const draftId = 'DRAFT-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+        offlineQueue.push({ id: draftId, data, createdAt: new Date().toISOString(), status: 'NOT_SENT' });
+        localStorage.setItem('dr_offline_relief_queue', JSON.stringify(offlineQueue));
+        const err = new Error('No internet connection. Request saved locally as NOT SENT draft. It will sync automatically when online.');
+        err.code = 'OFFLINE_DRAFT_SAVED';
+        err.draftId = draftId;
+        throw err;
+      }
       return post('/relief-requests', data);
     },
     async track(token) {
       return get(`/relief-requests/track/${encodeURIComponent(token)}`);
     },
+    getOfflineDrafts() {
+      return JSON.parse(localStorage.getItem('dr_offline_relief_queue') || '[]');
+    },
+    async syncOfflineDrafts() {
+      if (!navigator.onLine) return { synced: 0, pending: relief.getOfflineDrafts().length };
+      const drafts = relief.getOfflineDrafts();
+      const remaining = [];
+      let syncedCount = 0;
+      for (const draft of drafts) {
+        try {
+          await post('/relief-requests', draft.data);
+          syncedCount++;
+        } catch (e) {
+          remaining.push(draft);
+        }
+      }
+      localStorage.setItem('dr_offline_relief_queue', JSON.stringify(remaining));
+      return { synced: syncedCount, pending: remaining.length };
+    },
   };
 
   // ---------------------------------------------------------------------------
-  // Module: SOS
+  // Module: SOS (with Offline Draft & Direct Call Protection)
   // ---------------------------------------------------------------------------
   const sos = {
-    async log(serviceType, lat, lng) {
-      return post('/sos', { serviceType, latitude: lat, longitude: lng });
+    async log(serviceType, lat, lng, details = {}) {
+      const payload = {
+        serviceType: serviceType || '112_NATIONAL',
+        latitude: lat != null && Number.isFinite(Number(lat)) ? Number(lat) : undefined,
+        longitude: lng != null && Number.isFinite(Number(lng)) ? Number(lng) : undefined,
+        emergencyType: details.emergencyType,
+        gpsAccuracy: details.gpsAccuracy,
+        affectedPeople: details.affectedPeople,
+        description: details.description,
+        contactInfo: details.contactInfo,
+      };
+
+      if (!navigator.onLine) {
+        // Store offline SOS draft marked explicitly NOT SENT
+        const offlineSos = JSON.parse(localStorage.getItem('dr_offline_sos_queue') || '[]');
+        const draftId = 'SOS-DRAFT-' + Date.now().toString(36);
+        offlineSos.push({ id: draftId, payload, createdAt: new Date().toISOString(), status: 'NOT_SENT' });
+        localStorage.setItem('dr_offline_sos_queue', JSON.stringify(offlineSos));
+        const err = new Error('No internet connection. SOS saved locally as NOT SENT. Please directly use the emergency phone dialer (112 / 108 / 1078).');
+        err.code = 'OFFLINE_SOS_DRAFT_SAVED';
+        err.draftId = draftId;
+        throw err;
+      }
+      return post('/sos', payload);
+    },
+    getOfflineDrafts() {
+      return JSON.parse(localStorage.getItem('dr_offline_sos_queue') || '[]');
+    },
+    async syncOfflineDrafts() {
+      if (!navigator.onLine) return { synced: 0, pending: sos.getOfflineDrafts().length };
+      const drafts = sos.getOfflineDrafts();
+      const remaining = [];
+      let syncedCount = 0;
+      for (const draft of drafts) {
+        try {
+          await post('/sos', draft.payload);
+          syncedCount++;
+        } catch (e) {
+          remaining.push(draft);
+        }
+      }
+      localStorage.setItem('dr_offline_sos_queue', JSON.stringify(remaining));
+      return { synced: syncedCount, pending: remaining.length };
     },
   };
 

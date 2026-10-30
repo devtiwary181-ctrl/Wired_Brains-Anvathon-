@@ -20,6 +20,9 @@ export declare class AuthorityController {
     allocateReliefRequest(req: Request, res: Response, next: NextFunction): Promise<void>;
     listInventory(req: Request, res: Response, next: NextFunction): Promise<void>;
     adjustInventory(req: Request, res: Response, next: NextFunction): Promise<void>;
+    inventoryMovements(req: Request, res: Response, next: NextFunction): Promise<void>;
+    acknowledgeSos(req: Request, res: Response, next: NextFunction): Promise<void>;
+    updateSosStatus(req: Request, res: Response, next: NextFunction): Promise<void>;
     listStaff(req: Request, res: Response, next: NextFunction): Promise<void>;
     staffHistory(req: Request, res: Response, next: NextFunction): Promise<void>;
     createStaff(req: Request, res: Response, next: NextFunction): Promise<void>;

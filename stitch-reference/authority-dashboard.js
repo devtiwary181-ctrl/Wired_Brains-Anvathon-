@@ -645,6 +645,17 @@
         }));
         inventoryList.append(row);
       });
+      const historyBtn = actionButton('View stock movement audit history', async () => {
+        try {
+          const history = await api('/authority/inventory/movements');
+          if (!history.length) {
+            window.alert('No stock movement entries recorded.');
+            return;
+          }
+          window.alert(history.slice(0, 15).map(m => `${new Date(m.createdAt).toLocaleString()} • ${m.movementType} • ${m.itemSku}: Qty ${m.quantity} (Avail: ${m.previousAvailable}->${m.newAvailable}, Rsv: ${m.previousReserved}->${m.newReserved}) • Notes: ${m.notes || 'N/A'}`).join('\n\n'));
+        } catch (err) { statusMessage(inventoryOps, err.message, true); }
+      });
+      inventoryList.append(historyBtn);
     } catch (error) { inventoryList.append(text('p', error.status === 403 ? 'Inventory permission required.' : error.message, 'font-caption text-caption text-on-surface-variant')); }
   }
 
@@ -684,7 +695,52 @@
     try {
       const records = await api('/authority/sos');
       if (!records.length) sosList.append(text('p', 'No unresolved SOS records in the available scope.', 'font-caption text-caption text-on-surface-variant'));
-      records.forEach(record => sosList.append(text('article', `${record.serviceType} • ${record.status} • ${record.latitude == null || record.longitude == null ? 'Location unavailable' : `${record.latitude.toFixed(5)}, ${record.longitude.toFixed(5)}`} • ${new Date(record.triggeredAt).toLocaleString()}`, 'p-2 border border-surface-variant rounded font-caption text-caption')));
+      records.forEach(record => {
+        const item = document.createElement('article'); item.className = 'p-2 border border-surface-variant rounded flex flex-col gap-1.5';
+        const service = record.serviceType || record.service_type || 'EMERGENCY_SOS';
+        const status = record.status;
+        const coords = record.latitude == null || record.longitude == null ? 'Location unavailable' : `GPS (${Number(record.latitude).toFixed(4)}, ${Number(record.longitude).toFixed(4)})${record.gpsAccuracy ? ` ±${Math.round(record.gpsAccuracy)}m` : ''}`;
+        const time = new Date(record.triggeredAt || record.triggered_at).toLocaleString();
+        item.append(text('strong', `${service} • ${status} • ${record.affectedPeople || 1} people affected`, 'font-label-strong text-label-strong text-error'));
+        item.append(text('p', `${coords} • Triggered: ${time}${record.emergencyType ? ` • Type: ${record.emergencyType}` : ''}`, 'font-caption text-caption text-on-surface'));
+        if (record.description) item.append(text('p', `Notes: "${record.description}"`, 'font-caption text-caption text-on-surface-variant italic'));
+        if (record.contactInfo) item.append(text('p', `Citizen Contact: ${record.contactInfo}`, 'font-caption text-caption text-primary font-semibold'));
+
+        const actions = document.createElement('div'); actions.className = 'flex flex-wrap gap-2 pt-1';
+        if (status === 'LOGGED') {
+          actions.append(actionButton('Acknowledge SOS', async () => {
+            const note = window.prompt('Acknowledgment note (optional):', 'Acknowledged by EOC responder');
+            try {
+              await api(`/authority/sos/${record.id}/acknowledge`, { method: 'PATCH', body: JSON.stringify({ notes: note }) });
+              statusMessage(sosOps, 'SOS record acknowledged.');
+              await refresh();
+            } catch (err) { statusMessage(sosOps, err.message, true); }
+          }));
+        }
+        if (status === 'LOGGED' || status === 'ACKNOWLEDGED') {
+          actions.append(actionButton('Dispatch Responder', async () => {
+            const note = window.prompt('Responder dispatch details (e.g. NDRF Boat Unit 2 dispatched):');
+            if (!note || note.trim().length < 3) return;
+            try {
+              await api(`/authority/sos/${record.id}/status`, { method: 'PATCH', body: JSON.stringify({ status: 'RESPONDER_DISPATCHED', notes: note.trim() }) });
+              statusMessage(sosOps, 'Responder dispatch logged.');
+              await refresh();
+            } catch (err) { statusMessage(sosOps, err.message, true); }
+          }));
+        }
+        if (status !== 'RESOLVED') {
+          actions.append(actionButton('Mark Resolved', async () => {
+            if (!window.confirm('Mark this emergency SOS incident as resolved?')) return;
+            try {
+              await api(`/authority/sos/${record.id}/status`, { method: 'PATCH', body: JSON.stringify({ status: 'RESOLVED', notes: 'Emergency resolved on ground' }) });
+              statusMessage(sosOps, 'SOS marked resolved.');
+              await refresh();
+            } catch (err) { statusMessage(sosOps, err.message, true); }
+          }));
+        }
+        item.append(actions);
+        sosList.append(item);
+      });
     } catch (error) {
       sosList.append(text('p', error.status === 403 ? 'SOS view permission required.' : error.message, 'font-caption text-caption text-on-surface-variant'));
     }

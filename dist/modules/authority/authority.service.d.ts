@@ -51,11 +51,19 @@ export declare class AuthorityService {
     }>;
     listSos(user: AuthenticatedUser): Promise<{
         id: string;
+        description: string | null;
         latitude: number | null;
         longitude: number | null;
+        contactInfo: string | null;
         status: string;
         serviceType: string;
+        emergencyType: string | null;
+        gpsAccuracy: number | null;
+        affectedPeople: number;
         triggeredAt: Date;
+        acknowledgedAt: Date | null;
+        acknowledgedByStaffId: string | null;
+        responderNotes: string | null;
         resolvedAt: Date | null;
     }[] | {
         id: string;
@@ -585,6 +593,55 @@ export declare class AuthorityService {
         quantityReserved: number;
         unit: string;
         lastRestockedAt: Date;
+    }>;
+    getInventoryMovements(user: AuthenticatedUser, depotId?: string): Promise<{
+        id: string;
+        createdAt: Date;
+        actorId: string | null;
+        notes: string | null;
+        depotId: string;
+        itemSku: string;
+        quantity: number;
+        movementType: string;
+        previousAvailable: number;
+        newAvailable: number;
+        previousReserved: number;
+        newReserved: number;
+        referenceId: string | null;
+    }[]>;
+    acknowledgeSos(user: AuthenticatedUser, sosId: string, notes?: string, ipAddress?: string): Promise<{
+        id: string;
+        description: string | null;
+        latitude: number | null;
+        longitude: number | null;
+        contactInfo: string | null;
+        status: string;
+        serviceType: string;
+        emergencyType: string | null;
+        gpsAccuracy: number | null;
+        affectedPeople: number;
+        triggeredAt: Date;
+        acknowledgedAt: Date | null;
+        acknowledgedByStaffId: string | null;
+        responderNotes: string | null;
+        resolvedAt: Date | null;
+    }>;
+    updateSosStatus(user: AuthenticatedUser, sosId: string, status: 'RESPONDER_DISPATCHED' | 'RESOLVED', notes?: string, ipAddress?: string): Promise<{
+        id: string;
+        description: string | null;
+        latitude: number | null;
+        longitude: number | null;
+        contactInfo: string | null;
+        status: string;
+        serviceType: string;
+        emergencyType: string | null;
+        gpsAccuracy: number | null;
+        affectedPeople: number;
+        triggeredAt: Date;
+        acknowledgedAt: Date | null;
+        acknowledgedByStaffId: string | null;
+        responderNotes: string | null;
+        resolvedAt: Date | null;
     }>;
     listStaff(user: AuthenticatedUser): Promise<{
         id: string;

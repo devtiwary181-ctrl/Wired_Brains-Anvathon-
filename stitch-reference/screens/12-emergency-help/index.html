@@ -446,9 +446,158 @@
   // ── SCREEN 12: SOS & EMERGENCY HELP — Backend Integration ────────────────
   (function() {
     const DR = window.DisasterReadyAPI;
-    const loc = DR.storage.getLocation();
+    let loc = DR.storage.getLocation();
 
-    // Wire all call intent buttons to log SOS before opening tel: link
+    // 1. GPS Location capture and send
+    const sendLocationBtn = document.getElementById('sendLocationBtn');
+    if (sendLocationBtn) {
+      sendLocationBtn.addEventListener('click', async function() {
+        sendLocationBtn.disabled = true;
+        sendLocationBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Transmitting location…</span>';
+        
+        let lat = loc.lat;
+        let lng = loc.lng;
+        let accuracy = 15;
+
+        if (navigator.geolocation) {
+          try {
+            const pos = await new Promise((resolve, reject) => {
+              navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, timeout: 6000 });
+            });
+            lat = pos.coords.latitude;
+            lng = pos.coords.longitude;
+            accuracy = pos.coords.accuracy;
+            DR.storage.setLocation(lat, lng);
+          } catch(e) {
+            // Keep saved or fallback location
+          }
+        }
+
+        try {
+          const res = await DR.sos.log('112_NATIONAL', lat, lng, {
+            emergencyType: 'LOCATION_BROADCAST',
+            gpsAccuracy: accuracy,
+            description: 'Citizen tapped Send My Location',
+          });
+          const gpsBox = document.getElementById('gpsActiveBox');
+          if (gpsBox) {
+            gpsBox.classList.remove('opacity-50');
+            gpsBox.innerHTML = `
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5 text-tertiary">
+                  <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                  <span class="font-body-strong text-body-strong">Location sent at ${new Date().toLocaleTimeString()}</span>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption">SOS Ref: ${res.sosId?.slice(0, 8) || 'SENT'}</span>
+              </div>
+              <div class="font-caption text-caption text-secondary font-mono">
+                Lat: ${lat ? lat.toFixed(4) : 'N/A'}°, Lon: ${lng ? lng.toFixed(4) : 'N/A'}° • Accuracy ±${Math.round(accuracy)}m
+              </div>
+            `;
+          }
+          DR.ui.toast('✓ Location transmitted to control room. Dial 112 if in direct danger.');
+        } catch(err) {
+          if (err.code === 'OFFLINE_SOS_DRAFT_SAVED') {
+            const gpsBox = document.getElementById('gpsActiveBox');
+            if (gpsBox) {
+              gpsBox.innerHTML = `
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5 text-error">
+                    <span class="material-symbols-outlined text-[20px]">cloud_off</span>
+                    <span class="font-body-strong text-body-strong">OFFLINE: Draft ${err.draftId} (NOT SENT)</span>
+                  </div>
+                  <span class="px-2 py-0.5 rounded bg-error text-on-error font-caption text-[11px] font-bold">NOT SENT</span>
+                </div>
+                <div class="font-caption text-caption text-error">
+                  No data connection. Your location packet could not reach the server. Please call 112 directly!
+                </div>
+              `;
+            }
+            DR.ui.toast('⚠ OFFLINE: Saved locally as NOT SENT. Call 112 directly on phone line.', 7000);
+          } else {
+            DR.ui.toast(err.message || 'Could not send location packet.');
+          }
+        } finally {
+          sendLocationBtn.disabled = false;
+          sendLocationBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">send</span><span>Send now (अभी भेजें) →</span>';
+        }
+      });
+    }
+
+    // 2. High-Stress Rescue Request Form Submission
+    const rescueForm = document.getElementById('rescueForm');
+    if (rescueForm) {
+      rescueForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = rescueForm.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+
+        // Extract selected scenario and headcount
+        let headcount = 4;
+        const countBtns = rescueForm.querySelectorAll('.grid-cols-4 button');
+        countBtns.forEach(btn => {
+          if (btn.classList.contains('bg-primary')) {
+            const txt = btn.textContent.trim();
+            headcount = txt === '1' ? 1 : txt === '11+' ? 12 : txt === '5–10' ? 6 : 4;
+          }
+        });
+
+        const waitingLocation = rescueForm.querySelector('.flex.flex-col.gap-space-xs button.bg-primary')?.textContent?.trim() || 'Rooftop / Terrace';
+        const hasInjury = rescueForm.querySelector('.grid-cols-2 button.bg-error-container') != null;
+
+        const description = `Waiting at: ${waitingLocation}. ${hasInjury ? 'CRITICAL: Injury or urgent medical need reported.' : 'No major injury.'}`;
+
+        try {
+          const res = await DR.sos.log('1078_NDRF', loc.lat, loc.lng, {
+            emergencyType: 'RESCUE_REQUEST',
+            affectedPeople: headcount,
+            description,
+          });
+
+          // Show confirmation card
+          const statusCard = document.querySelector('.flex.flex-col.gap-2.p-space-sm.bg-surface-container-low');
+          if (statusCard) {
+            statusCard.innerHTML = `
+              <div class="flex items-center justify-between text-caption font-bold">
+                <span class="text-tertiary flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">verified</span> Ref #${res.sosId?.slice(0, 8) || 'SENT'}</span>
+                <span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed text-[12px]">Queued at EOC</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-center font-caption text-[12px]">
+                <div class="bg-tertiary text-on-tertiary py-1 rounded font-bold"><span class="material-symbols-outlined text-[16px] inline block">check_circle</span> 1. Logged</div>
+                <div class="bg-surface-container-high text-on-surface py-1 rounded">2. Triage</div>
+                <div class="bg-surface-container-high text-on-surface py-1 rounded">3. Responders</div>
+              </div>
+              <p class="font-caption text-caption text-on-surface-variant leading-tight">
+                Rescue request logged for ${headcount} people (${waitingLocation}). Responders alerted at district control. If water is rising rapidly, dial 112 immediately.
+              </p>
+            `;
+          }
+          DR.ui.toast('✓ Rescue request recorded in emergency queue. Call 112 if in imminent danger.');
+        } catch(err) {
+          if (err.code === 'OFFLINE_SOS_DRAFT_SAVED') {
+            const statusCard = document.querySelector('.flex.flex-col.gap-2.p-space-sm.bg-surface-container-low');
+            if (statusCard) {
+              statusCard.innerHTML = `
+                <div class="flex items-center justify-between text-caption font-bold text-error">
+                  <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">cloud_off</span> OFFLINE DRAFT (NOT SENT)</span>
+                  <span class="px-2 py-0.5 rounded-full bg-error text-on-error text-[12px]">NOT SENT</span>
+                </div>
+                <p class="font-caption text-caption text-error font-semibold leading-tight">
+                  No data connection. Your rescue request could NOT be sent. Do not wait for an app response — dial 112 or 1078 directly now!
+                </p>
+              `;
+            }
+            DR.ui.toast('⚠ OFFLINE: Not sent. Use phone dialer 112 / 1078 immediately!', 7000);
+          } else {
+            DR.ui.toast(err.message || 'Could not log rescue request.');
+          }
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
+
+    // 3. Wire all call intent buttons to log SOS before opening tel: link
     const sosMap = {
       '112': '112_NATIONAL',
       '1078': '1078_NDRF',
@@ -462,14 +611,25 @@
         const num = link.getAttribute('href').replace('tel:', '').replace(/\D/g, '');
         const serviceType = sosMap[num] || '112_NATIONAL';
         try {
-          await DR.sos.log(serviceType, loc.lat, loc.lng);
+          await DR.sos.log(serviceType, loc.lat, loc.lng, {
+            emergencyType: 'DIALER_CLICK',
+            description: `Dialed ${num} directly`,
+          });
         } catch (e) {
           // Silently fail — never block emergency calls
         }
       });
     });
 
-    // Web Audio API siren generator (for attention/signalling)
+    // 4. Listen for online events to automatically sync any offline SOS drafts
+    window.addEventListener('online', async () => {
+      const syncRes = await DR.sos.syncOfflineDrafts();
+      if (syncRes.synced > 0) {
+        DR.ui.toast(`Synced ${syncRes.synced} offline emergency SOS record(s) to central EOC.`);
+      }
+    });
+
+    // 5. Web Audio API siren generator (for attention/signalling)
     window.playSiren = function() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();

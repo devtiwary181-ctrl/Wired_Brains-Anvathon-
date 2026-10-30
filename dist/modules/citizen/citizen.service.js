@@ -16,6 +16,7 @@
 import { prisma } from '../../shared/database.js';
 import { AppError } from '../../middleware/errorHandler.js';
 import { getFacilityUnknownFields } from '../../shared/facilityDataQuality.js';
+import { notifyAuthorizedStaff } from '../../shared/notifications.js';
 import crypto from 'crypto';
 // ---------------------------------------------------------------------------
 // Helper: Generate cryptographically secure high-entropy tracking token
@@ -471,7 +472,18 @@ export class CitizenService {
                 notes: 'Citizen submitted anonymous relief request via DisasterReady Portal.',
             },
         });
+        // Notify authorized staff and EOC
+        const totalPeople = data.headcountAdults + data.headcountChildren + data.headcountInfants + data.headcountSeniors;
+        notifyAuthorizedStaff({
+            type: 'NEW_RELIEF_REQUEST',
+            title: `New Relief Request: ${data.urgencyLevel} Urgency`,
+            message: `${totalPeople} people in need at (${data.latitude.toFixed(4)}, ${data.longitude.toFixed(4)}). Context: ${data.deliveryContext}.`,
+            districtId: relief.districtId,
+            entityId: relief.id,
+            metadata: { trackingToken, urgencyLevel: data.urgencyLevel, totalPeople },
+        }).catch(() => { });
         return {
+            requestId: relief.id,
             trackingToken,
             stage: relief.stage,
             estimatedResponseMinutes: estimateResponseTime(data.urgencyLevel),
@@ -540,15 +552,38 @@ export class CitizenService {
         const record = await prisma.sosRecord.create({
             data: {
                 serviceType: data.serviceType,
+                emergencyType: data.emergencyType,
                 latitude: data.latitude,
                 longitude: data.longitude,
+                gpsAccuracy: data.gpsAccuracy,
+                affectedPeople: data.affectedPeople || 1,
+                description: data.description,
+                contactInfo: data.contactInfo,
+                status: 'LOGGED',
             },
         });
+        // Notify authorized staff and responders
+        notifyAuthorizedStaff({
+            type: 'NEW_SOS',
+            title: `EMERGENCY SOS: ${data.serviceType}`,
+            message: `${data.affectedPeople || 1} people affected.${data.description ? ` Details: ${data.description}.` : ''} Location: ${data.latitude != null && data.longitude != null ? `(${data.latitude.toFixed(4)}, ${data.longitude.toFixed(4)})` : 'Not provided'}.`,
+            entityId: record.id,
+            metadata: { serviceType: data.serviceType, emergencyType: data.emergencyType, affectedPeople: data.affectedPeople || 1 },
+        }).catch(() => { });
         return {
             sosId: record.id,
             serviceType: record.serviceType,
-            status: 'LOGGED',
-            message: 'SOS call intent logged. Please immediately dial the emergency number on your phone.',
+            emergencyType: record.emergencyType,
+            affectedPeople: record.affectedPeople,
+            status: record.status,
+            message: 'SOS emergency record logged. Note: Submitting SOS to DisasterReady India does not automatically contact police, ambulance or government emergency services. Please immediately use the direct helpline call buttons.',
+            directHelplines: [
+                { service: 'National Emergency / Police / Fire', number: '112', telUri: 'tel:112' },
+                { service: 'Disaster Helpline (NDMA / NDRF)', number: '1078', telUri: 'tel:1078' },
+                { service: 'Ambulance & Medical Emergency', number: '108', telUri: 'tel:108' },
+                { service: 'Fire Brigade', number: '101', telUri: 'tel:101' },
+                { service: 'Women Safety Helpline', number: '1091', telUri: 'tel:1091' },
+            ],
             emergency_numbers: {
                 '112': '112',
                 '1078': '1078',

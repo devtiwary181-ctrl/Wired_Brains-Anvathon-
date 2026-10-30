@@ -488,7 +488,7 @@
 </button>
 </section>
 <!-- CONFIRMATION & OFFLINE PREVIEW CARD -->
-<section class="flex flex-col gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-md">
+<section id="confirmation-section" class="flex flex-col gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-md">
 <div class="flex items-center gap-space-sm">
 <div class="w-12 h-12 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center flex-shrink-0">
 <span class="material-symbols-outlined text-[30px]">check_circle</span>
@@ -502,9 +502,9 @@
 <div class="flex flex-col p-space-md rounded-xl bg-surface-container-high text-on-surface gap-2">
 <span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Emergency Tracking Reference ID</span>
 <div class="flex items-center justify-between">
-<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-widest">DR-1042</span>
+<span id="tracking-token-display" class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-widest break-all">DR-1042</span>
 <div class="flex items-center gap-space-xs">
-<button aria-label="Copy tracking ID" class="min-h-[44px] px-3 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
+<button id="copyTrackingTokenBtn" aria-label="Copy tracking ID" class="min-h-[44px] px-3 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
 <span class="material-symbols-outlined text-[18px]">content_copy</span>
 <span class="">Copy</span>
 </button>
@@ -514,7 +514,7 @@
 </div>
 </div>
 <p class="font-caption text-caption text-on-surface-variant">
-        Keep this number safe for volunteer check-ins (इस नंबर को संभाल कर रखें)
+        Keep this reference token safe for volunteer check-ins and live tracking (इस नंबर को संभाल कर रखें)
       </p>
 </div>
 <!-- Offline Safeguard Badge -->
@@ -522,8 +522,8 @@
 <span class="material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5">cloud_sync</span>
 <div class="flex flex-col">
 <span class="font-label-strong text-label-strong text-on-surface">Offline Resilience Safeguard Active</span>
-<span class="font-caption text-caption leading-snug">
-          Saved locally on this device. If connection drops, temporary token <strong>#TEMP-881</strong> will automatically sync with NDMA Central Feed as soon as cellular signal returns.
+<span id="offline-sync-badge-desc" class="font-caption text-caption leading-snug">
+          Saved locally on this device. If connection drops, your offline draft will automatically queue and sync as soon as cellular signal returns.
         </span>
 </div>
 </div>
@@ -541,7 +541,7 @@
 <span class="material-symbols-outlined text-[20px]">download</span>
 <span class="">Save as Card Image</span>
 </button>
-<a class="min-h-[48px] px-space-sm rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-primary-container text-center" href="#">
+<a id="trackStatusLink" class="min-h-[48px] px-space-sm rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-primary-container text-center" href="../09-relief-tracking/index.html">
 <span class="">Track Status →</span>
 </a>
 </div>
@@ -669,23 +669,43 @@
         // Show confirmation with tracking token
         const tokenEl = document.querySelector('#tracking-token-display, [data-tracking-token]');
         if (tokenEl) tokenEl.textContent = result.trackingToken;
+        const trackLink = document.getElementById('trackStatusLink');
+        if (trackLink) trackLink.href = `../09-relief-tracking/index.html?token=${encodeURIComponent(result.trackingToken)}`;
         const confirmSection = document.querySelector('#confirmation-section, [data-confirmation]');
-        if (confirmSection) confirmSection.classList.remove('hidden');
+        if (confirmSection) {
+          confirmSection.classList.remove('hidden');
+          confirmSection.scrollIntoView({ behavior: 'smooth' });
+        }
         const status = document.getElementById('relief-form-status');
         if (status) status.textContent = `Request received. Save this private tracking token: ${result.trackingToken}`;
 
         DR.ui.toast('✓ Request submitted! Token: ' + result.trackingToken, 6000);
       } catch (err) {
-        const status = document.getElementById('relief-form-status');
-        if (status) status.textContent = err.message || 'Submission failed. Check your connection and try again.';
-        DR.ui.toast('⚠ Submission failed: ' + (err.message || 'Network error. Please try again.'));
+        if (err.code === 'OFFLINE_DRAFT_SAVED') {
+          const status = document.getElementById('relief-form-status');
+          if (status) status.innerHTML = `<span class="text-error font-bold">OFFLINE (NOT SENT):</span> Draft ${err.draftId} saved on this device. Never marked as submitted until backend receipt confirmed.`;
+          const badgeDesc = document.getElementById('offline-sync-badge-desc');
+          if (badgeDesc) badgeDesc.textContent = `Offline draft ${err.draftId} is queued on this phone with status NOT SENT. Connect to the internet to auto-sync.`;
+          const confirmSection = document.querySelector('#confirmation-section');
+          if (confirmSection) {
+            const tokenEl = document.querySelector('#tracking-token-display');
+            if (tokenEl) tokenEl.textContent = `${err.draftId} (NOT SENT)`;
+            confirmSection.classList.remove('hidden');
+            confirmSection.scrollIntoView({ behavior: 'smooth' });
+          }
+          DR.ui.toast('Draft saved locally (NOT SENT). Will sync when connection is restored.', 6000);
+        } else {
+          const status = document.getElementById('relief-form-status');
+          if (status) status.textContent = err.message || 'Submission failed. Check your connection and try again.';
+          DR.ui.toast('⚠ Submission failed: ' + (err.message || 'Network error. Please try again.'));
+        }
       } finally {
         if (submitBtn) DR.ui.setLoading(submitBtn, false);
         requestInFlight = false;
       }
     };
 
-    // Auto-wire submit buttons
+    // Auto-wire submit buttons and copy token button
     document.addEventListener('DOMContentLoaded', function() {
       setupReliefControls();
       document.querySelectorAll('#submitRequestBtn, #submit-relief-btn, [data-action="submit-relief"], button[type="submit"]').forEach(function(btn) {
@@ -693,6 +713,22 @@
           e.preventDefault();
           await window.submitReliefRequest();
         });
+      });
+      const copyBtn = document.getElementById('copyTrackingTokenBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+          const token = document.getElementById('tracking-token-display')?.textContent.trim();
+          if (token && navigator.clipboard) {
+            navigator.clipboard.writeText(token).then(() => DR.ui.toast('Tracking token copied!'));
+          }
+        });
+      }
+      // Listen for online events to automatically sync any offline drafts
+      window.addEventListener('online', async () => {
+        const syncRes = await DR.relief.syncOfflineDrafts();
+        if (syncRes.synced > 0) {
+          DR.ui.toast(`Synced ${syncRes.synced} offline relief request(s) to central EOC.`);
+        }
       });
     });
   })();

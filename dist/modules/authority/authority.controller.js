@@ -175,6 +175,30 @@ export class AuthorityController {
             next(error);
         }
     }
+    async inventoryMovements(req, res, next) {
+        try {
+            res.json({ success: true, data: await authorityService.getInventoryMovements(actor(req), req.query.depotId) });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async acknowledgeSos(req, res, next) {
+        try {
+            res.json({ success: true, data: await authorityService.acknowledgeSos(actor(req), routeId(req), req.body?.notes, requestIp(req)) });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
+    async updateSosStatus(req, res, next) {
+        try {
+            res.json({ success: true, data: await authorityService.updateSosStatus(actor(req), routeId(req), req.body.status, req.body?.notes, requestIp(req)) });
+        }
+        catch (error) {
+            next(error);
+        }
+    }
     async listStaff(req, res, next) {
         try {
             res.json({ success: true, data: await authorityService.listStaff(actor(req)) });

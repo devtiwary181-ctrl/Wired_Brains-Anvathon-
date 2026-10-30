@@ -50,8 +50,13 @@ const createReliefRequestSchema = z.object({
 });
 const sosSchema = z.object({
     serviceType: z.enum(['112_NATIONAL', '1078_NDRF', '108_AMBULANCE', '101_FIRE', '1091_WOMEN', '1800_NDMA']),
+    emergencyType: z.string().max(80).optional(),
     latitude: z.coerce.number().min(-90).max(90).optional(),
     longitude: z.coerce.number().min(-180).max(180).optional(),
+    gpsAccuracy: z.coerce.number().min(0).max(50000).optional(),
+    affectedPeople: z.coerce.number().int().min(1).max(500).default(1).optional(),
+    description: z.string().max(1000).optional(),
+    contactInfo: z.string().max(200).optional(),
 });
 const facilitiesQuerySchema = z.object({
     districtId: z.string().uuid().optional(),

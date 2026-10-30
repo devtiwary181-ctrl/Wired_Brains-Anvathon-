@@ -288,6 +288,7 @@ export declare class CitizenService {
         itemsRequested: Record<string, unknown>;
         specialMedicalNeeds?: string;
     }): Promise<{
+        requestId: string;
         trackingToken: string;
         stage: string;
         estimatedResponseMinutes: number;
@@ -333,13 +334,25 @@ export declare class CitizenService {
      */
     logSos(data: {
         serviceType: string;
+        emergencyType?: string;
         latitude?: number;
         longitude?: number;
+        gpsAccuracy?: number;
+        affectedPeople?: number;
+        description?: string;
+        contactInfo?: string;
     }): Promise<{
         sosId: string;
         serviceType: string;
+        emergencyType: string | null;
+        affectedPeople: number;
         status: string;
         message: string;
+        directHelplines: {
+            service: string;
+            number: string;
+            telUri: string;
+        }[];
         emergency_numbers: {
             '112': string;
             '1078': string;

@@ -5,6 +5,7 @@ import { prisma } from '../../shared/database.js';
 import { AuthenticatedUser } from '../auth/auth.middleware.js';
 import { RoleType, ROLE_PERMISSIONS } from '../auth/rbac.js';
 import { getFacilityUnknownFields } from '../../shared/facilityDataQuality.js';
+import { notifyAuthorizedStaff } from '../../shared/notifications.js';
 
 type AuditInput = {
   user: AuthenticatedUser;
@@ -572,8 +573,100 @@ export class AuthorityService {
       } });
       await tx.requestAuditLog.create({ data: { requestId, previousStage: current.stage, newStage: data.stage, actorType: 'STAFF_OFFICER', actorId: user.id, notes: data.notes } });
       await writeAudit(tx, { user, action: 'TRANSITION_RELIEF_REQUEST', entityType: 'ReliefRequest', entityId: requestId, metadata: { previousStage: current.stage, newStage: data.stage, notes: data.notes } as Prisma.InputJsonValue, ipAddress });
+
+      // If request reached STAGE_5_DELIVERED, complete inventory deduction from assigned depot
+      if (data.stage === 'STAGE_5_DELIVERED' && updated.assignedDepotId) {
+        const fullRequest = await tx.reliefRequest.findUnique({ where: { id: requestId }, select: { itemsRequested: true, assignedDepotId: true } });
+        const items = fullRequest?.itemsRequested && typeof fullRequest.itemsRequested === 'object' && !Array.isArray(fullRequest.itemsRequested)
+          ? fullRequest.itemsRequested as Record<string, unknown>
+          : {};
+        const skuMapping: Record<string, string> = { drinkingWater: 'WATER_20L', foodKits: 'DRY_RATION_KIT', babyFormula: 'BABY_FORMULA', firstAidKit: 'FIRST_AID_KIT', tarpaulin: 'TARPAULIN' };
+        for (const [key, sku] of Object.entries(skuMapping)) {
+          const val = items[key];
+          const qty = typeof val === 'number' ? val : val === true ? 1 : 0;
+          if (qty > 0 && fullRequest?.assignedDepotId) {
+            const stock = await tx.depotInventory.findUnique({ where: { depotId_itemSku: { depotId: fullRequest.assignedDepotId, itemSku: sku } } });
+            if (stock && stock.quantityReserved >= qty && stock.quantityAvailable >= qty) {
+              const prevAvail = stock.quantityAvailable;
+              const prevRes = stock.quantityReserved;
+              const newAvail = prevAvail - qty;
+              const newRes = prevRes - qty;
+              await tx.depotInventory.update({
+                where: { id: stock.id },
+                data: { quantityAvailable: newAvail, quantityReserved: newRes },
+              });
+              await tx.inventoryMovement.create({
+                data: {
+                  depotId: fullRequest.assignedDepotId,
+                  itemSku: sku,
+                  movementType: 'DELIVER',
+                  quantity: qty,
+                  previousAvailable: prevAvail,
+                  newAvailable: newAvail,
+                  previousReserved: prevRes,
+                  newReserved: newRes,
+                  referenceId: requestId,
+                  actorId: user.id,
+                  notes: `Relief delivery fulfilled: Request ${requestId}`,
+                },
+              });
+            }
+          }
+        }
+      }
+
+      // If request was CANCELLED after stock was allocated, release the reserved stock back
+      if (data.stage === 'CANCELLED' && current.stage === 'STAGE_3_ALLOCATED') {
+        const fullRequest = await tx.reliefRequest.findUnique({ where: { id: requestId }, select: { itemsRequested: true, assignedDepotId: true } });
+        const items = fullRequest?.itemsRequested && typeof fullRequest.itemsRequested === 'object' && !Array.isArray(fullRequest.itemsRequested)
+          ? fullRequest.itemsRequested as Record<string, unknown>
+          : {};
+        const skuMapping: Record<string, string> = { drinkingWater: 'WATER_20L', foodKits: 'DRY_RATION_KIT', babyFormula: 'BABY_FORMULA', firstAidKit: 'FIRST_AID_KIT', tarpaulin: 'TARPAULIN' };
+        for (const [key, sku] of Object.entries(skuMapping)) {
+          const val = items[key];
+          const qty = typeof val === 'number' ? val : val === true ? 1 : 0;
+          if (qty > 0 && fullRequest?.assignedDepotId) {
+            const stock = await tx.depotInventory.findUnique({ where: { depotId_itemSku: { depotId: fullRequest.assignedDepotId, itemSku: sku } } });
+            if (stock && stock.quantityReserved >= qty) {
+              const prevAvail = stock.quantityAvailable;
+              const prevRes = stock.quantityReserved;
+              const newRes = prevRes - qty;
+              await tx.depotInventory.update({
+                where: { id: stock.id },
+                data: { quantityReserved: newRes },
+              });
+              await tx.inventoryMovement.create({
+                data: {
+                  depotId: fullRequest.assignedDepotId,
+                  itemSku: sku,
+                  movementType: 'CANCEL_RELEASE',
+                  quantity: qty,
+                  previousAvailable: prevAvail,
+                  newAvailable: prevAvail,
+                  previousReserved: prevRes,
+                  newReserved: newRes,
+                  referenceId: requestId,
+                  actorId: user.id,
+                  notes: `Reservation released on request cancellation: Request ${requestId}`,
+                },
+              });
+            }
+          }
+        }
+      }
+
+      // Notify authorized staff on request status changes
+      notifyAuthorizedStaff({
+        type: data.stage === 'STAGE_5_DELIVERED' ? 'DELIVERY_COMPLETED' : 'RELIEF_STAGE_CHANGED',
+        title: `Relief Request Stage Updated: ${data.stage}`,
+        message: `Request ${requestId} transitioned from ${current.stage} to ${data.stage}. Notes: ${data.notes}`,
+        districtId: current.districtId,
+        entityId: requestId,
+        metadata: { previousStage: current.stage, newStage: data.stage, notes: data.notes },
+      }).catch(() => {});
+
       return updated;
-    });
+    }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
   }
 
   async allocateReliefRequest(user: AuthenticatedUser, requestId: string, data: {
@@ -618,6 +711,21 @@ export class AuthorityService {
           where: { id: stock.id },
           data: { quantityReserved: { increment: allocation.quantity } },
         });
+        await tx.inventoryMovement.create({
+          data: {
+            depotId: data.depotId,
+            itemSku: allocation.itemSku,
+            movementType: 'RESERVE',
+            quantity: allocation.quantity,
+            previousAvailable: stock.quantityAvailable,
+            newAvailable: stock.quantityAvailable,
+            previousReserved: stock.quantityReserved,
+            newReserved: updatedStock.quantityReserved,
+            referenceId: requestId,
+            actorId: user.id,
+            notes: `Stock reserved for Relief Request ${requestId}`,
+          },
+        });
         reservedItems.push({ itemSku: allocation.itemSku, quantity: allocation.quantity, remaining: updatedStock.quantityAvailable - updatedStock.quantityReserved });
       }
       const updatedRequest = await tx.reliefRequest.update({ where: { id: requestId }, data: {
@@ -635,6 +743,17 @@ export class AuthorityService {
         notes: data.notes,
       } });
       await writeAudit(tx, { user, action: 'ALLOCATE_RELIEF_REQUEST', entityType: 'ReliefRequest', entityId: requestId, metadata: { depotId: depot.id, depotName: depot.name, allocations: reservedItems, notes: data.notes, previousStage: request.stage } as Prisma.InputJsonValue, ipAddress });
+
+      // Notify authorized staff
+      notifyAuthorizedStaff({
+        type: 'INVENTORY_ALLOCATED',
+        title: 'Relief Supplies Allocated',
+        message: `Depot ${depot.name} allocated supplies for request ${requestId}. Items: ${reservedItems.map(r => `${r.quantity}x ${r.itemSku}`).join(', ')}.`,
+        districtId: depot.districtId,
+        entityId: requestId,
+        metadata: { depotId: depot.id, allocations: reservedItems, notes: data.notes },
+      }).catch(() => {});
+
       return { request: updatedRequest, depot, allocations: reservedItems };
     }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
   }
@@ -648,13 +767,75 @@ export class AuthorityService {
     if (!item) throw new AppError('Inventory item not found.', 404, 'RECORD_NOT_FOUND');
     await requireDistrictAccess(user, item.depot.districtId);
     return prisma.$transaction(async tx => {
-      const current = await tx.depotInventory.findUnique({ where: { id: inventoryId }, select: { quantityReserved: true, quantityAvailable: true } });
+      const current = await tx.depotInventory.findUnique({ where: { id: inventoryId }, select: { quantityReserved: true, quantityAvailable: true, depotId: true, itemSku: true } });
       if (!current) throw new AppError('Inventory item not found.', 404, 'RECORD_NOT_FOUND');
       if (data.quantityAvailable < current.quantityReserved) throw new AppError('Available stock cannot be lower than already reserved stock.', 409, 'STOCK_RESERVED');
       const updated = await tx.depotInventory.update({ where: { id: inventoryId }, data: { quantityAvailable: data.quantityAvailable, lastRestockedAt: data.quantityAvailable > current.quantityAvailable ? new Date() : undefined } });
+      await tx.inventoryMovement.create({
+        data: {
+          depotId: current.depotId,
+          itemSku: current.itemSku,
+          movementType: data.quantityAvailable > current.quantityAvailable ? 'RESTOCK' : 'ADJUSTMENT',
+          quantity: Math.abs(data.quantityAvailable - current.quantityAvailable),
+          previousAvailable: current.quantityAvailable,
+          newAvailable: updated.quantityAvailable,
+          previousReserved: current.quantityReserved,
+          newReserved: current.quantityReserved,
+          referenceId: inventoryId,
+          actorId: user.id,
+          notes: data.reason,
+        },
+      });
       await writeAudit(tx, { user, action: 'ADJUST_INVENTORY', entityType: 'DepotInventory', entityId: inventoryId, metadata: { previousQuantity: item.quantityAvailable, quantityAvailable: updated.quantityAvailable, quantityReserved: item.quantityReserved, reason: data.reason } as Prisma.InputJsonValue, ipAddress });
       return updated;
     }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+  }
+
+  async getInventoryMovements(user: AuthenticatedUser, depotId?: string) {
+    if (depotId) {
+      const depot = await prisma.reliefDepot.findUnique({ where: { id: depotId }, select: { districtId: true } });
+      if (depot) await requireDistrictAccess(user, depot.districtId);
+    }
+    return prisma.inventoryMovement.findMany({
+      where: depotId ? { depotId } : undefined,
+      orderBy: { createdAt: 'desc' },
+      take: 200,
+    });
+  }
+
+  async acknowledgeSos(user: AuthenticatedUser, sosId: string, notes?: string, ipAddress?: string) {
+    const record = await prisma.sosRecord.findUnique({ where: { id: sosId } });
+    if (!record) throw new AppError('SOS record not found.', 404, 'RECORD_NOT_FOUND');
+    return prisma.$transaction(async tx => {
+      const updated = await tx.sosRecord.update({
+        where: { id: sosId },
+        data: {
+          status: 'ACKNOWLEDGED',
+          acknowledgedAt: new Date(),
+          acknowledgedByStaffId: user.id,
+          responderNotes: notes || 'Acknowledged by emergency control staff',
+        },
+      });
+      await writeAudit(tx, { user, action: 'ACKNOWLEDGE_SOS', entityType: 'SosRecord', entityId: sosId, metadata: { previousStatus: record.status, newStatus: 'ACKNOWLEDGED', notes } as Prisma.InputJsonValue, ipAddress });
+      return updated;
+    });
+  }
+
+  async updateSosStatus(user: AuthenticatedUser, sosId: string, status: 'RESPONDER_DISPATCHED' | 'RESOLVED', notes?: string, ipAddress?: string) {
+    const record = await prisma.sosRecord.findUnique({ where: { id: sosId } });
+    if (!record) throw new AppError('SOS record not found.', 404, 'RECORD_NOT_FOUND');
+    return prisma.$transaction(async tx => {
+      const updated = await tx.sosRecord.update({
+        where: { id: sosId },
+        data: {
+          status,
+          responderNotes: notes || undefined,
+          resolvedAt: status === 'RESOLVED' ? new Date() : undefined,
+        },
+      });
+      await writeAudit(tx, { user, action: 'UPDATE_SOS_STATUS', entityType: 'SosRecord', entityId: sosId, metadata: { previousStatus: record.status, newStatus: status, notes } as Prisma.InputJsonValue, ipAddress });
+      return updated;
+    });
   }
 
   async listStaff(user: AuthenticatedUser) {

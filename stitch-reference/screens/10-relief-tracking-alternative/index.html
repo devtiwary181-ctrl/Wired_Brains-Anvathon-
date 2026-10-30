@@ -652,10 +652,10 @@ KA-05-EX-4412
     const DR = window.DisasterReadyAPI;
     const form = document.getElementById('trackForm');
     const tokenInput = document.getElementById('reqNumber') || form?.querySelector('input');
-    if (tokenInput) tokenInput.placeholder = 'Paste the private token from your request confirmation';
+    if (tokenInput) tokenInput.placeholder = 'Paste the private token from your request confirmation (DR-...)';
     const status = document.createElement('section');
     status.id = 'tracking-result-alt';
-    status.className = 'mt-3 p-3 rounded-lg bg-surface-container-low';
+    status.className = 'mt-3 p-3 rounded-lg bg-surface-container-low font-body-default';
     status.setAttribute('aria-live', 'polite');
     form?.insertAdjacentElement('afterend', status);
 
@@ -664,7 +664,7 @@ KA-05-EX-4412
         status.textContent = 'Enter the private tracking token shown after your request was submitted.';
         return;
       }
-      status.textContent = 'Loading request status…';
+      status.textContent = 'Loading request status from EOC…';
       const button = form?.querySelector('button[type="submit"]');
       if (button) button.disabled = true;
       try {
@@ -676,10 +676,19 @@ KA-05-EX-4412
         });
         const stageEl = document.querySelector('[data-stage-label-alt], #stage-alt');
         if (stageEl) stageEl.textContent = data.stageLabel;
-        status.textContent = `${data.stageLabel} • Updated ${new Date(data.updatedAt).toLocaleString()}`;
+
+        status.innerHTML = `
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[24px]">verified</span>
+            <div>
+              <span class="font-label-strong text-label-strong text-primary block">${data.stageLabel}</span>
+              <span class="font-caption text-caption text-on-surface-variant">District: ${data.district} • People: ${data.headcount.total} • Updated ${new Date(data.updatedAt).toLocaleTimeString()}</span>
+            </div>
+          </div>
+        `;
       } catch (err) {
-        status.textContent = err.status === 404 ? 'Token not found. Check the token from your request confirmation.' :
-          err.status === 400 ? 'Invalid tracking token. Check the token from your request confirmation.' :
+        status.textContent = err.status === 404 ? 'Tracking token not found. Check the token from your confirmation.' :
+          err.status === 400 ? 'Invalid tracking token format (DR-...).' :
           'Could not load tracking data. Check your connection and try again.';
       } finally {
         if (button) button.disabled = false;
@@ -690,15 +699,15 @@ KA-05-EX-4412
       event.preventDefault();
       track(tokenInput?.value.trim());
     });
-    form?.querySelectorAll('button').forEach(button => button.addEventListener('click', event => {
+    form?.querySelectorAll('button[type="submit"]').forEach(button => button.addEventListener('click', event => {
       event.preventDefault();
       track(tokenInput?.value.trim());
     }));
 
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token') || localStorage.getItem('dr_tracking_token');
-    if (tokenInput) tokenInput.value = token || '';
-    track(token);
+    if (tokenInput && token) tokenInput.value = token;
+    if (token) track(token);
   })();
 </script>
 </body></html>
