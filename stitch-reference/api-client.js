@@ -1561,6 +1561,17 @@
           toastEl.classList.remove('opacity-100');
           toastEl.classList.add('opacity-0', 'pointer-events-none');
         }, duration);
+      },
+      setLoading(buttonEl, isLoading, loadingText = 'Processing...') {
+        if (!buttonEl) return;
+        if (isLoading) {
+          buttonEl._origText = buttonEl.innerHTML;
+          buttonEl.disabled = true;
+          buttonEl.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin inline-block">refresh</span> <span>${loadingText}</span>`;
+        } else {
+          buttonEl.disabled = false;
+          if (buttonEl._origText) buttonEl.innerHTML = buttonEl._origText;
+        }
       }
     },
 

@@ -11,8 +11,8 @@ echo "Starting backend API server on port 5001..."
 if lsof -i :5001 >/dev/null 2>&1; then
   echo "Backend API is already running on port 5001."
 else
-  nohup node dist/server.js > server.log 2>&1 &
-  sleep 2
+  nohup node dist/server.js </dev/null >> server.log 2>&1 &
+  sleep 3
   echo "Backend API started (PID $!)."
 fi
 
@@ -21,11 +21,9 @@ echo "Starting frontend server on port 3000..."
 if lsof -i :3000 >/dev/null 2>&1; then
   echo "Frontend server is already running on port 3000."
 else
-  cd stitch-reference
-  nohup python3 -m http.server 3000 > ../app.log 2>&1 &
+  (cd stitch-reference && nohup python3 -m http.server 3000 </dev/null >> ../app.log 2>&1 &)
   sleep 2
-  cd "$ROOT_DIR"
-  echo "Frontend server started (PID $!)."
+  echo "Frontend server started."
 fi
 
 echo "=== Verification ==="

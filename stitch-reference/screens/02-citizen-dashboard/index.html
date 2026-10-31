@@ -1475,11 +1475,19 @@ html.dark header, html.dark nav {
 
     function onLanguageChanged(code) {
       if (!code) return;
+      if (window.DisasterReadyAPI?.storage) {
+        window.DisasterReadyAPI.storage.setLang(code);
+      } else {
+        localStorage.setItem('dr_lang', code);
+      }
       if (window.DisasterReadyI18n) {
         window.DisasterReadyI18n.applyLanguage(code);
       }
       if (headerSelect && headerSelect.value !== code) headerSelect.value = code;
       if (broadcastSelect && broadcastSelect.value !== code) broadcastSelect.value = code;
+      document.querySelectorAll('.header-lang-select').forEach(s => {
+        if (s.value !== code) s.value = code;
+      });
     }
 
     if (headerSelect) {
