@@ -712,74 +712,108 @@
     hazardList.insertAdjacentElement('afterend', safetyNotice);
     btnList?.addEventListener('click', () => hazardList.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     let hazards = [];
-    let googleMap;
+    let leafletMap;
     let hazardOverlays = [];
 
     async function initializeGoogleMap() {
-      if (googleMap) return;
+      if (leafletMap) return;
       try {
-        await DR.maps.load();
+        const L = await DR.maps.load();
+        await DR.maps.getConfig();
         const savedLocation = DR.storage.getLocation();
         const initialCenter = savedLocation.lat != null && savedLocation.lng != null
-          ? { lat: savedLocation.lat, lng: savedLocation.lng }
-          : hazards[0]?.coordinates || { lat: 20.5937, lng: 78.9629 };
-        googleMap = new window.google.maps.Map(liveMap, {
+          ? [savedLocation.lat, savedLocation.lng]
+          : hazards[0]?.coordinates ? [hazards[0].coordinates.lat, hazards[0].coordinates.lng] : [20.5937, 78.9629];
+        
+        leafletMap = DR.maps.createMap(liveMap, {
           center: initialCenter,
           zoom: savedLocation.lat != null ? 12 : hazards.length ? 11 : 5,
-          mapTypeControl: false,
-          streetViewControl: false,
         });
+
+        // Add user location marker if available
+        if (savedLocation.lat != null && savedLocation.lng != null) {
+          const userIcon = L.divIcon({
+            className: 'dr-user-location-pulse',
+            html: '<div style="background:#0b5fa5;width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px #0b5fa5"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+          });
+          L.marker([savedLocation.lat, savedLocation.lng], { icon: userIcon, title: 'Your Current Location' })
+            .addTo(leafletMap)
+            .bindPopup('<b>You Are Here</b><br>GPS Location');
+        }
+
         if (btnMapSatToggle) {
+          let isSat = false;
+          let satLayer = null;
           btnMapSatToggle.addEventListener('click', () => {
-            googleMap?.setMapTypeId(googleMap.getMapTypeId() === 'roadmap' ? 'hybrid' : 'roadmap');
+            isSat = !isSat;
+            if (isSat) {
+              if (!satLayer) {
+                // ESRI World Imagery (free standard tile layer)
+                satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                  maxZoom: 18,
+                  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+                });
+              }
+              satLayer.addTo(leafletMap);
+            } else if (satLayer) {
+              leafletMap.removeLayer(satLayer);
+            }
           });
         }
-        mapStatus.textContent = 'Google Maps • Hazard records from DisasterReady API. Empty map coverage is not a safety indication.';
+        mapStatus.textContent = 'OpenStreetMap & Leaflet • Hazard records from DisasterReady PostGIS API. Empty map coverage is not a safety indication.';
       } catch (error) {
-        mapStatus.textContent = error.message || 'Google Maps JavaScript API is unavailable. The live map could not be displayed.';
+        mapStatus.textContent = error.message || 'Leaflet map library is unavailable. The live map could not be displayed.';
         liveMap.textContent = mapStatus.textContent;
       }
     }
 
     const renderHazards = () => {
-      if (!googleMap) return;
-      hazardOverlays.forEach(overlay => overlay.setMap(null));
+      if (!leafletMap || !window.L) return;
+      const L = window.L;
+      hazardOverlays.forEach(overlay => leafletMap.removeLayer(overlay));
       hazardOverlays = [];
+
       if (document.getElementById('hazard-layer-polygons').checked) {
         hazards.forEach(h => h.polygons.forEach(p => {
           const coordinates = Array.isArray(p.coordinates) ? p.coordinates : [];
           if (coordinates.length < 3 || !coordinates.every(point => Array.isArray(point) && point.length >= 2 && point.every(Number.isFinite))) return;
-          const polygon = new window.google.maps.Polygon({
-            paths: coordinates.map(([lat, lng]) => ({ lat, lng })),
-            strokeColor: '#ba1a1a',
-            strokeOpacity: 0.9,
-            strokeWeight: 2,
+          const latLngs = coordinates.map(([lat, lng]) => [lat, lng]);
+          const polygon = L.polygon(latLngs, {
+            color: '#ba1a1a',
+            weight: 2,
+            opacity: 0.9,
             fillColor: '#ba1a1a',
             fillOpacity: 0.2,
-            map: googleMap,
-          });
+          }).addTo(leafletMap);
+          polygon.bindTooltip(`<b>${h.hazardType.replaceAll('_', ' ')} Hazard Zone</b><br>Severity: ${h.severity}`);
           hazardOverlays.push(polygon);
         }));
       }
+
       if (document.getElementById('hazard-layer-markers').checked) {
         hazards.forEach(h => {
-          const marker = new window.google.maps.Marker({
-            position: h.coordinates,
-            map: googleMap,
-            title: `${h.hazardType}: ${h.severity}, ${h.reportCategory}`,
-            icon: {
-              path: window.google.maps.SymbolPath.CIRCLE,
-              scale: 8,
-              fillColor: ['CRITICAL', 'SEVERE'].includes(h.severity) ? '#ba1a1a' : '#8a4b00',
-              fillOpacity: 1,
-              strokeColor: '#ffffff',
-              strokeWeight: 2,
-            },
-          });
-          const content = document.createElement('div');
-          content.textContent = `${h.hazardType.replaceAll('_', ' ')} • ${h.severity} • ${h.reportCategory.replaceAll('_', ' ')} • ${h.freshness}`;
-          const info = new window.google.maps.InfoWindow({ content });
-          marker.addListener('click', () => info.open({ map: googleMap, anchor: marker }));
+          const isCritical = ['CRITICAL', 'SEVERE'].includes(h.severity);
+          const color = isCritical ? '#ba1a1a' : '#8a4b00';
+          const marker = L.circleMarker([h.coordinates.lat, h.coordinates.lng], {
+            radius: 8,
+            fillColor: color,
+            fillOpacity: 0.9,
+            color: '#ffffff',
+            weight: 2,
+          }).addTo(leafletMap);
+
+          const popupContent = `
+            <div style="font-family:sans-serif;font-size:12px;min-width:180px">
+              <strong style="color:${color}">${h.hazardType.replaceAll('_', ' ')}</strong><br>
+              Severity: <b>${h.severity}</b><br>
+              Category: ${h.reportCategory.replaceAll('_', ' ')}<br>
+              Status: ${h.freshness || 'Active'}<br>
+              <span style="color:#666">${h.addressLandmark || ''}</span>
+            </div>
+          `;
+          marker.bindPopup(popupContent);
           hazardOverlays.push(marker);
         });
       }

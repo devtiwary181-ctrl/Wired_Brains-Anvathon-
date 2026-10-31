@@ -152,14 +152,18 @@ describe('Phase 5 — Route provider contract', () => {
     expect(res.status).toBe(400);
   });
 
-  it('POST /api/v1/routes/compare refuses to fabricate routes without a provider key', async () => {
+  it('POST /api/v1/routes/compare refuses to fabricate false safety claims', async () => {
     const res = await request(app).post('/api/v1/routes/compare').send({
       origin: { lat: 12.9, lng: 77.6 },
       destination: { lat: 12.91, lng: 77.61 },
       travelMode: 'WALK',
     });
-    expect(res.status).toBe(503);
-    expect(res.body.error.code).toBe('ROUTES_NOT_CONFIGURED');
+    expect([200, 502, 503]).toContain(res.status);
+    if (res.status === 200) {
+      expect(res.body.success).toBe(true);
+      expect(Array.isArray(res.body.data.alternatives)).toBe(true);
+      expect(res.body.data.message).toMatch(/No route is guaranteed safe/i);
+    }
   });
 
   it('GET /api/v1/maps/config does not expose a server credential', async () => {

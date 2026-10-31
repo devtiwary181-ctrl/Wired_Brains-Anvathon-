@@ -771,12 +771,99 @@
     // Load shelters on page load
     await loadFacilities('SHELTER');
 
+    // Interactive Leaflet Map for Safe Places & Hospitals
+    const mapToggleBtn = document.querySelector('button[title*="Map"]') || [...document.querySelectorAll('button')].find(b => /map/i.test(b.textContent || ''));
+    const mapContainer = document.getElementById('map-view-container');
+    const mapElement = document.getElementById('civic-google-map');
+    let safePlacesMap = null;
+    let facilityMarkers = [];
+
+    async function initSafePlacesMap() {
+      if (!mapElement) return;
+      if (mapContainer) mapContainer.classList.remove('hidden');
+      mapElement.style.backgroundImage = 'none';
+      mapElement.replaceChildren();
+
+      try {
+        const L = await DR.maps.load();
+        await DR.maps.getConfig();
+        if (!safePlacesMap) {
+          const center = loc.lat != null && loc.lng != null ? [loc.lat, loc.lng] : [20.5937, 78.9629];
+          safePlacesMap = DR.maps.createMap(mapElement, { center, zoom: 12 });
+
+          if (loc.lat != null && loc.lng != null) {
+            const userIcon = L.divIcon({
+              className: 'dr-user-loc',
+              html: '<div style="background:#0b5fa5;width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 8px #0b5fa5"></div>',
+              iconSize: [14, 14],
+              iconAnchor: [7, 7],
+            });
+            L.marker([loc.lat, loc.lng], { icon: userIcon, title: 'Your Location' })
+              .addTo(safePlacesMap)
+              .bindPopup('<b>Current Location</b>');
+          }
+        }
+
+        facilityMarkers.forEach(m => safePlacesMap.removeLayer(m));
+        facilityMarkers = [];
+
+        const bounds = [];
+        if (loc.lat != null && loc.lng != null) bounds.push([loc.lat, loc.lng]);
+
+        currentFacilities.forEach(f => {
+          if (!f.coordinates || f.coordinates.lat == null) return;
+          const pos = [f.coordinates.lat, f.coordinates.lng];
+          bounds.push(pos);
+
+          const isHospital = f.facilityType === 'HOSPITAL';
+          const color = isHospital ? '#ba1a1a' : '#00512c';
+          const iconHtml = `<div style="background:${color};color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.3)">${isHospital ? 'H' : 'S'}</div>`;
+          const icon = L.divIcon({
+            className: 'dr-facility-icon',
+            html: iconHtml,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+          });
+
+          const marker = L.marker(pos, { icon, title: f.name }).addTo(safePlacesMap);
+          marker.bindPopup(`
+            <div style="font-family:sans-serif;font-size:12px">
+              <strong style="color:${color}">${f.name}</strong><br>
+              ${f.address}<br>
+              ${f.distanceKm ? `Distance: <b>${f.distanceKm} km</b><br>` : ''}
+              Status: <b>${f.operatingStatus.replaceAll('_', ' ')}</b><br>
+              ${f.availableBeds != null ? `Available Beds: <b>${f.availableBeds}</b>` : ''}
+            </div>
+          `);
+          facilityMarkers.push(marker);
+        });
+
+        if (bounds.length > 0) {
+          safePlacesMap.fitBounds(L.latLngBounds(bounds), { padding: [25, 25] });
+        }
+      } catch (err) {
+        console.warn('Map initialization:', err);
+      }
+    }
+
+    // Initialize map with facilities
+    initSafePlacesMap();
+
     // Wire tab buttons
     document.querySelectorAll('button').forEach(function(btn) {
-      if (/shelter/i.test(btn.textContent)) btn.addEventListener('click', function() { loadFacilities('SHELTER'); });
-      if (/hospital/i.test(btn.textContent)) btn.addEventListener('click', function() { loadFacilities('HOSPITAL'); });
+      if (/shelter/i.test(btn.textContent)) btn.addEventListener('click', async function() {
+        await loadFacilities('SHELTER');
+        initSafePlacesMap();
+      });
+      if (/hospital/i.test(btn.textContent)) btn.addEventListener('click', async function() {
+        await loadFacilities('HOSPITAL');
+        initSafePlacesMap();
+      });
     });
-    searchInput?.addEventListener('input', renderFacilities);
+    searchInput?.addEventListener('input', () => {
+      renderFacilities();
+      initSafePlacesMap();
+    });
   })();
 </script>
 </body></html>

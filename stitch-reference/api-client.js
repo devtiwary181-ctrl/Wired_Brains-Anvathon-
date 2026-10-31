@@ -12,13 +12,17 @@
 
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  // Config — picks up from env or window globals, defaults to dev
+  // Config — picks up from env or window globals, defaults to same-origin /api/v1
   // ---------------------------------------------------------------------------
   const BASE_URL =
     (typeof process !== 'undefined' && process.env?.VITE_API_BASE_URL) ||
     window.VITE_API_BASE_URL ||
     window.DR_API_BASE ||
-    'http://localhost:5001/api/v1';
+    (typeof window !== 'undefined' && window.location
+      ? (window.location.port === '5001' || window.location.port === '3000' || !window.location.port
+          ? `${window.location.origin}/api/v1`
+          : 'http://localhost:5001/api/v1')
+      : 'http://localhost:5001/api/v1');
 
   // ---------------------------------------------------------------------------
   // Enhanced Centralized HTTP helper with Timeout, Cancellation & Error Normalization
@@ -224,25 +228,73 @@
   };
 
   const maps = {
+    config: null,
+    async getConfig() {
+      if (this.config) return this.config;
+      try {
+        this.config = await get('/maps/config');
+      } catch {
+        this.config = {
+          provider: 'leaflet-osm',
+          tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          attribution: '&copy; OpenStreetMap contributors',
+        };
+      }
+      return this.config;
+    },
     load() {
-      if (window.google?.maps?.importLibrary) return window.google.maps.importLibrary('maps');
-      if (window._drMapsLoadPromise) return window._drMapsLoadPromise;
-      window._drMapsLoadPromise = get('/maps/config').then((config) => new Promise((resolve, reject) => {
+      if (window.L) return Promise.resolve(window.L);
+      if (window._drLeafletLoadPromise) return window._drLeafletLoadPromise;
+
+      window._drLeafletLoadPromise = new Promise((resolve, reject) => {
+        // Inject Leaflet CSS
+        if (!document.querySelector('link[href*="leaflet.css"]')) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = '/vendor/leaflet/leaflet.css';
+          document.head.append(link);
+        }
+
+        // Inject Leaflet JS
         const script = document.createElement('script');
-        const params = new URLSearchParams({ key: config.browserApiKey, loading: 'async', libraries: 'maps,marker', v: 'weekly' });
-        script.src = `https://maps.googleapis.com/maps/api/js?${params}`;
+        script.src = '/vendor/leaflet/leaflet.js';
         script.async = true;
-        script.onerror = () => reject(new Error('Google Maps JavaScript API failed to load.'));
+        script.onerror = () => {
+          // Fallback to unpkg CDN if local file fails
+          const cdnScript = document.createElement('script');
+          cdnScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          cdnScript.onload = () => resolve(window.L);
+          cdnScript.onerror = () => reject(new Error('Leaflet map library could not be loaded.'));
+          document.head.append(cdnScript);
+        };
         script.onload = () => {
-          if (!window.google?.maps?.importLibrary) return reject(new Error('Google Maps JavaScript API is unavailable.'));
-          resolve(window.google.maps.importLibrary('maps'));
+          resolve(window.L);
         };
         document.head.append(script);
-      })).catch((error) => {
-        window._drMapsLoadPromise = null;
-        throw error;
       });
-      return window._drMapsLoadPromise;
+
+      return window._drLeafletLoadPromise;
+    },
+    createMap(container, options = {}) {
+      const L = window.L;
+      if (!L) throw new Error('Leaflet must be loaded before creating a map.');
+      const center = options.center || [20.5937, 78.9629];
+      const zoom = options.zoom || 5;
+      const map = L.map(container, {
+        center,
+        zoom,
+        zoomControl: options.zoomControl !== false,
+      });
+
+      const tileUrl = (this.config && this.config.tileUrl) || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+      const attribution = (this.config && this.config.attribution) || '&copy; OpenStreetMap contributors';
+
+      L.tileLayer(tileUrl, {
+        maxZoom: 19,
+        attribution,
+      }).addTo(map);
+
+      return map;
     },
   };
 
@@ -1337,10 +1389,59 @@
     lowData,
     offline,
     realtime,
-    simulation,
-    transparency,
-    broadcast,
-    ui,
+    // Global automated navigation router for data-path attributes across all screens
+    initNavigation() {
+      if (typeof document === 'undefined') return;
+      const pathMap = {
+        'live-dashboard': '/screens/02-citizen-dashboard/index.html',
+        'evacuation-routes': '/screens/03-get-to-safety-step-1/index.html',
+        'safe-places-near-you-shelters-hospitals': '/screens/07-safe-places/index.html',
+        'relief-shelters': '/screens/07-safe-places/index.html',
+        'ask-for-supplies': '/screens/08-emergency-relief/index.html',
+        'request-relief': '/screens/08-emergency-relief/index.html',
+        'track-request': '/screens/09-relief-tracking/index.html',
+        'preparedness-guides': '/screens/11-preparedness/index.html',
+        'helplines-directory': '/screens/12-emergency-help/index.html',
+        'report-hazard': '/screens/04-get-to-safety-step-2/index.html',
+        'public-portal': '/screens/01-language-location/index.html',
+        'staff-login': '/screens/13-staff-login/index.html',
+        'login': '/screens/13-staff-login/index.html',
+        'authority-dashboard': '/screens/14-authority-dashboard/index.html',
+        'stage-1-overview': '/screens/14-authority-dashboard/index.html',
+        'staff-tools': '/screens/15-staff-tools-settings/index.html',
+        'simulate-a-change': '/screens/15-staff-tools-settings/index.html',
+        'public-settings-and-accessibility': '/screens/15-staff-tools-settings/index.html',
+        'public-transparency-and-civic-data-portal': '/screens/15-staff-tools-settings/index.html',
+      };
+
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('[data-path]');
+        if (link) {
+          const pathKey = link.getAttribute('data-path');
+          const targetUrl = pathMap[pathKey];
+          if (targetUrl) {
+            e.preventDefault();
+            window.location.href = targetUrl;
+          }
+        }
+      });
+
+      // Also set href attribute on matching anchors for right-click / accessibility
+      document.querySelectorAll('[data-path]').forEach((el) => {
+        const key = el.getAttribute('data-path');
+        if (pathMap[key] && el.tagName === 'A') {
+          el.href = pathMap[key];
+        }
+      });
+    },
   };
+
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => DisasterReadyAPI.initNavigation());
+    } else {
+      DisasterReadyAPI.initNavigation();
+    }
+  }
 })(window);
 

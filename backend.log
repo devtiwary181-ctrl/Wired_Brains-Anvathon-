@@ -1,0 +1,11 @@
+
+> anvathon@1.0.0 dev
+> tsx watch src/server.ts
+
+◇ injected env (12) from .env
+[2026-10-31 05:01:54.061 +0530] [32mINFO[39m: [36mBullMQ Emergency Queues Initialized[39m
+[2026-10-31 05:01:54.117 +0530] [32mINFO[39m: [36m🚨 DisasterReady India Core API running on port 5001 [development][39m
+[2026-10-31 05:01:54.117 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
+[2026-10-31 05:01:54.117 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
+[2026-10-31 05:01:54.122 +0530] [32mINFO[39m: [36mConnected to Redis[39m
+[0mGET /api/v1/health [32m200[0m 1.881 ms - 132[0m

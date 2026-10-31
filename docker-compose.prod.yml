@@ -1,0 +1,70 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: disasterready_app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-5001}:5001"
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-disasterready}:${POSTGRES_PASSWORD:-disasterready_secret}@postgres:5432/${POSTGRES_DB:-disasterready_db}?schema=public
+      - REDIS_URL=redis://redis:6379
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET:-disasterready_prod_access_jwt_secret_key_change_me_2026}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-disasterready_prod_refresh_jwt_secret_key_change_me_2026}
+      - SESSION_SECRET=${SESSION_SECRET:-disasterready_prod_session_secret_change_me_32char}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5001}
+      - OSRM_URL=${OSRM_URL:-https://router.project-osrm.org}
+      - NOMINATIM_URL=${NOMINATIM_URL:-https://nominatim.openstreetmap.org}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/api/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: disasterready_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-disasterready}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-disasterready_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-disasterready_db}
+    # For production security, internal database port is not exposed publicly
+    # If local inspection is required, uncomment the port mapping below:
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-disasterready} -d ${POSTGRES_DB:-disasterready_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: disasterready_redis
+    restart: unless-stopped
+    # Redis is only reachable through the internal Docker network
+    # ports:
+    #   - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:

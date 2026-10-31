@@ -1,0 +1,99 @@
+
+> anvathon@1.0.0 dev
+> tsx watch src/server.ts
+
+◇ injected env (15) from .env
+[2026-10-31 05:43:01.059 +0530] [32mINFO[39m: [36mBullMQ Emergency Queues Initialized[39m
+[2026-10-31 05:43:01.097 +0530] [32mINFO[39m: [36m🚨 DisasterReady India Core API running on port 5001 [development][39m
+[2026-10-31 05:43:01.097 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
+[2026-10-31 05:43:01.097 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
+[2026-10-31 05:43:01.107 +0530] [32mINFO[39m: [36mConnected to Redis[39m
+[0mGET /api/v1/health [32m200[0m 2.125 ms - 132[0m
+[0mHEAD / [32m200[0m 1.232 ms - 39548[0m
+[0mGET / [32m200[0m 12.235 ms - 39548[0m
+[0mGET /api-client.js [32m200[0m 3.024 ms - 51560[0m
+[0mGET /favicon.ico [32m200[0m 1.950 ms - 39548[0m
+[0mGET /sw.js [32m200[0m 1.100 ms - 452[0m
+[0mGET /screens/02-citizen-dashboard/index.html [32m200[0m 1.235 ms - 72232[0m
+[0mGET /api-client.js [36m304[0m 0.745 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.839 ms - -[0m
+[0mGET /api/v1/alerts/active [32m200[0m 135.294 ms - 2379[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 8.968 ms - 2867[0m
+[0mGET /sw.js [36m304[0m 0.894 ms - -[0m
+[0mGET /screens/03-get-to-safety-step-1/index.html [32m200[0m 1.646 ms - 61418[0m
+[0mGET /api-client.js [36m304[0m 0.530 ms - -[0m
+[0mGET /api/v1/hazards/spatial [32m200[0m 25.607 ms - 20166[0m
+[0mGET /favicon.ico [36m304[0m 1.906 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.css [32m200[0m 1.336 ms - 14806[0m
+[0mGET /vendor/leaflet/leaflet.js [32m200[0m 1.399 ms - 147552[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.724 ms - 336[0m
+[0mGET /sw.js [36m304[0m 0.452 ms - -[0m
+[0mGET /screens/07-safe-places/index.html [32m200[0m 1.338 ms - 57553[0m
+[0mGET /api-client.js [36m304[0m 1.125 ms - -[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [36m304[0m 8.670 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.577 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 1.013 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 1.830 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.490 ms - 336[0m
+[0mGET /sw.js [36m304[0m 0.665 ms - -[0m
+[0mGET /screens/02-citizen-dashboard/index.html [36m304[0m 0.625 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.513 ms - -[0m
+[0mGET /api/v1/alerts/active [36m304[0m 19.798 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.667 ms - -[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [36m304[0m 4.043 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.741 ms - -[0m
+[0mGET /screens/02-citizen-dashboard/index.html [36m304[0m 0.689 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.313 ms - -[0m
+[0mGET /api/v1/alerts/active [36m304[0m 10.741 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.898 ms - -[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [36m304[0m 6.564 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.408 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.926 ms - -[0m
+[0mGET /screens/12-emergency-help/index.html [32m200[0m 1.996 ms - 56358[0m
+[0mGET /api-client.js [36m304[0m 0.249 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.718 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.734 ms - -[0m
+[0mGET /screens/03-get-to-safety-step-1/index.html [36m304[0m 0.646 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.277 ms - -[0m
+[0mGET /api/v1/hazards/spatial [32m200[0m 9.252 ms - 20166[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 1.288 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 4.377 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 1.758 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.480 ms - 336[0m
+[0mGET /screens/07-safe-places/index.html [36m304[0m 0.484 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.370 ms - -[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [36m304[0m 7.859 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.828 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 0.792 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 1.389 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.918 ms - 336[0m
+[0mGET /sw.js [36m304[0m 0.708 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.813 ms - -[0m
+[0mGET /screens/03-get-to-safety-step-1/index.html [36m304[0m 0.459 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.255 ms - -[0m
+[0mGET /api/v1/hazards/spatial [36m304[0m 8.777 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 1.125 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 1.280 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 2.184 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.395 ms - 336[0m
+[0mGET /sw.js [36m304[0m 0.651 ms - -[0m
+[0mGET /screens/02-citizen-dashboard/index.html [36m304[0m 0.605 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.322 ms - -[0m
+[0mGET /api/v1/alerts/active [36m304[0m 6.507 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.784 ms - -[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [36m304[0m 9.703 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.431 ms - -[0m
+[0mGET /screens/12-emergency-help/index.html [36m304[0m 0.564 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.307 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.718 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.670 ms - -[0m
+[0mGET /screens/03-get-to-safety-step-1/index.html [36m304[0m 0.385 ms - -[0m
+[0mGET /api-client.js [36m304[0m 0.232 ms - -[0m
+[0mGET /api/v1/hazards/spatial [32m200[0m 13.370 ms - 20166[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 1.156 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 1.403 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 1.080 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.437 ms - 336[0m
+[0mGET /sw.js [36m304[0m 2.471 ms - -[0m
+[0mGET /api/v1/hazards/spatial?severity=LOW [32m200[0m 11.353 ms - 26[0m
+[0mGET /api/v1/hazards/spatial?severity=LOW&since=2026-10-30T00%3A15%3A02.033Z [32m200[0m 19.983 ms - 26[0m

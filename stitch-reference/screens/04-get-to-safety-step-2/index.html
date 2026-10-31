@@ -807,6 +807,59 @@
     });
 
     const originOptions = originSection.querySelectorAll('[role="radio"]');
+    
+    // Interactive Leaflet Map for "Tap on map"
+    const mapPickerModal = document.createElement('div');
+    mapPickerModal.id = 'map-picker-container';
+    mapPickerModal.className = 'hidden flex-col gap-2 p-3 bg-surface-container-low rounded-lg border border-outline-variant';
+    mapPickerModal.innerHTML = `
+      <div class="flex justify-between items-center">
+        <strong class="font-label-strong text-label-strong text-primary">Click on Map to Choose Coordinates</strong>
+        <button type="button" class="px-2 py-1 text-sm bg-surface-container-highest rounded text-on-surface" id="btn-close-map-picker">Close</button>
+      </div>
+      <div id="picker-map-surface" class="w-full h-64 rounded-lg bg-surface-container-high border border-outline"></div>
+      <p class="font-caption text-caption text-secondary">Click anywhere on the OpenStreetMap to set your starting location.</p>
+    `;
+    manualOrigin.insertAdjacentElement('afterend', mapPickerModal);
+
+    let pickerMap = null;
+    let pickerMarker = null;
+
+    async function openMapPicker() {
+      mapPickerModal.classList.remove('hidden');
+      try {
+        const L = await DR.maps.load();
+        await DR.maps.getConfig();
+        const startPos = origin || { lat: 20.5937, lng: 78.9629 };
+        if (!pickerMap) {
+          const mapEl = document.getElementById('picker-map-surface');
+          pickerMap = DR.maps.createMap(mapEl, {
+            center: [startPos.lat, startPos.lng],
+            zoom: origin ? 13 : 5,
+          });
+
+          pickerMap.on('click', (e) => {
+            const { lat, lng } = e.latlng;
+            if (pickerMarker) pickerMap.removeLayer(pickerMarker);
+            pickerMarker = L.marker([lat, lng]).addTo(pickerMap).bindPopup('Selected location').openPopup();
+            originLat.input.value = lat.toFixed(5);
+            originLng.input.value = lng.toFixed(5);
+            setOrigin({ lat, lng }, `Tapped coordinates (${lat.toFixed(4)}, ${lng.toFixed(4)})`);
+          });
+        }
+        if (origin && !pickerMarker) {
+          pickerMarker = L.marker([origin.lat, origin.lng]).addTo(pickerMap);
+        }
+        pickerMap.invalidateSize();
+      } catch (err) {
+        status.textContent = 'Map picker is unavailable.';
+      }
+    }
+
+    document.getElementById('btn-close-map-picker')?.addEventListener('click', () => {
+      mapPickerModal.classList.add('hidden');
+    });
+
     originOptions[0]?.addEventListener('click', () => {
       status.textContent = 'Requesting GPS location permission…';
       if (!navigator.geolocation) {
@@ -827,7 +880,7 @@
       }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
     });
     originOptions[1]?.addEventListener('click', () => originSearch?.focus());
-    originOptions[2]?.addEventListener('click', () => originLat.input.focus());
+    originOptions[2]?.addEventListener('click', () => openMapPicker());
     const stopSharing = Array.from(originSection.querySelectorAll('button')).find(button => /stop sharing/i.test(button.textContent));
     stopSharing?.addEventListener('click', () => {
       origin = null;
@@ -942,6 +995,9 @@
         status.textContent = error.message || 'Route provider unavailable. No route has been generated.';
       } finally {
         findRoutes.disabled = false;
+        findRoutes.textContent = originalLabel;
+      }
+    });
     findRoutes?.insertAdjacentElement('afterend', status);
 
     // Ask AI Copilot trigger in screen 04

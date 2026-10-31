@@ -67,8 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
   if (mapContainer) {
     mapContainer.replaceChildren();
     mapContainer.style.minHeight = '320px';
-    mapContainer.setAttribute('aria-label', 'Google map showing provider route alternatives');
+    mapContainer.setAttribute('aria-label', 'OpenStreetMap showing route alternatives');
   }
+
+  let leafletMap = null;
 
   const formatDistance = value => value >= 1000 ? `${(value / 1000).toFixed(1)} km` : `${Math.round(value)} m`;
   const formatDuration = value => {
@@ -85,30 +87,84 @@ document.addEventListener('DOMContentLoaded', function () {
       const radio = card.querySelector('input[type="radio"]');
       if (radio) radio.checked = selected;
     });
-    polylines.forEach((line, id) => line.setOptions({ strokeWeight: id === routeId ? 8 : 5, zIndex: id === routeId ? 3 : 1 }));
+    polylines.forEach((line, id) => {
+      if (typeof line.setStyle === 'function') {
+        line.setStyle({ weight: id === routeId ? 8 : 4, opacity: id === routeId ? 1 : 0.6 });
+        if (id === routeId && typeof line.bringToFront === 'function') line.bringToFront();
+      } else if (typeof line.setOptions === 'function') {
+        line.setOptions({ strokeWeight: id === routeId ? 8 : 5, zIndex: id === routeId ? 3 : 1 });
+      }
+    });
   }
 
   async function drawMap(routes) {
     if (!mapContainer || !routes.length) return;
     try {
-      await DR.maps.load();
-      const map = new window.google.maps.Map(mapContainer, {
-        center: routes[0].coordinates[0], zoom: 13, mapTypeControl: false, streetViewControl: false,
-      });
-      const bounds = new window.google.maps.LatLngBounds();
+      const L = await DR.maps.load();
+      await DR.maps.getConfig();
+      if (!leafletMap) {
+        leafletMap = DR.maps.createMap(mapContainer, {
+          center: [routes[0].coordinates[0].lat, routes[0].coordinates[0].lng],
+          zoom: 13,
+        });
+      } else {
+        leafletMap.eachLayer(layer => {
+          if (layer instanceof L.Polyline || layer instanceof L.Marker) {
+            leafletMap.removeLayer(layer);
+          }
+        });
+      }
+
+      const allLatLngs = [];
+      const colors = ['#00512c', '#ba1a1a', '#0b5fa5'];
+
       routes.forEach((route, index) => {
-        const path = route.coordinates.map(({ lat, lng }) => ({ lat, lng }));
-        path.forEach(point => bounds.extend(point));
-        polylines.set(route.routeId, new window.google.maps.Polyline({
-          path, map, geodesic: true, strokeColor: ['#00512c', '#ba1a1a', '#0b5fa5'][index % 3], strokeOpacity: 0.9, strokeWeight: 5,
-        }));
+        const latLngs = route.coordinates.map(pt => [pt.lat, pt.lng]);
+        latLngs.forEach(pt => allLatLngs.push(pt));
+
+        const poly = L.polyline(latLngs, {
+          color: colors[index % colors.length],
+          weight: route.routeId === selectedRouteId ? 8 : 4,
+          opacity: 0.9,
+          lineJoin: 'round',
+        }).addTo(leafletMap);
+
+        poly.on('click', () => chooseRoute(route.routeId));
+        poly.bindTooltip(`${route.label}: ${formatDistance(route.distanceMeters)} • ${formatDuration(route.durationSeconds)}`, { sticky: true });
+        polylines.set(route.routeId, poly);
       });
-      if (origin) new window.google.maps.Marker({ map, position: origin, title: 'Selected origin' });
-      if (destination) new window.google.maps.Marker({ map, position: destination, title: 'Selected destination' });
-      map.fitBounds(bounds, 32);
-      mapStatus.textContent = 'Google Maps • Route geometry from Google Routes API. Hazard intersections are assessed by DisasterReady.';
+
+      if (origin) {
+        const originIcon = L.divIcon({
+          className: 'dr-map-origin-marker',
+          html: '<div style="background:#0b5fa5;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,0.4)">A</div>',
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+        });
+        L.marker([origin.lat, origin.lng], { icon: originIcon, title: 'Selected Origin' })
+          .addTo(leafletMap)
+          .bindPopup('<b>Starting Point</b><br>Selected origin');
+      }
+
+      if (destination) {
+        const destIcon = L.divIcon({
+          className: 'dr-map-dest-marker',
+          html: '<div style="background:#ba1a1a;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,0.4)">B</div>',
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+        });
+        L.marker([destination.lat, destination.lng], { icon: destIcon, title: 'Selected Destination' })
+          .addTo(leafletMap)
+          .bindPopup('<b>Destination Point</b><br>Safe haven / shelter');
+      }
+
+      if (allLatLngs.length > 0) {
+        leafletMap.fitBounds(L.latLngBounds(allLatLngs), { padding: [24, 24] });
+      }
+
+      mapStatus.textContent = 'OpenStreetMap & Leaflet • Routing via OSRM • Hazard intersections assessed by DisasterReady PostGIS.';
     } catch (error) {
-      mapStatus.textContent = error.message || 'Google Maps JavaScript is unavailable. The map is not displayed.';
+      mapStatus.textContent = error.message || 'Leaflet map library is unavailable. The map is not displayed.';
     }
   }
 

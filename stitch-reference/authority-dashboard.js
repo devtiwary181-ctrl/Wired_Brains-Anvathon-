@@ -1,9 +1,11 @@
 (function () {
   'use strict';
 
-  const API_BASE = window.DR_API_BASE || 'http://localhost:5001/api/v1';
+  const API_BASE = window.DR_API_BASE || (window.location.origin.includes(':5001') || !window.location.port ? `${window.location.origin}/api/v1` : 'http://localhost:5001/api/v1');
   const stage = document.getElementById('stage-panel-1');
   if (!stage) return;
+
+  let cachedStaff = [];
 
   async function api(path, options = {}) {
     const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
@@ -880,41 +882,85 @@
       mapSurface = document.createElement('div');
       mapSurface.id = 'authority-live-map';
       mapSurface.className = 'w-full h-full min-h-[360px]';
-      const status = text('p', 'Loading Google Maps…', 'absolute top-2 left-2 z-10 p-2 rounded bg-white font-caption text-caption');
+      const status = text('p', 'Loading OpenStreetMap…', 'absolute top-2 left-2 z-10 p-2 rounded bg-white font-caption text-caption shadow');
       status.id = 'authority-map-status';
       mapContainer.append(mapSurface, status);
     }
     try {
-      await window.DisasterReadyAPI.maps.load();
+      const L = await window.DisasterReadyAPI.maps.load();
+      await window.DisasterReadyAPI.maps.getConfig();
       const status = document.getElementById('authority-map-status');
+
+      if (!window._authorityLeafletMap) {
+        window._authorityLeafletMap = window.DisasterReadyAPI.maps.createMap(mapSurface, {
+          center: records.length ? [records[0].coordinates.lat, records[0].coordinates.lng] : [20.5937, 78.9629],
+          zoom: records.length ? 11 : 5,
+        });
+      } else {
+        window._authorityLeafletMap.eachLayer(layer => {
+          if (layer instanceof L.Marker || layer instanceof L.CircleMarker || layer instanceof L.Polygon) {
+            window._authorityLeafletMap.removeLayer(layer);
+          }
+        });
+      }
+
+      const map = window._authorityLeafletMap;
+
       if (!records.length) {
-        status.textContent = 'No hazard records in scope. This does not indicate the area is safe.';
-        const map = new window.google.maps.Map(mapSurface, { center: { lat: 20.5937, lng: 78.9629 }, zoom: 5, mapTypeControl: false, streetViewControl: false });
+        if (status) status.textContent = 'No hazard records in scope. This does not indicate the area is safe.';
+        map.setView([20.5937, 78.9629], 5);
         return;
       }
-      const map = new window.google.maps.Map(mapSurface, { center: records[0].coordinates, zoom: 11, mapTypeControl: false, streetViewControl: false });
-      const bounds = new window.google.maps.LatLngBounds();
+
+      const bounds = [];
       records.forEach(record => {
-        const position = record.coordinates;
-        bounds.extend(position);
-        new window.google.maps.Marker({
-          map,
-          position,
-          title: `${record.hazardType} • ${record.severity} • ${record.status}`,
-          icon: { path: window.google.maps.SymbolPath.CIRCLE, scale: 8, fillColor: record.status === 'UNVERIFIED' ? '#8a4b00' : '#ba1a1a', fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 2 },
-        });
+        const position = [record.coordinates.lat, record.coordinates.lng];
+        bounds.push(position);
+
+        const markerColor = record.status === 'UNVERIFIED' ? '#8a4b00' : '#ba1a1a';
+        const marker = L.circleMarker(position, {
+          radius: 8,
+          fillColor: markerColor,
+          color: '#ffffff',
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.9,
+        }).addTo(map);
+
+        marker.bindPopup(`
+          <div style="font-family:sans-serif;font-size:12px;line-height:1.4">
+            <strong style="color:${markerColor}">${record.hazardType}</strong><br>
+            Severity: <b>${record.severity}</b><br>
+            Status: ${record.status}<br>
+            District: ${record.districtId || 'District Zone'}<br>
+            <span style="color:#666">Updated: ${new Date(record.updatedAt || Date.now()).toLocaleTimeString()}</span>
+          </div>
+        `);
+
         record.polygons.forEach(feature => {
           const coordinates = Array.isArray(feature.coordinates) ? feature.coordinates : [];
           if (coordinates.length < 3 || !coordinates.every(point => Array.isArray(point) && point.length >= 2)) return;
-          const polygon = new window.google.maps.Polygon({ paths: coordinates.map(([lat, lng]) => ({ lat, lng })), strokeColor: '#ba1a1a', strokeWeight: 2, fillColor: '#ba1a1a', fillOpacity: 0.18, map });
-          void polygon;
+          const latLngs = coordinates.map(([lat, lng]) => [lat, lng]);
+          latLngs.forEach(pt => bounds.push(pt));
+
+          L.polygon(latLngs, {
+            color: '#ba1a1a',
+            weight: 2,
+            fillColor: '#ba1a1a',
+            fillOpacity: 0.18,
+          }).addTo(map).bindTooltip(`${record.hazardType} impact zone (${record.severity})`);
         });
       });
-      map.fitBounds(bounds, 32);
-      const mapStatus = document.getElementById('authority-map-status');
-      mapStatus.textContent = `${records.length} authority incident records • Google Maps • Updated ${new Date().toLocaleString()}`;
+
+      if (bounds.length > 0) {
+        map.fitBounds(L.latLngBounds(bounds), { padding: [30, 30] });
+      }
+
+      if (status) {
+        status.textContent = `${records.length} authority incident records • OpenStreetMap (Leaflet) • Updated ${new Date().toLocaleTimeString()}`;
+      }
     } catch (error) {
-      mapSurface.replaceChildren(text('p', error.message || 'Google Maps JavaScript API unavailable. No map is being simulated.', 'p-3 font-caption text-caption text-on-surface-variant'));
+      mapSurface.replaceChildren(text('p', error.message || 'Leaflet map library is unavailable.', 'p-3 font-caption text-caption text-on-surface-variant'));
       const status = document.getElementById('authority-map-status');
       if (status) status.textContent = 'Map provider unavailable.';
     }

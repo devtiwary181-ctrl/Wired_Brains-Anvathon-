@@ -8,6 +8,9 @@ export declare const env: {
     SESSION_SECRET: string;
     GOOGLE_MAPS_API_KEY: string;
     GOOGLE_MAPS_BROWSER_API_KEY: string;
+    OSRM_BASE_URL: string;
+    NOMINATIM_BASE_URL: string;
+    MAP_TILE_URL: string;
     ROUTE_RISK_W1: number;
     ROUTE_RISK_W2: number;
     ROUTE_RISK_W3: number;

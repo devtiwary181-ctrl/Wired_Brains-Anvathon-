@@ -23,6 +23,14 @@ export declare function rankRouteResults<T extends {
     durationSeconds: number;
     distanceMeters: number;
 }>(routes: T[]): T[];
+export type ParsedRoute = {
+    routeId: string;
+    label: string;
+    points: Coordinate[];
+    distanceMeters: number;
+    durationSeconds: number;
+    instructions: string[];
+};
 export declare function compareRoutes(request: RouteRequest, fetcher?: typeof fetch): Promise<{
     alternatives: {
         rank: number;
@@ -115,13 +123,14 @@ export declare function checkRouteRisk(input: {
 export declare function geocodeSearch(query: string, fetcher?: typeof fetch): Promise<{
     placeId: string;
     label: string;
-    coordinates: {
-        lat: number;
-        lng: number;
-    };
+    coordinates: Coordinate;
 }[]>;
 export declare function getMapsBrowserConfig(): {
-    browserApiKey: string;
-    libraries: readonly ["maps", "marker"];
+    provider: string;
+    tileUrl: string;
+    attribution: string;
+    osrmUrl: string;
+    nominatimUrl: string;
+    libraries: readonly ["leaflet"];
 };
 export {};
