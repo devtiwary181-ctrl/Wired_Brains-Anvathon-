@@ -201,3 +201,32 @@ citizenRouter.post(
   validateRequest({ body: sosSchema }),
   (req, res, next) => citizenController.logSos(req, res, next),
 );
+
+// ---------------------------------------------------------------------------
+// Screen 08 — Relief Depots & Supply AI Analysis
+// ---------------------------------------------------------------------------
+citizenRouter.get('/depots', publicRateLimiter, (req, res, next) =>
+  citizenController.getDepots(req, res, next),
+);
+citizenRouter.post('/supplies/analyze', publicRateLimiter, (req, res, next) =>
+  citizenController.analyzeSupplies(req, res, next),
+);
+citizenRouter.get('/supplies/analyze', publicRateLimiter, (req, res, next) =>
+  citizenController.analyzeSupplies(req, res, next),
+);
+// Route aliases for /supplies/requests and /relief/requests
+citizenRouter.post(
+  '/supplies/requests',
+  reliefRequestRateLimiter,
+  validateRequest({ body: createReliefRequestSchema }),
+  (req, res, next) => citizenController.createReliefRequest(req, res, next),
+);
+citizenRouter.post(
+  '/relief/request',
+  reliefRequestRateLimiter,
+  validateRequest({ body: createReliefRequestSchema }),
+  (req, res, next) => citizenController.createReliefRequest(req, res, next),
+);
+citizenRouter.get('/supplies/requests/:id', publicRateLimiter, (req, res, next) =>
+  citizenController.trackRequest(req, res, next),
+);

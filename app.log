@@ -1,113 +1,771 @@
-◇ injected env (15) from .env
-[2026-10-31 09:32:43.240 +0530] [32mINFO[39m: [36mBullMQ Emergency Queues Initialized[39m
-[2026-10-31 09:32:43.268 +0530] [32mINFO[39m: [36m🚨 DisasterReady India Core API running on port 5001 [development][39m
-[2026-10-31 09:32:43.268 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
-[2026-10-31 09:32:43.268 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
-[2026-10-31 09:32:43.270 +0530] [32mINFO[39m: [36mConnected to Redis[39m
-[0mHEAD /api/v1/tts?text=namaste&lang=hi [32m200[0m 194.766 ms - 54784[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 188.940 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 154.781 ms - 47872[0m
-[0mGET /api/v1/tts?text=namaste&lang=hi [32m200[0m 174.910 ms - 54784[0m
-[0mGET /screens/03-get-to-safety-step-1/index.html [32m200[0m 1.832 ms - 71579[0m
-[0mGET /assets/logo.svg [32m200[0m 3.386 ms - 3846[0m
-[0mGET /api-client.js [32m200[0m 1.705 ms - 66385[0m
-[0mGET /favicon.ico [36m304[0m 0.700 ms - -[0m
-[0mGET /api/v1/facilities [36m304[0m 98.426 ms - -[0m
-[0mGET /api/v1/hazards/spatial [32m200[0m 122.520 ms - 14889[0m
-[0mGET /vendor/leaflet/leaflet.js [36m304[0m 0.272 ms - -[0m
-[0mGET /vendor/leaflet/leaflet.css [36m304[0m 0.394 ms - -[0m
-[0mGET /api/v1/maps/config [32m200[0m 0.350 ms - 386[0m
-[0mGET /api/v1/tts?text=namaste&lang=hi [32m200[0m 241.108 ms - 54784[0m
-[0mGET /sw.js [36m304[0m 0.225 ms - -[0m
-[0mGET /screens/07-safe-places/index.html [32m200[0m 0.782 ms - 57618[0m
-[0mGET /api-client.js [36m304[0m 1.843 ms - -[0m
-[0mGET /assets/logo.svg [36m304[0m 2.247 ms - -[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER&lat=12.371466291111584&lng=76.58463746127683 [32m200[0m 9.234 ms - 2148[0m
-[0mGET /vendor/leaflet/leaflet.css [36m304[0m 0.289 ms - -[0m
-[0mGET /vendor/leaflet/leaflet.js [36m304[0m 0.295 ms - -[0m
-[0mGET /api/v1/maps/config [32m200[0m 0.249 ms - 386[0m
-[0mGET /favicon.ico [36m304[0m 0.740 ms - -[0m
-[0mGET /sw.js [36m304[0m 0.244 ms - -[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 217.833 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 177.208 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 171.595 ms - 47872[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 123.410 ms - 47872[0m
-[0mGET /screens/11-preparedness/index.html [32m200[0m 0.767 ms - 44621[0m
-[0mGET /assets/logo.svg [36m304[0m 0.239 ms - -[0m
-[0mGET /api-client.js [32m200[0m 0.867 ms - 67800[0m
-[0mGET /api/v1/preparedness/guides?disasterType=FLOOD [36m304[0m 4.331 ms - -[0m
-[0mGET /favicon.ico [36m304[0m 0.321 ms - -[0m
-[0mGET /sw.js [36m304[0m 0.177 ms - -[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 181.300 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 172.131 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 125.500 ms - 47872[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 198.096 ms - 47872[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 199.979 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 156.426 ms - 45568[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=bn [32m200[0m 158.151 ms - 52480[0m
-[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=bn [32m200[0m 205.123 ms - 52480[0m
-[0mGET /api/v1/alerts/active [32m200[0m 12.525 ms - 1202[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.086 ms - 2144[0m
-[0mGET /api/v1/dashboard [32m200[0m 81.833 ms - 8220[0m
-[0mGET /api/v1/alerts/active [32m200[0m 17.089 ms - 1202[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.100 ms - 2144[0m
-[0mGET /api/v1/dashboard [32m200[0m 27.259 ms - 8220[0m
-[0mGET /api/v1/alerts/active [32m200[0m 7.825 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 22.461 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 5.086 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 3.913 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 7.805 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 5.019 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 3.867 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 7.777 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.808 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 83.621 ms - 1202[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.250 ms - 2144[0m
-[0mGET /api/v1/dashboard [32m200[0m 73.239 ms - 8220[0m
-[0mGET /api/v1/tts?text=warning%20URGENT%20CIVIC%20ALERT%20verified%20Official%20NDMA%20%E2%80%A2%20SDMA%20Field%20Confirmed%20Move%20to%20higher%20ground%20now.%20%E0%A4%A4%E0%A5%81%E0%A4%B0%E0%A4%82%E0%A4%A4%20%E0%A4%8A%E0%A4%82%E0%A4%9A%E0%A5%87%20%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%A8%20%E0%A4%AA%E0%A4%B0%20%E0%A4%9C%E0%A4%BE%E0%A4%8F%E0%A4%82%E0%A5%A4%20Heavy%20flash%20flooding%20is%20expected%20in%20your%20sector%20within%202%20hours.%20River%20levels%20exceed%20warning%20threshold%20at%20Barrage%204.%20%E0%A4%85%E0%A4%97%E0%A4%B2%E0%A5%87%202%20%E0%A4%98&lang=en [32m200[0m 570.005 ms - 813952[0m
-[0mGET /api/v1/tts?text=warning%20URGENT%20CIVIC%20ALERT%20verified%20Official%20NDMA%20%E2%80%A2%20SDMA%20Field%20Confirmed%20Move%20to%20higher%20ground%20now.%20%E0%A4%A4%E0%A5%81%E0%A4%B0%E0%A4%82%E0%A4%A4%20%E0%A4%8A%E0%A4%82%E0%A4%9A%E0%A5%87%20%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%A8%20%E0%A4%AA%E0%A4%B0%20%E0%A4%9C%E0%A4%BE%E0%A4%8F%E0%A4%82%E0%A5%A4%20Heavy%20flash%20flooding%20is%20expected%20in%20your%20sector%20within%202%20hours.%20River%20levels%20exceed%20warning%20threshold%20at%20Barrage%204.%20%E0%A4%85%E0%A4%97%E0%A4%B2%E0%A5%87%202%20%E0%A4%98&lang=en [32m200[0m 263.333 ms - 813952[0m
-[0mGET /api/v1/health [32m200[0m 0.166 ms - 132[0m
-[0mGET /api/v1/alerts/active [32m200[0m 14.672 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 8.803 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.394 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 5.539 ms - 1202[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 5.378 ms - 2144[0m
-[0mGET /api/v1/dashboard [32m200[0m 32.435 ms - 8220[0m
-[0mGET /api/v1/alerts/act9:45:23 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-9:45:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
-9:45:33 AM [tsx] change in ./src/modules/citizen/citizen.routes.ts Process hasn't exited. Killing process...
-9:47:45 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-10:24:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
-10:24:48 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-10:41:38 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-A%E0%A4%A8%E0%A4%BE%20%E0%A4%9C%E0%A4%BF%E0%A4%B2%E0%A4%BE%20%E0%A4%9A%E0%A5%81%E0%A4%A8%E0%A5%87%E0%A4%82%E0%A5%A4%20Displaying%20cached%20alerts%20from%2035%20mins%20ago.%20Re-enable%20location%20services%20or%20select%20your%20municipa&lang=en [32m200[0m 622.488 ms - 914176[0m
-[0mGET /api/v1/tts?text=Disaster%20alert%20status%20for%20Bengaluru%20Urban%3A%20Alert%20active.%20Stay%20vigilant%2C%20keep%20emergency%20contacts%20handy%2C%20and%20avoid%20flood-prone%20zones.&lang=en [32m200[0m 366.901 ms - 554752[0m
-[0mGET /api/v1/tts?text=location_disabled%20LOCATION%20UNAVAILABLE%20%2F%20STALE%20DATA%20GPS%20Signal%20Lost%20%5BDemo%20Data%5D%20Enable%20location%20or%20pick%20your%20district.%20%E0%A4%B8%E0%A4%9F%E0%A5%80%E0%A4%95%20%E0%A4%9A%E0%A5%87%E0%A4%A4%E0%A4%BE%E0%A4%B5%E0%A4%A8%E0%A5%80%20%E0%A4%95%E0%A5%87%20%E0%A4%B2%E0%A4%BF%E0%A4%8F%20%E0%A4%85%E0%A4%AA%E0%A4%A8%E0%A4%BE%20%E0%A4%9C%E0%A4%BF%E0%A4%B2%E0%A4%BE%20%E0%A4%9A%E0%A5%81%E0%A4%A8%E0%A5%87%E0%A4%82%E0%A5%A4%20Displaying%20cached%20alerts%20from%2035%20mins%20ago.%20Re-enable%20location%20services%20or%20select%20your%20municipa&lang=en [32m200[0m 292.980 ms - 914176[0m
-[0mGET /api/v1/alerts/active [32m200[0m 15.728 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 9.156 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.769 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 5.175 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 15.326 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.560 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 4.095 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 17.525 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.603 ms - 2144[0m
-[0mGET /api/v1/alerts/active [32m200[0m 4.470 ms - 1202[0m
-[0mGET /api/v1/dashboard [32m200[0m 9.876 ms - 8220[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.623 ms - 2144[0m
-[0mGET /api/v1/preparedness/guides?disasterType=FLOOD [32m200[0m 3.795 ms - 1515[0m
-[0mGET /api/v1/alerts/active [32m200[0m 95.685 ms - 1202[0m
-[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.838 ms - 2144[0m
-[0mGET /api/v1/dashboard [32m200[0m 91.303 ms - 8220[0m
-[0mGET /api/v1/preparedness/guides?disasterType=FLOOD [32m200[0m 4.454 ms - 1515[0m
-[0mGET /api/v1/geo/districts?q=bengaluru [32m200[0m 18.612 ms - 361[0m
-[0mGET /api/v1/geo/districts [32m200[0m 0.196 ms - 26[0m
-[2026-10-31 09:45:48.472 +0530] [32mINFO[39m: [36mReceived SIGTERM. Shutting down gracefully...[39m
-[2026-10-31 09:45:48.479 +0530] [32mINFO[39m: [36mCleaned up database and redis connections. Process exiting.[39m
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        9:45:23 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-9:45:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
-9:45:33 AM [tsx] change in ./src/modules/citizen/citizen.routes.ts Process hasn't exited. Killing process...
-9:47:45 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-10:24:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
-10:24:48 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
-10:41:38 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+::1 - - [31/Oct/2026 11:10:07] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:07] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:07] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:07] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:08] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:09] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:10] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:10] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:10] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:10] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:10] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:11] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:11] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:10:11] "GET /screens/05-get-to-safety-step-4/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:11] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:11] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:11] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:11] "GET /route-comparison.js?v=phase5b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:12] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:12] "GET /screens/06-get-to-safety-step-5/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:12] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:12] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:12] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:13] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:13] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:13] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:13] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:13] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:14] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:15] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:15] "GET /screens/09-relief-tracking/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:15] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:15] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:15] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:16] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:16] "GET /screens/10-relief-tracking-alternative/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:16] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:16] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:16] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:17] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:17] "GET /screens/11-preparedness/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:17] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:17] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:17] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:18] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:18] "GET /screens/12-emergency-help/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:18] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:18] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:18] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:19] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:19] "GET /screens/13-staff-login/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:19] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:19] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:19] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:20] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:20] "GET /screens/14-authority-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:20] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:20] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:20] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:20] "GET /authority-dashboard.js?v=phase6b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:21] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:21] "GET /screens/15-staff-tools-settings/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:21] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:21] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:21] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:22] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:22] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:22] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:22] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:22] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:23] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:23] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:25] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:25] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:10:26] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:27] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:10:27] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:27] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:27] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:28] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:10:29] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:10:29] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:30] "GET /screens/09-relief-tracking/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:31] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:10:40] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:40] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:40] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:40] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:10:40] "GET /sw.js HTTP/1.1" 200 -
+::1 - - 11:32:33 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+11:32:42 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+11:32:53 AM [tsx] change in ./src/modules/citizen/citizen.routes.ts Process hasn't exited. Killing process...
+11:33:24 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+11:33:44 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+11:34:15 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+11:34:38 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+12:00:22 PM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+izen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:47] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:48] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /screens/05-get-to-safety-step-4/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:49] "GET /route-comparison.js?v=phase5b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /screens/06-get-to-safety-step-5/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:50] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:51] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:51] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:51] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:51] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:51] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:52] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:53] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:53] "GET /screens/09-relief-tracking/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:53] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:53] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:53] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:54] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:54] "GET /screens/10-relief-tracking-alternative/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:54] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:54] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:54] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:55] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:55] "GET /screens/11-preparedness/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:55] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:55] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:55] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:56] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:56] "GET /screens/12-emergency-help/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:56] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:56] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:56] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:57] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:57] "GET /screens/13-staff-login/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:57] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:57] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:57] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:57] "GET /screens/14-authority-dashboard/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:11:57] "GET /assets/logo.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:11:57] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:11:57] "GET /authority-dashboard.js?v=phase6b HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:11:58] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:58] "GET /screens/14-authority-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:58] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:58] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:58] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:58] "GET /authority-dashboard.js?v=phase6b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:59] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:59] "GET /screens/15-staff-tools-settings/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:59] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:59] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:59] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:11:59] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:12:00] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:00] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:00] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:00] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:00] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:01] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:01] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:03] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:03] "GET /vendor/leaflet/leaflet.css11:32:33 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+11:32:42 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+11:32:53 AM [tsx] change in ./src/modules/citizen/citizen.routes.ts Process hasn't exited. Killing process...
+11:33:24 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+11:33:44 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+11:34:15 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+11:34:38 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+12:00:22 PM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+1.1" 200 -
+::1 - - [31/Oct/2026 11:12:11] "GET /screens/12-emergency-help/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:12] "GET /screens/13-staff-login/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:13] "GET /screens/02-citizen-dashboard/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:14] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:12:22] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:22] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:22] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:22] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:23] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:12:23] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:15:04] "GET / HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:04] "GET /screens/01-language-location/index.html HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:04] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:06] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:09] "GET /screens/02-citizen-dashboard/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:15:11] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:32] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:32] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:32] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:34] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:45] "GET /screens/04-get-to-safety-step-2/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:15:46] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:17:26] "GET /screens/05-get-to-safety-step-4/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:17:26] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:17:26] "GET /route-comparison.js?v=phase5b HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:17:27] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:18:39] "GET /screens/11-preparedness/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:18:41] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:19:23] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:19:23] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:19:25] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:19:59] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:20:20] "GET /screens/08-emergency-relief HTTP/1.1" 301 -
+::1 - - [31/Oct/2026 11:20:20] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:20:21] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:24:33] "GET /screens/02-citizen-dashboard/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:24:33] "GET /assets/logo.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:24:33] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:24:35] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:24:36] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:24:38] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:35] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:35] "GET /favicon.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:36] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:36] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:36] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:37] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:25:38] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:26:21] "GET /screens/04-get-to-safety-step-2/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:26:23] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:21] "GET /screens/07-safe-places/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:28:21] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:23] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:24] "GET /screens/07-safe-places/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:26] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:26] "GET /screens/11-preparedness/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:28] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:28] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:28:29] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:30:55] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:30:55] "GET /i18n.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:30:56] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:32:32] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:32:32] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:32:34] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:32:37] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:32:39] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:34:01] "GET /screens/07-safe-places/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:34:02] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:34:03] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:34:05] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:34:07] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:35:13] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:35:13] "GET /assets/logo.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:35:14] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:35:31] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:35:33] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:44:55] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:44:55] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:44:55] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:44:55] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:44:55] code 404, message File not found
+::1 - - [31/Oct/2026 11:44:55] "GET /api/v1/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:44:55] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:44:59] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:44:59] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:44:59] code 404, message File not found
+::1 - - [31/Oct/2026 11:44:59] "GET /api/v1/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:44:59] "GET /favicon.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:45:01] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:45:02] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:02] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:02] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:02] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:02] code 404, message File not found
+::1 - - [31/Oct/2026 11:45:02] "GET /api/v1/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:45:02] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:32] code 501, message Unsupported method ('POST')
+::1 - - [31/Oct/2026 11:45:32] "POST /api/v1/supplies/analyze HTTP/1.1" 501 -
+::1 - - [31/Oct/2026 11:45:41] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:42] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:45:43] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:43] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:43] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:43] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:45:43] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:46:08] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:08] "GET /assets/logo.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:10] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:46] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:46:46] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:46:46] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:46:46] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:46:47] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:46:54] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:55] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:55] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:55] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:46:57] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:47:54] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:47:56] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:47:56] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:47:56] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:47:56] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:47:56] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:47:57] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:47:58] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:48:09] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:09] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:09] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:09] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:10] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:17] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:17] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:17] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:17] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:17] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:48:29] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:48:31] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:48:35] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:48:36] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:48:38] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:49:02] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:02] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:02] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:02] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:02] code 404, message File not found
+::1 - - [31/Oct/2026 11:49:02] "GET /screens/08-emergency-relief/undefined/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:49:02] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:33] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:33] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:33] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:33] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:34] code 404, message File not found
+::1 - - [31/Oct/2026 11:49:34] "GET /screens/08-emergency-relief/undefined/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:49:34] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:42] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:42] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:42] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:42] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:42] code 404, message File not found
+::1 - - [31/Oct/2026 11:49:42] "GET /screens/08-emergency-relief/undefined/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:49:42] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:48] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:49:48] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:49:48] code 404, message File not found
+::1 - - [31/Oct/2026 11:49:48] "GET /screens/08-emergency-relief/undefined/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:49:49] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:49:49] code 404, message File not found
+::1 - - [31/Oct/2026 11:49:49] "GET /screens/08-emergency-relief/undefined/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:49:50] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:49:50] code 404, message File not found
+::1 - - [31/Oct/2026 11:49:50] "GET /screens/08-emergency-relief/undefined/depots?lat=12.9716&lng=77.5946 HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 11:49:51] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:50:00] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:00] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:00] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:00] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:01] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:18] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:18] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:18] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:18] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:50:18] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:09] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:09] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:09] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:09] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:10] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:16] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:16] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:16] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:16] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:17] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:29] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:29] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:29] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:29] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:30] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:54] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:54] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:54] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:54] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:51:54] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:52:35] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:52:35] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:52:35] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:52:35] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:52:36] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:11] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:12] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:14] "GET /screens/02-citizen-dashboard/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:16] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:17] "GET /screens/07-safe-places/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:17] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:17] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:19] "GET /screens/11-preparedness/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:19] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:20] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:22] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:53:22] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:22] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:22] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:22] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:23] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:47] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:47] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:47] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:47] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:53:48] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:54:10] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:54:12] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:54:52] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:54:52] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:54:52] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:54:52] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:54:53] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:38] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:55:38] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:55:40] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:55:41] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:41] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:41] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:41] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:42] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:46] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:46] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:46] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:46] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:46] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:51] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:51] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:51] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:51] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:55:51] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:00] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:00] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:00] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:00] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:00] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:04] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:04] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:04] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:04] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:05] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:09] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:09] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:09] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:09] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:10] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:24] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:56:26] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:26] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:26] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:26] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:26] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:56:26] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:35] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:36] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:36] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:36] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:36] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:41] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:41] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:41] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:41] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:42] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:46] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:46] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:46] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:46] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:56:46] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:11] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:11] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:11] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:11] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:12] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:23] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:23] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:23] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:23] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:23] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:32] "GET /screens/02-citizen-dashboard/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:32] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:32] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:32] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:33] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:38] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:38] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:38] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:38] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:39] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:47] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:47] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:47] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:47] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:48] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:57:49] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:57:49] "GET /i18n.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:57:50] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:12] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:13] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:22] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:22] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:22] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:22] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:22] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:23] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:23] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:23] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:23] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:23] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:24] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:25] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:25] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:25] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:25] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:25] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /screens/05-get-to-safety-step-4/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /route-comparison.js?v=phase5b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:26] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:27] "GET /screens/06-get-to-safety-step-5/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:27] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:27] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:27] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:27] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:28] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:29] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:29] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:29] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:29] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:29] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:29] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:30] "GET /assets/logo.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:30] "GET /screens/09-relief-tracking/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:30] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:30] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:30] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:30] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /screens/10-relief-tracking-alternative/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:31] "GET /screens/11-preparedness/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:31] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:32] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:32] "GET /screens/12-emergency-help/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:32] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:32] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:32] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:33] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:33] "GET /screens/13-staff-login/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:33] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:33] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:33] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:34] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:34] "GET /screens/14-authority-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:34] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:34] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:34] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:34] "GET /authority-dashboard.js?v=phase6b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:35] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:35] "GET /screens/15-staff-tools-settings/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:35] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:35] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:35] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:36] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:36] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:36] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:36] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:36] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:37] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:37] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:38] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:39] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:39] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:39] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:40] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:40] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:41] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:42] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:43] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:43] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:58:52] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:58:54] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:26] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:26] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:26] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:26] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:27] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:27] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:27] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:27] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:27] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:27] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:28] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:29] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:29] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:29] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:29] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:29] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:30] "GET /screens/05-get-to-safety-step-4/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:30] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:30] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:30] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:30] "GET /route-comparison.js?v=phase5b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:30] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /screens/06-get-to-safety-step-5/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:31] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:32] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:33] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:33] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:33] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:33] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:33] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:34] "GET /screens/09-relief-tracking/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:34] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:34] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:34] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:34] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:35] "GET /screens/10-relief-tracking-alternative/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:35] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:35] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:35] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:35] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:36] "GET /screens/11-preparedness/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:36] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:36] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:36] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:36] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:37] "GET /screens/12-emergency-help/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:37] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:37] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:37] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:37] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:38] "GET /screens/13-staff-login/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:38] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:38] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:38] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:38] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:39] "GET /screens/14-authority-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:39] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:39] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:39] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:39] "GET /authority-dashboard.js?v=phase6b HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:39] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /screens/15-staff-tools-settings/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /screens/01-language-location/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:40] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:41] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:41] "GET /screens/02-citizen-dashboard/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:43] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:43] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:43] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:43] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:44] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:45] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:45] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:46] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:47] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:47] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:49] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:50] "GET /screens/09-relief-tracking/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:51] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 11:59:52] "GET /screens/11-preparedness/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:52] "GET /screens/12-emergency-help/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 11:59:52] "GET /screens/13-staff-login/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 12:03:23] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 12:03:23] "GET /api-client.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:23] "GET /favicon.svg HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:24] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:43] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:44] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:44] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:44] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:45] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:03:46] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:04] "GET /screens/07-safe-places/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:05] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:06] "GET /screens/11-preparedness/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:07] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:08] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:09] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:12] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:05:14] "GET /sw.js HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:09:10] "GET /screens/08-emergency-relief/ HTTP/1.1" 304 -
+::1 - - [31/Oct/2026 12:09:12] "GET /sw.js HTTP/1.1" 304 -

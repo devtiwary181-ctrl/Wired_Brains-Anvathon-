@@ -373,19 +373,55 @@ export declare class CitizenService {
             number: string;
             telUri: string;
         }[];
-        emergency_numbers: {
-            '112': string;
-            '1078': string;
-            '108': string;
-            '101': string;
-            '1091': string;
-            national: string;
-            ndrf: string;
-            ambulance: string;
-            fire: string;
-            women_helpline: string;
-        };
-        loggedAt: Date;
     }>;
+    /**
+     * Get list of relief depots sorted by distance to coordinates
+     */
+    getReliefDepots(lat?: number, lng?: number): Promise<{
+        id: string;
+        name: string;
+        latitude: number;
+        longitude: number;
+        contactPhone: string;
+        isOperational: boolean;
+        district: string;
+        state: string;
+        distanceKm: number | null;
+        verifiedMinutesAgo: number;
+        inventory: {
+            sku: string;
+            name: string;
+            quantityAvailable: number;
+            quantityReserved: number;
+            unit: string;
+            status: string;
+        }[];
+    }[]>;
+    /**
+     * Rule-based natural language parser for emergency supply needs
+     */
+    analyzeSuppliesText(text: string): {
+        parsed: {
+            totalPeople: number;
+            adults: number;
+            children: number;
+            infants: number;
+            elderly: number;
+            disabled: number;
+            items: {
+                drinkingWater: boolean;
+                foodKits: boolean;
+                babyFormula: boolean;
+                firstAidKit: boolean;
+                blankets: boolean;
+                emergencyTents: boolean;
+                sanitationKit: boolean;
+            };
+            medicinesNeeded: boolean;
+        };
+        calculation: string;
+        waterLiters: number;
+        rationsKits: number;
+    };
 }
 export declare const citizenService: CitizenService;

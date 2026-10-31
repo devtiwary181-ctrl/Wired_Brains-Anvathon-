@@ -22,5 +22,7 @@ export declare class CitizenController {
     createReliefRequest(req: Request, res: Response, next: NextFunction): Promise<void>;
     trackRequest(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined>;
     logSos(req: Request, res: Response, next: NextFunction): Promise<void>;
+    getDepots(req: Request, res: Response, next: NextFunction): Promise<void>;
+    analyzeSupplies(req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 export declare const citizenController: CitizenController;

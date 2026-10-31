@@ -239,6 +239,30 @@ export class CitizenController {
             next(e);
         }
     }
+    // ---------------------------------------------------------------------------
+    // 11. RELIEF DEPOTS & SUPPLY AI ANALYZER
+    // ---------------------------------------------------------------------------
+    async getDepots(req, res, next) {
+        try {
+            const lat = req.query.lat ? parseFloat(req.query.lat) : undefined;
+            const lng = req.query.lng ? parseFloat(req.query.lng) : undefined;
+            const result = await citizenService.getReliefDepots(lat, lng);
+            res.status(200).json({ success: true, data: result });
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+    async analyzeSupplies(req, res, next) {
+        try {
+            const text = (req.body.text || req.query.text || '').toString();
+            const result = citizenService.analyzeSuppliesText(text);
+            res.status(200).json({ success: true, data: result });
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 export const citizenController = new CitizenController();
 //# sourceMappingURL=citizen.controller.js.map
