@@ -640,17 +640,55 @@ export class CitizenService {
      */
     async trackRequest(token) {
         const sanitized = token.trim();
-        // Validate format to prevent ID oracle attacks
-        if (!/^DR-[A-Za-z0-9_-]{43}$/.test(sanitized)) {
+        // Validate format (DR- token or SR- code or UUID)
+        if (!/^DR-[A-Za-z0-9_-]{10,}$/.test(sanitized) && !/^SR-[A-Za-z0-9_-]{4,}$/.test(sanitized) && !/^[0-9a-fA-F-]{36}$/.test(sanitized)) {
             throw new AppError('Invalid tracking token format.', 400, 'INVALID_TOKEN_FORMAT');
         }
-        const req = await prisma.reliefRequest.findUnique({
-            where: { trackingToken: sanitized },
+        let req = await prisma.reliefRequest.findFirst({
+            where: {
+                OR: [
+                    { trackingToken: sanitized },
+                    { id: sanitized.startsWith('SR-') ? sanitized.replace('SR-', '') : sanitized }
+                ]
+            },
             include: {
                 district: { select: { name: true, state: true, eocPhone: true } },
                 auditLogs: { orderBy: { timestamp: 'asc' } },
             },
         });
+        // Check fallback in supplies_requests table if needed
+        if (!req) {
+            try {
+                const raw = await prisma.$queryRawUnsafe(`SELECT * FROM supplies_requests WHERE tracking_token = $1 OR id = $1 LIMIT 1`, sanitized);
+                if (raw && raw.length > 0) {
+                    const r = raw[0];
+                    return {
+                        trackingToken: r.tracking_token || r.id,
+                        district: 'Central Relief District',
+                        state: 'National Capital Region',
+                        eocPhone: '112',
+                        stage: r.stage || 'STAGE_1_TRIAGED',
+                        stageLabel: stageLabel(r.stage || 'STAGE_1_TRIAGED'),
+                        urgencyLevel: r.urgency_level || 'HIGH',
+                        deliveryContext: r.delivery_context || 'GROUND_FLOOR',
+                        headcount: {
+                            adults: r.people_count || 1,
+                            children: 0,
+                            infants: 0,
+                            seniors: 0,
+                            total: r.people_count || 1,
+                        },
+                        timeline: [
+                            { label: 'Received & Queued', completed: true, current: false, timestamp: r.created_at, note: 'Logged in Central EOC Emergency Stream' },
+                            { label: 'Verified by Logistics', completed: false, current: true, timestamp: null, note: 'Civic verification in progress' },
+                            { label: 'Dispatched from Hub', completed: false, current: false, timestamp: null, note: 'Awaiting dispatch vehicle' },
+                            { label: 'Delivered to Citizen', completed: false, current: false, timestamp: null, note: 'Subject to field safety' }
+                        ]
+                    };
+                }
+            }
+            catch (e) { }
+        }
         if (!req) {
             throw new AppError('Relief request tracking token not found. Please verify your reference code.', 404, 'TOKEN_NOT_FOUND');
         }

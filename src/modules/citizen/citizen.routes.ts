@@ -39,25 +39,31 @@ const reportHazardSchema = z.object({
 const createReliefRequestSchema = z.object({
   districtId: z.string().uuid().optional(),
   requesterPhone: z.string().regex(/^\+?[0-9]{8,15}$/).optional(),
-  headcountAdults: z.coerce.number().int().min(0).max(50).default(1),
-  headcountChildren: z.coerce.number().int().min(0).max(50).default(0),
-  headcountInfants: z.coerce.number().int().min(0).max(10).default(0),
-  headcountSeniors: z.coerce.number().int().min(0).max(20).default(0),
-  deliveryContext: z.enum(['ROOFTOP_STRANDED', 'GROUND_FLOOR', 'ISOLATED_ROAD', 'COMMUNITY_CENTER', 'OTHER']),
-  urgencyLevel: z.enum(['STANDARD', 'HIGH', 'CRITICAL_LIFE_SAFETY']),
+  headcountAdults: z.coerce.number().int().min(0).max(500).default(1),
+  headcountChildren: z.coerce.number().int().min(0).max(500).default(0),
+  headcountInfants: z.coerce.number().int().min(0).max(500).default(0),
+  headcountSeniors: z.coerce.number().int().min(0).max(500).default(0),
+  deliveryContext: z.enum(['ROOFTOP_STRANDED', 'GROUND_FLOOR', 'ISOLATED_ROAD', 'COMMUNITY_CENTER', 'DEPOT_PICKUP', 'OTHER']).default('GROUND_FLOOR'),
+  urgencyLevel: z.enum(['STANDARD', 'HIGH', 'CRITICAL_LIFE_SAFETY']).default('STANDARD'),
   latitude: z.coerce.number().min(-90).max(90),
   longitude: z.coerce.number().min(-180).max(180),
-  landmarkNotes: z.string().max(500).optional(),
-  itemsRequested: z.object({
-    drinkingWater: z.boolean().optional(),
-    foodKits: z.number().int().min(0).max(100).optional(),
-    babyFormula: z.boolean().optional(),
-    firstAidKit: z.boolean().optional(),
-    tarpaulin: z.boolean().optional(),
-    medications: z.string().optional(),
-  }),
-  specialMedicalNeeds: z.string().max(500).optional(),
-});
+  landmarkNotes: z.string().max(1000).optional(),
+  itemsRequested: z.union([
+    z.record(z.string(), z.any()),
+    z.object({
+      drinkingWater: z.union([z.boolean(), z.number()]).optional(),
+      foodKits: z.union([z.boolean(), z.number()]).optional(),
+      babyFormula: z.union([z.boolean(), z.number()]).optional(),
+      firstAidKit: z.union([z.boolean(), z.number()]).optional(),
+      tarpaulin: z.union([z.boolean(), z.number()]).optional(),
+      blankets: z.union([z.boolean(), z.number()]).optional(),
+      sanitationKit: z.union([z.boolean(), z.number()]).optional(),
+      medications: z.string().optional(),
+      other: z.string().optional(),
+    }).passthrough(),
+  ]),
+  specialMedicalNeeds: z.string().max(1000).optional(),
+}).passthrough();
 
 const sosSchema = z.object({
   serviceType: z.enum(['112_NATIONAL', '1078_NDRF', '108_AMBULANCE', '101_FIRE', '1091_WOMEN', '1800_NDMA']),

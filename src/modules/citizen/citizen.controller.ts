@@ -256,7 +256,8 @@ export class CitizenController {
 
   async trackRequest(req: Request, res: Response, next: NextFunction) {
     try {
-      const token = Array.isArray(req.params.token) ? req.params.token[0] : req.params.token;
+      const rawParam = req.params.token || req.params.id;
+      const token = Array.isArray(rawParam) ? rawParam[0] : rawParam;
       if (!token) {
         return res.status(400).json({
           success: false,

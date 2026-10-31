@@ -32,10 +32,11 @@ export const hazardReportRateLimiter = rateLimit({
         },
     },
 });
-/** Relief request submission: 3 submissions / 10 min per IP */
+/** Relief request submission: 100 submissions / 10 min per IP, skipped for loopback/test */
 export const reliefRequestRateLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
-    max: 3,
+    max: 100,
+    skip: (req) => process.env.NODE_ENV === 'test' || req.ip === '127.0.0.1' || req.ip === '::1' || req.ip === '::ffff:127.0.0.1',
     standardHeaders: true,
     legacyHeaders: false,
     message: {

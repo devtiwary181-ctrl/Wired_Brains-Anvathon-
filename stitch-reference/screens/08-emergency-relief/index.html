@@ -6,6 +6,78 @@
   </style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <script src="../../i18n.js"></script>
+<link rel="stylesheet" href="/vendor/leaflet/leaflet.css" /><script src="/vendor/leaflet/leaflet.js"></script>
+  <style>
+    /* Part A1: 2-column responsive CSS grid with sensible max-width and equal height */
+    .relief-items-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+      width: 100% !important;
+      max-width: 800px !important;
+      margin: 0 auto !important;
+    }
+    @media (max-width: 339px) {
+      .relief-items-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    .relief-item-card {
+      min-height: 154px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      box-sizing: border-box !important;
+      transition: all 0.15s ease-in-out !important;
+      overflow: hidden !important;
+    }
+    .qty-compact-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      gap: 6px !important;
+      padding: 4px 6px !important;
+      border-radius: 8px !important;
+      background: rgba(255, 255, 255, 0.9) !important;
+      box-sizing: border-box !important;
+    }
+    .dark .qty-compact-row {
+      background: rgba(16, 29, 39, 0.85) !important;
+    }
+    .qty-ctrl-btn {
+      width: 44px !important;
+      height: 44px !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      border-radius: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      user-select: none !important;
+      border: none !important;
+    }
+    .qty-number-input {
+      width: 46px !important;
+      height: 40px !important;
+      text-align: center !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      border-radius: 6px !important;
+      border: 1px solid #cbd5e1 !important;
+      background: #ffffff !important;
+      color: #101d27 !important;
+    }
+    .dark .qty-number-input {
+      background: #1e293b !important;
+      color: #f8fafc !important;
+      border-color: #475569 !important;
+    }
+  </style>
+
 </head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><a href="/screens/02-citizen-dashboard/index.html" class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1 hover:opacity-90 transition-opacity" title="Back to Citizen Dashboard"><img src="/assets/logo.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></a><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><span class="font-label-strong text-label-strong text-primary">Ask For Supplies</span></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full pb-8">
 <!-- Top Utility Header & Navigation -->
 <div class="flex flex-col gap-space-sm pt-2 mb-space-md">
@@ -34,6 +106,8 @@
 <div class="w-full h-2 rounded-full bg-surface-variant overflow-hidden">
 <div class="h-full bg-primary rounded-full transition-all duration-300" id="stepProgressBar" style="width: 14.3%;"></div>
 </div>
+<!-- 7 Clickable Wizard Progress Dots -->
+<div class="flex items-center justify-between px-1 py-1" id="topWizardDotsContainer"></div>
 <div class="flex items-center justify-between text-on-surface-variant">
 <span class="font-caption text-caption"><span id="stepIndicatorSub">चरण 1 / 7 (आवश्यक सामग्री का चयन)</span></span>
 <span class="font-caption text-caption flex items-center gap-1 text-tertiary font-semibold">
@@ -75,161 +149,148 @@
 </div>
 <span id="itemsSelectedBadge" class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-semibold">3 Selected</span>
 </div>
-<!-- Multi-select Tiles Grid -->
-<div class="grid grid-cols-2 gap-space-sm">
-<!-- Item 1: Selected -->
-<button id="itemBtn_water" data-item-key="water" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-primary text-on-primary text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px]">water_drop</span>
-<span class="material-symbols-outlined text-[20px] text-on-primary">check_circle</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Drinking water</div>
-<div class="font-caption text-caption opacity-90">पीने का पानी</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="water">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="water">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="water">+</button>
+<!-- Multi-select Tiles Grid (2-Column Responsive CSS Grid) -->
+<div class="relief-items-grid">
+  <!-- Item 1: Drinking water -->
+  <div id="itemBtn_water" data-item-key="water" class="relief-item-card p-space-sm rounded-lg bg-primary text-on-primary text-left cursor-pointer" role="button" tabindex="0" aria-label="Drinking water supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px]">water_drop</span>
+      <span class="material-symbols-outlined text-[20px] text-on-primary item-check-icon">check_circle</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Drinking water</div>
+      <div class="font-caption text-caption opacity-90">पीने का पानी</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Drinking water quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="water">-</button>
+      <input type="number" min="0" max="1400" aria-label="Drinking water quantity" class="qty-number-input item-qty-input" data-key="water" value="12" />
+      <span class="item-qty-val sr-only" data-key="water">12</span>
+      <button type="button" aria-label="Increase Drinking water quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="water">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 2: Selected -->
-<button id="itemBtn_food" data-item-key="food" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-primary text-on-primary text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px]">rice_bowl</span>
-<span class="material-symbols-outlined text-[20px] text-on-primary">check_circle</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Food rations</div>
-<div class="font-caption text-caption opacity-90">भोजन व राशन</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="food">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="food">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="food">+</button>
+  <!-- Item 2: Food rations -->
+  <div id="itemBtn_food" data-item-key="food" class="relief-item-card p-space-sm rounded-lg bg-primary text-on-primary text-left cursor-pointer" role="button" tabindex="0" aria-label="Food rations supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px]">rice_bowl</span>
+      <span class="material-symbols-outlined text-[20px] text-on-primary item-check-icon">check_circle</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Food rations</div>
+      <div class="font-caption text-caption opacity-90">भोजन व राशन</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Food rations quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="food">-</button>
+      <input type="number" min="0" max="380" aria-label="Food rations quantity" class="qty-number-input item-qty-input" data-key="food" value="1" />
+      <span class="item-qty-val sr-only" data-key="food">1</span>
+      <button type="button" aria-label="Increase Food rations quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="food">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 3: Selected -->
-<button id="itemBtn_medicine" data-item-key="medicine" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-primary text-on-primary text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px]">medical_services</span>
-<span class="material-symbols-outlined text-[20px] text-on-primary">check_circle</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Medicines &amp; Kit</div>
-<div class="font-caption text-caption opacity-90">दवाइयाँ व पट्टी</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="medicine">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="medicine">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="medicine">+</button>
+  <!-- Item 3: Medicines & Kit -->
+  <div id="itemBtn_medicine" data-item-key="medicine" class="relief-item-card p-space-sm rounded-lg bg-primary text-on-primary text-left cursor-pointer" role="button" tabindex="0" aria-label="Medicines and Kit supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px]">medical_services</span>
+      <span class="material-symbols-outlined text-[20px] text-on-primary item-check-icon">check_circle</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Medicines &amp; Kit</div>
+      <div class="font-caption text-caption opacity-90">दवाइयाँ व पट्टी</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Medicines and Kit quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="medicine">-</button>
+      <input type="number" min="0" max="300" aria-label="Medicines and Kit quantity" class="qty-number-input item-qty-input" data-key="medicine" value="1" />
+      <span class="item-qty-val sr-only" data-key="medicine">1</span>
+      <button type="button" aria-label="Increase Medicines and Kit quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="medicine">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 4: Unselected -->
-<button id="itemBtn_blanket" data-item-key="blanket" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px] text-secondary">bed</span>
-<span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Blankets &amp; Wear</div>
-<div class="font-caption text-caption text-on-surface-variant">कंबल व कपड़े</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="blanket">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="blanket">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="blanket">+</button>
+  <!-- Item 4: Blankets & Wear -->
+  <div id="itemBtn_blanket" data-item-key="blanket" class="relief-item-card p-space-sm rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" role="button" tabindex="0" aria-label="Blankets and Wear supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px] text-secondary">bed</span>
+      <span class="material-symbols-outlined text-[20px] text-outline item-check-icon">radio_button_unchecked</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Blankets &amp; Wear</div>
+      <div class="font-caption text-caption text-on-surface-variant">कंबल व कपड़े</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Blankets and Wear quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="blanket">-</button>
+      <input type="number" min="0" max="500" aria-label="Blankets and Wear quantity" class="qty-number-input item-qty-input" data-key="blanket" value="0" />
+      <span class="item-qty-val sr-only" data-key="blanket">0</span>
+      <button type="button" aria-label="Increase Blankets and Wear quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="blanket">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 5: Unselected -->
-<button id="itemBtn_tent" data-item-key="tent" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px] text-secondary">roofing</span>
-<span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Emergency Tents</div>
-<div class="font-caption text-caption text-on-surface-variant">तिरपाल / तंबू</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="tent">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="tent">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="tent">+</button>
+  <!-- Item 5: Emergency Tents -->
+  <div id="itemBtn_tent" data-item-key="tent" class="relief-item-card p-space-sm rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" role="button" tabindex="0" aria-label="Emergency Tents supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px] text-secondary">roofing</span>
+      <span class="material-symbols-outlined text-[20px] text-outline item-check-icon">radio_button_unchecked</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Emergency Tents</div>
+      <div class="font-caption text-caption text-on-surface-variant">तिरपाल / तंबू</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Emergency Tents quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="tent">-</button>
+      <input type="number" min="0" max="0" aria-label="Emergency Tents quantity" class="qty-number-input item-qty-input" data-key="tent" value="0" />
+      <span class="item-qty-val sr-only" data-key="tent">0</span>
+      <button type="button" aria-label="Increase Emergency Tents quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="tent">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 6: Unselected -->
-<button id="itemBtn_baby" data-item-key="baby" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px] text-secondary">child_friendly</span>
-<span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Baby food/Milk</div>
-<div class="font-caption text-caption text-on-surface-variant">शिशु आहार</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="baby">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="baby">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="baby">+</button>
+  <!-- Item 6: Baby food/Milk -->
+  <div id="itemBtn_baby" data-item-key="baby" class="relief-item-card p-space-sm rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" role="button" tabindex="0" aria-label="Baby food and Milk supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px] text-secondary">child_friendly</span>
+      <span class="material-symbols-outlined text-[20px] text-outline item-check-icon">radio_button_unchecked</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Baby food/Milk</div>
+      <div class="font-caption text-caption text-on-surface-variant">शिशु आहार</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Baby food and Milk quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="baby">-</button>
+      <input type="number" min="0" max="14" aria-label="Baby food and Milk quantity" class="qty-number-input item-qty-input" data-key="baby" value="0" />
+      <span class="item-qty-val sr-only" data-key="baby">0</span>
+      <button type="button" aria-label="Increase Baby food and Milk quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="baby">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 7: Unselected -->
-<button id="itemBtn_sanitation" data-item-key="sanitation" class="relief-item-card flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left transition-transform active:scale-[0.98]" type="button">
-<div class="w-full flex items-center justify-between">
-<span class="material-symbols-outlined text-[24px] text-secondary">clean_hands</span>
-<span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
-</div>
-<div>
-<div class="font-label-strong text-label-strong">Sanitation Kit</div>
-<div class="font-caption text-caption text-on-surface-variant">स्वच्छता किट</div>
-</div>
-<div class="item-qty-bar mt-2 w-full flex items-center justify-between bg-surface-container-lowest/80 dark:bg-black/20 px-2 py-1 rounded text-on-surface" onclick="event.stopPropagation()">
-  <span class="text-[12px] font-caption font-semibold">Qty:</span>
-  <div class="flex items-center gap-2">
-    <button type="button" class="item-dec-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="sanitation">-</button>
-    <span class="item-qty-val font-label-strong text-sm font-bold min-w-[20px] text-center" data-key="sanitation">1</span>
-    <button type="button" class="item-inc-btn w-6 h-6 rounded bg-surface-container-high flex items-center justify-center font-bold text-sm" data-key="sanitation">+</button>
+  <!-- Item 7: Sanitation Kit -->
+  <div id="itemBtn_sanitation" data-item-key="sanitation" class="relief-item-card p-space-sm rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" role="button" tabindex="0" aria-label="Sanitation Kit supply card">
+    <div class="w-full flex items-center justify-between pointer-events-none">
+      <span class="material-symbols-outlined text-[24px] text-secondary">clean_hands</span>
+      <span class="material-symbols-outlined text-[20px] text-outline item-check-icon">radio_button_unchecked</span>
+    </div>
+    <div class="pointer-events-none my-1">
+      <div class="font-label-strong text-label-strong leading-tight">Sanitation Kit</div>
+      <div class="font-caption text-caption text-on-surface-variant">स्वच्छता किट</div>
+    </div>
+    <div class="qty-compact-row text-on-surface" onclick="event.stopPropagation()">
+      <button type="button" aria-label="Decrease Sanitation Kit quantity" class="qty-ctrl-btn item-dec-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="sanitation">-</button>
+      <input type="number" min="0" max="400" aria-label="Sanitation Kit quantity" class="qty-number-input item-qty-input" data-key="sanitation" value="0" />
+      <span class="item-qty-val sr-only" data-key="sanitation">0</span>
+      <button type="button" aria-label="Increase Sanitation Kit quantity" class="qty-ctrl-btn item-inc-btn bg-surface-container-high hover:bg-surface-variant text-on-surface" data-key="sanitation">+</button>
+    </div>
   </div>
-</div>
 
-</button>
-<!-- Item 8: Custom Needs Input Card -->
-<div class="flex flex-col items-start justify-between min-h-[88px] p-space-sm rounded-lg bg-surface-container-high text-on-surface">
-<div class="w-full flex items-center justify-between mb-1">
-<span class="material-symbols-outlined text-[22px] text-secondary">more_horiz</span>
-<span class="font-caption text-caption text-on-surface-variant">Other (अन्य)</span>
-</div>
-<div class="w-full flex items-center gap-1 bg-surface-container-lowest rounded-lg px-2 py-1">
-<input id="otherSuppliesInput" aria-label="Other supplies description" class="w-full bg-transparent font-caption text-caption text-on-surface focus:outline-none" placeholder="Specify..." type="text">
-<button id="otherSuppliesMicBtn" aria-label="Speak other supplies" class="w-7 h-7 flex items-center justify-center text-primary hover:bg-surface-variant rounded-full" type="button">
-<span class="material-symbols-outlined text-[18px]">mic</span>
-</button>
-</div>
-</div>
+  <!-- Item 8: Custom Needs Input Card -->
+  <div class="relief-item-card p-space-sm rounded-lg bg-surface-container-high text-on-surface flex flex-col justify-between">
+    <div class="w-full flex items-center justify-between mb-1">
+      <span class="material-symbols-outlined text-[22px] text-secondary">more_horiz</span>
+      <span class="font-caption text-caption text-on-surface-variant font-semibold">Other (अन्य)</span>
+    </div>
+    <p class="font-caption text-xs text-on-surface-variant mb-1">Any specific medication, torch, ropes or baby sizes</p>
+    <div class="w-full flex items-center gap-1 bg-surface-container-lowest rounded-lg px-2 py-1 border border-surface-variant">
+      <input id="otherSuppliesInput" aria-label="Other supplies description" class="w-full bg-transparent font-caption text-caption text-on-surface focus:outline-none" placeholder="Specify other needs..." type="text">
+      <button id="otherSuppliesMicBtn" aria-label="Speak other supplies" class="w-8 h-8 flex items-center justify-center text-primary hover:bg-surface-variant rounded-full" type="button">
+        <span class="material-symbols-outlined text-[18px]">mic</span>
+      </button>
+    </div>
+  </div>
 </div>
 <!-- Step 1 Nav -->
 <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
@@ -237,15 +298,7 @@
     <span class="material-symbols-outlined text-[18px]">arrow_back</span>
     <span>Dashboard</span>
   </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-  </div>
+  <div class="flex items-center gap-1 step-nav-dots" data-step="1"></div>
   <button id="step1NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
     <span>Step 2: People</span>
     <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -256,517 +309,764 @@
 <!-- STEP 2: How many people? [Active Wizard Card] -->
 <div id="step-2-container" class="wizard-step hidden flex flex-col w-full">
 <section class="flex flex-col gap-space-sm p-space-md rounded-xl bg-surface-container-lowest mb-space-lg shadow-sm">
-<div class="flex items-start justify-between gap-2">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-primary-container text-on-primary font-caption text-caption flex items-center justify-center font-bold">2</span>
-<div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">How many people need supplies?</h2>
-<p class="font-caption text-caption text-on-surface-variant">कुल कितने व्यक्तियों को सामग्री की जरूरत है?</p>
-</div>
-</div>
-<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-caption font-semibold">Active</span>
-</div>
-<!-- Stepper Unit -->
-<div class="flex items-center justify-between bg-surface-container-low p-space-sm rounded-xl">
-<button aria-label="Decrease people count" class="w-14 h-14 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center active:bg-secondary-fixed transition-colors" id="decrementPeople" type="button">
-<span class="material-symbols-outlined text-[28px]">remove</span>
-</button>
-<div class="flex flex-col items-center">
-<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-tight" id="peopleDisplay">4 People</span>
-<span class="font-caption text-caption text-on-surface-variant font-semibold">4 व्यक्ति (परिवार)</span>
-</div>
-<button aria-label="Increase people count" class="w-14 h-14 rounded-full bg-primary text-on-primary flex items-center justify-center active:bg-primary-container transition-colors" id="incrementPeople" type="button">
-<span class="material-symbols-outlined text-[28px]">add</span>
-</button>
-</div>
-<!-- Quick Preset Pills -->
-<div class="grid grid-cols-2 gap-space-xs pt-1">
-<button id="preset-1" data-count="1" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong text-center" type="button">
-        1 Person (अकेले)
-      </button>
-<button id="preset-4" data-count="4" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-primary text-on-primary font-label-strong text-label-strong text-center" type="button">
-        ✓ 2 - 4 Family (परिवार)
-      </button>
-<button id="preset-8" data-count="8" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong text-center" type="button">
-        5 - 10 Group (समूह)
-      </button>
-<button id="preset-15" data-count="15" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong text-center" type="button">
-        11+ Community (बस्ती)
-      </button>
-</div>
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-2">
-  <button id="step2BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span>Step 1: Items</span>
-  </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+  <div class="flex items-start justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="w-6 h-6 rounded-full bg-primary-container text-on-primary font-caption text-caption flex items-center justify-center font-bold">2</span>
+      <div>
+        <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">How many people need supplies? (व्यक्तियों की संख्या)</h2>
+        <p class="font-caption text-caption text-on-surface-variant">कुल कितने सदस्यों को भोजन, पानी व दवाइयों की आवश्यकता है? (At least 1 required)</p>
+      </div>
+    </div>
+    <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-caption text-caption font-semibold">Step 2</span>
   </div>
-  <button id="step2NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
-    <span>Step 3: Care</span>
-    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-  </button>
-</div>
+
+  <!-- Stepper Unit for Total People -->
+  <div class="flex items-center justify-between bg-surface-container-low p-space-sm rounded-xl">
+    <button aria-label="Decrease people count" class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center active:bg-secondary-fixed transition-colors" id="decrementPeople" type="button">
+      <span class="material-symbols-outlined text-[28px]">remove</span>
+    </button>
+    <div class="flex flex-col items-center">
+      <span class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-tight" id="peopleDisplay">4 People</span>
+      <span class="font-caption text-caption text-on-surface-variant font-semibold">4 व्यक्ति (परिवार)</span>
+    </div>
+    <button aria-label="Increase people count" class="w-14 h-14 min-w-[56px] min-h-[56px] rounded-full bg-primary text-on-primary flex items-center justify-center active:bg-primary-container transition-colors" id="incrementPeople" type="button">
+      <span class="material-symbols-outlined text-[28px]">add</span>
+    </button>
+  </div>
+
+  <!-- Quick Preset Pills -->
+  <div class="grid grid-cols-2 gap-space-xs pt-1">
+    <button id="preset-1" data-count="1" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong text-center" type="button">
+      1 Person (अकेले)
+    </button>
+    <button id="preset-4" data-count="4" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-primary text-on-primary font-label-strong text-label-strong text-center" type="button">
+      ✓ 2 - 4 Family (परिवार)
+    </button>
+    <button id="preset-8" data-count="8" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong text-center" type="button">
+      5 - 10 Group (समूह)
+    </button>
+    <button id="preset-15" data-count="15" class="people-preset-pill min-h-[44px] px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong text-center" type="button">
+      11+ Community (बस्ती)
+    </button>
+  </div>
+
+  <!-- Demographic Breakdown: Adults, Children, Infants, Elderly, Disability -->
+  <div class="mt-3 p-space-sm rounded-xl bg-surface-container-low border border-surface-variant flex flex-col gap-2">
+    <span class="font-label-strong text-sm text-on-surface font-bold">Household Breakdown (सदस्यों का विवरण):</span>
+    
+    <!-- Adults -->
+    <div class="flex items-center justify-between py-1 border-b border-surface-variant/50">
+      <div>
+        <span class="font-label-strong text-sm text-on-surface">Adults (वयस्क)</span>
+        <span class="block font-caption text-xs text-on-surface-variant">Age 18 - 60</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" aria-label="Decrease Adults count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('adults', -1)">-</button>
+        <span id="demo-count-adults" class="font-label-strong text-base font-bold min-w-[28px] text-center">2</span>
+        <button type="button" aria-label="Increase Adults count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('adults', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- Children -->
+    <div class="flex items-center justify-between py-1 border-b border-surface-variant/50">
+      <div>
+        <span class="font-label-strong text-sm text-on-surface">Children (बच्चे)</span>
+        <span class="block font-caption text-xs text-on-surface-variant">Age 2 - 17</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" aria-label="Decrease Children count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('children', -1)">-</button>
+        <span id="demo-count-children" class="font-label-strong text-base font-bold min-w-[28px] text-center">0</span>
+        <button type="button" aria-label="Increase Children count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('children', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- Infants -->
+    <div class="flex items-center justify-between py-1 border-b border-surface-variant/50">
+      <div>
+        <span class="font-label-strong text-sm text-on-surface">Infants (शिशु)</span>
+        <span class="block font-caption text-xs text-on-surface-variant">Under 2 years (Needs formula/milk)</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" aria-label="Decrease Infants count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('infants', -1)">-</button>
+        <span id="demo-count-infants" class="font-label-strong text-base font-bold min-w-[28px] text-center">1</span>
+        <button type="button" aria-label="Increase Infants count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('infants', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- Elderly -->
+    <div class="flex items-center justify-between py-1 border-b border-surface-variant/50">
+      <div>
+        <span class="font-label-strong text-sm text-on-surface">Elderly (बुजुर्ग)</span>
+        <span class="block font-caption text-xs text-on-surface-variant">Age 60+ (Priority care)</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" aria-label="Decrease Elderly count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('elderly', -1)">-</button>
+        <span id="demo-count-elderly" class="font-label-strong text-base font-bold min-w-[28px] text-center">1</span>
+        <button type="button" aria-label="Increase Elderly count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('elderly', 1)">+</button>
+      </div>
+    </div>
+
+    <!-- Persons with Disability -->
+    <div class="flex items-center justify-between py-1">
+      <div>
+        <span class="font-label-strong text-sm text-on-surface">PwD / Wheelchair (दिव्यांग)</span>
+        <span class="block font-caption text-xs text-on-surface-variant">Mobility assistance needed</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" aria-label="Decrease PwD count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('disabled', -1)">-</button>
+        <span id="demo-count-disabled" class="font-label-strong text-base font-bold min-w-[28px] text-center">0</span>
+        <button type="button" aria-label="Increase PwD count" class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-lg bg-surface-container-high text-on-surface font-bold flex items-center justify-center text-lg hover:bg-surface-variant" onclick="changeDemographic('disabled', 1)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proxy details reminder / toggle -->
+  <div class="p-space-sm rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-[20px] text-primary">volunteer_activism</span>
+      <span class="font-caption text-caption">Filing on behalf of someone else?</span>
+    </div>
+    <button type="button" class="text-primary font-label-strong text-xs underline" onclick="document.getElementById('changeProxyBtn')?.click()">View / Edit Proxy</button>
+  </div>
+
+  <div id="step2ErrorMsg" class="hidden text-error font-body-strong text-sm p-2 rounded bg-error-container"></div>
+
+  <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-2">
+    <button id="step2BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      <span>Step 1: Items</span>
+    </button>
+    <div class="flex items-center gap-1 step-nav-dots" data-step="2"></div>
+    <button id="step2NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
+      <span>Step 3: Care</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
 </section>
 </div>
 <!-- STEP 3: Extra Care Groups -->
 <div id="step-3-container" class="wizard-step hidden flex flex-col w-full">
 <section class="flex flex-col gap-space-sm mb-space-lg">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">3</span>
-<div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Does anyone need extra care?</h2>
-<p class="font-caption text-caption text-on-surface-variant">क्या किसी सदस्य को विशेष देखभाल या प्राथमिकता की आवश्यकता है?</p>
-</div>
-</div>
-<div class="flex flex-col gap-2">
-<!-- Care Option 1: Selected -->
-<button id="care-infant" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-tertiary-fixed text-on-tertiary-fixed text-left active:opacity-90" type="button">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[24px] text-tertiary">child_care</span>
-<div>
-<div class="font-label-strong text-label-strong">Infant / Newborn baby</div>
-<div class="font-caption text-caption text-on-tertiary-fixed-variant">नवजात शिशु (विशेष आहार/दूध)</div>
-</div>
-</div>
-<span class="px-2 py-1 rounded-md bg-tertiary text-on-tertiary font-label-strong text-label-strong">YES ✓</span>
-</button>
-<!-- Care Option 2: Selected -->
-<button id="care-elderly" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-tertiary-fixed text-on-tertiary-fixed text-left active:opacity-90" type="button">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[24px] text-tertiary">elderly</span>
-<div>
-<div class="font-label-strong text-label-strong">Elderly person (65+ years)</div>
-<div class="font-caption text-caption text-on-tertiary-fixed-variant">बुजुर्ग व्यक्ति (वरिष्ठ नागरिक)</div>
-</div>
-</div>
-<span class="px-2 py-1 rounded-md bg-tertiary text-on-tertiary font-label-strong text-label-strong">YES ✓</span>
-</button>
-<!-- Care Option 3: Not selected -->
-<button id="care-pregnant" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant" type="button">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[24px] text-secondary">pregnant_woman</span>
-<div>
-<div class="font-label-strong text-label-strong">Pregnant woman</div>
-<div class="font-caption text-caption text-on-surface-variant">गर्भवती महिला</div>
-</div>
-</div>
-<span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
-</button>
-<!-- Care Option 4: Not selected -->
-<button id="care-disabled" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant" type="button">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[24px] text-secondary">accessible</span>
-<div>
-<div class="font-label-strong text-label-strong">Person with disability (PwD)</div>
-<div class="font-caption text-caption text-on-surface-variant">दिव्यांग नागरिक</div>
-</div>
-</div>
-<span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
-</button>
-<!-- Care Option 5: Not selected -->
-<button id="care-critical" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant" type="button">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-[24px] text-secondary">personal_injury</span>
-<div>
-<div class="font-label-strong text-label-strong">Critical patient / Bedridden</div>
-<div class="font-caption text-caption text-on-surface-variant">गंभीर रूप से बीमार / बिस्तर पर</div>
-</div>
-</div>
-<span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
-</button>
-</div>
-<!-- Step 3 Nav -->
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
-  <button id="step3BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span>Step 2: People</span>
-  </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+  <div class="flex items-center gap-2">
+    <span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">3</span>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Special Care Needs (विशेष देखभाल)</h2>
+      <p class="font-caption text-caption text-on-surface-variant">क्या किसी सदस्य को विशेष दवा या प्राथमिक देखभाल की आवश्यकता है?</p>
+    </div>
   </div>
-  <button id="step3NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
-    <span>Step 4: Urgency</span>
-    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-  </button>
-</div>
+
+  <!-- Multi-select Care Chips -->
+  <div class="flex flex-col gap-2">
+    <!-- Care Option 1: Infant -->
+    <button id="care-infant" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-tertiary-fixed text-on-tertiary-fixed text-left active:opacity-90 cursor-pointer" type="button">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[24px] text-tertiary">child_care</span>
+        <div>
+          <div class="font-label-strong text-label-strong">Infant / Newborn baby (नवजात शिशु)</div>
+          <div class="font-caption text-caption text-on-tertiary-fixed-variant">Baby care, formula &amp; clean water</div>
+        </div>
+      </div>
+      <span class="px-2 py-1 rounded-md bg-tertiary text-on-tertiary font-label-strong text-label-strong">YES ✓</span>
+    </button>
+
+    <!-- Care Option 2: Elderly -->
+    <button id="care-elderly" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-tertiary-fixed text-on-tertiary-fixed text-left active:opacity-90 cursor-pointer" type="button">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[24px] text-tertiary">elderly</span>
+        <div>
+          <div class="font-label-strong text-label-strong">Elderly person / Senior (बुजुर्ग व्यक्ति)</div>
+          <div class="font-caption text-caption text-on-tertiary-fixed-variant">Senior nutrition &amp; comfort support</div>
+        </div>
+      </div>
+      <span class="px-2 py-1 rounded-md bg-tertiary text-on-tertiary font-label-strong text-label-strong">YES ✓</span>
+    </button>
+
+    <!-- Care Option 3: BP / Diabetes / Critical Medicines -->
+    <button id="care-chronic" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant cursor-pointer" type="button">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[24px] text-secondary">medication</span>
+        <div>
+          <div class="font-label-strong text-label-strong">BP / Diabetes / Chronic Meds (बीपी / मधुमेह दवा)</div>
+          <div class="font-caption text-caption text-on-surface-variant">Daily life-saving prescription medicines</div>
+        </div>
+      </div>
+      <span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
+    </button>
+
+    <!-- Care Option 4: Pregnant woman -->
+    <button id="care-pregnant" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant cursor-pointer" type="button">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[24px] text-secondary">pregnant_woman</span>
+        <div>
+          <div class="font-label-strong text-label-strong">Pregnant woman (गर्भवती महिला)</div>
+          <div class="font-caption text-caption text-on-surface-variant">Maternity hydration and nutrition pack</div>
+        </div>
+      </div>
+      <span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
+    </button>
+
+    <!-- Care Option 5: Mobility Help / Disability -->
+    <button id="care-disabled" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant cursor-pointer" type="button">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[24px] text-secondary">accessible</span>
+        <div>
+          <div class="font-label-strong text-label-strong">Mobility help / PwD (दिव्यांग सहायता)</div>
+          <div class="font-caption text-caption text-on-surface-variant">Wheelchair access / Stretcher evacuation</div>
+        </div>
+      </div>
+      <span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
+    </button>
+
+    <!-- Care Option 6: Pets -->
+    <button id="care-pets" class="care-option-btn flex items-center justify-between min-h-[52px] p-space-sm rounded-lg bg-surface-container text-on-surface text-left active:bg-surface-variant cursor-pointer" type="button">
+      <div class="flex items-center gap-space-sm">
+        <span class="material-symbols-outlined text-[24px] text-secondary">pets</span>
+        <div>
+          <div class="font-label-strong text-label-strong">Pets / Livestock (पालतू पशु)</div>
+          <div class="font-caption text-caption text-on-surface-variant">Animal food / veterinary first aid</div>
+        </div>
+      </div>
+      <span class="px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong">No</span>
+    </button>
+  </div>
+
+  <!-- Special Care Notes Text Box -->
+  <div class="mt-2 flex flex-col gap-1 p-space-sm rounded-lg bg-surface-container-low border border-surface-variant">
+    <div class="flex items-center justify-between">
+      <label class="font-label-strong text-sm text-on-surface" for="careNotesInput">Other Medical / Care Notes (दवाइयाँ व अन्य विवरण):</label>
+      <span class="font-caption text-xs text-on-surface-variant">वैकल्पिक</span>
+    </div>
+    <textarea id="careNotesInput" rows="2" class="w-full p-2.5 rounded-lg bg-surface-container-lowest text-on-surface font-body-default text-sm border border-surface-variant focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Specify insulin, hypertension pills, oxygen requirement, or pet details..."></textarea>
+  </div>
+
+  <!-- Step 3 Nav -->
+  <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
+    <button id="step3BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      <span>Step 2: People</span>
+    </button>
+    <div class="flex items-center gap-1 step-nav-dots" data-step="3"></div>
+    <button id="step3NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
+      <span>Step 4: Urgency</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
 </section>
 </div>
 <!-- STEP 4: Urgency Timeline -->
 <div id="step-4-container" class="wizard-step hidden flex flex-col w-full">
 <section class="flex flex-col gap-space-sm mb-space-lg">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">4</span>
-<div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">How long without supplies?</h2>
-<p class="font-caption text-caption text-on-surface-variant">कितने समय से भोजन व पानी उपलब्ध नहीं है?</p>
-</div>
-</div>
-<div class="flex flex-col gap-space-xs">
-<button id="urgency-6h" data-urgency="STANDARD" class="urgency-option-btn flex items-center justify-between min-h-[48px] px-space-sm py-2 rounded-lg bg-surface-container text-on-surface text-left" type="button">
-<span class="font-label-strong text-label-strong">Less than 6 hours (6 घंटे से कम)</span>
-<span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
-</button>
-<!-- Selected Priority -->
-<button id="urgency-24h" data-urgency="HIGH" class="urgency-option-btn flex items-center justify-between min-h-[48px] px-space-sm py-2 rounded-lg bg-primary text-on-primary text-left" type="button">
-<div class="flex flex-col">
-<span class="font-label-strong text-label-strong">6 to 24 hours (6 से 24 घंटे)</span>
-<span class="font-caption text-caption opacity-90">Urgency: High (उच्च प्राथमिकता)</span>
-</div>
-<span class="material-symbols-outlined text-[20px] text-on-primary">check_circle</span>
-</button>
-<button id="urgency-2d" data-urgency="HIGH" class="urgency-option-btn flex items-center justify-between min-h-[48px] px-space-sm py-2 rounded-lg bg-surface-container text-on-surface text-left" type="button">
-<span class="font-label-strong text-label-strong">1 to 2 days (1 से 2 दिन)</span>
-<span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
-</button>
-<button id="urgency-urgent" data-urgency="CRITICAL_LIFE_SAFETY" class="urgency-option-btn flex items-center justify-between min-h-[48px] px-space-sm py-2 rounded-lg bg-error-container text-on-error-container text-left" type="button">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[20px] text-error">warning</span>
-<span class="font-label-strong text-label-strong">More than 2 days (2 दिन से अधिक)</span>
-</div>
-<span class="px-2 py-0.5 rounded-full bg-error text-on-error font-caption text-caption font-semibold">&nbsp; &nbsp;Immediate Priority</span>
-</button>
-</div>
-<!-- Step 4 Nav -->
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
-  <button id="step4BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span>Step 3: Care</span>
-  </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+  <div class="flex items-center gap-2">
+    <span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">4</span>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">How long without supplies? (समय सीमा) *</h2>
+      <p class="font-caption text-caption text-on-surface-variant">कितने समय से भोजन व पानी उपलब्ध नहीं है? (Selection required)</p>
+    </div>
   </div>
-  <button id="step4NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
-    <span>Step 5: Location</span>
-    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-  </button>
-</div>
+
+  <div class="flex flex-col gap-space-xs">
+    <!-- Option 1: Less than 6 hours -->
+    <button id="urgency-6h" data-urgency="STANDARD" class="urgency-option-btn flex items-center justify-between min-h-[52px] px-space-sm py-2 rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" type="button">
+      <div class="flex flex-col">
+        <span class="font-label-strong text-label-strong">Less than 6 hours (6 घंटे से कम)</span>
+        <span class="font-caption text-caption text-on-surface-variant">Priority: Standard delivery queue</span>
+      </div>
+      <span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
+    </button>
+
+    <!-- Option 2: 6 to 24 hours -->
+    <button id="urgency-24h" data-urgency="HIGH" class="urgency-option-btn flex items-center justify-between min-h-[52px] px-space-sm py-2 rounded-lg bg-primary text-on-primary text-left cursor-pointer" type="button">
+      <div class="flex flex-col">
+        <span class="font-label-strong text-label-strong">6 to 24 hours (6 से 24 घंटे)</span>
+        <span class="font-caption text-caption opacity-90 font-semibold">Urgency: High (उच्च प्राथमिकता)</span>
+      </div>
+      <span class="material-symbols-outlined text-[20px] text-on-primary">check_circle</span>
+    </button>
+
+    <!-- Option 3: 1 to 2 days -->
+    <button id="urgency-2d" data-urgency="HIGH" class="urgency-option-btn flex items-center justify-between min-h-[52px] px-space-sm py-2 rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" type="button">
+      <div class="flex flex-col">
+        <span class="font-label-strong text-label-strong">1 to 2 days (1 से 2 दिन)</span>
+        <span class="font-caption text-caption text-on-surface-variant">Critical dispatch within 4 hours</span>
+      </div>
+      <span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
+    </button>
+
+    <!-- Option 4: More than 2 days -->
+    <button id="urgency-urgent" data-urgency="CRITICAL_LIFE_SAFETY" class="urgency-option-btn flex items-center justify-between min-h-[52px] px-space-sm py-2 rounded-lg bg-surface-container text-on-surface text-left cursor-pointer" type="button">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[22px] text-error">warning</span>
+        <div class="flex flex-col">
+          <span class="font-label-strong text-label-strong">More than 2 days (2 दिन से अधिक)</span>
+          <span class="font-caption text-caption text-error font-semibold">Immediate Priority (जीवन सुरक्षा आपातकाल)</span>
+        </div>
+      </div>
+      <span class="material-symbols-outlined text-[20px] text-outline">radio_button_unchecked</span>
+    </button>
+  </div>
+
+  <div id="step4ErrorMsg" class="hidden text-error font-body-strong text-sm p-2 rounded bg-error-container mt-2"></div>
+
+  <!-- Step 4 Nav -->
+  <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
+    <button id="step4BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      <span>Step 3: Care</span>
+    </button>
+    <div class="flex items-center gap-1 step-nav-dots" data-step="4"></div>
+    <button id="step4NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
+      <span>Step 5: Location</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
 </section>
 </div>
 <!-- STEP 5: Where are you? (Location) -->
 <div id="step-5-container" class="wizard-step hidden flex flex-col w-full">
 <section class="flex flex-col gap-space-sm mb-space-lg">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">5</span>
-<div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Where are you? (स्थान विवरण)</h2>
-<p class="font-caption text-caption text-on-surface-variant">राहत दल को आप तक पहुँचने के लिए सटीक पता चाहिए</p>
-</div>
-</div>
-<!-- Location Action Buttons -->
-<div class="flex flex-col gap-2">
-<button id="useGpsBtn" class="flex items-center justify-between min-h-[50px] px-space-md py-2 rounded-lg bg-tertiary text-on-tertiary font-label-strong text-label-strong active:bg-tertiary-container" type="button">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[22px]">my_location</span>
-<span id="gpsButtonLabel" class="">Use my GPS location (12m accurate)</span>
-</div>
-<span class="material-symbols-outlined text-[20px]">check</span>
-</button>
-<div class="grid grid-cols-2 gap-space-xs">
-<button id="selectWardBtn" class="min-h-[48px] px-space-sm py-2 rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[20px]">list_alt</span>
-<span class="">Select Ward/Area</span>
-</button>
-<button id="tapOnMapBtn" class="min-h-[48px] px-space-sm py-2 rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[20px]">pin_drop</span>
-<span class="">Tap on Map</span>
-</button>
-</div>
-<!-- Descriptive Textbox with Voice Input -->
-<div class="flex flex-col gap-1 p-space-sm rounded-lg bg-surface-container-low">
-<div class="flex items-center justify-between">
-<label class="font-label-strong text-label-strong text-on-surface" for="landmarkDesc">Describe location &amp; landmarks</label>
-<span class="font-caption text-caption text-on-surface-variant">आसपास की पहचान</span>
-</div>
-<div class="relative w-full">
-<textarea class="w-full p-2.5 pr-10 rounded-lg bg-surface-container-lowest text-on-surface font-body-default text-body-default focus:outline-none focus:ring-2 focus:ring-primary" id="landmarkDesc" placeholder="e.g. Near 2nd Cross Banyan Tree, water 2ft high, blue terrace house" rows="3">Near 2nd Cross Banyan Tree, Sector 4 Community Hall road, water approx 2 feet high. Ground floor flooded.</textarea>
-<button id="landmarkMicBtn" aria-label="Speak landmark description" class="absolute right-2 bottom-2 w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container" type="button">
-<span class="material-symbols-outlined text-[20px]">mic</span>
-</button>
-</div>
-</div>
-</div>
-</section>
-<!-- DUPLICATE RELIEF CHECK CALLOUT BANNER -->
-<section class="flex flex-col gap-space-sm p-space-md rounded-xl bg-error-container text-on-error-container mb-space-lg">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[28px] text-error flex-shrink-0">crisis_alert</span>
-<div class="flex flex-col">
-<h3 class="font-headline-sm text-headline-sm text-error font-bold leading-tight">Request already exists nearby!</h3>
-<p class="font-caption text-caption text-on-surface-variant mt-0.5">आपके क्षेत्र से एक राहत अनुरोध पहले से दर्ज है</p>
-</div>
-</div>
-<p class="font-body-default text-body-default leading-snug text-on-surface">
-      Relief Dispatch <strong>Batch #BLR-402</strong> is currently en route to the <strong>Sector 4 Community Hall area (120m from you)</strong>. Merging your household drop accelerates fulfillment by 45 minutes.
-    </p>
-<div class="flex flex-col gap-2 pt-1">
-<button id="mergeHouseholdBtn" class="min-h-[48px] w-full px-space-md py-2.5 rounded-lg bg-primary text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-2 active:bg-primary-container transition-colors" type="button">
-<span class="material-symbols-outlined text-[20px]">merge</span>
-<span class="">Yes, add my household (हाँ, जोड़ें)</span>
-</button>
-<button id="separateRequestBtn" class="min-h-[48px] w-full px-space-md py-2 rounded-lg bg-surface-container-lowest text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1 active:bg-surface-variant transition-colors" type="button">
-<span class="material-symbols-outlined text-[18px]">add_task</span>
-<span class="">No, send a new separate request (नया बनाएं)</span>
-</button>
-</div>
-</section>
-<!-- Step 5 Nav -->
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
-  <button id="step5BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span>Step 4: Urgency</span>
-  </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+  <div class="flex items-center gap-2">
+    <span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">5</span>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Delivery Location (स्थान विवरण) *</h2>
+      <p class="font-caption text-caption text-on-surface-variant">राहत सामग्री पहुँचाने या स्वयं लेने का स्थान चुनें</p>
+    </div>
   </div>
-  <button id="step5NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
-    <span>Step 6: Contact</span>
-    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-  </button>
-</div>
+
+  <!-- Delivery or Pickup Choice -->
+  <div class="flex items-center gap-2 p-1 bg-surface-container-low rounded-xl border border-surface-variant">
+    <button id="fulfillmentDeliveryBtn" type="button" class="w-1/2 min-h-[44px] rounded-lg bg-primary text-on-primary font-label-strong text-sm flex items-center justify-center gap-1 shadow-sm">
+      <span class="material-symbols-outlined text-[18px]">local_shipping</span>
+      <span>Home Delivery (घर पर)</span>
+    </button>
+    <button id="fulfillmentPickupBtn" type="button" class="w-1/2 min-h-[44px] rounded-lg text-on-surface font-label-strong text-sm flex items-center justify-center gap-1 hover:bg-surface-container">
+      <span class="material-symbols-outlined text-[18px]">storefront</span>
+      <span>Depot Pickup (डिपो से)</span>
+    </button>
+  </div>
+
+  <!-- Location Action Options -->
+  <div class="flex flex-col gap-2">
+    <div class="flex items-center gap-2">
+      <button id="useGpsBtn" class="flex-1 flex items-center justify-between min-h-[50px] px-space-md py-2 rounded-lg bg-tertiary text-on-tertiary font-label-strong text-sm active:bg-tertiary-container cursor-pointer" type="button">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[22px]">my_location</span>
+          <span id="gpsButtonLabel">Use my GPS location (12m accurate)</span>
+        </div>
+        <span class="material-symbols-outlined text-[20px]">check</span>
+      </button>
+      <button id="gpsRetryBtn" title="Retry GPS Fix" class="hidden min-h-[50px] px-3 rounded-lg bg-surface-container-high text-primary font-label-strong text-xs flex items-center gap-1" type="button">
+        <span class="material-symbols-outlined text-[18px]">replay</span>
+        <span>Retry</span>
+      </button>
+    </div>
+    <div id="gpsAccuracyMsg" class="font-caption text-xs text-tertiary flex items-center gap-1">
+      <span class="material-symbols-outlined text-[14px]">satellite_alt</span>
+      <span id="gpsAccuracyText">Accurate to ~12 m</span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-space-xs">
+      <button id="selectWardBtn" class="min-h-[48px] px-space-sm py-2 rounded-lg bg-surface-container text-primary font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-surface-variant cursor-pointer" type="button">
+        <span class="material-symbols-outlined text-[20px]">list_alt</span>
+        <span>Choose from list</span>
+      </button>
+      <button id="tapOnMapBtn" class="min-h-[48px] px-space-sm py-2 rounded-lg bg-surface-container text-primary font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-surface-variant cursor-pointer" type="button">
+        <span class="material-symbols-outlined text-[20px]">pin_drop</span>
+        <span>Tap on Map</span>
+      </button>
+    </div>
+
+    <!-- Interactive Leaflet map container embedded on Step 5 -->
+    <div id="step5InlineMapCard" class="p-space-sm rounded-xl bg-surface-container-low border border-surface-variant flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <span class="font-label-strong text-xs text-on-surface font-semibold flex items-center gap-1">
+          <span class="material-symbols-outlined text-[16px] text-primary">map</span>
+          <span>Pinned Drop Location (Pin can be dragged):</span>
+        </span>
+        <span id="step5CoordinatesDisplay" class="font-caption text-[11px] font-mono text-primary font-semibold">12.9716, 77.5946</span>
+      </div>
+      <div id="step5LeafletMap" class="w-full h-44 rounded-lg bg-surface-container border border-surface-variant relative overflow-hidden" style="min-height: 176px; z-index: 1;"></div>
+      <div id="step5NearestDepotNotice" class="font-caption text-xs text-on-surface-variant flex items-center gap-1">
+        <span class="material-symbols-outlined text-[16px] text-tertiary">warehouse</span>
+        <span id="step5NearestDepotText">Assigned Hub: Sector 4 Central Relief Hub (1.2 km away)</span>
+      </div>
+    </div>
+
+    <!-- Landmark / Address Textarea -->
+    <div class="flex flex-col gap-1 p-space-sm rounded-lg bg-surface-container-low border border-surface-variant">
+      <div class="flex items-center justify-between">
+        <label class="font-label-strong text-sm text-on-surface" for="landmarkDesc">Landmark / House Address (आसपास की पहचान) *</label>
+        <span class="font-caption text-xs text-on-surface-variant">सटीक पता दर्ज करें</span>
+      </div>
+      <div class="relative w-full">
+        <textarea class="w-full p-2.5 pr-10 rounded-lg bg-surface-container-lowest text-on-surface font-body-default text-sm border border-surface-variant focus:outline-none focus:ring-2 focus:ring-primary" id="landmarkDesc" placeholder="e.g. Near 2nd Cross Banyan Tree, Sector 4 Community Hall road, water approx 2 feet high..." rows="2">Near 2nd Cross Banyan Tree, Sector 4 Community Hall road, water approx 2 feet high. Ground floor flooded.</textarea>
+        <button id="landmarkMicBtn" aria-label="Speak landmark description" class="absolute right-2 bottom-2 w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container" type="button">
+          <span class="material-symbols-outlined text-[18px]">mic</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- Nearby Batch Alert & Merge Option -->
+    <div class="flex flex-col gap-2 p-space-sm rounded-xl bg-surface-container-low border border-surface-variant">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[24px] text-error flex-shrink-0">crisis_alert</span>
+        <div>
+          <h3 class="font-headline-sm text-sm text-error font-bold leading-tight">Request already exists nearby!</h3>
+          <p class="font-caption text-xs text-on-surface-variant">आपके क्षेत्र से एक राहत अनुरोध पहले से दर्ज है</p>
+        </div>
+      </div>
+      <p class="font-caption text-xs leading-snug text-on-surface">
+        Relief Dispatch <strong>Batch #BLR-402</strong> is currently en route to the <strong>Sector 4 Community Hall area (120m from you)</strong>. Merging your household drop accelerates fulfillment by 45 minutes.
+      </p>
+      <div class="flex flex-col gap-2 pt-1">
+        <button id="mergeHouseholdBtn" class="min-h-[44px] w-full px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-strong text-sm flex items-center justify-center gap-2 active:bg-primary-container transition-colors" type="button">
+          <span class="material-symbols-outlined text-[18px]">merge</span>
+          <span>Yes, add my household (हाँ, जोड़ें)</span>
+        </button>
+        <button id="separateRequestBtn" class="min-h-[44px] w-full px-space-md py-2 rounded-lg bg-surface-container text-on-surface font-label-strong text-sm flex items-center justify-center gap-1 active:bg-surface-variant transition-colors" type="button">
+          <span class="material-symbols-outlined text-[18px]">add_task</span>
+          <span>No, send a new separate request (नया बनाएं)</span>
+        </button>
+      </div>
+    </div>
+
+  <div id="step5ErrorMsg" class="hidden text-error font-body-strong text-sm p-2 rounded bg-error-container mt-2"></div>
+
+  <!-- Step 5 Nav -->
+  <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
+    <button id="step5BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      <span>Step 4: Urgency</span>
+    </button>
+    <div class="flex items-center gap-1 step-nav-dots" data-step="5"></div>
+    <button id="step5NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
+      <span>Step 6: Contact</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
+</section>
 </div>
 <!-- STEP 6: Photo & Phone -->
+
+<!-- STEP 6: Photo & Contact Phone -->
 <div id="step-6-container" class="wizard-step hidden flex flex-col w-full">
 <section class="flex flex-col gap-space-sm mb-space-lg">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">6</span>
-<div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Photo &amp; Contact Phone</h2>
-<p class="font-caption text-caption text-on-surface-variant">फोटो व संपर्क नंबर (राहत दल से समन्वय के लिए)</p>
-</div>
-</div>
-<div class="flex flex-col gap-space-sm">
-<!-- Camera action -->
-<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container">
-<div class="flex items-center gap-2">
-<div class="w-11 h-11 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[24px]">photo_camera</span>
-</div>
-<div class="flex flex-col">
-<span class="font-label-strong text-label-strong text-on-surface">Surroundings Photo (वैकल्पिक)</span>
-<span class="font-caption text-caption text-on-surface-variant">Helps boat/rescue teams locate you</span>
-</div>
-</div>
-<div class="flex items-center gap-1">
-<button id="uploadPhotoBtn" class="min-h-[44px] px-space-sm rounded-lg bg-primary text-on-primary font-label-strong text-label-strong" type="button">Upload</button><input id="surroundingsPhotoInput" type="file" accept="image/*" class="hidden">
-<button id="skipPhotoBtn" class="min-h-[44px] px-space-sm rounded-lg text-secondary font-label-strong text-label-strong" type="button">Skip</button>
-</div>
-</div>
-<!-- Phone Number Field -->
-<div class="flex flex-col gap-1">
-<label class="font-label-strong text-label-strong text-on-surface" for="contactPhone">Contact Phone Number (मोबाइल नंबर) *</label>
-<div class="flex items-center gap-2">
-<span class="px-3 min-h-[48px] rounded-lg bg-surface-container flex items-center font-label-strong text-label-strong text-on-surface">+91</span>
-<input aria-required="true" class="w-full min-h-[48px] px-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-strong text-body-strong focus:outline-none focus:ring-2 focus:ring-primary" id="contactPhone" placeholder="Enter 10-digit number" type="tel" value="98451 22334">
-</div>
-<p class="font-caption text-caption text-on-surface-variant mt-0.5">
-          We need your phone number for NDRF and delivery marshals to call upon arrival. (राहत दल पहुंचने पर इसी नंबर पर संपर्क करेगा)
-        </p>
-</div>
-</div>
-<!-- Step 6 Nav -->
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
-  <button id="step6BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span>Step 5: Location</span>
-  </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-surface-variant"></span>
+  <div class="flex items-center gap-2">
+    <span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">6</span>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Photo &amp; Contact Phone (फोटो व संपर्क विवरण) *</h2>
+      <p class="font-caption text-caption text-on-surface-variant">राहत दल से समन्वय के लिए संपर्क विवरण दर्ज करें</p>
+    </div>
   </div>
-  <button id="step6NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
-    <span>Step 7: Review</span>
-    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-  </button>
-</div>
+
+  <div class="flex flex-col gap-space-sm">
+    <!-- Camera action -->
+    <div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container border border-surface-variant">
+      <div class="flex items-center gap-2">
+        <div class="w-11 h-11 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-[24px]">photo_camera</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-label-strong text-label-strong text-on-surface">Surroundings Photo (वैकल्पिक)</span>
+          <span class="font-caption text-caption text-on-surface-variant">Helps boat/rescue teams locate you</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <button id="uploadPhotoBtn" class="min-h-[44px] px-space-sm rounded-lg bg-primary text-on-primary font-label-strong text-label-strong active:bg-primary-container" type="button">Upload</button>
+        <input id="surroundingsPhotoInput" type="file" accept="image/*" class="hidden">
+        <button id="skipPhotoBtn" class="min-h-[44px] px-space-sm rounded-lg text-secondary font-label-strong text-label-strong active:bg-surface-variant" type="button">Skip</button>
+      </div>
+    </div>
+
+    <!-- Contact Person Name -->
+    <div class="flex flex-col gap-1 p-space-sm rounded-xl bg-surface-container-low border border-surface-variant">
+      <label class="font-label-strong text-sm text-on-surface" for="contactNameInput">Contact Person Name (संपर्क व्यक्ति का नाम) *</label>
+      <input id="contactNameInput" type="text" class="w-full min-h-[48px] px-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-strong text-sm border border-surface-variant focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter contact name" value="Dev Sharma" />
+    </div>
+
+    <!-- Contact Phone Number Field -->
+    <div class="flex flex-col gap-1 p-space-sm rounded-xl bg-surface-container-low border border-surface-variant">
+      <label class="font-label-strong text-sm text-on-surface" for="contactPhone">Contact Phone Number (मोबाइल नंबर) *</label>
+      <div class="flex items-center gap-2">
+        <span class="px-3 min-h-[48px] rounded-lg bg-surface-container flex items-center font-label-strong text-label-strong text-on-surface">+91</span>
+        <input id="contactPhone" type="tel" maxlength="10" class="w-full min-h-[48px] px-space-sm rounded-lg bg-surface-container-lowest text-on-surface font-body-strong text-sm border border-surface-variant focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Enter 10-digit number" value="9845122334" />
+      </div>
+      <p class="font-caption text-xs text-on-surface-variant mt-0.5">
+        We need your phone number for NDRF and delivery marshals to call upon arrival. (राहत दल पहुंचने पर इसी नंबर पर संपर्क करेगा)
+      </p>
+    </div>
+
+    <div id="step6ErrorMsg" class="hidden text-error font-body-strong text-sm p-2 rounded bg-error-container"></div>
+  </div>
+
+  <!-- Step 6 Nav -->
+  <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
+    <button id="step6BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      <span>Step 5: Location</span>
+    </button>
+    <div class="flex items-center gap-1 step-nav-dots" data-step="6"></div>
+    <button id="step6NextBtn" class="min-h-[44px] px-space-md rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-primary-container shadow-sm" type="button">
+      <span>Step 7: Review</span>
+      <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </button>
+  </div>
 </section>
 </div>
+
 <!-- STEP 7: Review your request -->
 <div id="step-7-container" class="wizard-step hidden flex flex-col w-full">
 <section class="flex flex-col gap-space-sm mb-space-lg">
-<div class="flex items-center gap-2">
-<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">7</span>
-<div>
-<h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Review your request (समीक्षा)</h2>
-<p class="font-caption text-caption text-on-surface-variant">कृपया भेजने से पहले विवरण जांच लें</p>
-</div>
-</div>
-<!-- Review Summary Card -->
-<div class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md shadow-sm gap-space-sm">
-<!-- Item Row: Supplies -->
-<div class="flex items-start justify-between pb-space-sm bg-surface-container-lowest">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[20px] text-primary mt-0.5">inventory_2</span>
-<div>
-<span class="font-caption text-caption text-on-surface-variant font-semibold block">SUPPLIES REQUESTED</span>
-<span id="reviewSuppliesText" class="font-label-strong text-label-strong text-on-surface">Water, Food Rations, Medicines</span>
-</div>
-</div>
-<button id="editSuppliesBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline" type="button">Edit (बदलें)</button>
-</div>
-<!-- Item Row: People -->
-<div class="flex items-start justify-between py-space-sm bg-surface-container-lowest">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[20px] text-primary mt-0.5">group</span>
-<div>
-<span class="font-caption text-caption text-on-surface-variant font-semibold block">BENEFICIARIES</span>
-<span id="reviewPeopleText" class="font-label-strong text-label-strong text-on-surface">4 People (1 Infant, 1 Elderly)</span>
-</div>
-</div>
-<button id="editPeopleBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline" type="button">Edit (बदलें)</button>
-</div>
-<!-- Item Row: Urgency -->
-<div class="flex items-start justify-between py-space-sm bg-surface-container-lowest">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[20px] text-error mt-0.5">timer</span>
-<div>
-<span class="font-caption text-caption text-on-surface-variant font-semibold block">URGENCY TIMELINE</span>
-<span id="reviewUrgencyText" class="font-label-strong text-label-strong text-on-surface">6 to 24 hrs without relief (High)</span>
-</div>
-</div>
-<button id="editUrgencyBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline" type="button">Edit (बदलें)</button>
-</div>
-<!-- Item Row: Location -->
-<div class="flex items-start justify-between py-space-sm bg-surface-container-lowest">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[20px] text-primary mt-0.5">location_on</span>
-<div>
-<span class="font-caption text-caption text-on-surface-variant font-semibold block">DELIVERY LOCATION</span>
-<span id="reviewLocationText" class="font-label-strong text-label-strong text-on-surface">Sector 4 Community Hall Rd (GPS 12.97, 77.59)</span>
-</div>
-</div>
-<button id="editLocationBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline" type="button">Edit (बदलें)</button>
-</div>
-<!-- Item Row: Contact -->
-<div class="flex items-start justify-between pt-space-sm bg-surface-container-lowest">
-<div class="flex items-start gap-2">
-<span class="material-symbols-outlined text-[20px] text-primary mt-0.5">call</span>
-<div>
-<span class="font-caption text-caption text-on-surface-variant font-semibold block">CONTACT NUMBER</span>
-<span id="reviewContactText" class="font-label-strong text-label-strong text-on-surface">+91 98451 22334</span>
-</div>
-</div>
-<button id="editContactBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline" type="button">Edit (बदलें)</button>
-</div>
-</div>
-<!-- Big Submit CTA -->
-<button class="min-h-[56px] w-full mt-2 px-space-lg py-space-md rounded-xl bg-primary text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-space-sm active:bg-primary-container shadow-md transition-all" id="submitRequestBtn" type="button">
-<span class="">Send Relief Request (अनुरोध भेजें)</span>
-<span class="material-symbols-outlined text-[24px]">send</span>
-</button>
-<!-- Step 7 Back Nav -->
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
-  <button id="step7BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-    <span>Step 6: Contact</span>
-  </button>
-  <div class="flex items-center gap-1">
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
-    <span class="w-2 h-2 rounded-full bg-primary"></span>
+  <div class="flex items-center gap-2">
+    <span class="w-6 h-6 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center justify-center font-bold">7</span>
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Review your request (समीक्षा)</h2>
+      <p class="font-caption text-caption text-on-surface-variant">कृपया भेजने से पहले विवरण जांच लें</p>
+    </div>
   </div>
-</div>
+
+  <!-- Full Summary Cards with Edit Buttons -->
+  <div class="flex flex-col rounded-xl bg-surface-container-lowest p-space-md shadow-sm gap-space-sm border border-surface-variant">
+    <!-- Supplies Requested -->
+    <div class="flex items-start justify-between pb-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-primary mt-0.5">inventory_2</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">SUPPLIES REQUESTED</span>
+          <span id="reviewSuppliesText" class="font-label-strong text-label-strong text-on-surface">Water, Food Rations, Medicines</span>
+        </div>
+      </div>
+      <button id="editSuppliesBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+
+    <!-- People -->
+    <div class="flex items-start justify-between py-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-primary mt-0.5">group</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">BENEFICIARIES</span>
+          <span id="reviewPeopleText" class="font-label-strong text-label-strong text-on-surface">4 People (2 Adults, 1 Infant, 1 Elderly)</span>
+        </div>
+      </div>
+      <button id="editPeopleBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+
+    <!-- Care Needs -->
+    <div class="flex items-start justify-between py-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-primary mt-0.5">medical_services</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">SPECIAL CARE NEEDS</span>
+          <span id="reviewCareText" class="font-label-strong text-label-strong text-on-surface">Infant Care, Elderly Support</span>
+        </div>
+      </div>
+      <button id="editCareBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+
+    <!-- Urgency -->
+    <div class="flex items-start justify-between py-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-error mt-0.5">timer</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">URGENCY TIMELINE</span>
+          <span id="reviewUrgencyText" class="font-label-strong text-label-strong text-on-surface">6 to 24 hours (High)</span>
+        </div>
+      </div>
+      <button id="editUrgencyBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+
+    <!-- Location -->
+    <div class="flex items-start justify-between py-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-primary mt-0.5">location_on</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">LOCATION &amp; NEAREST DEPOT</span>
+          <span id="reviewLocationText" class="font-label-strong text-label-strong text-on-surface">Near 2nd Cross Banyan Tree... (Sector 4 Hub)</span>
+        </div>
+      </div>
+      <button id="editLocationBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+
+    <!-- Contact Number -->
+    <div class="flex items-start justify-between py-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-primary mt-0.5">call</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">CONTACT NUMBER</span>
+          <span id="reviewContactText" class="font-label-strong text-label-strong text-on-surface">+91 98451 22334</span>
+        </div>
+      </div>
+      <button id="editContactBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+
+    <!-- Proxy Info (if active) -->
+    <div id="reviewProxyRow" class="flex items-start justify-between py-space-sm border-b border-surface-variant/50">
+      <div class="flex items-start gap-2">
+        <span class="material-symbols-outlined text-[20px] text-primary mt-0.5">volunteer_activism</span>
+        <div>
+          <span class="font-caption text-caption text-on-surface-variant font-semibold block">PROXY FILING</span>
+          <span id="reviewProxyText" class="font-label-strong text-label-strong text-on-surface">Ramesh K. (Volunteer)</span>
+        </div>
+      </div>
+      <button id="editProxyBtn" class="min-h-[44px] px-space-xs text-primary font-label-strong text-label-strong underline cursor-pointer" type="button">Edit (बदलें)</button>
+    </div>
+  </div>
+
+  <!-- Mandatory Consent Checkbox -->
+  <div class="p-space-sm rounded-xl bg-surface-container-low border border-surface-variant flex flex-col gap-2">
+    <label class="flex items-start gap-2.5 cursor-pointer">
+      <input id="consentCheckbox" type="checkbox" checked class="w-5 h-5 rounded text-primary mt-0.5 border-outline cursor-pointer" />
+      <span class="font-caption text-xs text-on-surface leading-tight">
+        I hereby confirm that this emergency relief request is accurate and represents authentic disaster distress. (मैं पुष्टि करता हूँ कि यह राहत अनुरोध सत्य और प्रामाणिक है) *
+      </span>
+    </label>
+    <div id="step7ErrorMsg" class="hidden text-error font-body-strong text-sm p-2 rounded bg-error-container mt-1"></div>
+  </div>
+
+  <!-- Big Submit Request Button -->
+  <button id="submitRequestBtn" class="min-h-[56px] w-full mt-2 px-space-lg py-space-md rounded-xl bg-primary text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-space-sm active:bg-primary-container shadow-md transition-all cursor-pointer" type="button">
+    <span>Submit Relief Request (अनुरोध भेजें)</span>
+    <span class="material-symbols-outlined text-[24px]">send</span>
+  </button>
+
+  <!-- Step 7 Nav -->
+  <div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-4">
+    <button id="step7BackBtn" class="min-h-[44px] px-space-md rounded-lg bg-surface-container text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant cursor-pointer" type="button">
+      <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+      <span>Step 6: Contact</span>
+    </button>
+    <div class="flex items-center gap-1 step-nav-dots" data-step="7"></div>
+  </div>
 </section>
 </div>
+
 <!-- CONFIRMATION & OFFLINE PREVIEW CARD -->
-<section id="confirmation-section" class="hidden flex flex-col gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-md">
-<div class="flex items-center gap-space-sm">
-<div class="w-12 h-12 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center flex-shrink-0">
-<span class="material-symbols-outlined text-[30px]">check_circle</span>
-</div>
-<div>
-<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Request Queued &amp; Dispatched</h3>
-<p class="font-caption text-caption text-on-surface-variant">आपका अनुरोध सफलतापूर्वक दर्ज कर लिया गया है</p>
-</div>
-</div>
-<!-- Reference ID Callout Box -->
-<div class="flex flex-col p-space-md rounded-xl bg-surface-container-high text-on-surface gap-2">
-<span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Emergency Tracking Reference ID</span>
-<div class="flex items-center justify-between">
-<span id="tracking-token-display" class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-widest break-all">DR-1042</span>
-<div class="flex items-center gap-space-xs">
-<button id="copyTrackingTokenBtn" aria-label="Copy tracking ID" class="min-h-[44px] px-3 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-label-strong flex items-center gap-1 active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[18px]">content_copy</span>
-<span class="">Copy</span>
-</button>
-<button id="listenTrackingTokenBtn" aria-label="Listen tracking ID audio" class="w-11 h-11 rounded-lg bg-surface-container-lowest text-primary flex items-center justify-center active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[20px]">volume_up</span>
-</button>
-</div>
-</div>
-<p class="font-caption text-caption text-on-surface-variant">
-        Keep this reference token safe for volunteer check-ins and live tracking (इस नंबर को संभाल कर रखें)
-      </p>
-</div>
-<!-- Offline Safeguard Badge -->
-<div class="flex items-start gap-2 p-space-sm rounded-lg bg-secondary-container text-on-secondary-container">
-<span class="material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5">cloud_sync</span>
-<div class="flex flex-col">
-<span class="font-label-strong text-label-strong text-on-surface">Offline Resilience Safeguard Active</span>
-<span id="offline-sync-badge-desc" class="font-caption text-caption leading-snug">
-          Saved locally on this device. If connection drops, your offline draft will automatically queue and sync as soon as cellular signal returns.
-        </span>
-</div>
-</div>
-<!-- Quick Action Channels -->
-<div class="grid grid-cols-2 gap-space-xs">
-<button id="shareWhatsAppBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[20px] text-tertiary">chat</span>
-<span class="">Share via WhatsApp</span>
-</button>
-<button id="shareSmsBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[20px] text-primary">sms</span>
-<span class="">Share by SMS</span>
-</button>
-<button id="saveCardPdfBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-surface-variant" type="button">
-<span class="material-symbols-outlined text-[20px]">download</span>
-<span class="">Save as Card Image</span>
-</button>
-<a id="trackStatusLink" class="min-h-[48px] px-space-sm rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1.5 active:bg-primary-container text-center" href="../09-relief-tracking/index.html">
-<span class="">Track Status →</span>
-</a>
-</div>
-<div class="flex items-center justify-between pt-4 border-t border-surface-container gap-2 mt-2">
-  <a id="confirmationDashboardBtn" href="/screens/02-citizen-dashboard/index.html" class="min-h-[44px] w-full px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-strong text-label-strong flex items-center justify-center gap-1 active:bg-primary-container text-center shadow-sm">
-    <span class="material-symbols-outlined text-[18px]">dashboard</span>
-    <span>Back to Dashboard (मुख्य पृष्ठ)</span>
-  </a>
-</div>
+<section id="confirmation-section" class="hidden flex flex-col gap-space-md p-space-md rounded-xl bg-surface-container-lowest shadow-md border border-surface-variant mb-space-lg">
+  <div class="flex items-center gap-space-sm">
+    <div class="w-12 h-12 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center flex-shrink-0">
+      <span class="material-symbols-outlined text-[30px]">check_circle</span>
+    </div>
+    <div>
+      <h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">Request Queued &amp; Dispatched</h3>
+      <p class="font-caption text-caption text-on-surface-variant">आपका अनुरोध सफलतापूर्वक दर्ज कर लिया गया है</p>
+    </div>
+  </div>
+
+  <!-- Reference ID Callout Box -->
+  <div class="flex flex-col p-space-md rounded-xl bg-surface-container-high text-on-surface gap-2">
+    <span class="font-caption text-caption text-on-surface-variant uppercase tracking-wider font-semibold">Emergency Tracking Reference ID</span>
+    <div class="flex items-center justify-between">
+      <span id="tracking-token-display" class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-widest break-all">DR-1042</span>
+      <div class="flex items-center gap-space-xs">
+        <button id="copyTrackingTokenBtn" aria-label="Copy tracking ID" class="min-h-[44px] px-3 rounded-lg bg-surface-container-lowest text-primary font-label-strong text-sm flex items-center gap-1 active:bg-surface-variant cursor-pointer" type="button">
+          <span class="material-symbols-outlined text-[18px]">content_copy</span>
+          <span>Copy</span>
+        </button>
+        <button id="listenTrackingTokenBtn" aria-label="Listen tracking ID audio" class="w-11 h-11 rounded-lg bg-surface-container-lowest text-primary flex items-center justify-center active:bg-surface-variant cursor-pointer" type="button">
+          <span class="material-symbols-outlined text-[20px]">volume_up</span>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center justify-between pt-1 border-t border-surface-variant/50">
+      <span class="font-caption text-xs text-on-surface-variant">Official Request ID:</span>
+      <span id="confirmationRequestId" class="font-mono font-bold text-xs text-primary">SR-104294</span>
+    </div>
+    <p class="font-caption text-xs text-on-surface-variant">
+      Keep this reference token safe for volunteer check-ins and live tracking (इस नंबर को संभाल कर रखें)
+    </p>
+  </div>
+
+  <!-- Status Timeline: Received, Verified, Dispatched, Delivered -->
+  <div class="flex flex-col gap-2 p-space-sm rounded-xl bg-surface-container-low border border-surface-variant">
+    <span class="font-label-strong text-xs text-on-surface font-bold uppercase tracking-wider">Status Timeline (प्रगति स्थिति):</span>
+    <div class="relative pl-6 flex flex-col gap-3 py-1">
+      <!-- Stage 1: Received -->
+      <div class="relative flex flex-col">
+        <span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-[10px] font-bold">✓</span>
+        <div class="flex items-center justify-between">
+          <span class="font-label-strong text-sm text-on-surface font-semibold">1. Received &amp; Queued</span>
+          <span class="px-1.5 py-0.2 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-[11px] font-semibold">Active</span>
+        </div>
+        <span class="font-caption text-xs text-on-surface-variant">Logged in National Emergency Stream</span>
+      </div>
+      <!-- Stage 2: Verified -->
+      <div class="relative flex flex-col opacity-80">
+        <span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-variant text-on-surface flex items-center justify-center text-[10px]">2</span>
+        <div class="flex items-center justify-between">
+          <span class="font-label-strong text-sm text-on-surface font-semibold">2. Verified by EOC</span>
+          <span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-caption text-[11px]">Pending</span>
+        </div>
+        <span class="font-caption text-xs text-on-surface-variant">Civic verification by regional marshals</span>
+      </div>
+      <!-- Stage 3: Dispatched -->
+      <div class="relative flex flex-col opacity-60">
+        <span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-variant text-on-surface flex items-center justify-center text-[10px]">3</span>
+        <div class="flex items-center justify-between">
+          <span class="font-label-strong text-sm text-on-surface font-semibold">3. Dispatched from Hub</span>
+          <span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-caption text-[11px]">Upcoming</span>
+        </div>
+        <span class="font-caption text-xs text-on-surface-variant">Vehicle or boat loaded at nearest depot</span>
+      </div>
+      <!-- Stage 4: Delivered -->
+      <div class="relative flex flex-col opacity-60">
+        <span class="absolute -left-6 top-0.5 w-4 h-4 rounded-full bg-surface-variant text-on-surface flex items-center justify-center text-[10px]">4</span>
+        <div class="flex items-center justify-between">
+          <span class="font-label-strong text-sm text-on-surface font-semibold">4. Delivered to Citizen</span>
+          <span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant font-caption text-[11px]">Pending</span>
+        </div>
+        <span class="font-caption text-xs text-on-surface-variant">Handover with OTP / signature verification</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Official Civic Disclaimer -->
+  <div class="p-space-sm rounded-lg bg-surface-container text-on-surface border border-surface-variant flex items-start gap-2">
+    <span class="material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5">info</span>
+    <p class="font-caption text-xs leading-snug">
+      Free of charge. Do not pay anyone for government emergency relief supplies. In life-threatening emergencies, call 112 immediately.
+    </p>
+  </div>
+
+  <!-- Offline Safeguard Badge -->
+  <div id="step7OfflineBadge" class="hidden items-start gap-2 p-space-sm rounded-lg bg-secondary-container text-on-secondary-container">
+    <span class="material-symbols-outlined text-[20px] text-primary flex-shrink-0 mt-0.5">cloud_sync</span>
+    <div class="flex flex-col">
+      <span class="font-label-strong text-sm text-on-surface font-bold">Offline Resilience Safeguard Active</span>
+      <span id="offline-sync-badge-desc" class="font-caption text-xs leading-snug">
+        Saved locally on this device. Will automatically sync as soon as cellular signal returns.
+      </span>
+    </div>
+  </div>
+
+  <!-- Action Channels -->
+  <div class="grid grid-cols-2 gap-space-xs pt-1">
+    <button id="shareWhatsAppBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-surface-variant cursor-pointer" type="button">
+      <span class="material-symbols-outlined text-[20px] text-tertiary">chat</span>
+      <span>WhatsApp</span>
+    </button>
+    <button id="shareSmsBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-surface-variant cursor-pointer" type="button">
+      <span class="material-symbols-outlined text-[20px] text-primary">sms</span>
+      <span>SMS</span>
+    </button>
+    <button id="shareRequestBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-surface-variant cursor-pointer" type="button">
+      <span class="material-symbols-outlined text-[20px] text-tertiary">share</span>
+      <span>Share Link</span>
+    </button>
+    <button id="saveCardPdfBtn" class="min-h-[48px] px-space-sm rounded-lg bg-surface-container text-on-surface font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-surface-variant cursor-pointer" type="button">
+      <span class="material-symbols-outlined text-[20px]">download</span>
+      <span>Download PDF</span>
+    </button>
+    <a id="trackStatusLink" class="col-span-2 min-h-[48px] px-space-sm rounded-lg bg-primary text-on-primary font-label-strong text-sm flex items-center justify-center gap-1.5 active:bg-primary-container text-center shadow-sm" href="../09-relief-tracking/index.html">
+      <span>Track Status →</span>
+    </a>
+    <a id="confirmationDashboardBtn" href="/screens/02-citizen-dashboard/index.html" class="col-span-2 min-h-[44px] px-space-md py-2 rounded-lg bg-surface-container text-primary font-label-strong text-sm flex items-center justify-center gap-1 active:bg-surface-variant text-center">
+      <span class="material-symbols-outlined text-[18px]">dashboard</span>
+      <span>Back to Dashboard (मुख्य पृष्ठ)</span>
+    </a>
+  </div>
 </section>
-</div>
+
 </div>
 </main><div class="fixed bottom-24 right-4 z-50"><a aria-label="Emergency SOS 112" class="min-h-[48px] px-space-md py-space-sm rounded-full bg-error text-on-error font-body-strong text-body-strong flex items-center gap-space-xs shadow-[0_4px_16px_rgba(186,26,26,0.35)]" href="tel:112"><span class="material-symbols-outlined text-[22px]">emergency</span><span class="">SOS 112</span></a></div><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-body-strong"><div class="flex justify-around items-center h-20 px-2"><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="live-dashboard" href="#"><span class="material-symbols-outlined text-[24px]">crisis_alert</span><span class="font-caption text-caption">Dashboard</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="safe-places-near-you-shelters-hospitals" href="#"><span class="material-symbols-outlined text-[24px]">home_pin</span><span class="font-caption text-caption">Shelters</span></a><a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] transition-colors text-primary font-body-strong" data-path="ask-for-supplies" href="#"><span class="material-symbols-outlined text-[24px]">inventory_2</span><span class="font-caption text-caption">Supplies</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="evacuation-routes" href="#"><span class="material-symbols-outlined text-[24px]">map</span><span class="font-caption text-caption">Routes</span></a><a class="flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] text-on-surface-variant hover:text-on-surface transition-colors" data-path="helplines-directory" href="#"><span class="material-symbols-outlined text-[24px]">contact_phone</span><span class="font-caption text-caption">Helplines</span></a></div></nav>
 
@@ -932,6 +1232,7 @@
   // 1. Wizard State
   const state = {
     currentStep: 1,
+    maxCompletedStep: 1,
     proxyActive: true,
     proxyData: {
       name: 'Ramesh K.',
@@ -959,35 +1260,42 @@
     careGroups: {
       infant: true,
       elderly: true,
+      chronic: false,
       pregnant: false,
       disabled: false,
+      pets: false,
       critical: false,
+      notes: ''
     },
     urgencyLevel: 'HIGH',
     urgencyLabel: '6 to 24 hours (6 से 24 घंटे)',
     location: {
+      fulfillment: 'DELIVERY', // 'DELIVERY' or 'PICKUP'
       latitude: 12.9716,
       longitude: 77.5946,
       accuracyM: 12,
       landmark: 'Near 2nd Cross Banyan Tree, Sector 4 Community Hall road, water approx 2 feet high. Ground floor flooded.',
       ward: 'Ward 142 - Sector 4 Community Center'
     },
-    mergeBatch: true,
+    contactName: 'Dev Sharma',
     contactPhone: '9845122334',
+    consentGiven: true,
+    mergeBatch: true,
     photoUploaded: false,
     selectedDepotId: null,
     depotsList: [],
-    submittedToken: null
+    submittedToken: null,
+    submittedRequestId: null
   };
 
   const STEP_TITLES = {
-    1: { title: "Step 1 of 7: Items Needed", sub: "चरण 1 / 7 (सामग्री का चयन)", pct: "14%", width: "14.3%" },
+    1: { title: "Step 1 of 7: What do you need?", sub: "चरण 1 / 7 (सामग्री का चयन)", pct: "14%", width: "14.3%" },
     2: { title: "Step 2 of 7: People Count", sub: "चरण 2 / 7 (सदस्यों की संख्या)", pct: "28%", width: "28.5%" },
-    3: { title: "Step 3 of 7: Extra Care Groups", sub: "चरण 3 / 7 (विशेष देखभाल समूह)", pct: "43%", width: "42.8%" },
+    3: { title: "Step 3 of 7: Special Care Needs", sub: "चरण 3 / 7 (विशेष देखभाल समूह)", pct: "43%", width: "42.8%" },
     4: { title: "Step 4 of 7: Urgency Timeline", sub: "चरण 4 / 7 (प्राथमिकता व समय सीमा)", pct: "57%", width: "57.1%" },
     5: { title: "Step 5 of 7: Delivery Location", sub: "चरण 5 / 7 (स्थान व जीपीएस विवरण)", pct: "71%", width: "71.4%" },
-    6: { title: "Step 6 of 7: Photo & Contact", sub: "चरण 6 / 7 (फोटो व संपर्क नंबर)", pct: "86%", width: "85.7%" },
-    7: { title: "Step 7 of 7: Review Request", sub: "चरण 7 / 7 (समीक्षा व पुष्टि)", pct: "100%", width: "100%" },
+    6: { title: "Step 6 of 7: Photo & Contact", sub: "चरण 6 / 7 (फोटो व संपर्क विवरण)", pct: "86%", width: "85.7%" },
+    7: { title: "Step 7 of 7: Review & Submit", sub: "चरण 7 / 7 (समीक्षा व पुष्टि)", pct: "100%", width: "100%" },
   };
 
   // 2. Draft Storage & Persistence
@@ -997,6 +1305,7 @@
     try {
       localStorage.setItem('dr_relief_draft', JSON.stringify({
         currentStep: state.currentStep,
+        maxCompletedStep: state.maxCompletedStep,
         proxyActive: state.proxyActive,
         proxyData: state.proxyData,
         items: state.items,
@@ -1006,14 +1315,16 @@
         urgencyLevel: state.urgencyLevel,
         urgencyLabel: state.urgencyLabel,
         location: state.location,
+        contactName: state.contactName,
         contactPhone: state.contactPhone,
+        consentGiven: state.consentGiven,
         mergeBatch: state.mergeBatch,
         savedAt: new Date().toISOString()
       }));
     } catch(e) {}
     setTimeout(() => {
       if (badge) badge.textContent = 'Auto-saved offline';
-    }, 400);
+    }, 300);
   }
 
   function loadDraft() {
@@ -1028,8 +1339,12 @@
         if (d.proxyData) Object.assign(state.proxyData, d.proxyData);
         if (d.proxyActive !== undefined) state.proxyActive = d.proxyActive;
         if (d.urgencyLevel) state.urgencyLevel = d.urgencyLevel;
+        if (d.urgencyLabel) state.urgencyLabel = d.urgencyLabel;
+        if (d.contactName) state.contactName = d.contactName;
         if (d.contactPhone) state.contactPhone = d.contactPhone;
+        if (d.consentGiven !== undefined) state.consentGiven = d.consentGiven;
         if (d.otherSupplies) state.otherSupplies = d.otherSupplies;
+        if (d.maxCompletedStep) state.maxCompletedStep = Math.max(state.maxCompletedStep, d.maxCompletedStep);
         if (d.currentStep && d.currentStep >= 1 && d.currentStep <= 7) {
           state.currentStep = d.currentStep;
         }
@@ -1037,21 +1352,59 @@
     } catch(e) {}
   }
 
-  // 3. Step Navigation System
+  // 3. Step Navigation & Wizard Dots
+  function renderAllStepDots() {
+    // Top progress dots
+    const topDotsContainer = document.getElementById('topWizardDotsContainer');
+    if (topDotsContainer) {
+      let dotsHtml = '';
+      for (let i = 1; i <= 7; i++) {
+        const isCurrent = i === state.currentStep;
+        const isCompleted = i < state.currentStep || i <= state.maxCompletedStep;
+        const colorClass = isCurrent ? 'bg-primary ring-2 ring-primary-container ring-offset-2' : isCompleted ? 'bg-tertiary cursor-pointer' : 'bg-surface-variant cursor-not-allowed opacity-60';
+        dotsHtml += `<button type="button" class="wizard-dot-btn w-3 h-3 rounded-full ${colorClass} transition-all" data-target-step="${i}" title="Step ${i}" aria-label="Step ${i} dot">${isCompleted && !isCurrent ? '<span class="sr-only">✓</span>' : ''}</button>`;
+      }
+      topDotsContainer.innerHTML = dotsHtml;
+      topDotsContainer.querySelectorAll('.wizard-dot-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = parseInt(btn.dataset.targetStep, 10);
+          if (target <= state.maxCompletedStep || target <= state.currentStep) {
+            showStep(target);
+          } else {
+            DR.ui.toast(`Please complete Step ${state.currentStep} before advancing to Step ${target}.`);
+          }
+        });
+      });
+    }
+
+    // Step bottom navigation dots
+    document.querySelectorAll('.step-nav-dots').forEach(container => {
+      let html = '';
+      for (let i = 1; i <= 7; i++) {
+        const isCurrent = i === state.currentStep;
+        const isCompleted = i <= state.maxCompletedStep;
+        const bg = isCurrent ? 'bg-primary' : isCompleted ? 'bg-tertiary' : 'bg-surface-variant';
+        html += `<span class="w-2.5 h-2.5 rounded-full ${bg} transition-colors" title="Step ${i}"></span>`;
+      }
+      container.innerHTML = html;
+    });
+  }
+
   function showStep(stepNum) {
+    const conf = document.getElementById('confirmation-section');
+    if (conf) conf.classList.add('hidden');
     if (stepNum < 1) stepNum = 1;
     if (stepNum > 7) stepNum = 7;
     state.currentStep = stepNum;
+    state.maxCompletedStep = Math.max(state.maxCompletedStep, stepNum);
 
-    // Hide all wizard containers
+    // Hide all wizard step containers
     for (let i = 1; i <= 7; i++) {
       const el = document.getElementById(`step-${i}-container`);
       if (el) el.classList.add('hidden');
     }
-    const conf = document.getElementById('confirmation-section');
-    if (conf) conf.classList.add('hidden');
 
-    // Show current container
+    // Show active step
     const active = document.getElementById(`step-${stepNum}-container`);
     if (active) active.classList.remove('hidden');
 
@@ -1067,37 +1420,46 @@
     if (pctEl) pctEl.textContent = `${info.pct} Complete`;
     if (barEl) barEl.style.width = info.width;
 
+    renderAllStepDots();
+
+    if (stepNum === 5) {
+      setTimeout(initStep5LeafletMap, 150);
+    }
     if (stepNum === 7) {
       renderReviewSummary();
     }
 
     saveDraft();
-    window.scrollTo({ top: 120, behavior: 'smooth' });
+    window.scrollTo({ top: 100, behavior: 'smooth' });
   }
 
   // 4. Step 1: Items Grid & Quantity Controls
   function updateItemsUI() {
-    let count = 0;
+    let selectedCount = 0;
+    let totalQuantity = 0;
+
     Object.keys(state.items).forEach(key => {
       const item = state.items[key];
-      const btn = document.getElementById(`itemBtn_${key}`);
-      if (!btn) return;
+      const card = document.getElementById(`itemBtn_${key}`);
+      if (!card) return;
 
-      const checkIcon = btn.querySelector('.material-symbols-outlined:nth-of-type(2)');
-      const qtyVal = btn.querySelector('.item-qty-val');
+      const checkIcon = card.querySelector('.item-check-icon');
+      const inputEl = card.querySelector('.item-qty-input');
 
+      item.selected = item.qty > 0;
       if (item.selected) {
-        count++;
-        btn.classList.add('bg-primary', 'text-on-primary');
-        btn.classList.remove('bg-surface-container', 'text-on-surface');
+        selectedCount++;
+        totalQuantity += item.qty;
+        card.classList.add('bg-primary', 'text-on-primary');
+        card.classList.remove('bg-surface-container', 'text-on-surface');
         if (checkIcon) {
           checkIcon.textContent = 'check_circle';
           checkIcon.classList.remove('text-outline');
           checkIcon.classList.add('text-on-primary');
         }
       } else {
-        btn.classList.remove('bg-primary', 'text-on-primary');
-        btn.classList.add('bg-surface-container', 'text-on-surface');
+        card.classList.remove('bg-primary', 'text-on-primary');
+        card.classList.add('bg-surface-container', 'text-on-surface');
         if (checkIcon) {
           checkIcon.textContent = 'radio_button_unchecked';
           checkIcon.classList.remove('text-on-primary');
@@ -1105,67 +1467,126 @@
         }
       }
 
-      if (qtyVal) qtyVal.textContent = item.qty;
+      if (inputEl && parseInt(inputEl.value, 10) !== item.qty) {
+        inputEl.value = item.qty;
+      }
+      const spanVal = card.querySelector('.item-qty-val');
+      if (spanVal) spanVal.textContent = item.qty;
     });
 
     const badge = document.getElementById('itemsSelectedBadge');
-    if (badge) badge.textContent = `${count} Selected`;
+    if (badge) {
+      badge.textContent = `${selectedCount} Items (${totalQuantity} Total)`;
+    }
     saveDraft();
+  }
+
+  function setItemQuantity(key, targetQty, showToast = true) {
+    const item = state.items[key];
+    if (!item) return;
+
+    let qty = parseInt(targetQty, 10);
+    if (isNaN(qty) || qty < 0) qty = 0;
+
+    const maxStock = item.maxStock != null ? item.maxStock : 99;
+    if (maxStock > 0 && qty > maxStock) {
+      qty = maxStock;
+      if (showToast) DR.ui.toast(`⚠ Max available reached (${maxStock} in nearest depot)`);
+    } else if (maxStock === 0 && qty > 0) {
+      if (showToast) DR.ui.toast('⚠ Item Diverted / Out of stock at nearest hub. You can still request it.');
+    } else if (maxStock > 0 && maxStock <= 25 && qty >= maxStock - 3 && showToast) {
+      DR.ui.toast(`⚠ Low stock alert (${maxStock} remaining at hub)`);
+    }
+
+    item.qty = qty;
+    item.selected = qty > 0;
+    updateItemsUI();
   }
 
   function setupItemControls() {
     Object.keys(state.items).forEach(key => {
-      const btn = document.getElementById(`itemBtn_${key}`);
-      if (!btn) return;
+      const card = document.getElementById(`itemBtn_${key}`);
+      if (!card) return;
 
-      btn.addEventListener('click', (e) => {
-        // Toggle selection
-        const item = state.items[key];
-        if (item.maxStock === 0) {
-          DR.ui.toast('⚠ Item Diverted / Out of stock at nearest hub. You can still request it for state procurement.');
+      const item = state.items[key];
+      const decBtn = card.querySelector('.item-dec-btn');
+      const incBtn = card.querySelector('.item-inc-btn');
+      const inputEl = card.querySelector('.item-qty-input');
+
+      // Tapping card itself toggles between 0 and standard quota
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.qty-compact-row')) return;
+        if (item.qty === 0) {
+          setItemQuantity(key, key === 'water' ? state.headcount.total * 3 : 1);
+        } else {
+          setItemQuantity(key, 0);
         }
-        item.selected = !item.selected;
-        if (item.selected && item.qty === 0) {
-          item.qty = key === 'water' ? state.headcount.total * 3 : 1;
-        }
-        updateItemsUI();
       });
 
-      // Quantity buttons
-      const decBtn = btn.querySelector('.item-dec-btn');
-      const incBtn = btn.querySelector('.item-inc-btn');
-
-      if (decBtn) {
-        decBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const item = state.items[key];
-          if (item.qty > 1) {
-            item.qty--;
-            updateItemsUI();
+      card.addEventListener('keydown', (e) => {
+        if (e.target === card && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          if (item.qty === 0) {
+            setItemQuantity(key, key === 'water' ? state.headcount.total * 3 : 1);
           } else {
-            item.qty = 0;
-            item.selected = false;
-            updateItemsUI();
+            setItemQuantity(key, 0);
           }
+        }
+      });
+
+      if (inputEl) {
+        inputEl.addEventListener('change', () => {
+          setItemQuantity(key, inputEl.value);
+        });
+        inputEl.addEventListener('input', () => {
+          const clean = inputEl.value.replace(/\D/g, '');
+          if (clean !== inputEl.value) inputEl.value = clean;
         });
       }
 
-      if (incBtn) {
-        incBtn.addEventListener('click', (e) => {
+      // Quantity buttons with Long-press / Repeat support
+      const bindRepeatBtn = (btn, delta) => {
+        if (!btn) return;
+        let repeatTimer = null;
+        let repeatInterval = null;
+
+        const stepAction = () => {
+          setItemQuantity(key, item.qty + delta, false);
+        };
+
+        const startHold = (e) => {
           e.stopPropagation();
-          const item = state.items[key];
-          if (item.maxStock > 0 && item.qty >= item.maxStock) {
-            DR.ui.toast(`⚠ Cannot request more than available depot stock (${item.maxStock}).`);
-            return;
-          }
-          item.qty++;
-          item.selected = true;
-          updateItemsUI();
+          stepAction();
+          repeatTimer = setTimeout(() => {
+            repeatInterval = setInterval(() => {
+              stepAction();
+            }, 100);
+          }, 350);
+        };
+
+        const stopHold = (e) => {
+          if (repeatTimer) clearTimeout(repeatTimer);
+          if (repeatInterval) clearInterval(repeatInterval);
+          repeatTimer = null;
+          repeatInterval = null;
+        };
+
+        btn.addEventListener('mousedown', startHold);
+        btn.addEventListener('mouseup', stopHold);
+        btn.addEventListener('mouseleave', stopHold);
+        btn.addEventListener('touchstart', startHold, { passive: true });
+        btn.addEventListener('touchend', stopHold);
+        btn.addEventListener('touchcancel', stopHold);
+
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
         });
-      }
+      };
+
+      bindRepeatBtn(incBtn, 1);
+      bindRepeatBtn(decBtn, -1);
     });
 
-    // Other input & mic
     const otherInput = document.getElementById('otherSuppliesInput');
     const otherMic = document.getElementById('otherSuppliesMicBtn');
     if (otherInput) {
@@ -1188,7 +1609,6 @@
       });
     }
 
-    // Step 1 Navigation
     const s1Back = document.getElementById('step1BackBtn');
     const s1Next = document.getElementById('step1NextBtn');
     if (s1Back) {
@@ -1198,9 +1618,9 @@
     }
     if (s1Next) {
       s1Next.addEventListener('click', () => {
-        const hasSelected = Object.values(state.items).some(i => i.selected);
+        const hasSelected = Object.values(state.items).some(i => i.selected && i.qty > 0);
         if (!hasSelected && !state.otherSupplies.trim()) {
-          DR.ui.toast('Please select at least one supply item or specify other needs.');
+          DR.ui.toast('Please select at least one supply item (quantity > 0) or specify other needs.');
           return;
         }
         showStep(2);
@@ -1208,7 +1628,21 @@
     }
   }
 
-  // 5. Step 2: People Count Stepper & Presets
+  // 5. Step 2: People Count Stepper, Demographic Breakdown & Presets
+  function changeDemographic(key, delta) {
+    if (!state.headcount[key] && state.headcount[key] !== 0) state.headcount[key] = 0;
+    const current = state.headcount[key];
+    const updated = Math.max(0, current + delta);
+    state.headcount[key] = updated;
+
+    // Recalculate total people
+    const total = state.headcount.adults + state.headcount.children + state.headcount.infants + state.headcount.elderly + state.headcount.disabled;
+    state.headcount.total = Math.max(1, total);
+
+    updatePeopleUI();
+  }
+  window.changeDemographic = changeDemographic;
+
   function updatePeopleUI() {
     const display = document.getElementById('peopleDisplay');
     if (display) {
@@ -1217,9 +1651,15 @@
       if (sub) sub.textContent = `${state.headcount.total} व्यक्ति (${state.headcount.total > 1 ? 'परिवार' : 'अकेले'})`;
     }
 
+    // Update demographic counts
+    ['adults', 'children', 'infants', 'elderly', 'disabled'].forEach(k => {
+      const el = document.getElementById(`demo-count-${k}`);
+      if (el) el.textContent = state.headcount[k] || 0;
+    });
+
     // Update preset pills active state
     document.querySelectorAll('.people-preset-pill').forEach(btn => {
-      const c = parseInt(btn.dataset.count || 0);
+      const c = parseInt(btn.dataset.count || 0, 10);
       if (c === state.headcount.total || (c === 4 && state.headcount.total >= 2 && state.headcount.total <= 4)) {
         btn.classList.add('bg-primary', 'text-on-primary');
         btn.classList.remove('bg-surface-container', 'text-on-surface');
@@ -1229,7 +1669,7 @@
       }
     });
 
-    // Auto-update standard water & ration quantities
+    // Auto-update standard water & ration quantities if user has water/food selected
     if (state.items.water.selected) {
       state.items.water.qty = state.headcount.total * 3;
     }
@@ -1248,16 +1688,16 @@
       decBtn.addEventListener('click', () => {
         if (state.headcount.total > 1) {
           state.headcount.total--;
-          state.headcount.adults = Math.max(1, state.headcount.total - (state.headcount.infants + state.headcount.elderly + state.headcount.children));
+          state.headcount.adults = Math.max(1, state.headcount.total - (state.headcount.children + state.headcount.infants + state.headcount.elderly + state.headcount.disabled));
           updatePeopleUI();
         }
       });
     }
     if (incBtn) {
       incBtn.addEventListener('click', () => {
-        if (state.headcount.total < 100) {
+        if (state.headcount.total < 99) {
           state.headcount.total++;
-          state.headcount.adults = Math.max(1, state.headcount.total - (state.headcount.infants + state.headcount.elderly + state.headcount.children));
+          state.headcount.adults++;
           updatePeopleUI();
         }
       });
@@ -1265,9 +1705,9 @@
 
     document.querySelectorAll('.people-preset-pill').forEach(btn => {
       btn.addEventListener('click', () => {
-        const count = parseInt(btn.dataset.count || 4);
+        const count = parseInt(btn.dataset.count || 4, 10);
         state.headcount.total = count;
-        state.headcount.adults = Math.max(1, count - (state.headcount.infants + state.headcount.elderly + state.headcount.children));
+        state.headcount.adults = Math.max(1, count - (state.headcount.children + state.headcount.infants + state.headcount.elderly + state.headcount.disabled));
         updatePeopleUI();
       });
     });
@@ -1277,18 +1717,25 @@
     if (s2Back) s2Back.addEventListener('click', () => showStep(1));
     if (s2Next) {
       s2Next.addEventListener('click', () => {
+        const errEl = document.getElementById('step2ErrorMsg');
         if (state.headcount.total < 1) {
+          if (errEl) {
+            errEl.textContent = 'At least 1 person is required to file a relief request. (कम से कम 1 व्यक्ति आवश्यक है)';
+            errEl.classList.remove('hidden');
+            errEl.focus();
+          }
           DR.ui.toast('Please specify at least 1 person.');
           return;
         }
+        if (errEl) errEl.classList.add('hidden');
         showStep(3);
       });
     }
   }
 
-  // 6. Step 3: Extra Care Groups
+  // 6. Step 3: Special Care Needs Multi-Select & Notes
   function updateCareUI() {
-    const keys = ['infant', 'elderly', 'pregnant', 'disabled', 'critical'];
+    const keys = ['infant', 'elderly', 'chronic', 'pregnant', 'disabled', 'pets'];
     keys.forEach(k => {
       const btn = document.getElementById(`care-${k}`);
       if (!btn) return;
@@ -1301,7 +1748,7 @@
         btn.classList.remove('bg-surface-container', 'text-on-surface');
         if (badge) {
           badge.textContent = 'YES ✓';
-          badge.className = 'px-2 py-1 rounded-md bg-tertiary text-on-tertiary font-label-strong text-label-strong';
+          badge.className = 'px-2 py-1 rounded-md bg-tertiary text-on-tertiary font-label-strong text-sm';
         }
         if (icon) {
           icon.classList.remove('text-secondary');
@@ -1312,7 +1759,7 @@
         btn.classList.add('bg-surface-container', 'text-on-surface');
         if (badge) {
           badge.textContent = 'No';
-          badge.className = 'px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-label-strong';
+          badge.className = 'px-2 py-1 rounded-md bg-surface-container-highest text-on-surface-variant font-label-strong text-sm';
         }
         if (icon) {
           icon.classList.add('text-secondary');
@@ -1321,12 +1768,17 @@
       }
     });
 
+    const notesInput = document.getElementById('careNotesInput');
+    if (notesInput && state.careGroups.notes) {
+      notesInput.value = state.careGroups.notes;
+    }
+
     // Auto-reflect in items
     if (state.careGroups.infant) {
       state.items.baby.selected = true;
       if (state.items.baby.qty === 0) state.items.baby.qty = 1;
     }
-    if (state.careGroups.elderly || state.careGroups.critical) {
+    if (state.careGroups.elderly || state.careGroups.chronic) {
       state.items.medicine.selected = true;
       if (state.items.medicine.qty === 0) state.items.medicine.qty = 1;
     }
@@ -1335,24 +1787,26 @@
   }
 
   function setupCareControls() {
-    const keys = ['infant', 'elderly', 'pregnant', 'disabled', 'critical'];
+    const keys = ['infant', 'elderly', 'chronic', 'pregnant', 'disabled', 'pets'];
     keys.forEach(k => {
       const btn = document.getElementById(`care-${k}`);
       if (!btn) return;
       btn.addEventListener('click', () => {
         state.careGroups[k] = !state.careGroups[k];
-        if (k === 'infant') {
-          state.headcount.infants = state.careGroups[k] ? 1 : 0;
-        }
-        if (k === 'elderly') {
-          state.headcount.elderly = state.careGroups[k] ? 1 : 0;
-        }
-        if (k === 'disabled') {
-          state.headcount.disabled = state.careGroups[k] ? 1 : 0;
-        }
+        if (k === 'infant') state.headcount.infants = state.careGroups[k] ? 1 : 0;
+        if (k === 'elderly') state.headcount.elderly = state.careGroups[k] ? 1 : 0;
+        if (k === 'disabled') state.headcount.disabled = state.careGroups[k] ? 1 : 0;
         updateCareUI();
       });
     });
+
+    const notesInput = document.getElementById('careNotesInput');
+    if (notesInput) {
+      notesInput.addEventListener('input', (e) => {
+        state.careGroups.notes = e.target.value;
+        saveDraft();
+      });
+    }
 
     const s3Back = document.getElementById('step3BackBtn');
     const s3Next = document.getElementById('step3NextBtn');
@@ -1367,6 +1821,7 @@
       const id = btn.id;
       const isSelected = (id === 'urgency-24h' && state.urgencyLevel === 'HIGH') ||
                          (id === 'urgency-6h' && state.urgencyLevel === 'STANDARD') ||
+                         (id === 'urgency-2d' && state.urgencyLevel === 'HIGH_2D') ||
                          (id === 'urgency-urgent' && state.urgencyLevel === 'CRITICAL_LIFE_SAFETY');
 
       const icon = btn.querySelector('.material-symbols-outlined:last-child');
@@ -1381,7 +1836,7 @@
       } else {
         btn.classList.remove('bg-primary', 'text-on-primary');
         btn.classList.add('bg-surface-container', 'text-on-surface');
-        if (icon && !btn.querySelector('.text-error')) {
+        if (icon) {
           icon.textContent = 'radio_button_unchecked';
           icon.classList.add('text-outline');
           icon.classList.remove('text-on-primary');
@@ -1394,24 +1849,114 @@
   function setupUrgencyControls() {
     document.querySelectorAll('.urgency-option-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        state.urgencyLevel = btn.dataset.urgency || 'HIGH';
+        state.urgencyLevel = btn.id === 'urgency-2d' ? 'HIGH_2D' : (btn.dataset.urgency || 'HIGH');
         state.urgencyLabel = btn.querySelector('.font-label-strong')?.textContent.trim() || state.urgencyLevel;
         updateUrgencyUI();
+        document.getElementById('step4ErrorMsg')?.classList.add('hidden');
       });
     });
 
     const s4Back = document.getElementById('step4BackBtn');
     const s4Next = document.getElementById('step4NextBtn');
     if (s4Back) s4Back.addEventListener('click', () => showStep(3));
-    if (s4Next) s4Next.addEventListener('click', () => showStep(5));
+    if (s4Next) {
+      s4Next.addEventListener('click', () => {
+        const errEl = document.getElementById('step4ErrorMsg');
+        if (!state.urgencyLevel) {
+          if (errEl) {
+            errEl.textContent = 'Please select how long your household has been without supplies. (कृपया समय सीमा चुनें)';
+            errEl.classList.remove('hidden');
+            errEl.focus();
+          }
+          DR.ui.toast('Please select an urgency level.');
+          return;
+        }
+        if (errEl) errEl.classList.add('hidden');
+        showStep(5);
+      });
+    }
   }
 
-  // 8. Step 5: Location, GPS, Ward, Map Picker & Duplicate Banner
+  // 8. Step 5: Location, GPS, Leaflet Interactive Map, Ward & Delivery/Pickup
+  let step5MapInstance = null;
+  let step5Marker = null;
+
+  async function initStep5LeafletMap() {
+    const container = document.getElementById('step5LeafletMap');
+    if (!container) return;
+
+    try {
+      const L = await DR.maps.load();
+      const coords = [state.location.latitude, state.location.longitude];
+
+      if (!step5MapInstance) {
+        step5MapInstance = L.map(container, {
+          center: coords,
+          zoom: 14,
+          zoomControl: true
+        });
+
+        const tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+        L.tileLayer(tileUrl, {
+          maxZoom: 19,
+          attribution: '&copy; Esri & OpenStreetMap'
+        }).addTo(step5MapInstance);
+
+        step5Marker = L.marker(coords, { draggable: true }).addTo(step5MapInstance);
+        step5Marker.bindPopup('<b>Relief Delivery Location</b><br>Drag pin to adjust exact house').openPopup();
+
+        step5Marker.on('dragend', function (e) {
+          const pos = step5Marker.getLatLng();
+          state.location.latitude = pos.lat;
+          state.location.longitude = pos.lng;
+          const coordEl = document.getElementById('step5CoordinatesDisplay');
+          if (coordEl) coordEl.textContent = `${pos.lat.toFixed(4)}, ${pos.lng.toFixed(4)}`;
+          loadNearestDepot();
+          saveDraft();
+        });
+      } else {
+        step5MapInstance.invalidateSize();
+        step5MapInstance.setView(coords, 14);
+        if (step5Marker) step5Marker.setLatLng(coords);
+      }
+    } catch (err) {
+      console.warn('Leaflet map initialization fallback:', err);
+    }
+  }
+
   function setupLocationControls() {
     const gpsBtn = document.getElementById('useGpsBtn');
+    const retryBtn = document.getElementById('gpsRetryBtn');
     const gpsLabel = document.getElementById('gpsButtonLabel');
+    const accuracyMsg = document.getElementById('gpsAccuracyMsg');
+    const accuracyText = document.getElementById('gpsAccuracyText');
     const landmarkDesc = document.getElementById('landmarkDesc');
     const landmarkMic = document.getElementById('landmarkMicBtn');
+
+    // Delivery or Pickup buttons
+    const delivBtn = document.getElementById('fulfillmentDeliveryBtn');
+    const pickupBtn = document.getElementById('fulfillmentPickupBtn');
+
+    if (delivBtn && pickupBtn) {
+      delivBtn.addEventListener('click', () => {
+        state.location.fulfillment = 'DELIVERY';
+        delivBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        delivBtn.classList.remove('hover:bg-surface-container', 'text-on-surface');
+        pickupBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        pickupBtn.classList.add('text-on-surface');
+        DR.ui.toast('Selected: Home Delivery by rescue marshals');
+        saveDraft();
+      });
+      pickupBtn.addEventListener('click', () => {
+        state.location.fulfillment = 'PICKUP';
+        pickupBtn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        pickupBtn.classList.remove('hover:bg-surface-container', 'text-on-surface');
+        delivBtn.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        delivBtn.classList.add('text-on-surface');
+        DR.ui.toast('Selected: Depot Pickup at nearest operational center');
+        saveDraft();
+      });
+    }
 
     if (landmarkDesc) {
       landmarkDesc.value = state.location.landmark;
@@ -1434,57 +1979,80 @@
       });
     }
 
-    if (gpsBtn) {
-      gpsBtn.addEventListener('click', () => {
-        if (gpsLabel) gpsLabel.textContent = 'Tracking satellite fix…';
-        if (!navigator.geolocation) {
-          DR.ui.toast('GPS not supported on this device. Please select Ward manually.');
-          return;
-        }
+    // High accuracy GPS with watchPosition, 15s window, best accuracy
+    function trackGpsLocation() {
+      if (!navigator.geolocation) {
+        DR.ui.toast('GPS not supported on this device. Please select Ward manually.');
+        return;
+      }
+      if (gpsLabel) gpsLabel.textContent = 'Acquiring high-accuracy satellite fix…';
 
-        let bestReading = null;
-        const watchId = navigator.geolocation.watchPosition(
-          (pos) => {
-            const acc = Math.round(pos.coords.accuracy);
-            if (!bestReading || acc < bestReading.accuracy) {
-              bestReading = { lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: acc };
-            }
-            if (acc <= 50) {
-              navigator.geolocation.clearWatch(watchId);
-              state.location.latitude = bestReading.lat;
-              state.location.longitude = bestReading.lng;
-              state.location.accuracyM = bestReading.accuracy;
-              if (gpsLabel) gpsLabel.textContent = `GPS Locked: (${bestReading.lat.toFixed(4)}, ${bestReading.lng.toFixed(4)}) • Accurate to ~${acc}m`;
-              DR.storage.setLocation(bestReading.lat, bestReading.lng);
-              loadNearestDepot();
-              DR.ui.toast(`✓ Location locked (±${acc}m accuracy)`);
-              saveDraft();
-            }
-          },
-          (err) => {
-            if (gpsLabel) gpsLabel.textContent = 'Use my GPS location (12m accurate)';
-            DR.ui.toast('GPS fix unavailable. Please select your Ward or tap on map.');
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
-        );
+      let bestReading = null;
+      let watchId = null;
 
-        setTimeout(() => {
+      const stopGps = () => {
+        if (watchId !== null) {
           navigator.geolocation.clearWatch(watchId);
-          if (bestReading) {
+          watchId = null;
+        }
+      };
+
+      watchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const acc = Math.round(pos.coords.accuracy);
+          if (!bestReading || acc < bestReading.accuracy) {
+            bestReading = { lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: acc };
+          }
+          if (accuracyMsg && accuracyText) {
+            accuracyMsg.classList.remove('hidden');
+            accuracyText.textContent = `Accurate to ~${acc} m`;
+          }
+          if (retryBtn) {
+            if (acc > 100) retryBtn.classList.remove('hidden');
+            else retryBtn.classList.add('hidden');
+          }
+          if (acc <= 50) {
+            stopGps();
             state.location.latitude = bestReading.lat;
             state.location.longitude = bestReading.lng;
             state.location.accuracyM = bestReading.accuracy;
-            if (gpsLabel) gpsLabel.textContent = `GPS: (${bestReading.lat.toFixed(4)}, ${bestReading.lng.toFixed(4)}) • ~${bestReading.accuracy}m`;
+            if (gpsLabel) gpsLabel.textContent = `GPS Locked: (${bestReading.lat.toFixed(4)}, ${bestReading.lng.toFixed(4)})`;
+            DR.storage.setLocation(bestReading.lat, bestReading.lng);
             loadNearestDepot();
+            initStep5LeafletMap();
+            DR.ui.toast(`✓ Location locked (±${acc}m accuracy)`);
             saveDraft();
-          } else if (gpsLabel) {
-            gpsLabel.textContent = 'GPS calibrated (~12m accuracy)';
           }
-        }, 3000);
-      });
+        },
+        (err) => {
+          stopGps();
+          if (gpsLabel) gpsLabel.textContent = 'Use my GPS location (12m accurate)';
+          if (retryBtn) retryBtn.classList.remove('hidden');
+          DR.ui.toast('GPS fix unavailable. Please choose from list or tap on map.');
+        },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+      );
+
+      // Stop after 15 seconds
+      setTimeout(() => {
+        stopGps();
+        if (bestReading) {
+          state.location.latitude = bestReading.lat;
+          state.location.longitude = bestReading.lng;
+          state.location.accuracyM = bestReading.accuracy;
+          if (gpsLabel) gpsLabel.textContent = `GPS: (${bestReading.lat.toFixed(4)}, ${bestReading.lng.toFixed(4)})`;
+          if (accuracyText) accuracyText.textContent = `Accurate to ~${bestReading.accuracy} m`;
+          loadNearestDepot();
+          initStep5LeafletMap();
+          saveDraft();
+        }
+      }, 15000);
     }
 
-    // Ward Modal
+    if (gpsBtn) gpsBtn.addEventListener('click', trackGpsLocation);
+    if (retryBtn) retryBtn.addEventListener('click', trackGpsLocation);
+
+    // Ward Selection Modal
     const wardModal = document.getElementById('wardModal');
     const selectWardBtn = document.getElementById('selectWardBtn');
     const closeWardModalBtn = document.getElementById('closeWardModalBtn');
@@ -1511,7 +2079,7 @@
       });
     }
 
-    // Map Picker Modal
+    // Tap On Map Modal
     const mapModal = document.getElementById('mapPickerModal');
     const tapOnMapBtn = document.getElementById('tapOnMapBtn');
     const closeMapBtn = document.getElementById('closeMapPickerBtn');
@@ -1531,11 +2099,13 @@
     if (confirmMapBtn) {
       confirmMapBtn.addEventListener('click', () => {
         hideMapModal();
+        initStep5LeafletMap();
         DR.ui.toast(`Pin locked at (${state.location.latitude.toFixed(4)}, ${state.location.longitude.toFixed(4)})`);
         saveDraft();
       });
     }
 
+    
     // Duplicate Banner buttons
     const mergeBtn = document.getElementById('mergeHouseholdBtn');
     const separateBtn = document.getElementById('separateRequestBtn');
@@ -1558,26 +2128,145 @@
       });
     }
 
+    // Step 5 Nav
     const s5Back = document.getElementById('step5BackBtn');
     const s5Next = document.getElementById('step5NextBtn');
     if (s5Back) s5Back.addEventListener('click', () => showStep(4));
     if (s5Next) {
       s5Next.addEventListener('click', () => {
+        const errEl = document.getElementById('step5ErrorMsg');
         if (!state.location.landmark.trim()) {
-          DR.ui.toast('Please describe your landmark or address so delivery teams can locate you.');
+          if (errEl) {
+            errEl.textContent = 'Please enter your address, building number, or landmark. (कृपया पता या लैंडमार्क दर्ज करें)';
+            errEl.classList.remove('hidden');
+            landmarkDesc?.focus();
+          }
+          DR.ui.toast('Please describe your landmark or address.');
           return;
         }
+        if (errEl) errEl.classList.add('hidden');
         showStep(6);
       });
     }
   }
 
-  // 9. Step 6: Photo Upload & Contact Phone
+  // 9. Step 6: Review Summary, Contact Phone Validation & Consent
+  function renderReviewSummary() {
+    const selectedList = Object.keys(state.items)
+      .filter(k => state.items[k].selected && state.items[k].qty > 0)
+      .map(k => `${state.items[k].name} (x${state.items[k].qty})`);
+    if (state.otherSupplies.trim()) selectedList.push(`Other: ${state.otherSupplies}`);
+
+    const suppText = document.getElementById('reviewSuppliesText');
+    if (suppText) suppText.textContent = selectedList.join(', ') || 'None selected';
+
+    const peopleText = document.getElementById('reviewPeopleText');
+    if (peopleText) {
+      const parts = [`${state.headcount.total} People`];
+      const subParts = [];
+      if (state.headcount.adults) subParts.push(`${state.headcount.adults} Adults`);
+      if (state.headcount.children) subParts.push(`${state.headcount.children} Children`);
+      if (state.headcount.infants) subParts.push(`${state.headcount.infants} Infants`);
+      if (state.headcount.elderly) subParts.push(`${state.headcount.elderly} Seniors`);
+      if (state.headcount.disabled) subParts.push(`${state.headcount.disabled} PwD`);
+      if (subParts.length > 0) parts.push(`(${subParts.join(', ')})`);
+      peopleText.textContent = parts.join(' ');
+    }
+
+    const careText = document.getElementById('reviewCareText');
+    if (careText) {
+      const careList = [];
+      if (state.careGroups.infant) careList.push('Infant / Baby Care');
+      if (state.careGroups.elderly) careList.push('Elderly Support');
+      if (state.careGroups.chronic) careList.push('Chronic / Daily Meds');
+      if (state.careGroups.pregnant) careList.push('Maternity Care');
+      if (state.careGroups.disabled) careList.push('Mobility / Wheelchair');
+      if (state.careGroups.pets) careList.push('Pets / Livestock');
+      if (state.careGroups.notes) careList.push(`Notes: ${state.careGroups.notes}`);
+      careText.textContent = careList.join(', ') || 'Standard civic care';
+    }
+
+    const urgText = document.getElementById('reviewUrgencyText');
+    if (urgText) urgText.textContent = `${state.urgencyLabel} (${state.urgencyLevel})`;
+
+    const locText = document.getElementById('reviewLocationText');
+    if (locText) {
+      const fulfillmentStr = state.location.fulfillment === 'PICKUP' ? '[Pickup at Hub]' : '[Home Delivery]';
+      locText.textContent = `${fulfillmentStr} ${state.location.landmark.substring(0, 45)}... (GPS: ${state.location.latitude.toFixed(2)}, ${state.location.longitude.toFixed(2)})`;
+    }
+
+    // Proxy info
+    const proxyRow = document.getElementById('reviewProxyRow');
+    const proxyText = document.getElementById('reviewProxyText');
+    if (proxyRow && proxyText) {
+      if (state.proxyActive && state.proxyData.name) {
+        proxyRow.classList.remove('hidden');
+        proxyText.textContent = `${state.proxyData.name} (${state.proxyData.relation}) - +91 ${state.proxyData.phone}`;
+      } else {
+        proxyRow.classList.add('hidden');
+      }
+    }
+
+    // Wire Jump-Back-To-Step Edit buttons
+    const contactText = document.getElementById('reviewContactText');
+    if (contactText) {
+      contactText.textContent = `${state.contactName || 'Citizen'} (+91 ${state.contactPhone || '9845122334'})`;
+    }
+
+    const bindEdit = (id, targetStep) => {
+      const btn = document.getElementById(id);
+      if (btn && !btn.dataset.bound) {
+        btn.dataset.bound = 'true';
+        btn.addEventListener('click', () => {
+          showStep(targetStep);
+        });
+      }
+    };
+    bindEdit('editSuppliesBtn', 1);
+    bindEdit('editPeopleBtn', 2);
+    bindEdit('editCareBtn', 3);
+    bindEdit('editUrgencyBtn', 4);
+    bindEdit('editLocationBtn', 5);
+    bindEdit('editProxyBtn', 2);
+
+    const s6Back = document.getElementById('step6BackBtn');
+    if (s6Back) s6Back.addEventListener('click', () => showStep(5));
+  }
+
+  
+  // 9. Step 6: Photo & Contact Phone Controls
   function setupContactControls() {
-    const uploadBtn = document.getElementById('uploadPhotoBtn');
-    const photoInput = document.getElementById('surroundingsPhotoInput');
-    const skipBtn = document.getElementById('skipPhotoBtn');
+    const nameInput = document.getElementById('contactNameInput');
     const phoneInput = document.getElementById('contactPhone');
+    const s6Back = document.getElementById('step6BackBtn');
+    const s6Next = document.getElementById('step6NextBtn');
+    const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+    const photoInput = document.getElementById('surroundingsPhotoInput');
+    const skipPhotoBtn = document.getElementById('skipPhotoBtn');
+
+    if (uploadPhotoBtn && photoInput) {
+      uploadPhotoBtn.addEventListener('click', () => photoInput.click());
+      photoInput.addEventListener('change', () => {
+        if (photoInput.files && photoInput.files[0]) {
+          state.photoUploaded = true;
+          DR.ui.toast('✓ Photo uploaded successfully');
+          saveDraft();
+        }
+      });
+    }
+    if (skipPhotoBtn) {
+      skipPhotoBtn.addEventListener('click', () => {
+        DR.ui.toast('Photo upload skipped');
+      });
+    }
+
+    if (nameInput) {
+      nameInput.value = state.contactName;
+      nameInput.addEventListener('input', (e) => {
+        state.contactName = e.target.value;
+        saveDraft();
+      });
+    }
 
     if (phoneInput) {
       phoneInput.value = state.contactPhone;
@@ -1587,94 +2276,91 @@
       });
     }
 
-    if (uploadBtn && photoInput) {
-      uploadBtn.addEventListener('click', () => photoInput.click());
-      photoInput.addEventListener('change', () => {
-        if (photoInput.files && photoInput.files[0]) {
-          state.photoUploaded = true;
-          uploadBtn.textContent = 'Photo Attached ✓';
-          uploadBtn.classList.add('bg-tertiary');
-          DR.ui.toast('✓ Surroundings photo attached for rescue boat');
-          saveDraft();
-        }
-      });
+    if (s6Back) {
+      s6Back.addEventListener('click', () => showStep(5));
     }
 
-    if (skipBtn) {
-      skipBtn.addEventListener('click', () => {
-        DR.ui.toast('Skipped surroundings photo.');
-        showStep(7);
-      });
-    }
-
-    const s6Back = document.getElementById('step6BackBtn');
-    const s6Next = document.getElementById('step6NextBtn');
-    if (s6Back) s6Back.addEventListener('click', () => showStep(5));
     if (s6Next) {
       s6Next.addEventListener('click', () => {
-        const clean = (state.contactPhone || '').replace(/\D/g, '');
-        if (clean.length < 10) {
-          DR.ui.toast('Please enter a valid 10-digit mobile phone number for delivery marshals.');
-          phoneInput?.focus();
+        const errEl = document.getElementById('step6ErrorMsg');
+        const cleanPhone = (state.contactPhone || '').replace(/\D/g, '');
+
+        if (!state.contactName.trim()) {
+          if (errEl) {
+            errEl.textContent = 'Please enter contact person name. (कृपया संपर्क व्यक्ति का नाम दर्ज करें)';
+            errEl.classList.remove('hidden');
+            nameInput?.focus();
+          }
+          DR.ui.toast('Please enter contact person name.');
           return;
         }
+
+        // Validate Indian phone number (+91 with 10 digits starting 6,7,8,9)
+        if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+          if (errEl) {
+            errEl.textContent = 'Please enter a valid 10-digit mobile number starting with 6, 7, 8 or 9. (अमान्य मोबाइल नंबर)';
+            errEl.classList.remove('hidden');
+            phoneInput?.focus();
+          }
+          DR.ui.toast('Invalid phone number: 10 digits starting 6-9 required.');
+          return;
+        }
+
+        if (errEl) errEl.classList.add('hidden');
         showStep(7);
       });
     }
   }
 
-  // 10. Step 7: Review & Submission
-  function renderReviewSummary() {
-    const selectedList = Object.keys(state.items)
-      .filter(k => state.items[k].selected)
-      .map(k => `${state.items[k].name} (${state.items[k].qty})`);
-    if (state.otherSupplies.trim()) selectedList.push(`Other: ${state.otherSupplies}`);
-
-    const suppText = document.getElementById('reviewSuppliesText');
-    if (suppText) suppText.textContent = selectedList.join(', ') || 'None selected';
-
-    const peopleText = document.getElementById('reviewPeopleText');
-    if (peopleText) {
-      let desc = `${state.headcount.total} People`;
-      const careParts = [];
-      if (state.careGroups.infant) careParts.push('1 Infant');
-      if (state.careGroups.elderly) careParts.push('1 Elderly');
-      if (state.careGroups.disabled) careParts.push('1 PwD');
-      if (careParts.length > 0) desc += ` (${careParts.join(', ')})`;
-      peopleText.textContent = desc;
-    }
-
-    const urgText = document.getElementById('reviewUrgencyText');
-    if (urgText) urgText.textContent = `${state.urgencyLabel} (${state.urgencyLevel})`;
-
-    const locText = document.getElementById('reviewLocationText');
-    if (locText) locText.textContent = `${state.location.landmark.substring(0, 45)}... (GPS: ${state.location.latitude.toFixed(2)}, ${state.location.longitude.toFixed(2)})`;
-
-    const contactText = document.getElementById('reviewContactText');
-    if (contactText) {
-      let contactLine = `+91 ${state.contactPhone}`;
-      if (state.proxyActive && state.proxyData.name) {
-        contactLine += ` (Proxy: ${state.proxyData.name} - +91 ${state.proxyData.phone})`;
-      }
-      contactText.textContent = contactLine;
-    }
-
-    // Step 7 Edit buttons jumping to steps
-    const bindEdit = (id, step) => {
-      const b = document.getElementById(id);
-      if (b && !b.dataset.bound) {
-        b.dataset.bound = 'true';
-        b.addEventListener('click', () => showStep(step));
+  // 10. Step 7: Review Controls & Final Submit Trigger
+  function setupReviewControls() {
+    const bindEdit = (id, targetStep) => {
+      const btn = document.getElementById(id);
+      if (btn && !btn.dataset.bound) {
+        btn.dataset.bound = 'true';
+        btn.addEventListener('click', () => {
+          showStep(targetStep);
+        });
       }
     };
     bindEdit('editSuppliesBtn', 1);
     bindEdit('editPeopleBtn', 2);
+    bindEdit('editCareBtn', 3);
     bindEdit('editUrgencyBtn', 4);
     bindEdit('editLocationBtn', 5);
     bindEdit('editContactBtn', 6);
+    bindEdit('editProxyBtn', 2);
 
     const s7Back = document.getElementById('step7BackBtn');
     if (s7Back) s7Back.addEventListener('click', () => showStep(6));
+
+    const consentBox = document.getElementById('consentCheckbox');
+    if (consentBox) {
+      consentBox.checked = state.consentGiven;
+      consentBox.addEventListener('change', (e) => {
+        state.consentGiven = e.target.checked;
+        saveDraft();
+      });
+    }
+
+    const submitBtn = document.getElementById('submitRequestBtn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const errEl = document.getElementById('step7ErrorMsg');
+        if (consentBox && !consentBox.checked) {
+          if (errEl) {
+            errEl.textContent = 'Please confirm the genuine distress declaration before submitting. (सहमति चेकबॉक्स अनिवार्य है)';
+            errEl.classList.remove('hidden');
+            consentBox.focus();
+          }
+          DR.ui.toast('Please check the confirmation consent checkbox.');
+          return;
+        }
+        if (errEl) errEl.classList.add('hidden');
+        submitFinalReliefRequest();
+      });
+    }
   }
 
   async function submitFinalReliefRequest() {
@@ -1682,14 +2368,14 @@
     if (submitBtn) DR.ui.setLoading(submitBtn, true, 'Submitting Request...');
 
     const checkedSupplies = {
-      drinkingWater: state.items.water.selected,
+      drinkingWater: state.items.water.selected ? state.items.water.qty : 0,
       foodKits: state.items.food.selected ? state.items.food.qty : 0,
-      babyFormula: state.items.baby.selected,
-      firstAidKit: state.items.medicine.selected,
-      tarpaulin: state.items.tent.selected,
-      blankets: state.items.blanket.selected,
-      sanitationKit: state.items.sanitation.selected,
-      medications: state.careGroups.elderly || state.careGroups.critical ? 'BP pills, essential medication' : undefined,
+      babyFormula: state.items.baby.selected ? state.items.baby.qty : 0,
+      firstAidKit: state.items.medicine.selected ? state.items.medicine.qty : 0,
+      tarpaulin: state.items.tent.selected ? state.items.tent.qty : 0,
+      blankets: state.items.blanket.selected ? state.items.blanket.qty : 0,
+      sanitationKit: state.items.sanitation.selected ? state.items.sanitation.qty : 0,
+      other: state.otherSupplies || undefined,
     };
 
     const payload = {
@@ -1697,64 +2383,83 @@
       headcountChildren: state.headcount.children,
       headcountInfants: state.headcount.infants,
       headcountSeniors: state.headcount.elderly,
-      deliveryContext: 'GROUND_FLOOR',
-      urgencyLevel: state.urgencyLevel,
+      deliveryContext: state.location.fulfillment === 'PICKUP' ? 'DEPOT_PICKUP' : 'GROUND_FLOOR',
+      urgencyLevel: state.urgencyLevel.startsWith('HIGH') ? 'HIGH' : state.urgencyLevel,
       latitude: state.location.latitude,
       longitude: state.location.longitude,
-      requesterPhone: `+91${state.contactPhone.replace(/\D/g, '')}`,
+      requesterPhone: '+91' + state.contactPhone.replace(/\D/g, ''),
       landmarkNotes: state.location.landmark,
       itemsRequested: checkedSupplies,
-      specialMedicalNeeds: state.careGroups.critical ? 'Critical patient needing oxygen/assistance' : undefined
+      specialMedicalNeeds: state.careGroups.notes || (state.careGroups.chronic ? 'Chronic medication needed' : undefined)
     };
 
     try {
       let result;
       if (!navigator.onLine) {
-        // Offline simulation / queue
         const offlineQueue = JSON.parse(localStorage.getItem('dr_offline_relief_queue') || '[]');
-        const draftId = 'DR-OFFLINE-' + Date.now().toString(36).toUpperCase();
+        const draftId = 'SR-' + Math.floor(100000 + Math.random() * 900000);
         offlineQueue.push({ id: draftId, data: payload, createdAt: new Date().toISOString(), status: 'NOT_SENT' });
         localStorage.setItem('dr_offline_relief_queue', JSON.stringify(offlineQueue));
         result = {
-          trackingToken: draftId,
+          requestId: draftId,
+          trackingToken: 'DR-' + draftId,
           stage: 'STAGE_1_TRIAGED',
-          message: 'Saved offline on this phone. Will automatically sync when online connection is restored.'
+          message: 'Saved offline, will send when online'
         };
+        const offlineBadge = document.getElementById('step7OfflineBadge');
+        if (offlineBadge) offlineBadge.classList.remove('hidden');
       } else {
         result = await DR.relief.submit(payload);
       }
 
-      state.submittedToken = result.trackingToken;
-      localStorage.setItem('dr_tracking_token', result.trackingToken);
+      const reqId = result.requestId ? ('SR-' + result.requestId.slice(0, 6).toUpperCase()) : ('SR-' + Math.floor(100000 + Math.random() * 900000));
+      const trackingToken = result.trackingToken || ('DR-' + reqId);
 
-      // Render Confirmation Card
-      for (let i = 1; i <= 7; i++) {
-        document.getElementById(`step-${i}-container`)?.classList.add('hidden');
-      }
-      const conf = document.getElementById('confirmation-section');
-      if (conf) {
-        conf.classList.remove('hidden');
-        conf.scrollIntoView({ behavior: 'smooth' });
-      }
+      state.submittedToken = trackingToken;
+      state.submittedRequestId = reqId;
+      localStorage.setItem('dr_tracking_token', trackingToken);
+      localStorage.setItem('dr_request_id', reqId);
 
-      const tokenEl = document.getElementById('tracking-token-display');
-      if (tokenEl) tokenEl.textContent = result.trackingToken;
+      // Populate displays
+      const tokenDisplay = document.getElementById('tracking-token-display');
+      if (tokenDisplay) tokenDisplay.textContent = trackingToken;
+
+      const reqIdEl = document.getElementById('confirmationRequestId');
+      if (reqIdEl) reqIdEl.textContent = reqId;
 
       const trackLink = document.getElementById('trackStatusLink');
       if (trackLink) {
-        trackLink.href = `/screens/09-relief-tracking/index.html?token=${encodeURIComponent(result.trackingToken)}`;
+        trackLink.href = '/screens/09-relief-tracking/index.html?token=' + encodeURIComponent(trackingToken) + '&id=' + encodeURIComponent(reqId);
       }
 
-      DR.ui.toast(`✓ Relief Request Submitted! Token: ${result.trackingToken}`, 6000);
+      // Hide all wizard step containers
+      for (let i = 1; i <= 7; i++) {
+        const el = document.getElementById('step-' + i + '-container');
+        if (el) el.classList.add('hidden');
+      }
+
+      // Unhide confirmation section
+      const confSection = document.getElementById('confirmation-section');
+      if (confSection) confSection.classList.remove('hidden');
+
+      DR.ui.toast('✓ Relief Request Submitted! Reference: ' + trackingToken, 6000);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return result;
-    } catch(err) {
+    } catch (err) {
       if (err.code === 'OFFLINE_DRAFT_SAVED') {
-        const tokenEl = document.getElementById('tracking-token-display');
-        if (tokenEl) tokenEl.textContent = `${err.draftId} (NOT SENT)`;
+        const reqId = 'SR-' + (err.draftId || 'OFFLINE');
+        const tokenDisplay = document.getElementById('tracking-token-display');
+        if (tokenDisplay) tokenDisplay.textContent = 'DR-' + reqId;
+        const reqIdEl = document.getElementById('confirmationRequestId');
+        if (reqIdEl) reqIdEl.textContent = reqId + ' (NOT SENT)';
+        document.getElementById('step7OfflineBadge')?.classList.remove('hidden');
+        for (let i = 1; i <= 7; i++) {
+          document.getElementById('step-' + i + '-container')?.classList.add('hidden');
+        }
         document.getElementById('confirmation-section')?.classList.remove('hidden');
         DR.ui.toast('Saved locally offline (NOT SENT). Will sync when connection returns.', 6000);
       } else {
-        DR.ui.toast(`⚠ ${err.message || 'Submission failed. Please check network connection.'}`);
+        DR.ui.toast('⚠ ' + (err.message || 'Submission failed. Please check network connection.'));
       }
     } finally {
       if (submitBtn) DR.ui.setLoading(submitBtn, false);
@@ -1763,48 +2468,72 @@
 
   window.submitReliefRequest = submitFinalReliefRequest;
 
-  // 11. Confirmation Actions (Copy, TTS, Share, Print/PDF)
+  // 11. Confirmation Actions (Copy, TTS, Share, Download PDF)
   function setupConfirmationControls() {
     const copyBtn = document.getElementById('copyTrackingTokenBtn');
     const listenBtn = document.getElementById('listenTrackingTokenBtn');
-    const shareWhatsApp = document.getElementById('shareWhatsAppBtn');
-    const shareSms = document.getElementById('shareSmsBtn');
-    const savePdf = document.getElementById('saveCardPdfBtn');
+    const shareBtn = document.getElementById('shareRequestBtn');
+    const whatsappBtn = document.getElementById('shareWhatsAppBtn');
+    const smsBtn = document.getElementById('shareSmsBtn');
+    const pdfBtn = document.getElementById('saveCardPdfBtn');
 
     if (copyBtn) {
       copyBtn.addEventListener('click', () => {
-        const token = document.getElementById('tracking-token-display')?.textContent.trim() || state.submittedToken || 'DR-1042';
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(token).then(() => DR.ui.toast('✓ Tracking token copied to clipboard!'));
-        }
+        const token = state.submittedToken || state.submittedRequestId || 'DR-1042';
+        navigator.clipboard.writeText(token).then(() => {
+          DR.ui.toast('✓ Tracking token copied to clipboard');
+        }).catch(() => {
+          DR.ui.toast('Tracking token: ' + token);
+        });
       });
     }
 
     if (listenBtn) {
       listenBtn.addEventListener('click', () => {
-        const token = document.getElementById('tracking-token-display')?.textContent.trim() || state.submittedToken || 'DR-1042';
-        speakText(`Emergency Tracking Reference ID: ${token.split('').join(' ')}`);
+        const token = state.submittedToken || state.submittedRequestId || 'DR-1042';
+        speakText('Your emergency relief tracking reference is: ' + token.split('').join(' '));
       });
     }
 
-    if (shareWhatsApp) {
-      shareWhatsApp.addEventListener('click', () => {
-        const token = document.getElementById('tracking-token-display')?.textContent.trim() || state.submittedToken || 'DR-1042';
-        const msg = `DisasterReady India Relief Request. Reference Token: ${token}. Track at: http://localhost:3000/screens/09-relief-tracking/index.html?token=${token}`;
-        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    const shareData = () => {
+      const token = state.submittedToken || state.submittedRequestId || 'DR-1042';
+      return {
+        title: 'DisasterReady Emergency Relief Request',
+        text: 'Disaster relief request reference ' + token + ' filed with District EOC. Track at: ' + window.location.origin + '/screens/09-relief-tracking/index.html?token=' + encodeURIComponent(token),
+        url: window.location.origin + '/screens/09-relief-tracking/index.html?token=' + encodeURIComponent(token)
+      };
+    };
+
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async () => {
+        const data = shareData();
+        if (navigator.share) {
+          try {
+            await navigator.share(data);
+          } catch(e) {}
+        } else {
+          navigator.clipboard.writeText(data.text);
+          DR.ui.toast('✓ Share details copied to clipboard');
+        }
       });
     }
 
-    if (shareSms) {
-      shareSms.addEventListener('click', () => {
-        const token = document.getElementById('tracking-token-display')?.textContent.trim() || state.submittedToken || 'DR-1042';
-        const msg = `DisasterReady India Relief Request: ${token}`;
-        window.location.href = `sms:?body=${encodeURIComponent(msg)}`;
+    if (whatsappBtn) {
+      whatsappBtn.addEventListener('click', () => {
+        const data = shareData();
+        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(data.text), '_blank');
       });
     }
 
-    if (savePdf) {
-      savePdf.addEventListener('click', () => {
+    if (smsBtn) {
+      smsBtn.addEventListener('click', () => {
+        const data = shareData();
+        window.open('sms:?&body=' + encodeURIComponent(data.text), '_blank');
+      });
+    }
+
+    if (pdfBtn) {
+      pdfBtn.addEventListener('click', () => {
         window.print();
       });
     }
@@ -1825,6 +2554,7 @@
       const titleEl = document.getElementById('nearestDepotTitle');
       const verifiedEl = document.getElementById('nearestDepotVerified');
       const directionsEl = document.getElementById('depotDirectionsBtn');
+      const step5Notice = document.getElementById('step5NearestDepotText');
 
       if (titleEl) {
         titleEl.textContent = `Nearest Depot: ${nearest.name} (${nearest.distanceKm != null ? nearest.distanceKm + ' km' : 'Sector 4'})`;
@@ -1835,8 +2565,11 @@
       if (directionsEl) {
         directionsEl.href = `/screens/05-get-to-safety-step-4/index.html?depot=${nearest.id}&lat=${nearest.latitude}&lng=${nearest.longitude}`;
       }
+      if (step5Notice) {
+        step5Notice.textContent = `Assigned Hub: ${nearest.name} (${nearest.distanceKm != null ? nearest.distanceKm + ' km away' : 'Nearby'})`;
+      }
 
-      // Populate Stock Grid
+      // Populate Stock Grid on Step 1
       const grid = document.getElementById('depotStockGrid');
       if (grid && nearest.inventory && nearest.inventory.length > 0) {
         grid.innerHTML = nearest.inventory.slice(0, 4).map(inv => {
@@ -1856,10 +2589,85 @@
             </div>
           `;
         }).join('');
+
+        // Update item stock limits in state
+        nearest.inventory.forEach(inv => {
+          if (inv.itemSku === 'WATER_20L' && state.items.water) state.items.water.maxStock = inv.quantityAvailable;
+          if (inv.itemSku === 'DRY_RATION_KIT' && state.items.food) state.items.food.maxStock = inv.quantityAvailable;
+          if (inv.itemSku === 'FIRST_AID_KIT' && state.items.medicine) state.items.medicine.maxStock = inv.quantityAvailable;
+          if (inv.itemSku === 'BLANKETS' && state.items.blanket) state.items.blanket.maxStock = inv.quantityAvailable;
+          if (inv.itemSku === 'EMERGENCY_TENT' && state.items.tent) state.items.tent.maxStock = inv.quantityAvailable;
+          if (inv.itemSku === 'BABY_FORMULA' && state.items.baby) state.items.baby.maxStock = inv.quantityAvailable;
+          if (inv.itemSku === 'SANITATION_KIT' && state.items.sanitation) state.items.sanitation.maxStock = inv.quantityAvailable;
+        });
       }
     } catch(e) {}
   }
 
+  // 13. Proxy Helper Controls
+  function setupProxyControls() {
+    const badge = document.getElementById('activeProxyBadge');
+    const changeBtn = document.getElementById('changeProxyBtn');
+    const modal = document.getElementById('proxyModal');
+    const closeBtn = document.getElementById('closeProxyModalBtn');
+    const cancelBtn = document.getElementById('cancelProxyBtn');
+    const saveBtn = document.getElementById('saveProxyBtn');
+
+    const nameInput = document.getElementById('proxyNameInput');
+    const phoneInput = document.getElementById('proxyPhoneInput');
+    const relationInput = document.getElementById('proxyRelationInput');
+    const summaryText = document.getElementById('proxySummaryText');
+
+    if (badge) {
+      badge.addEventListener('click', () => {
+        state.proxyActive = !state.proxyActive;
+        if (state.proxyActive) {
+          badge.textContent = 'Active Proxy';
+          badge.className = 'px-2 py-0.5 rounded-full bg-primary text-on-primary font-caption text-caption cursor-pointer hover:opacity-90 transition-opacity';
+        } else {
+          badge.textContent = 'Proxy Off';
+          badge.className = 'px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption cursor-pointer hover:opacity-90 transition-opacity';
+        }
+        DR.ui.toast(state.proxyActive ? 'Proxy filing enabled' : 'Proxy filing disabled (Self request)');
+        saveDraft();
+      });
+    }
+
+    if (changeBtn && modal) {
+      changeBtn.addEventListener('click', () => {
+        if (nameInput) nameInput.value = state.proxyData.name || '';
+        if (phoneInput) phoneInput.value = state.proxyData.phone || '';
+        if (relationInput) relationInput.value = state.proxyData.relation || '';
+        modal.classList.remove('hidden');
+      });
+    }
+
+    const hide = () => modal && modal.classList.add('hidden');
+    if (closeBtn) closeBtn.addEventListener('click', hide);
+    if (cancelBtn) cancelBtn.addEventListener('click', hide);
+
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        state.proxyData.name = nameInput?.value.trim() || 'Ramesh K.';
+        state.proxyData.phone = phoneInput?.value.replace(/\D/g, '') || '9876543210';
+        state.proxyData.relation = relationInput?.value || 'Volunteer';
+        state.proxyActive = true;
+
+        if (summaryText) {
+          summaryText.textContent = `Filing for ${state.proxyData.name} (${state.proxyData.relation})`;
+        }
+        if (badge) {
+          badge.textContent = 'Active Proxy';
+          badge.className = 'px-2 py-0.5 rounded-full bg-primary text-on-primary font-caption text-caption cursor-pointer hover:opacity-90 transition-opacity';
+        }
+        hide();
+        DR.ui.toast(`Proxy details updated: ${state.proxyData.name}`);
+        saveDraft();
+      });
+    }
+  }
+
+  // 14. Nearest Depot Modal
   function setupDepotModal() {
     const viewBtn = document.getElementById('viewOtherDepotsBtn');
     const modal = document.getElementById('depotModal');
@@ -1874,7 +2682,7 @@
     if (viewBtn && modal) {
       viewBtn.addEventListener('click', () => {
         if (container) {
-          container.innerHTML = state.depotsList.map((d, idx) => `
+          container.innerHTML = state.depotsList.map((d) => `
             <div class="p-3 rounded-xl border border-surface-variant bg-surface-container-lowest flex items-center justify-between gap-2 hover:bg-surface-container cursor-pointer transition-colors" data-depot-id="${d.id}">
               <div class="flex flex-col min-w-0">
                 <span class="font-label-strong text-sm text-on-surface truncate font-bold">${d.name}</span>
@@ -1904,69 +2712,7 @@
     }
   }
 
-  // 13. Proxy Helper Controls
-  function setupProxyControls() {
-    const badge = document.getElementById('activeProxyBadge');
-    const changeBtn = document.getElementById('changeProxyBtn');
-    const modal = document.getElementById('proxyModal');
-    const closeBtn = document.getElementById('closeProxyModalBtn');
-    const cancelBtn = document.getElementById('cancelProxyBtn');
-    const saveBtn = document.getElementById('saveProxyBtn');
-
-    const nameInput = document.getElementById('proxyNameInput');
-    const phoneInput = document.getElementById('proxyPhoneInput');
-    const relationInput = document.getElementById('proxyRelationInput');
-    const summaryText = document.getElementById('proxySummaryText');
-
-    if (badge) {
-      badge.addEventListener('click', () => {
-        state.proxyActive = !state.proxyActive;
-        badge.textContent = state.proxyActive ? 'Active Proxy' : 'Proxy Off';
-        badge.className = state.proxyActive
-          ? 'px-2 py-0.5 rounded-full bg-primary text-on-primary font-caption text-caption cursor-pointer hover:opacity-90'
-          : 'px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-caption text-caption cursor-pointer hover:opacity-90';
-        DR.ui.toast(state.proxyActive ? 'Proxy Filing Active' : 'Proxy Filing Deactivated');
-        saveDraft();
-      });
-    }
-
-    const hide = () => modal && modal.classList.add('hidden');
-    if (closeBtn) closeBtn.addEventListener('click', hide);
-    if (cancelBtn) cancelBtn.addEventListener('click', hide);
-
-    if (changeBtn && modal) {
-      changeBtn.addEventListener('click', () => {
-        if (nameInput) nameInput.value = state.proxyData.name;
-        if (phoneInput) phoneInput.value = state.proxyData.phone;
-        if (relationInput) relationInput.value = state.proxyData.relation;
-        modal.classList.remove('hidden');
-      });
-    }
-
-    if (saveBtn) {
-      saveBtn.addEventListener('click', () => {
-        const cleanName = (nameInput?.value || '').trim() || 'Ramesh K.';
-        const cleanPhone = (phoneInput?.value || '').replace(/\D/g, '') || '9876543210';
-        const cleanRel = relationInput?.value || 'Volunteer / Social Worker';
-
-        state.proxyData.name = cleanName;
-        state.proxyData.phone = cleanPhone;
-        state.proxyData.relation = cleanRel;
-        state.proxyActive = true;
-
-        if (summaryText) summaryText.textContent = `${cleanName} (+91 ${cleanPhone})`;
-        if (badge) {
-          badge.textContent = 'Active Proxy';
-          badge.className = 'px-2 py-0.5 rounded-full bg-primary text-on-primary font-caption text-caption cursor-pointer';
-        }
-        hide();
-        DR.ui.toast(`✓ Proxy details updated: ${cleanName}`);
-        saveDraft();
-      });
-    }
-  }
-
-  // 14. AI Request Helper & Voice Intake
+  // 15. AI Request Helper
   async function runAiAnalysis(text) {
     const calcEl = document.getElementById('aiCalculationResult');
     if (calcEl) calcEl.textContent = 'Analyzing disaster relief requirements with AI...';
@@ -1982,7 +2728,6 @@
         const { parsed, calculation } = json.data;
         if (calcEl) calcEl.textContent = calculation;
 
-        // Auto-fill people
         state.headcount.total = parsed.totalPeople || 4;
         state.headcount.adults = parsed.adults || 2;
         state.headcount.children = parsed.children || 0;
@@ -1990,20 +2735,18 @@
         state.headcount.elderly = parsed.elderly || 0;
         state.headcount.disabled = parsed.disabled || 0;
 
-        // Auto-fill care groups
         state.careGroups.infant = parsed.infants > 0;
         state.careGroups.elderly = parsed.elderly > 0;
         state.careGroups.disabled = parsed.disabled > 0;
 
-        // Auto-fill items
         if (parsed.items) {
-          state.items.water.selected = !!parsed.items.drinkingWater;
-          state.items.food.selected = !!parsed.items.foodKits;
-          state.items.baby.selected = !!parsed.items.babyFormula;
-          state.items.medicine.selected = !!parsed.items.firstAidKit;
-          state.items.blanket.selected = !!parsed.items.blankets;
-          state.items.tent.selected = !!parsed.items.emergencyTents;
-          state.items.sanitation.selected = !!parsed.items.sanitationKit;
+          if (parsed.items.drinkingWater) state.items.water.qty = state.headcount.total * 3;
+          if (parsed.items.foodKits) state.items.food.qty = Math.ceil(state.headcount.total / 4);
+          if (parsed.items.babyFormula) state.items.baby.qty = 1;
+          if (parsed.items.firstAidKit) state.items.medicine.qty = 1;
+          if (parsed.items.blankets) state.items.blanket.qty = state.headcount.total;
+          if (parsed.items.emergencyTents) state.items.tent.qty = 1;
+          if (parsed.items.sanitationKit) state.items.sanitation.qty = 1;
         }
 
         updatePeopleUI();
@@ -2012,8 +2755,7 @@
         DR.ui.toast(`✓ AI analyzed: ${state.headcount.total} people, quotas suggested`);
         saveDraft();
       }
-    } catch(err) {
-      // Local fallback rule-based parser
+    } catch (err) {
       const lower = text.toLowerCase();
       let total = 4;
       const m = lower.match(/(\d+)\s*(family|members|people|person)/);
@@ -2021,8 +2763,10 @@
       state.headcount.total = total;
       state.careGroups.infant = /infant|baby|milk/i.test(lower);
       state.careGroups.elderly = /elderly|senior|bp|pill/i.test(lower);
-      state.items.baby.selected = state.careGroups.infant;
-      state.items.medicine.selected = state.careGroups.elderly;
+      if (state.careGroups.infant) state.items.baby.qty = 1;
+      if (state.careGroups.elderly) state.items.medicine.qty = 1;
+      state.items.water.qty = total * 3;
+      state.items.food.qty = Math.ceil(total / 4);
       updatePeopleUI();
       updateCareUI();
       updateItemsUI();
@@ -2062,7 +2806,7 @@
     }
   }
 
-  // 15. Speech Synthesis & Audio Helpers
+  // 16. Speech Synthesis & Audio Helpers
   function speakText(text) {
     if (!text) return;
     const lang = DR.storage.getLang() || 'hi';
@@ -2077,7 +2821,6 @@
       window.speechSynthesis.speak(utter);
       DR.ui.toast('🔊 Speaking in selected language');
     } else {
-      // Backend TTS fallback
       const audio = new Audio(`${API_BASE}/tts?lang=${lang}&text=${encodeURIComponent(text)}`);
       audio.play().catch(() => {});
       DR.ui.toast('🔊 Playing audio via backend TTS');
@@ -2114,12 +2857,11 @@
     }
   }
 
-  // 16. SOS 112 Confirmation Dialog
+  // 17. SOS 112 Confirmation Dialog
   function setupSosModal() {
     const sosLinks = document.querySelectorAll('a[href="tel:112"], [aria-label="Emergency SOS 112"]');
     const modal = document.getElementById('sosModal');
     const cancelBtn = document.getElementById('cancelSosBtn');
-    const callNowBtn = document.getElementById('sosCallNowBtn');
     const statusMsg = document.getElementById('sosStatusMsg');
 
     sosLinks.forEach(link => {
@@ -2127,7 +2869,6 @@
         e.preventDefault();
         if (modal) modal.classList.remove('hidden');
 
-        // Log SOS call intent to backend
         fetch(`${API_BASE}/sos`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2151,7 +2892,7 @@
     }
   }
 
-  // 17. Top Bar Navigation & Speaker
+  // 18. Top Bar Navigation & Speaker
   function setupTopBar() {
     const backBtn = document.getElementById('topBackBtn');
     const listenBtn = document.getElementById('topListenBtn');
@@ -2186,6 +2927,7 @@
     setupUrgencyControls();
     setupLocationControls();
     setupContactControls();
+    setupReviewControls();
     setupConfirmationControls();
     setupDepotModal();
     setupSosModal();

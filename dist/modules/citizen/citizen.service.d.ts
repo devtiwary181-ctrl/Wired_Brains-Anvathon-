@@ -320,6 +320,34 @@ export declare class CitizenService {
      * Track relief request by high-entropy token — no login required.
      */
     trackRequest(token: string): Promise<{
+        trackingToken: any;
+        district: string;
+        state: string;
+        eocPhone: string;
+        stage: any;
+        stageLabel: string;
+        urgencyLevel: any;
+        deliveryContext: any;
+        headcount: {
+            adults: any;
+            children: number;
+            infants: number;
+            seniors: number;
+            total: any;
+        };
+        timeline: {
+            label: string;
+            completed: boolean;
+            current: boolean;
+            timestamp: any;
+            note: string;
+        }[];
+        itemsRequested?: undefined;
+        etaMinutes?: undefined;
+        deliveredAt?: undefined;
+        createdAt?: undefined;
+        updatedAt?: undefined;
+    } | {
         trackingToken: string;
         district: string;
         state: string;
