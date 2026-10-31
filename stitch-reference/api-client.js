@@ -286,8 +286,8 @@
         zoomControl: options.zoomControl !== false,
       });
 
-      const tileUrl = (this.config && this.config.tileUrl) || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-      const attribution = (this.config && this.config.attribution) || '&copy; OpenStreetMap contributors';
+      const tileUrl = (this.config && this.config.tileUrl) || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+      const attribution = (this.config && this.config.attribution) || '&copy; Esri, OpenStreetMap contributors';
 
       L.tileLayer(tileUrl, {
         maxZoom: 19,

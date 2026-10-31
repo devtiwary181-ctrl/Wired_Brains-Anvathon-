@@ -250,17 +250,17 @@
 </g>
 </svg>
 <!-- Map Floating Controls (Google Maps Platform Ready: Zoom, Crosshair, Map/Sat Toggle) -->
-<div class="absolute right-3 top-3 flex flex-col gap-2 z-10">
-<button aria-label="Toggle Map or Satellite View" class="w-12 h-12 rounded-lg bg-surface-container-lowest text-on-surface shadow-md flex items-center justify-center hover:bg-surface-container active:scale-95 transition-all" id="btnMapSatToggle" title="Map / Satellite View" type="button">
+<div class="absolute right-3 top-3 flex flex-col gap-2 z-[1000]">
+<button aria-label="Toggle Map or Satellite View" class="w-12 h-12 rounded-lg bg-surface-container-lowest text-on-surface shadow-md flex items-center justify-center hover:bg-surface-container active:scale-95 transition-all cursor-pointer" id="btnMapSatToggle" title="Map / Satellite View" type="button">
 <span class="material-symbols-outlined text-[22px]">layers</span>
 </button>
-<button aria-label="Zoom In Map" class="w-12 h-12 rounded-lg bg-surface-container-lowest text-on-surface shadow-md flex items-center justify-center hover:bg-surface-container active:scale-95 transition-all" type="button">
+<button id="btnZoomIn" aria-label="Zoom In Map" class="w-12 h-12 rounded-lg bg-surface-container-lowest text-on-surface shadow-md flex items-center justify-center hover:bg-surface-container active:scale-95 transition-all cursor-pointer" title="Zoom In" type="button">
 <span class="material-symbols-outlined text-[24px]">add</span>
 </button>
-<button aria-label="Zoom Out Map" class="w-12 h-12 rounded-lg bg-surface-container-lowest text-on-surface shadow-md flex items-center justify-center hover:bg-surface-container active:scale-95 transition-all" type="button">
+<button id="btnZoomOut" aria-label="Zoom Out Map" class="w-12 h-12 rounded-lg bg-surface-container-lowest text-on-surface shadow-md flex items-center justify-center hover:bg-surface-container active:scale-95 transition-all cursor-pointer" title="Zoom Out" type="button">
 <span class="material-symbols-outlined text-[24px]">remove</span>
 </button>
-<button aria-label="Center on my location" class="w-12 h-12 rounded-lg bg-primary-container text-on-primary shadow-md flex items-center justify-center hover:opacity-90 active:scale-95 transition-all" type="button">
+<button id="btnRecenter" aria-label="Center on my location" class="w-12 h-12 rounded-lg bg-primary-container text-on-primary shadow-md flex items-center justify-center hover:opacity-90 active:scale-95 transition-all cursor-pointer" title="My Location" type="button">
 <span class="material-symbols-outlined text-[24px]">my_location</span>
 </button>
 </div>
@@ -630,7 +630,7 @@
 </div>
 <!-- Primary Action Container (Thumb-Friendly, Large 54px Minimum Height) -->
 <div class="w-full pt-space-xs flex flex-col gap-space-xs">
-<button aria-label="Proceed to Step 2: Choose my journey" class="w-full min-h-[54px] px-space-lg py-3 rounded-lg bg-primary hover:bg-[#084A82] active:bg-[#063965] text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-space-sm shadow-md transition-all" type="button">
+<button id="btnChooseJourney" aria-label="Proceed to Step 2: Choose my journey" onclick="window.location.href='/routes';" class="w-full min-h-[54px] px-space-lg py-3 rounded-lg bg-primary hover:bg-[#084A82] active:bg-[#063965] text-on-primary font-body-strong text-body-strong flex items-center justify-center gap-space-sm shadow-md transition-all cursor-pointer" type="button">
 <span>Choose my journey (मार्ग चुनें) → Step 2</span>
 <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
 </button>
@@ -694,10 +694,18 @@
     const liveMap = document.createElement('div');
     liveMap.id = 'google-hazard-map';
     liveMap.setAttribute('role', 'application');
-    liveMap.setAttribute('aria-label', 'Google map of reported hazards and hazard polygons');
+    liveMap.setAttribute('aria-label', 'Interactive map of reported hazards and safe zones');
+    liveMap.style.width = '100%';
+    liveMap.style.height = '380px';
+    liveMap.style.minHeight = '380px';
     liveMap.className = 'w-full h-full bg-surface-container-low';
+    mapViewport.style.height = '380px';
+    mapViewport.style.minHeight = '380px';
     const staticSvg = mapViewport.querySelector('svg');
-    if (staticSvg) staticSvg.hidden = true;
+    if (staticSvg) {
+      staticSvg.style.display = 'none';
+      staticSvg.remove();
+    }
     mapViewport.append(liveMap);
     const mapStatus = document.createElement('p');
     mapStatus.className = 'p-2 font-caption text-caption';
@@ -721,48 +729,108 @@
         const L = await DR.maps.load();
         await DR.maps.getConfig();
         const savedLocation = DR.storage.getLocation();
-        const initialCenter = savedLocation.lat != null && savedLocation.lng != null
+        const hasUserLoc = savedLocation.lat != null && savedLocation.lng != null;
+        const initialCenter = hasUserLoc
           ? [savedLocation.lat, savedLocation.lng]
-          : hazards[0]?.coordinates ? [hazards[0].coordinates.lat, hazards[0].coordinates.lng] : [20.5937, 78.9629];
+          : hazards.find(h => h.coordinates?.lat > 20)?.coordinates
+            ? [hazards.find(h => h.coordinates?.lat > 20).coordinates.lat, hazards.find(h => h.coordinates?.lat > 20).coordinates.lng]
+            : [28.6139, 77.2090];
         
         leafletMap = DR.maps.createMap(liveMap, {
           center: initialCenter,
-          zoom: savedLocation.lat != null ? 12 : hazards.length ? 11 : 5,
+          zoom: hasUserLoc ? 13 : 11,
         });
+        window.__drLeafletMap = leafletMap;
+
+        // Auto-fit bounds if we have multiple hazards and no explicit user pin
+        if (!hasUserLoc && hazards.length > 0) {
+          const validCoords = hazards
+            .filter(h => h.coordinates?.lat && h.coordinates?.lng)
+            .map(h => [h.coordinates.lat, h.coordinates.lng]);
+          if (validCoords.length > 0) {
+            try {
+              leafletMap.fitBounds(L.latLngBounds(validCoords), { padding: [40, 40], maxZoom: 13 });
+            } catch {}
+          }
+        }
+
+        setTimeout(() => {
+          if (leafletMap) leafletMap.invalidateSize();
+        }, 200);
 
         // Add user location marker if available
         if (savedLocation.lat != null && savedLocation.lng != null) {
           const userIcon = L.divIcon({
             className: 'dr-user-location-pulse',
-            html: '<div style="background:#0b5fa5;width:16px;height:16px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px #0b5fa5"></div>',
-            iconSize: [16, 16],
-            iconAnchor: [8, 8],
+            html: '<div style="background:#0b5fa5;width:18px;height:18px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px #0b5fa5"></div>',
+            iconSize: [18, 18],
+            iconAnchor: [9, 9],
           });
           L.marker([savedLocation.lat, savedLocation.lng], { icon: userIcon, title: 'Your Current Location' })
             .addTo(leafletMap)
-            .bindPopup('<b>You Are Here</b><br>GPS Location');
+            .bindPopup('<b>You Are Here</b><br>GPS Confirmed Location');
         }
 
-        if (btnMapSatToggle) {
+        // Floating Map Controls: Satellite Mode Toggle
+        const btnSat = document.getElementById('btnMapSatToggle');
+        if (btnSat) {
           let isSat = false;
           let satLayer = null;
-          btnMapSatToggle.addEventListener('click', () => {
+          btnSat.onclick = (e) => {
+            e.stopPropagation();
             isSat = !isSat;
+            btnSat.classList.toggle('bg-primary', isSat);
+            btnSat.classList.toggle('text-white', isSat);
             if (isSat) {
               if (!satLayer) {
-                // ESRI World Imagery (free standard tile layer)
+                // ESRI World Imagery (High-resolution global satellite tiles)
                 satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                  maxZoom: 18,
-                  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+                  maxZoom: 19,
+                  attribution: 'Tiles &copy; Esri, Maxar, Earthstar Geographics',
                 });
               }
               satLayer.addTo(leafletMap);
             } else if (satLayer) {
               leafletMap.removeLayer(satLayer);
             }
-          });
+          };
         }
-        mapStatus.textContent = 'OpenStreetMap & Leaflet • Hazard records from DisasterReady PostGIS API. Empty map coverage is not a safety indication.';
+
+        // Floating Map Controls: Zoom In (+)
+        const btnZoomIn = document.getElementById('btnZoomIn');
+        if (btnZoomIn) {
+          btnZoomIn.onclick = (e) => {
+            e.stopPropagation();
+            leafletMap.zoomIn();
+          };
+        }
+
+        // Floating Map Controls: Zoom Out (-)
+        const btnZoomOut = document.getElementById('btnZoomOut');
+        if (btnZoomOut) {
+          btnZoomOut.onclick = (e) => {
+            e.stopPropagation();
+            leafletMap.zoomOut();
+          };
+        }
+
+        // Floating Map Controls: Recenter on Location (Crosshair)
+        const btnRecenter = document.getElementById('btnRecenter');
+        if (btnRecenter) {
+          btnRecenter.onclick = (e) => {
+            e.stopPropagation();
+            const loc = DR.storage.getLocation();
+            if (loc.lat != null && loc.lng != null) {
+              leafletMap.flyTo([loc.lat, loc.lng], 14, { animate: true, duration: 1.2 });
+            } else if (hazards[0]?.coordinates) {
+              leafletMap.flyTo([hazards[0].coordinates.lat, hazards[0].coordinates.lng], 13, { animate: true, duration: 1.2 });
+            } else {
+              leafletMap.flyTo([20.5937, 78.9629], 5, { animate: true, duration: 1.2 });
+            }
+          };
+        }
+
+        mapStatus.textContent = 'OpenStreetMap & Leaflet • Live hazard records from DisasterReady PostGIS API.';
       } catch (error) {
         mapStatus.textContent = error.message || 'Leaflet map library is unavailable. The live map could not be displayed.';
         liveMap.textContent = mapStatus.textContent;
