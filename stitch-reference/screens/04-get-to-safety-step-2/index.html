@@ -122,6 +122,8 @@
     }
     ::-webkit-scrollbar { display: none; }
   </style>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<script src="../../i18n.js"></script>
 </head>
 <body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen antialiased selection:bg-primary selection:text-white">
 <!-- OFFICIAL GOI / NDMA HEADER -->
@@ -136,7 +138,7 @@
 <div class="flex items-center justify-between">
 <!-- Logo & NDMA GOI Branding -->
 <div class="flex items-center gap-space-sm">
-<div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/ndma-emblem.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div>
+<div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/logo.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div>
 <div class="flex flex-col">
 <div class="flex items-center gap-1">
 <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span>
@@ -966,6 +968,7 @@
       originLat.input.value = savedOrigin.lat;
       originLng.input.value = savedOrigin.lng;
       setOrigin(savedOrigin, 'saved coordinates');
+      loadFacilities();
     }
 
     const modeButtons = Array.from(document.querySelectorAll('main button')).filter(button => /On foot|Two-wheeler|Car \/ Auto|Ambulance \(108\)/i.test(button.textContent));

@@ -124,18 +124,55 @@ html.dark .bg-surface-container-high {
   background-color: #1E2D38 !important;
   color: #F2F6F8 !important;
 }
-/* Ensure Preview state tabs text is dark/black in dark mode as requested */
-html.dark .state-tab-btn {
+/* Ensure Preview state tabs text is dark/black in dark mode with high contrast backgrounds */
+html.dark .state-tab-btn,
+html.dark .state-tab-btn.text-on-surface,
+html.dark .state-tab-btn.text-white {
+  color: #000000 !important;
+  background-color: #E2E8F0 !important;
+  border-color: #CBD5E1 !important;
+}
+html.dark .state-tab-btn span,
+html.dark .state-tab-btn * {
   color: #000000 !important;
 }
-html.dark .state-tab-btn span {
+html.dark .state-tab-btn.active,
+html.dark .state-tab-btn.active.text-white {
+  color: #000000 !important;
+  background-color: #93C5FD !important;
+  border-color: #3B82F6 !important;
+  font-weight: 700 !important;
+}
+html.dark .state-tab-btn.active span,
+html.dark .state-tab-btn.active * {
   color: #000000 !important;
 }
-html.dark .state-tab-btn.active {
+/* Active Alert Card & Status cards in dark mode: High contrast AA */
+html.dark #alertCard.bg-\[\#FCE8E6\] {
+  background-color: #FFEAE8 !important;
+  border-color: #DC2626 !important;
+}
+html.dark #alertCard.bg-\[\#E6F4EC\] {
+  background-color: #E6F4EC !important;
+  border-color: #16A34A !important;
+}
+html.dark #alertCard.bg-\[\#FFF3DC\] {
+  background-color: #FEF3C7 !important;
+  border-color: #D97706 !important;
+}
+html.dark #alertCard.bg-\[\#F5F7FA\] {
+  background-color: #F1F5F9 !important;
+  border-color: #94A3B8 !important;
+}
+html.dark #alertCard h2, 
+html.dark #alertCard p, 
+html.dark #alertCard span:not(.text-white):not(.text-on-error) {
   color: #000000 !important;
 }
-html.dark .state-tab-btn.active span {
-  color: #000000 !important;
+html.dark #alertCard .text-\[\#14212B\],
+html.dark #alertCard .text-\[\#4A5B69\],
+html.dark #alertCard .text-on-surface-variant {
+  color: #111827 !important;
 }
 html.dark .bg-white {
   background-color: #17232D !important;
@@ -168,7 +205,8 @@ html.dark .border-\[\#0B5FA5\]\/30 {
 html.dark header, html.dark nav {
   background-color: rgba(16, 24, 32, 0.95) !important;
 }
-</style></head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen transition-colors duration-200"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/ndma-emblem.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><div class="relative flex items-center">
+</style><link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen transition-colors duration-200"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/logo.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><div class="relative flex items-center">
   <select id="headerLangSelect" aria-label="Change Language" class="min-h-[44px] pl-3 pr-8 bg-surface-container-high text-on-surface rounded-lg font-label-strong text-label-strong hover:bg-surface-variant transition-colors cursor-pointer border border-[#D3DBE3] appearance-none">
     <option value="en">English (English)</option>
     <option value="hi" selected>हिन्दी (Hindi)</option>
@@ -269,8 +307,8 @@ html.dark header, html.dark nav {
 </div>
 <!-- Actions Cluster -->
 <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-<a aria-label="See what to do now and follow evacuation checklist" class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
-<span>See what to do</span>
+<a aria-label="Steps: What to do now and follow evacuation checklist" class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html?hazard=flood">
+<span>Steps: What to do</span>
 <span class="font-label-default text-[15px] opacity-90">(निर्देश देखें)</span>
 <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
 </a>
@@ -662,16 +700,22 @@ html.dark header, html.dark nav {
   let isPlaying = false;
 
   function getAlertTextToSpeak() {
+    // If state is clear or no active alert
+    const clearAlertEl = document.querySelector('.state-tab-btn[data-state="clear"].active');
+    const alertCard = document.getElementById('alertCard');
+    if (clearAlertEl || (alertCard && alertCard.innerText.includes('No Active Alert'))) {
+      return 'No active alert in your area. Your region is currently safe.';
+    }
+
     const heading = document.getElementById('hazard-heading')?.innerText || 'Disaster Alert';
     const container = document.getElementById('alertTextContainer');
     if (container) {
       return container.innerText.replace(/\s+/g, ' ').trim();
     }
-    const currentAlertCard = document.getElementById('alertCard');
-    return currentAlertCard ? currentAlertCard.innerText.replace(/\s+/g, ' ').trim() : heading;
+    return alertCard ? alertCard.innerText.replace(/\s+/g, ' ').trim() : heading;
   }
 
-  function toggleAudio() {
+  async function toggleAudio() {
     isPlaying = !isPlaying;
     const currentTtsBtn = document.getElementById('ttsButton') || document.getElementById('ttsButtonSub');
     const currentTtsLabel = document.getElementById('ttsLabel') || currentTtsBtn?.querySelector('span:last-child');
@@ -684,7 +728,7 @@ html.dark header, html.dark nav {
       const text = getAlertTextToSpeak();
       const lang = window.DisasterReadyAPI?.storage?.getLang() || 'hi';
       if (window.DisasterReadyAPI?.voice) {
-        window.DisasterReadyAPI.voice.speak(text, lang);
+        await window.DisasterReadyAPI.voice.speak(text, lang);
       }
     } else {
       if (currentTtsBtn) currentTtsBtn.classList.remove('bg-[#EBF5FF]', 'border-[#0B5FA5]');
@@ -746,8 +790,8 @@ html.dark header, html.dark nav {
           </div>
         </div>
         <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <a class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
-            <span>See what to do</span>
+          <a class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html?hazard=flood">
+            <span>Steps: What to do</span>
             <span class="font-label-default text-[15px] opacity-90">(निर्देश देखें)</span>
             <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
           </a>
@@ -782,6 +826,17 @@ html.dark header, html.dark nav {
             River discharge is within safe bounds. Keep household emergency kit ready and monitor official bulletins.
           </p>
         </div>
+        <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <a class="min-h-[50px] px-space-md bg-[#1B7F4B] hover:bg-[#15673D] text-white rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
+            <span>Steps: What to do</span>
+            <span class="font-label-default text-[15px] opacity-90">(तैयारी निर्देश)</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </a>
+          <button class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButtonClear" onclick="toggleAlertAudio()" type="button">
+            <span class="material-symbols-outlined text-[20px] text-[#1B7F4B]">volume_up</span>
+            <span>Listen to status (सुनें)</span>
+          </button>
+        </div>
       `,
       bannerText: '<strong>All Clear:</strong> Normal civic surveillance mode • 112 Active.'
     },
@@ -806,6 +861,17 @@ html.dark header, html.dark nav {
             SMS fallback helpline active via <strong>51969</strong>. Safe routes and shelter guidelines remain fully readable without internet.
           </p>
         </div>
+        <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <a class="min-h-[50px] px-space-md bg-[#8A4B00] hover:bg-[#6D3B00] text-white rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
+            <span>Steps: What to do</span>
+            <span class="font-label-default text-[15px] opacity-90">(ऑफलाइन निर्देश)</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </a>
+          <button class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButtonOffline" onclick="toggleAlertAudio()" type="button">
+            <span class="material-symbols-outlined text-[20px] text-[#8A4B00]">volume_up</span>
+            <span>Listen to status (सुनें)</span>
+          </button>
+        </div>
       `,
       bannerText: '<strong>Offline Mode Active:</strong> Reading from secure cached device storage.'
     },
@@ -829,6 +895,17 @@ html.dark header, html.dark nav {
           <p class="font-body-default text-body-default text-[#14212B] mt-1">
             Displaying cached alerts from 35 mins ago. Re-enable location services or select your municipal zone manually.
           </p>
+        </div>
+        <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <a class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-white rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
+            <span>Steps: What to do</span>
+            <span class="font-label-default text-[15px] opacity-90">(तैयारी निर्देश)</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </a>
+          <button class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButtonStale" onclick="toggleAlertAudio()" type="button">
+            <span class="material-symbols-outlined text-[20px] text-[#727782]">volume_up</span>
+            <span>Listen to alert (सुनें)</span>
+          </button>
         </div>
       `,
       bannerText: '<strong>Notice:</strong> Location signal weak. Alerts may be stale.'
@@ -875,18 +952,18 @@ html.dark header, html.dark nav {
     });
   }
 
-  // Switch District Modal & Autocomplete Implementation
+  // Switch District Modal & Autocomplete Implementation (State first, then searchable district list)
   const switchDistrictBtn = document.getElementById('switchDistrictBtn');
   if (switchDistrictBtn) {
-    switchDistrictBtn.addEventListener('click', function () {
+    switchDistrictBtn.addEventListener('click', async function () {
       let modal = document.getElementById('dr-switch-district-modal');
       if (!modal) {
         modal = document.createElement('div');
         modal.id = 'dr-switch-district-modal';
         modal.className = 'fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4';
         modal.innerHTML = `
-          <div class="bg-surface-container-lowest border border-[#D3DBE3] text-on-surface rounded-2xl p-5 max-w-md w-full shadow-2xl flex flex-col gap-4">
-            <div class="flex items-center justify-between border-b border-[#D3DBE3] pb-3">
+          <div class="bg-surface-container-lowest border border-[#D3DBE3] text-on-surface rounded-2xl p-5 max-w-md w-full shadow-2xl flex flex-col gap-3">
+            <div class="flex items-center justify-between border-b border-[#D3DBE3] pb-2">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary text-[24px]">location_on</span>
                 <h3 class="font-headline-sm text-headline-sm text-on-surface">Switch District</h3>
@@ -896,14 +973,28 @@ html.dark header, html.dark nav {
               </button>
             </div>
             <p class="font-caption text-caption text-on-surface-variant">
-              Search by district name or city across India to view local emergency alerts, active safe shelters, and risk maps.
+              Select your state first, then pick or search your district to refresh your dashboard with local emergency alerts.
             </p>
-            <div class="relative flex items-center">
-              <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
-              <input type="text" id="districtModalInput" placeholder="e.g. Bengaluru Urban, Delhi, Wayanad..." class="w-full pl-10 pr-3 py-2.5 bg-surface-container-high text-on-surface rounded-xl border border-[#D3DBE3] focus:outline-none focus:border-primary text-body-default" autofocus />
+
+            <!-- 1. State Selector -->
+            <div class="flex flex-col gap-1">
+              <label for="modalStateSelect" class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">1. Select State / UT</label>
+              <select id="modalStateSelect" class="w-full px-3 py-2 bg-surface-container-high text-on-surface rounded-xl border border-[#D3DBE3] focus:outline-none focus:border-primary text-body-default">
+                <option value="">-- All States / India --</option>
+              </select>
             </div>
-            <div id="districtModalResults" class="max-h-60 overflow-y-auto flex flex-col gap-1.5 no-scrollbar">
-              <p class="text-xs text-on-surface-variant text-center py-4">Type at least 2 characters to search districts...</p>
+
+            <!-- 2. Searchable District List -->
+            <div class="flex flex-col gap-1">
+              <label for="districtModalInput" class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">2. Search or Choose District</label>
+              <div class="relative flex items-center">
+                <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
+                <input type="text" id="districtModalInput" placeholder="Type district name (e.g. Bengaluru, Wayanad)..." class="w-full pl-10 pr-3 py-2 bg-surface-container-high text-on-surface rounded-xl border border-[#D3DBE3] focus:outline-none focus:border-primary text-body-default" />
+              </div>
+            </div>
+
+            <div id="districtModalResults" class="max-h-56 overflow-y-auto flex flex-col gap-1.5 no-scrollbar border border-[#D3DBE3] rounded-xl p-2 bg-surface-container-low">
+              <p class="text-xs text-on-surface-variant text-center py-4">Loading districts...</p>
             </div>
           </div>
         `;
@@ -916,75 +1007,113 @@ html.dark header, html.dark nav {
           if (e.target === modal) modal.classList.add('hidden');
         });
 
+        const stateSelect = modal.querySelector('#modalStateSelect');
         const input = modal.querySelector('#districtModalInput');
         const results = modal.querySelector('#districtModalResults');
-        let debounceTimer;
 
-        input.addEventListener('input', () => {
-          clearTimeout(debounceTimer);
-          const q = input.value.trim();
-          if (q.length < 2) {
-            results.innerHTML = '<p class="text-xs text-on-surface-variant text-center py-4">Type at least 2 characters to search districts...</p>';
+        // Populate states
+        try {
+          const states = await window.DisasterReadyAPI.geo.getStates();
+          if (Array.isArray(states)) {
+            states.forEach(st => {
+              const opt = document.createElement('option');
+              opt.value = st;
+              opt.textContent = st;
+              stateSelect.appendChild(opt);
+            });
+          }
+        } catch (_) {}
+
+        const renderDistricts = (matches) => {
+          if (!matches || !matches.length) {
+            results.innerHTML = `<p class="text-xs text-on-surface-variant text-center py-4">No matching districts found.</p>`;
             return;
           }
+          results.innerHTML = '';
+          matches.forEach((d) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'w-full text-left p-2.5 rounded-lg bg-surface-container-lowest hover:bg-primary-container hover:text-white transition-colors flex items-center justify-between text-[14px] border border-[#D3DBE3]/50';
+            btn.innerHTML = `
+              <div class="flex flex-col">
+                <span class="font-label-strong">${d.name || d.district}</span>
+                <span class="text-[11px] opacity-75">${d.state || 'India'}</span>
+              </div>
+              <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            `;
+            btn.addEventListener('click', () => {
+              const districtName = d.name || d.district;
+              const stateName = d.state || '';
 
-          debounceTimer = setTimeout(async () => {
-            results.innerHTML = '<p class="text-xs text-on-surface-variant text-center py-4">Searching administrative districts...</p>';
-            try {
-              let matches = [];
-              if (window.DisasterReadyAPI?.geo?.searchDistricts) {
-                matches = await window.DisasterReadyAPI.geo.searchDistricts(q);
-              }
-              if (!matches.length && window.DisasterReadyAPI?.geo?.searchPlaces) {
-                matches = await window.DisasterReadyAPI.geo.searchPlaces(q).catch(() => []);
-              }
-
-              if (!matches.length) {
-                results.innerHTML = `<p class="text-xs text-on-surface-variant text-center py-4">No matching districts found for "${q}".</p>`;
-                return;
-              }
-
-              results.innerHTML = '';
-              matches.forEach((d) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'w-full text-left p-2.5 rounded-lg bg-surface-container hover:bg-primary-container hover:text-white transition-colors flex items-center justify-between text-[14px]';
-                btn.innerHTML = `
-                  <div class="flex flex-col">
-                    <span class="font-label-strong">${d.name || d.district}</span>
-                    <span class="text-[11px] opacity-75">${d.state || 'India'}</span>
-                  </div>
-                  <span class="material-symbols-outlined text-[18px]">chevron_right</span>
-                `;
-                btn.addEventListener('click', () => {
-                  window.DisasterReadyAPI.storage.setDistrict({
-                    id: d.id,
-                    districtId: d.id,
-                    name: d.name || d.district,
-                    district: d.name || d.district,
-                    state: d.state
-                  });
-                  window.DisasterReadyAPI.storage.setLocationLabel(`${d.name || d.district}, ${d.state || ''}`);
-                  if (d.coordinates?.lat && d.coordinates?.lng) {
-                    window.DisasterReadyAPI.storage.setLocation(d.coordinates.lat, d.coordinates.lng);
-                  }
-                  if (window.DisasterReadyAPI?.ui?.toast) {
-                    window.DisasterReadyAPI.ui.toast(`District switched to ${d.name || d.district}, ${d.state || ''}`);
-                  }
-                  modal.classList.add('hidden');
-                  // Reload dashboard to fetch district alerts
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 400);
-                });
-                results.appendChild(btn);
+              // Persist to storage & profile
+              window.DisasterReadyAPI.storage.setDistrict({
+                id: d.id,
+                districtId: d.id,
+                name: districtName,
+                district: districtName,
+                state: stateName
               });
-            } catch (err) {
-              results.innerHTML = '<p class="text-xs text-error text-center py-4">Unable to connect to district registry. Try again.</p>';
-            }
-          }, 250);
+              try {
+                localStorage.setItem('dr_district', districtName);
+                localStorage.setItem('dr_citizen_district', districtName);
+                localStorage.setItem('dr_district_id', d.id);
+                localStorage.setItem('dr_district_code', d.code || '');
+              } catch (_) {}
+
+              window.DisasterReadyAPI.storage.setLocationLabel(`${districtName}, ${stateName}`);
+              if (d.coordinates?.lat && d.coordinates?.lng) {
+                window.DisasterReadyAPI.storage.setLocation(d.coordinates.lat, d.coordinates.lng);
+              }
+
+              // Update district name on page immediately
+              document.querySelectorAll('[data-district-name], #currentDistrictName, #districtLabel').forEach(el => {
+                el.textContent = districtName;
+              });
+
+              if (window.DisasterReadyAPI?.ui?.toast) {
+                window.DisasterReadyAPI.ui.toast(`District switched to ${districtName}, ${stateName}`);
+              }
+              modal.classList.add('hidden');
+
+              // Refresh whole dashboard without full page break if loadData is available, or smooth reload
+              if (typeof window.refreshDashboardData === 'function') {
+                window.refreshDashboardData(d.id);
+              } else {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 300);
+              }
+            });
+            results.appendChild(btn);
+          });
+        };
+
+        const loadDistricts = async () => {
+          results.innerHTML = '<p class="text-xs text-on-surface-variant text-center py-4">Searching administrative districts...</p>';
+          try {
+            const selectedState = stateSelect.value;
+            const query = input.value.trim();
+            const matches = await window.DisasterReadyAPI.geo.searchDistricts(query, selectedState);
+            renderDistricts(matches);
+          } catch (err) {
+            results.innerHTML = '<p class="text-xs text-error text-center py-4">Unable to connect to district registry. Try again.</p>';
+          }
+        };
+
+        let debounceTimer;
+        input.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(loadDistricts, 250);
         });
+
+        stateSelect.addEventListener('change', () => {
+          loadDistricts();
+        });
+
+        // Initial load for modal
+        loadDistricts();
       }
+
       modal.classList.remove('hidden');
       const input = modal.querySelector('#districtModalInput');
       if (input) {

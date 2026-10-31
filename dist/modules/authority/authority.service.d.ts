@@ -365,6 +365,9 @@ export declare class AuthorityService {
         address: string;
         inChargeName: string | null;
         isVerified: boolean;
+        hasWheelchairRamp: boolean;
+        hasWomenWing: boolean;
+        hazardSuitability: Prisma.JsonValue | null;
         operatingStatus: string;
     }[]>;
     createFacility(user: AuthenticatedUser, data: {
@@ -402,6 +405,9 @@ export declare class AuthorityService {
         address: string;
         inChargeName: string | null;
         isVerified: boolean;
+        hasWheelchairRamp: boolean;
+        hasWomenWing: boolean;
+        hazardSuitability: Prisma.JsonValue | null;
         operatingStatus: string;
     }>;
     updateFacility(user: AuthenticatedUser, facilityId: string, data: {
@@ -437,6 +443,9 @@ export declare class AuthorityService {
         address: string;
         inChargeName: string | null;
         isVerified: boolean;
+        hasWheelchairRamp: boolean;
+        hasWomenWing: boolean;
+        hazardSuitability: Prisma.JsonValue | null;
         operatingStatus: string;
     }>;
     listReliefRequests(user: AuthenticatedUser, stage?: string): Promise<({

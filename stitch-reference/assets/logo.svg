@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Background Shield Gradient: Deep Navy/Institutional Blue -->
+    <linearGradient id="drShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#072b4a" />
+      <stop offset="50%" stop-color="#0B5FA5" />
+      <stop offset="100%" stop-color="#001d36" />
+    </linearGradient>
+
+    <!-- Saffron / Gold Sun Accent Gradient -->
+    <linearGradient id="drGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFB300" />
+      <stop offset="50%" stop-color="#FF9933" />
+      <stop offset="100%" stop-color="#E65100" />
+    </linearGradient>
+
+    <!-- Water Wave Gradient: Resilient Pure Cyan / Blue -->
+    <linearGradient id="drWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="drDropShadow" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Protective Outer Shield Body -->
+  <path d="M50 6 L88 19 C88 52 72 79 50 94 C28 79 12 52 12 19 Z" 
+        fill="url(#drShieldGrad)" 
+        stroke="#FFFFFF" 
+        stroke-width="3" 
+        stroke-linejoin="round"
+        filter="url(#drDropShadow)"/>
+
+  <!-- 2. Inner Shield Contour Line (Saffron) -->
+  <path d="M50 11.5 L83 23 C83 50.5 69 74.5 50 88 C31 74.5 17 50.5 17 23 Z" 
+        fill="none" 
+        stroke="#FF9933" 
+        stroke-width="1.8" 
+        stroke-opacity="0.9"/>
+
+  <!-- 3. Alert Bell & Star of Alertness at Top Center -->
+  <!-- Bell Body -->
+  <g transform="translate(0, -1)">
+    <!-- Bell Dome / Flare -->
+    <path d="M50 20 C43 20 40 26 39 34 L36 41 C34.5 44 37 46 41 46 L59 46 C63 46 65.5 44 64 41 L61 34 C60 26 57 20 50 20 Z" 
+          fill="url(#drGoldGrad)" 
+          stroke="#FFFFFF" 
+          stroke-width="1.2"/>
+    <!-- Bell Top Ring Handle -->
+    <circle cx="50" cy="18" r="3.2" fill="none" stroke="#FF9933" stroke-width="1.6"/>
+    <!-- Bell Clapper -->
+    <circle cx="50" cy="48" r="3" fill="#FFE082" stroke="#E65100" stroke-width="1"/>
+    <!-- Bell Sound / Vigilance Radiations -->
+    <path d="M33 30 C30 33 30 38 33 41" fill="none" stroke="#FFE082" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M67 30 C70 33 70 38 67 41" fill="none" stroke="#FFE082" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- 4. Water Wave / Flood Surge Shield (Bottom Half, representing flood readiness) -->
+  <g>
+    <!-- Background Deeper Wave -->
+    <path d="M22 62 C30 57 38 66 50 61 C62 56 70 65 78 60 C75 69 68 77 50 86 C32 77 25 69 22 62 Z" 
+          fill="#0369A1" 
+          opacity="0.7"/>
+    <!-- Foreground Crisp Wave -->
+    <path d="M20 67 C30 61 40 70 50 65 C60 60 70 69 80 64 C76 72 67 80 50 87 C33 80 24 72 20 67 Z" 
+          fill="url(#drWaveGrad)" 
+          opacity="0.95"/>
+    <path d="M24 71 C32 67 40 73 50 69 C60 65 68 73 76 69" 
+          fill="none" 
+          stroke="#FFFFFF" 
+          stroke-width="1.2" 
+          stroke-linecap="round" 
+          opacity="0.8"/>
+  </g>
+
+  <!-- 5. Emergency Location Pin with Central Eye at Hub (Center Focus) -->
+  <g transform="translate(50, 52)">
+    <!-- Location Pin Pinhead Outer -->
+    <path d="M0 -15 C-6 -15 -10 -10 -10 -4 C-10 4 0 14 0 14 C0 14 10 4 10 -4 C10 -10 6 -15 0 -15 Z" 
+          fill="#EF4444" 
+          stroke="#FFFFFF" 
+          stroke-width="1.5" 
+          filter="url(#drDropShadow)"/>
+    <!-- Central Location Beacon Core (Water droplet / white hub) -->
+    <circle cx="0" cy="-5" r="3.8" fill="#FFFFFF"/>
+    <circle cx="0" cy="-5" r="1.8" fill="#0B5FA5"/>
+  </g>
+</svg>
+

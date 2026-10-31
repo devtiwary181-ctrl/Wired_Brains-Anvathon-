@@ -16,9 +16,13 @@ export declare class CitizenService {
         timestamp: string;
     }>;
     /**
-     * Search districts / cities / landmarks by free-text query.
+     * Get all distinct states for state-first district selector.
      */
-    searchDistricts(query: string): Promise<{
+    getStates(): Promise<string[]>;
+    /**
+     * Search districts / cities / landmarks by free-text query or state.
+     */
+    searchDistricts(query?: string, state?: string): Promise<{
         id: string;
         name: string;
         code: string;
@@ -88,35 +92,38 @@ export declare class CitizenService {
             disclaimer: string;
         }[];
         nearestShelters: {
-            id: string;
-            name: string;
-            facilityType: string;
-            address: string;
+            id: any;
+            name: any;
+            facilityType: any;
+            address: any;
             coordinates: {
-                lat: number;
-                lng: number;
+                lat: any;
+                lng: any;
             };
-            contactPhone: string | null;
-            inChargeName: string | null;
-            totalCapacity: number | null;
-            currentOccupancy: number | null;
+            contactPhone: any;
+            inChargeName: any;
+            totalCapacity: any;
+            currentOccupancy: any;
             availableBeds: number | null;
             capacitySource: string;
             services: {
-                medical: boolean | null;
-                generatorPower: boolean | null;
-                drinkingWater: boolean | null;
-                infantCare: boolean | null;
-                petFriendly: boolean | null;
+                medical: any;
+                generatorPower: any;
+                drinkingWater: any;
+                infantCare: any;
+                petFriendly: any;
+                wheelchairRamp: any;
+                womenWing: any;
             };
+            hazardSuitability: any;
             dataQuality: {
                 unknownFields: ("contactPhone" | "totalCapacity" | "currentOccupancy" | "hasMedicalSupport" | "hasGeneratorPower" | "hasDrinkingWater" | "hasInfantCare" | "isPetFriendly")[];
                 stale: boolean;
             };
-            isVerified: boolean;
-            operatingStatus: string;
+            isVerified: any;
+            operatingStatus: any;
             distanceKm: number | null;
-            lastUpdated: Date;
+            lastUpdated: any;
             source: string;
         }[];
         announcements: {
@@ -228,40 +235,48 @@ export declare class CitizenService {
         lat?: number;
         lng?: number;
         radiusKm?: number;
+        hazard?: string;
+        facilities?: string;
         hasMedical?: boolean;
         hasInfantCare?: boolean;
         hasPower?: boolean;
         hasDrinkingWater?: boolean;
+        hasWheelchairRamp?: boolean;
+        hasWomenWing?: boolean;
+        isPetFriendly?: boolean;
     }): Promise<{
-        id: string;
-        name: string;
-        facilityType: string;
-        address: string;
+        id: any;
+        name: any;
+        facilityType: any;
+        address: any;
         coordinates: {
-            lat: number;
-            lng: number;
+            lat: any;
+            lng: any;
         };
-        contactPhone: string | null;
-        inChargeName: string | null;
-        totalCapacity: number | null;
-        currentOccupancy: number | null;
+        contactPhone: any;
+        inChargeName: any;
+        totalCapacity: any;
+        currentOccupancy: any;
         availableBeds: number | null;
         capacitySource: string;
         services: {
-            medical: boolean | null;
-            generatorPower: boolean | null;
-            drinkingWater: boolean | null;
-            infantCare: boolean | null;
-            petFriendly: boolean | null;
+            medical: any;
+            generatorPower: any;
+            drinkingWater: any;
+            infantCare: any;
+            petFriendly: any;
+            wheelchairRamp: any;
+            womenWing: any;
         };
+        hazardSuitability: any;
         dataQuality: {
             unknownFields: ("contactPhone" | "totalCapacity" | "currentOccupancy" | "hasMedicalSupport" | "hasGeneratorPower" | "hasDrinkingWater" | "hasInfantCare" | "isPetFriendly")[];
             stale: boolean;
         };
-        isVerified: boolean;
-        operatingStatus: string;
+        isVerified: any;
+        operatingStatus: any;
         distanceKm: number | null;
-        lastUpdated: Date;
+        lastUpdated: any;
         source: string;
     }[]>;
     /**

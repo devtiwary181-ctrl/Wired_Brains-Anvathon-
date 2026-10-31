@@ -239,6 +239,9 @@ model Facility {
   hasDrinkingWater  Boolean  @default(true) @map("has_drinking_water")
   hasInfantCare     Boolean  @default(false) @map("has_infant_care")
   isPetFriendly     Boolean  @default(false) @map("is_pet_friendly")
+  hasWheelchairRamp Boolean  @default(false) @map("has_wheelchair_ramp")
+  hasWomenWing      Boolean  @default(false) @map("has_women_wing")
+  hazardSuitability Json?    @map("hazard_suitability") // e.g. ["flood", "cyclone", "earthquake", "fire", "landslide"]
   operatingStatus   String   @default("OPERATIONAL") @map("operating_status") // 'OPERATIONAL', 'FILLING_UP', 'FULL', 'DAMAGED_CLOSED'
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
 

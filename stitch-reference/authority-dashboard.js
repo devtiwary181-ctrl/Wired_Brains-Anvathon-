@@ -396,6 +396,12 @@
   }
 
   async function refresh() {
+    const staffToken = sessionStorage.getItem('dr_staff_token');
+    if (!staffToken) {
+      message.textContent = 'Staff sign-in required. Please authenticate at Staff Login (/screens/13-staff-login) to view live operations.';
+      message.className = 'font-caption text-caption text-primary p-2 bg-primary-fixed/20 rounded-lg';
+      return;
+    }
     metricGrid.replaceChildren();
     facilityStatus.replaceChildren();
     inventory.replaceChildren();

@@ -107,6 +107,9 @@ const routeRiskCheckSchema = z.object({
 // ---------------------------------------------------------------------------
 // Screen 01 — Language & Location Onboarding
 // ---------------------------------------------------------------------------
+citizenRouter.get('/geo/states', publicRateLimiter, (req, res, next) =>
+  citizenController.getStates(req, res, next),
+);
 citizenRouter.get('/geo/reverse-geocode', publicRateLimiter, (req, res, next) =>
   citizenController.reverseGeocode(req, res, next),
 );

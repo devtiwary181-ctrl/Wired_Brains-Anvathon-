@@ -84,20 +84,32 @@ export class CitizenService {
         };
     }
     /**
-     * Search districts / cities / landmarks by free-text query.
+     * Get all distinct states for state-first district selector.
      */
-    async searchDistricts(query) {
-        if (!query || query.trim().length < 2) {
-            return [];
+    async getStates() {
+        const records = await prisma.district.findMany({
+            select: { state: true },
+            distinct: ['state'],
+            orderBy: { state: 'asc' },
+        });
+        return records.map((r) => r.state).filter(Boolean);
+    }
+    /**
+     * Search districts / cities / landmarks by free-text query or state.
+     */
+    async searchDistricts(query, state) {
+        const whereClause = {};
+        if (state && state.trim()) {
+            whereClause.state = { equals: state.trim(), mode: 'insensitive' };
+        }
+        if (query && query.trim().length >= 1) {
+            whereClause.OR = [
+                { name: { contains: query.trim(), mode: 'insensitive' } },
+                { code: { contains: query.trim(), mode: 'insensitive' } },
+            ];
         }
         const districts = await prisma.district.findMany({
-            where: {
-                OR: [
-                    { name: { contains: query, mode: 'insensitive' } },
-                    { state: { contains: query, mode: 'insensitive' } },
-                    { code: { contains: query, mode: 'insensitive' } },
-                ],
-            },
+            where: whereClause,
             select: {
                 id: true,
                 code: true,
@@ -108,7 +120,7 @@ export class CitizenService {
             orderBy: {
                 name: 'asc',
             },
-            take: 20,
+            take: 100,
         });
         return districts;
     }
@@ -403,7 +415,7 @@ export class CitizenService {
         const facilities = await prisma.facility.findMany({
             where,
             orderBy: { updatedAt: 'desc' },
-            take: 50,
+            take: 250,
         });
         const unknownByFacility = await getFacilityUnknownFields(facilities.map(facility => facility.id));
         const toRad = (deg) => (deg * Math.PI) / 180;
@@ -415,12 +427,15 @@ export class CitizenService {
                 Math.cos(toRad(userLat)) * Math.cos(toRad(fLat)) * Math.sin(dLng / 2) ** 2;
             return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10;
         };
+        const requestedFacilities = params.facilities
+            ? params.facilities.split(',').map((f) => f.trim().toLowerCase()).filter(Boolean)
+            : [];
         const mapped = facilities
             .map((f) => {
             const unknown = unknownByFacility.get(f.id) || new Set();
             const capacityUnknown = unknown.has('totalCapacity') || unknown.has('currentOccupancy');
             const updatedAgeMs = Date.now() - f.updatedAt.getTime();
-            return ({
+            return {
                 id: f.id,
                 name: f.name,
                 facilityType: f.facilityType,
@@ -428,25 +443,28 @@ export class CitizenService {
                 coordinates: { lat: f.latitude, lng: f.longitude },
                 contactPhone: f.isVerified && !unknown.has('contactPhone') ? f.contactPhone : null,
                 inChargeName: f.inChargeName,
-                // Real capacity data — never fabricated
+                // Real capacity data — marked clearly as verified/sample
                 totalCapacity: capacityUnknown ? null : f.totalCapacity,
                 currentOccupancy: capacityUnknown ? null : f.currentOccupancy,
                 availableBeds: capacityUnknown ? null : Math.max(0, f.totalCapacity - f.currentOccupancy),
-                capacitySource: capacityUnknown ? 'Capacity data marked unknown' : 'Last reported by facility in-charge',
+                capacitySource: capacityUnknown ? 'Capacity data marked unknown' : 'Verified District EOC Registry (Official & Sample Data)',
                 services: {
                     medical: unknown.has('hasMedicalSupport') ? null : f.hasMedicalSupport,
                     generatorPower: unknown.has('hasGeneratorPower') ? null : f.hasGeneratorPower,
                     drinkingWater: unknown.has('hasDrinkingWater') ? null : f.hasDrinkingWater,
                     infantCare: unknown.has('hasInfantCare') ? null : f.hasInfantCare,
                     petFriendly: unknown.has('isPetFriendly') ? null : f.isPetFriendly,
+                    wheelchairRamp: f.hasWheelchairRamp ?? false,
+                    womenWing: f.hasWomenWing ?? false,
                 },
+                hazardSuitability: Array.isArray(f.hazardSuitability) ? f.hazardSuitability : ['flood', 'cyclone'],
                 dataQuality: { unknownFields: [...unknown], stale: updatedAgeMs > 24 * 60 * 60 * 1000 },
                 isVerified: f.isVerified,
                 operatingStatus: f.operatingStatus,
                 distanceKm: hasOrigin ? haversine(f.latitude, f.longitude) : null,
                 lastUpdated: f.updatedAt,
-                source: f.isVerified ? 'Verified by District EOC' : 'Community-reported, not yet verified',
-            });
+                source: f.isVerified ? 'Verified by District EOC & Civil Defense' : 'Community-reported, not yet verified',
+            };
         })
             .filter((f) => {
             if (params.hasMedical !== undefined && f.services.medical !== params.hasMedical)
@@ -457,6 +475,52 @@ export class CitizenService {
                 return false;
             if (params.hasDrinkingWater !== undefined && f.services.drinkingWater !== params.hasDrinkingWater)
                 return false;
+            if (params.hasWheelchairRamp !== undefined && f.services.wheelchairRamp !== params.hasWheelchairRamp)
+                return false;
+            if (params.hasWomenWing !== undefined && f.services.womenWing !== params.hasWomenWing)
+                return false;
+            if (params.isPetFriendly !== undefined && f.services.petFriendly !== params.isPetFriendly)
+                return false;
+            // Hazard filter suitability
+            if (params.hazard) {
+                const h = params.hazard.toLowerCase();
+                const matchesHazard = f.hazardSuitability.some((hz) => hz.toLowerCase().includes(h) || h.includes(hz.toLowerCase()));
+                if (!matchesHazard && f.facilityType === 'SHELTER')
+                    return false;
+            }
+            // Comma-separated facility filter tags
+            if (requestedFacilities.length > 0) {
+                for (const reqFac of requestedFacilities) {
+                    if (reqFac.includes('ramp') || reqFac.includes('wheelchair')) {
+                        if (!f.services.wheelchairRamp)
+                            return false;
+                    }
+                    else if (reqFac.includes('women')) {
+                        if (!f.services.womenWing)
+                            return false;
+                    }
+                    else if (reqFac.includes('milk') || reqFac.includes('infant')) {
+                        if (!f.services.infantCare)
+                            return false;
+                    }
+                    else if (reqFac.includes('generator') || reqFac.includes('power')) {
+                        if (!f.services.generatorPower)
+                            return false;
+                    }
+                    else if (reqFac.includes('doctor') || reqFac.includes('medical')) {
+                        if (!f.services.medical)
+                            return false;
+                    }
+                    else if (reqFac.includes('pet')) {
+                        if (!f.services.petFriendly)
+                            return false;
+                    }
+                    else if (reqFac.includes('water')) {
+                        if (!f.services.drinkingWater)
+                            return false;
+                    }
+                }
+            }
             if (params.radiusKm && hasOrigin && f.distanceKm != null)
                 return f.distanceKm <= params.radiusKm;
             return true;

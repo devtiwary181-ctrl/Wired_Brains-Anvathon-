@@ -69,13 +69,23 @@ export class CitizenController {
     }
   }
 
+  async getStates(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await citizenService.getStates();
+      res.status(200).json({ success: true, data: result });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async searchDistricts(req: Request, res: Response, next: NextFunction) {
     try {
       const q = ((req.query.q as string) || '').trim();
-      if (q.length < 2) {
+      const state = ((req.query.state as string) || '').trim();
+      if (!q && !state) {
         return res.status(200).json({ success: true, data: [] });
       }
-      const result = await citizenService.searchDistricts(q);
+      const result = await citizenService.searchDistricts(q, state);
       res.status(200).json({ success: true, data: result });
     } catch (e) {
       next(e);
@@ -177,8 +187,22 @@ export class CitizenController {
   async getFacilities(req: Request, res: Response, next: NextFunction) {
     try {
       const query = res.locals.validatedQuery ?? req.query;
-      const { districtId, facilityType, lat, lng, radiusKm, hasMedical, hasInfantCare, hasPower, hasDrinkingWater } =
-        query;
+      const {
+        districtId,
+        facilityType,
+        lat,
+        lng,
+        radiusKm,
+        hazard,
+        facilities,
+        hasMedical,
+        hasInfantCare,
+        hasPower,
+        hasDrinkingWater,
+        hasWheelchairRamp,
+        hasWomenWing,
+        isPetFriendly,
+      } = query;
 
       const result = await citizenService.getFacilities({
         districtId: districtId as string | undefined,
@@ -186,10 +210,15 @@ export class CitizenController {
         lat: lat ? parseFloat(lat as string) : undefined,
         lng: lng ? parseFloat(lng as string) : undefined,
         radiusKm: radiusKm ? parseFloat(radiusKm as string) : undefined,
+        hazard: hazard as string | undefined,
+        facilities: facilities as string | undefined,
         hasMedical: hasMedical !== undefined ? hasMedical === 'true' : undefined,
         hasInfantCare: hasInfantCare !== undefined ? hasInfantCare === 'true' : undefined,
         hasPower: hasPower !== undefined ? hasPower === 'true' : undefined,
         hasDrinkingWater: hasDrinkingWater !== undefined ? hasDrinkingWater === 'true' : undefined,
+        hasWheelchairRamp: hasWheelchairRamp !== undefined ? hasWheelchairRamp === 'true' : undefined,
+        hasWomenWing: hasWomenWing !== undefined ? hasWomenWing === 'true' : undefined,
+        isPetFriendly: isPetFriendly !== undefined ? isPetFriendly === 'true' : undefined,
       });
 
       res.status(200).json({ success: true, data: result });

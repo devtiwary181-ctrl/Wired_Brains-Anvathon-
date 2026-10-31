@@ -10,6 +10,7 @@ export declare class CitizenController {
     searchPlaces(req: Request, res: Response, next: NextFunction): Promise<void>;
     mapsConfig(_req: Request, res: Response, next: NextFunction): Promise<void>;
     reverseGeocode(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined>;
+    getStates(req: Request, res: Response, next: NextFunction): Promise<void>;
     searchDistricts(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined>;
     getDashboard(req: Request, res: Response, next: NextFunction): Promise<void>;
     getActiveAlerts(req: Request, res: Response, next: NextFunction): Promise<void>;

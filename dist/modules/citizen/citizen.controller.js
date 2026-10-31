@@ -58,13 +58,23 @@ export class CitizenController {
             next(e);
         }
     }
+    async getStates(req, res, next) {
+        try {
+            const result = await citizenService.getStates();
+            res.status(200).json({ success: true, data: result });
+        }
+        catch (e) {
+            next(e);
+        }
+    }
     async searchDistricts(req, res, next) {
         try {
             const q = (req.query.q || '').trim();
-            if (q.length < 2) {
+            const state = (req.query.state || '').trim();
+            if (!q && !state) {
                 return res.status(200).json({ success: true, data: [] });
             }
-            const result = await citizenService.searchDistricts(q);
+            const result = await citizenService.searchDistricts(q, state);
             res.status(200).json({ success: true, data: result });
         }
         catch (e) {
@@ -153,17 +163,22 @@ export class CitizenController {
     async getFacilities(req, res, next) {
         try {
             const query = res.locals.validatedQuery ?? req.query;
-            const { districtId, facilityType, lat, lng, radiusKm, hasMedical, hasInfantCare, hasPower, hasDrinkingWater } = query;
+            const { districtId, facilityType, lat, lng, radiusKm, hazard, facilities, hasMedical, hasInfantCare, hasPower, hasDrinkingWater, hasWheelchairRamp, hasWomenWing, isPetFriendly, } = query;
             const result = await citizenService.getFacilities({
                 districtId: districtId,
                 facilityType: facilityType,
                 lat: lat ? parseFloat(lat) : undefined,
                 lng: lng ? parseFloat(lng) : undefined,
                 radiusKm: radiusKm ? parseFloat(radiusKm) : undefined,
+                hazard: hazard,
+                facilities: facilities,
                 hasMedical: hasMedical !== undefined ? hasMedical === 'true' : undefined,
                 hasInfantCare: hasInfantCare !== undefined ? hasInfantCare === 'true' : undefined,
                 hasPower: hasPower !== undefined ? hasPower === 'true' : undefined,
                 hasDrinkingWater: hasDrinkingWater !== undefined ? hasDrinkingWater === 'true' : undefined,
+                hasWheelchairRamp: hasWheelchairRamp !== undefined ? hasWheelchairRamp === 'true' : undefined,
+                hasWomenWing: hasWomenWing !== undefined ? hasWomenWing === 'true' : undefined,
+                isPetFriendly: isPetFriendly !== undefined ? isPetFriendly === 'true' : undefined,
             });
             res.status(200).json({ success: true, data: result });
         }

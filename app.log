@@ -1,12 +1,113 @@
-
-> anvathon@1.0.0 dev
-> tsx watch src/server.ts
-
 ◇ injected env (15) from .env
-[2026-10-31 09:22:50.027 +0530] [32mINFO[39m: [36mBullMQ Emergency Queues Initialized[39m
-[2026-10-31 09:22:50.088 +0530] [32mINFO[39m: [36m🚨 DisasterReady India Core API running on port 5001 [development][39m
-[2026-10-31 09:22:50.088 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
-[2026-10-31 09:22:50.088 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
-[2026-10-31 09:22:50.092 +0530] [32mINFO[39m: [36mConnected to Redis[39m
-[0mGET /api/v1/health [32m200[0m 0.968 ms - 132[0m
-[0mHEAD / [32m200[0m 0.990 ms - 44943[0m
+[2026-10-31 09:32:43.240 +0530] [32mINFO[39m: [36mBullMQ Emergency Queues Initialized[39m
+[2026-10-31 09:32:43.268 +0530] [32mINFO[39m: [36m🚨 DisasterReady India Core API running on port 5001 [development][39m
+[2026-10-31 09:32:43.268 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
+[2026-10-31 09:32:43.268 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
+[2026-10-31 09:32:43.270 +0530] [32mINFO[39m: [36mConnected to Redis[39m
+[0mHEAD /api/v1/tts?text=namaste&lang=hi [32m200[0m 194.766 ms - 54784[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 188.940 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 154.781 ms - 47872[0m
+[0mGET /api/v1/tts?text=namaste&lang=hi [32m200[0m 174.910 ms - 54784[0m
+[0mGET /screens/03-get-to-safety-step-1/index.html [32m200[0m 1.832 ms - 71579[0m
+[0mGET /assets/logo.svg [32m200[0m 3.386 ms - 3846[0m
+[0mGET /api-client.js [32m200[0m 1.705 ms - 66385[0m
+[0mGET /favicon.ico [36m304[0m 0.700 ms - -[0m
+[0mGET /api/v1/facilities [36m304[0m 98.426 ms - -[0m
+[0mGET /api/v1/hazards/spatial [32m200[0m 122.520 ms - 14889[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 0.272 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 0.394 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.350 ms - 386[0m
+[0mGET /api/v1/tts?text=namaste&lang=hi [32m200[0m 241.108 ms - 54784[0m
+[0mGET /sw.js [36m304[0m 0.225 ms - -[0m
+[0mGET /screens/07-safe-places/index.html [32m200[0m 0.782 ms - 57618[0m
+[0mGET /api-client.js [36m304[0m 1.843 ms - -[0m
+[0mGET /assets/logo.svg [36m304[0m 2.247 ms - -[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER&lat=12.371466291111584&lng=76.58463746127683 [32m200[0m 9.234 ms - 2148[0m
+[0mGET /vendor/leaflet/leaflet.css [36m304[0m 0.289 ms - -[0m
+[0mGET /vendor/leaflet/leaflet.js [36m304[0m 0.295 ms - -[0m
+[0mGET /api/v1/maps/config [32m200[0m 0.249 ms - 386[0m
+[0mGET /favicon.ico [36m304[0m 0.740 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.244 ms - -[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 217.833 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 177.208 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 171.595 ms - 47872[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 123.410 ms - 47872[0m
+[0mGET /screens/11-preparedness/index.html [32m200[0m 0.767 ms - 44621[0m
+[0mGET /assets/logo.svg [36m304[0m 0.239 ms - -[0m
+[0mGET /api-client.js [32m200[0m 0.867 ms - 67800[0m
+[0mGET /api/v1/preparedness/guides?disasterType=FLOOD [36m304[0m 4.331 ms - -[0m
+[0mGET /favicon.ico [36m304[0m 0.321 ms - -[0m
+[0mGET /sw.js [36m304[0m 0.177 ms - -[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 181.300 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 172.131 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 125.500 ms - 47872[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=hi [32m200[0m 198.096 ms - 47872[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 199.979 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A4%B9%E0%A4%BF%E0%A4%A8%E0%A5%8D%E0%A4%A6%E0%A5%80&lang=hi [32m200[0m 156.426 ms - 45568[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=bn [32m200[0m 158.151 ms - 52480[0m
+[0mGET /api/v1/tts?text=%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE&lang=bn [32m200[0m 205.123 ms - 52480[0m
+[0mGET /api/v1/alerts/active [32m200[0m 12.525 ms - 1202[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.086 ms - 2144[0m
+[0mGET /api/v1/dashboard [32m200[0m 81.833 ms - 8220[0m
+[0mGET /api/v1/alerts/active [32m200[0m 17.089 ms - 1202[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.100 ms - 2144[0m
+[0mGET /api/v1/dashboard [32m200[0m 27.259 ms - 8220[0m
+[0mGET /api/v1/alerts/active [32m200[0m 7.825 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 22.461 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 5.086 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 3.913 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 7.805 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 5.019 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 3.867 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 7.777 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.808 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 83.621 ms - 1202[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.250 ms - 2144[0m
+[0mGET /api/v1/dashboard [32m200[0m 73.239 ms - 8220[0m
+[0mGET /api/v1/tts?text=warning%20URGENT%20CIVIC%20ALERT%20verified%20Official%20NDMA%20%E2%80%A2%20SDMA%20Field%20Confirmed%20Move%20to%20higher%20ground%20now.%20%E0%A4%A4%E0%A5%81%E0%A4%B0%E0%A4%82%E0%A4%A4%20%E0%A4%8A%E0%A4%82%E0%A4%9A%E0%A5%87%20%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%A8%20%E0%A4%AA%E0%A4%B0%20%E0%A4%9C%E0%A4%BE%E0%A4%8F%E0%A4%82%E0%A5%A4%20Heavy%20flash%20flooding%20is%20expected%20in%20your%20sector%20within%202%20hours.%20River%20levels%20exceed%20warning%20threshold%20at%20Barrage%204.%20%E0%A4%85%E0%A4%97%E0%A4%B2%E0%A5%87%202%20%E0%A4%98&lang=en [32m200[0m 570.005 ms - 813952[0m
+[0mGET /api/v1/tts?text=warning%20URGENT%20CIVIC%20ALERT%20verified%20Official%20NDMA%20%E2%80%A2%20SDMA%20Field%20Confirmed%20Move%20to%20higher%20ground%20now.%20%E0%A4%A4%E0%A5%81%E0%A4%B0%E0%A4%82%E0%A4%A4%20%E0%A4%8A%E0%A4%82%E0%A4%9A%E0%A5%87%20%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A4%BE%E0%A4%A8%20%E0%A4%AA%E0%A4%B0%20%E0%A4%9C%E0%A4%BE%E0%A4%8F%E0%A4%82%E0%A5%A4%20Heavy%20flash%20flooding%20is%20expected%20in%20your%20sector%20within%202%20hours.%20River%20levels%20exceed%20warning%20threshold%20at%20Barrage%204.%20%E0%A4%85%E0%A4%97%E0%A4%B2%E0%A5%87%202%20%E0%A4%98&lang=en [32m200[0m 263.333 ms - 813952[0m
+[0mGET /api/v1/health [32m200[0m 0.166 ms - 132[0m
+[0mGET /api/v1/alerts/active [32m200[0m 14.672 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 8.803 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.394 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 5.539 ms - 1202[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 5.378 ms - 2144[0m
+[0mGET /api/v1/dashboard [32m200[0m 32.435 ms - 8220[0m
+[0mGET /api/v1/alerts/act9:45:23 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+9:45:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+9:45:33 AM [tsx] change in ./src/modules/citizen/citizen.routes.ts Process hasn't exited. Killing process...
+9:47:45 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+10:24:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+10:24:48 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+10:41:38 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+A%E0%A4%A8%E0%A4%BE%20%E0%A4%9C%E0%A4%BF%E0%A4%B2%E0%A4%BE%20%E0%A4%9A%E0%A5%81%E0%A4%A8%E0%A5%87%E0%A4%82%E0%A5%A4%20Displaying%20cached%20alerts%20from%2035%20mins%20ago.%20Re-enable%20location%20services%20or%20select%20your%20municipa&lang=en [32m200[0m 622.488 ms - 914176[0m
+[0mGET /api/v1/tts?text=Disaster%20alert%20status%20for%20Bengaluru%20Urban%3A%20Alert%20active.%20Stay%20vigilant%2C%20keep%20emergency%20contacts%20handy%2C%20and%20avoid%20flood-prone%20zones.&lang=en [32m200[0m 366.901 ms - 554752[0m
+[0mGET /api/v1/tts?text=location_disabled%20LOCATION%20UNAVAILABLE%20%2F%20STALE%20DATA%20GPS%20Signal%20Lost%20%5BDemo%20Data%5D%20Enable%20location%20or%20pick%20your%20district.%20%E0%A4%B8%E0%A4%9F%E0%A5%80%E0%A4%95%20%E0%A4%9A%E0%A5%87%E0%A4%A4%E0%A4%BE%E0%A4%B5%E0%A4%A8%E0%A5%80%20%E0%A4%95%E0%A5%87%20%E0%A4%B2%E0%A4%BF%E0%A4%8F%20%E0%A4%85%E0%A4%AA%E0%A4%A8%E0%A4%BE%20%E0%A4%9C%E0%A4%BF%E0%A4%B2%E0%A4%BE%20%E0%A4%9A%E0%A5%81%E0%A4%A8%E0%A5%87%E0%A4%82%E0%A5%A4%20Displaying%20cached%20alerts%20from%2035%20mins%20ago.%20Re-enable%20location%20services%20or%20select%20your%20municipa&lang=en [32m200[0m 292.980 ms - 914176[0m
+[0mGET /api/v1/alerts/active [32m200[0m 15.728 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 9.156 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 4.769 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 5.175 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 15.326 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.560 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 4.095 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 17.525 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.603 ms - 2144[0m
+[0mGET /api/v1/alerts/active [32m200[0m 4.470 ms - 1202[0m
+[0mGET /api/v1/dashboard [32m200[0m 9.876 ms - 8220[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.623 ms - 2144[0m
+[0mGET /api/v1/preparedness/guides?disasterType=FLOOD [32m200[0m 3.795 ms - 1515[0m
+[0mGET /api/v1/alerts/active [32m200[0m 95.685 ms - 1202[0m
+[0mGET /api/v1/facilities?facilityType=SHELTER [32m200[0m 3.838 ms - 2144[0m
+[0mGET /api/v1/dashboard [32m200[0m 91.303 ms - 8220[0m
+[0mGET /api/v1/preparedness/guides?disasterType=FLOOD [32m200[0m 4.454 ms - 1515[0m
+[0mGET /api/v1/geo/districts?q=bengaluru [32m200[0m 18.612 ms - 361[0m
+[0mGET /api/v1/geo/districts [32m200[0m 0.196 ms - 26[0m
+[2026-10-31 09:45:48.472 +0530] [32mINFO[39m: [36mReceived SIGTERM. Shutting down gracefully...[39m
+[2026-10-31 09:45:48.479 +0530] [32mINFO[39m: [36mCleaned up database and redis connections. Process exiting.[39m
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        9:45:23 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+9:45:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+9:45:33 AM [tsx] change in ./src/modules/citizen/citizen.routes.ts Process hasn't exited. Killing process...
+9:47:45 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+10:24:28 AM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
+10:24:48 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
+10:41:38 AM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...

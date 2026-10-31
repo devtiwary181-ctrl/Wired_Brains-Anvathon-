@@ -30,7 +30,9 @@
       min-height: max(884px, 100dvh);
     }
   </style>
-  </head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/ndma-emblem.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><span class="font-label-strong text-label-strong text-primary">Live Dashboard</span></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full space-y-space-md">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<script src="../../i18n.js"></script>
+</head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/logo.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Change Language" class="min-h-[44px] px-space-sm bg-surface-container-high text-on-surface rounded-lg flex items-center gap-1 font-label-strong text-label-strong" type="button"><span class="font-label-strong text-label-strong">हिन्दी</span><span class="material-symbols-outlined text-[18px]">expand_more</span></button><button aria-label="Listen to Screen Content" class="w-11 h-11 rounded-lg bg-surface-container-high text-on-surface flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[20px]">volume_up</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between pt-1"><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption"><span class="w-2 h-2 rounded-full bg-tertiary"></span>Live • 112 Active</span><span class="font-caption text-caption text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">schedule</span>Updated 4m ago</span></div><span class="font-label-strong text-label-strong text-primary">Live Dashboard</span></div></div></header><main class="flex flex-col relative w-full pt-28 pb-36 px-margin bg-surface"><div class="flex flex-col w-full space-y-space-md">
 <!-- 1. Top Civic Header / Context Bar -->
 <div class="flex flex-col space-y-space-xs bg-surface-container-lowest p-space-md rounded-lg shadow-sm">
 <div class="flex items-center justify-between">
@@ -118,31 +120,42 @@
 </div>
 </div>
 <!-- Essential Filter Chips (Scrollable horizontal row) -->
-<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center gap-1" type="button">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1" id="shelter-filter-chips">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center gap-1 cursor-pointer" data-filter="all" type="button">
 <span>All (सभी)</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="wheelchair" type="button">
 <span>♿ Wheelchair Ramp</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="women" type="button">
 <span>👩 Women Wing</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="milk" type="button">
 <span>🍼 Infant Milk</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="generator" type="button">
 <span>⚡ Generator Backup</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="doctor" type="button">
 <span>🩺 Doctor on Site</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="pets" type="button">
 <span>🐕 Pets Allowed</span>
 </button>
-<button class="whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant" type="button">
+<button class="shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer" data-filter="water" type="button">
 <span>🚰 Clean Water</span>
 </button>
+</div>
+<!-- Nearest Destination Route Action Triggers -->
+<div class="grid grid-cols-2 gap-2 pt-1">
+  <button id="btn-route-nearest-shelter" type="button" class="min-h-[44px] px-3 py-2 rounded-lg bg-[#00512c] text-white font-label-strong text-[13px] flex items-center justify-center gap-1.5 shadow-sm hover:opacity-90">
+    <span class="material-symbols-outlined text-[18px]">directions_walk</span>
+    <span>Nearest Shelter Route</span>
+  </button>
+  <button id="btn-route-nearest-hospital" type="button" class="min-h-[44px] px-3 py-2 rounded-lg bg-[#ba1a1a] text-white font-label-strong text-[13px] flex items-center justify-center gap-1.5 shadow-sm hover:opacity-90">
+    <span class="material-symbols-outlined text-[18px]">local_hospital</span>
+    <span>Nearest Hospital Route</span>
+  </button>
 </div>
 </div>
 <!-- 3. Google Maps Integration Ready Area (Expandable/Toggleable) -->
@@ -729,10 +742,29 @@
 
     function renderFacilities() {
       const query = searchInput?.value.trim().toLocaleLowerCase() || '';
-      const filtered = currentFacilities.filter(f => !query || `${f.name} ${f.address}`.toLocaleLowerCase().includes(query));
+      const filtered = currentFacilities.filter(f => {
+        const matchesQuery = !query || `${f.name} ${f.address}`.toLocaleLowerCase().includes(query);
+        const matchesFilters = matchFacilityFilters(f);
+        return matchesQuery && matchesFilters;
+      });
       results.replaceChildren();
+
+      // Show facility count indicator
+      const countHeader = document.createElement('div');
+      countHeader.className = 'font-label-strong text-[14px] text-primary flex items-center justify-between pb-1';
+      countHeader.innerHTML = `<span>Showing ${filtered.length} verified location${filtered.length === 1 ? '' : 's'}</span>${activeFilters.size ? `<span class="font-caption text-[12px] text-tertiary">(${activeFilters.size} filters applied)</span>` : ''}`;
+      results.append(countHeader);
+
       if (filtered.length === 0) {
-        results.textContent = currentFacilities.length ? 'No facilities match this search.' : 'No facilities are listed for this area. No availability is implied.';
+        const emptyState = document.createElement('div');
+        emptyState.className = 'p-4 rounded-lg bg-surface-container text-center flex flex-col items-center gap-2';
+        emptyState.innerHTML = `
+          <span class="material-symbols-outlined text-[32px] text-on-surface-variant">search_off</span>
+          <p class="font-label-strong text-label-strong text-on-surface">No facilities match the selected filters</p>
+          <p class="font-caption text-caption text-on-surface-variant">Try clearing some facility filters or switching categories.</p>
+          <button type="button" onclick="document.querySelector('.shelter-filter-btn[data-filter=\\'all\\']').click()" class="mt-1 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-caption text-caption">Reset all filters</button>
+        `;
+        results.append(emptyState);
         return;
       }
       filtered.forEach(f => {
@@ -764,15 +796,198 @@
           capacity.textContent = `${f.availableBeds} spaces available • ${f.capacitySource}`;
           item.append(capacity);
         }
+        const actions = document.createElement('div');
+        actions.className = 'flex items-center gap-2 pt-1';
+        
+        const routeBtn = document.createElement('button');
+        routeBtn.type = 'button';
+        routeBtn.className = 'px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-strong text-[13px] flex items-center gap-1 shadow-sm';
+        routeBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">directions</span> Route';
+        if (f.coordinates && f.coordinates.lat) {
+          routeBtn.addEventListener('click', () => routeToFacility(f.coordinates.lat, f.coordinates.lng, f.name));
+        }
+        actions.append(routeBtn);
+
+        const shareBtn = document.createElement('button');
+        shareBtn.type = 'button';
+        shareBtn.className = 'px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-strong text-[13px] flex items-center gap-1 shadow-sm';
+        shareBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">share</span> Share';
+        shareBtn.addEventListener('click', () => shareFacility(f.name, f.address, f.distanceKm));
+        actions.append(shareBtn);
+
+        item.append(actions);
         results.append(item);
+    let activeFilters = new Set();
+    let currentRoutePolyline = null;
+
+    // Filter Chips Interactive Logic
+    const filterChips = document.querySelectorAll('.shelter-filter-btn');
+    filterChips.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        if (filter === 'all') {
+          activeFilters.clear();
+          filterChips.forEach(b => {
+            if (b.getAttribute('data-filter') === 'all') {
+              b.className = 'shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center gap-1 cursor-pointer';
+            } else {
+              b.className = 'shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer';
+            }
+          });
+        } else {
+          // Unset 'all'
+          const allBtn = document.querySelector('.shelter-filter-btn[data-filter="all"]');
+          if (allBtn) {
+            allBtn.className = 'shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer';
+          }
+          if (activeFilters.has(filter)) {
+            activeFilters.delete(filter);
+            btn.className = 'shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-caption text-caption flex items-center gap-1 hover:bg-surface-variant cursor-pointer';
+            if (activeFilters.size === 0 && allBtn) {
+              allBtn.className = 'shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center gap-1 cursor-pointer';
+            }
+          } else {
+            activeFilters.add(filter);
+            btn.className = 'shelter-filter-btn whitespace-nowrap px-3 py-1.5 rounded-full bg-primary text-on-primary font-caption text-caption flex items-center gap-1 cursor-pointer';
+          }
+        }
+        applyCurrentFilters();
       });
+    });
+
+    function matchFacilityFilters(f) {
+      if (activeFilters.size === 0) return true;
+      const s = f.services || {};
+      for (const filter of activeFilters) {
+        if (filter === 'wheelchair' && !f.hasWheelchairRamp && !s.wheelchairAccessible && !s.wheelchair) return false;
+        if (filter === 'women' && !f.hasWomenWing && !s.womenWing && !s.womenOnly) return false;
+        if (filter === 'milk' && !s.infantMilk && !s.babyFood && !s.pediatricSupport) return false;
+        if (filter === 'generator' && !s.generatorBackup && !s.dgSet && !s.inverterBackup) return false;
+        if (filter === 'doctor' && !s.doctorOnSite && !s.medicalStaff && !s.nursePresent) return false;
+        if (filter === 'pets' && !s.petsAllowed && !s.petFriendly) return false;
+        if (filter === 'water' && !s.cleanWater && !s.drinkingWater) return false;
+      }
+      return true;
     }
 
-    // Load shelters on page load
+    function applyCurrentFilters() {
+      renderFacilities();
+      updateMapMarkers();
+    }
+
+    // Share feature with navigator.share fallback & modal / alert
+    window.shareFacility = async function(facilityName, address, distanceKm) {
+      const shareUrl = window.location.origin + window.location.pathname + '?facility=' + encodeURIComponent(facilityName);
+      const shareText = `Emergency Civic Safe Haven: ${facilityName} (${distanceKm ? distanceKm + ' km away' : 'nearby'}). Address: ${address}. Find live route & shelter status: ${shareUrl}`;
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'DisasterReady Safe Haven',
+            text: shareText,
+            url: shareUrl
+          });
+          return;
+        } catch (e) {
+          // fall through to clipboard
+        }
+      }
+      try {
+        await navigator.clipboard.writeText(shareText);
+        showToast('Link & details copied to clipboard! Share on WhatsApp or SMS.');
+      } catch (err) {
+        prompt('Copy this emergency location link:', shareUrl);
+      }
+    };
+
+    function showToast(msg) {
+      let toast = document.getElementById('dr-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'dr-toast';
+        toast.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-[100] px-4 py-2 rounded-lg bg-surface-container-highest text-on-surface shadow-lg border border-primary font-label-strong text-caption text-center';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    }
+
+    // Hook static cards' Share buttons
+    document.querySelectorAll('button[aria-label*="Share"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = btn.closest('.resource-card');
+        const title = card?.querySelector('h2')?.textContent?.trim() || 'Civic Safe Haven';
+        const addr = card?.querySelector('.material-symbols-outlined:contains("location_on")')?.parentElement?.textContent?.trim() || 'Sector 4 Relief Center';
+        shareFacility(title, addr, '1.2');
+      });
+    });
+
+    async function routeToFacility(destLat, destLng, destName) {
+      const userLat = loc.lat != null ? loc.lat : 20.5937;
+      const userLng = loc.lng != null ? loc.lng : 78.9629;
+      if (!safePlacesMap) await initSafePlacesMap();
+      if (!safePlacesMap) return;
+
+      showToast(`Calculating safest route to ${destName}…`);
+      try {
+        const L = await DR.maps.load();
+        const routeData = await DR.routing.compare({
+          startLat: userLat,
+          startLng: userLng,
+          endLat: destLat,
+          endLng: destLng,
+        });
+
+        if (currentRoutePolyline) {
+          safePlacesMap.removeLayer(currentRoutePolyline);
+        }
+
+        const chosenRoute = routeData.safestRoute || routeData.routes?.[0];
+        if (chosenRoute && chosenRoute.geometry && chosenRoute.geometry.coordinates) {
+          const latLngs = chosenRoute.geometry.coordinates.map(c => [c[1], c[0]]);
+          currentRoutePolyline = L.polyline(latLngs, {
+            color: '#00512c',
+            weight: 5,
+            opacity: 0.9,
+            dashArray: null
+          }).addTo(safePlacesMap);
+
+          safePlacesMap.fitBounds(currentRoutePolyline.getBounds(), { padding: [40, 40] });
+          showToast(`Safest Route: ${(chosenRoute.distanceKm || (chosenRoute.distance / 1000)).toFixed(1)} km, ~${Math.round((chosenRoute.durationSeconds || chosenRoute.duration) / 60)} min`);
+          setViewMode('map');
+        }
+      } catch (err) {
+        console.warn('Routing error:', err);
+        showToast('Could not calculate live route. Check connection.');
+      }
+    }
+
+    // Nearest Route Buttons
+    document.getElementById('btn-route-nearest-shelter')?.addEventListener('click', async () => {
+      await loadFacilities('SHELTER');
+      const filtered = currentFacilities.filter(matchFacilityFilters);
+      const nearest = filtered[0] || currentFacilities[0];
+      if (nearest && nearest.coordinates && nearest.coordinates.lat) {
+        await routeToFacility(nearest.coordinates.lat, nearest.coordinates.lng, nearest.name);
+      } else {
+        showToast('No shelter coordinates found nearby.');
+      }
+    });
+
+    document.getElementById('btn-route-nearest-hospital')?.addEventListener('click', async () => {
+      await loadFacilities('HOSPITAL');
+      const filtered = currentFacilities.filter(matchFacilityFilters);
+      const nearest = filtered[0] || currentFacilities[0];
+      if (nearest && nearest.coordinates && nearest.coordinates.lat) {
+        await routeToFacility(nearest.coordinates.lat, nearest.coordinates.lng, nearest.name);
+      } else {
+        showToast('No hospital coordinates found nearby.');
+      }
+    });
+
     await loadFacilities('SHELTER');
 
     // Interactive Leaflet Map for Safe Places & Hospitals
-    const mapToggleBtn = document.querySelector('button[title*="Map"]') || [...document.querySelectorAll('button')].find(b => /map/i.test(b.textContent || ''));
     const mapContainer = document.getElementById('map-view-container');
     const mapElement = document.getElementById('civic-google-map');
     let safePlacesMap = null;
@@ -780,9 +995,7 @@
 
     async function initSafePlacesMap() {
       if (!mapElement) return;
-      if (mapContainer) mapContainer.classList.remove('hidden');
       mapElement.style.backgroundImage = 'none';
-      mapElement.replaceChildren();
 
       try {
         const L = await DR.maps.load();
@@ -803,48 +1016,61 @@
               .bindPopup('<b>Current Location</b>');
           }
         }
-
-        facilityMarkers.forEach(m => safePlacesMap.removeLayer(m));
-        facilityMarkers = [];
-
-        const bounds = [];
-        if (loc.lat != null && loc.lng != null) bounds.push([loc.lat, loc.lng]);
-
-        currentFacilities.forEach(f => {
-          if (!f.coordinates || f.coordinates.lat == null) return;
-          const pos = [f.coordinates.lat, f.coordinates.lng];
-          bounds.push(pos);
-
-          const isHospital = f.facilityType === 'HOSPITAL';
-          const color = isHospital ? '#ba1a1a' : '#00512c';
-          const iconHtml = `<div style="background:${color};color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.3)">${isHospital ? 'H' : 'S'}</div>`;
-          const icon = L.divIcon({
-            className: 'dr-facility-icon',
-            html: iconHtml,
-            iconSize: [24, 24],
-            iconAnchor: [12, 12],
-          });
-
-          const marker = L.marker(pos, { icon, title: f.name }).addTo(safePlacesMap);
-          marker.bindPopup(`
-            <div style="font-family:sans-serif;font-size:12px">
-              <strong style="color:${color}">${f.name}</strong><br>
-              ${f.address}<br>
-              ${f.distanceKm ? `Distance: <b>${f.distanceKm} km</b><br>` : ''}
-              Status: <b>${f.operatingStatus.replaceAll('_', ' ')}</b><br>
-              ${f.availableBeds != null ? `Available Beds: <b>${f.availableBeds}</b>` : ''}
-            </div>
-          `);
-          facilityMarkers.push(marker);
-        });
-
-        if (bounds.length > 0) {
-          safePlacesMap.fitBounds(L.latLngBounds(bounds), { padding: [25, 25] });
-        }
+        updateMapMarkers();
       } catch (err) {
         console.warn('Map initialization:', err);
       }
     }
+
+    async function updateMapMarkers() {
+      if (!safePlacesMap) return;
+      const L = await DR.maps.load();
+      facilityMarkers.forEach(m => safePlacesMap.removeLayer(m));
+      facilityMarkers = [];
+
+      const bounds = [];
+      if (loc.lat != null && loc.lng != null) bounds.push([loc.lat, loc.lng]);
+
+      const visibleFacilities = currentFacilities.filter(matchFacilityFilters);
+
+      visibleFacilities.forEach(f => {
+        if (!f.coordinates || f.coordinates.lat == null) return;
+        const pos = [f.coordinates.lat, f.coordinates.lng];
+        bounds.push(pos);
+
+        const isHospital = f.facilityType === 'HOSPITAL';
+        const color = isHospital ? '#ba1a1a' : '#00512c';
+        const iconHtml = `<div style="background:${color};color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,0.3)">${isHospital ? 'H' : 'S'}</div>`;
+        const icon = L.divIcon({
+          className: 'dr-facility-icon',
+          html: iconHtml,
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+        });
+
+        const marker = L.marker(pos, { icon, title: f.name }).addTo(safePlacesMap);
+        marker.bindPopup(`
+          <div style="font-family:sans-serif;font-size:12px;min-width:180px">
+            <strong style="color:${color}">${f.name}</strong><br>
+            ${f.address}<br>
+            ${f.distanceKm ? `Distance: <b>${f.distanceKm} km</b><br>` : ''}
+            Status: <b>${f.operatingStatus.replaceAll('_', ' ')}</b><br>
+            ${f.availableBeds != null ? `Available Beds: <b>${f.availableBeds}</b><br>` : ''}
+            <div style="margin-top:6px;display:flex;gap:4px">
+              <button onclick="routeToFacility(${f.coordinates.lat}, ${f.coordinates.lng}, '${f.name.replace(/'/g, "\\'")}')" style="background:${color};color:white;border:none;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">Route</button>
+              <button onclick="shareFacility('${f.name.replace(/'/g, "\\'")}', '${f.address.replace(/'/g, "\\'")}', '${f.distanceKm || ''}')" style="background:#e2effe;color:#00477f;border:none;border-radius:4px;padding:3px 8px;font-size:11px;cursor:pointer">Share</button>
+            </div>
+          </div>
+        `);
+        facilityMarkers.push(marker);
+      });
+
+      if (bounds.length > 0 && !currentRoutePolyline) {
+        safePlacesMap.fitBounds(L.latLngBounds(bounds), { padding: [25, 25] });
+      }
+    }
+
+    window.routeToFacility = routeToFacility;
 
     // Initialize map with facilities
     initSafePlacesMap();

@@ -3,6 +3,9 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import { execFile } from 'child_process';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import { fileURLToPath } from 'url';
@@ -77,6 +80,72 @@ export function createApp(): Express {
   apiRouter.use('/authority', authorityRouter);
   apiRouter.use('/copilot', copilotRouter);
   apiRouter.use('/realtime', realtimeRouter);
+
+  // 6b. Centralized Backend Text-To-Speech (TTS) Endpoint Fallback
+  apiRouter.get('/tts', async (req, res) => {
+    try {
+      const text = (req.query.text as string || '').trim();
+      const rawLang = (req.query.lang as string || 'hi').toLowerCase().trim();
+      if (!text) {
+        return res.status(400).json({ success: false, message: 'Text query parameter is required.' });
+      }
+
+      // Map language code to 2-letter Google TTS code
+      const langMap: Record<string, string> = {
+        'hi': 'hi', 'hi-in': 'hi',
+        'bn': 'bn', 'bn-in': 'bn',
+        'ta': 'ta', 'ta-in': 'ta',
+        'te': 'te', 'te-in': 'te',
+        'mr': 'mr', 'mr-in': 'mr',
+        'gu': 'gu', 'gu-in': 'gu',
+        'kn': 'kn', 'kn-in': 'kn',
+        'ml': 'ml', 'ml-in': 'ml',
+        'pa': 'pa', 'pa-in': 'pa',
+        'en': 'en', 'en-in': 'en', 'en-us': 'en',
+      };
+      const tl = langMap[rawLang] || 'hi';
+
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${tl}&client=tw-ob&q=${encodeURIComponent(text.substring(0, 200))}`;
+      const response = await fetch(googleTtsUrl, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }
+      });
+
+      if (!response.ok) {
+        return res.status(502).json({ success: false, message: 'TTS upstream error' });
+      }
+
+      const buffer = Buffer.from(await response.arrayBuffer());
+
+      // Convert MP3 to standard uncompressed WAV using macOS native afconvert for maximum browser compatibility
+      const tmpIn = path.join(os.tmpdir(), `tts-${Date.now()}-${Math.random().toString(36).substring(7)}.mp3`);
+      const tmpOut = tmpIn.replace('.mp3', '.wav');
+
+      try {
+        await fs.promises.writeFile(tmpIn, buffer);
+        await new Promise((resolve, reject) => {
+          execFile('afconvert', ['-f', 'WAVE', '-d', 'LEI16@24000', tmpIn, tmpOut], (error) => {
+            if (error) reject(error);
+            else resolve(true);
+          });
+        });
+        const wavBuffer = await fs.promises.readFile(tmpOut);
+        res.setHeader('Content-Type', 'audio/wav');
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.send(wavBuffer);
+      } catch (convErr) {
+        // Fallback to sending original MP3 if afconvert is unavailable
+        res.setHeader('Content-Type', 'audio/mpeg');
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.send(buffer);
+      } finally {
+        fs.promises.unlink(tmpIn).catch(() => {});
+        fs.promises.unlink(tmpOut).catch(() => {});
+      }
+    } catch (err: any) {
+      return res.status(500).json({ success: false, message: err?.message || 'TTS generation failed' });
+    }
+  });
+
   // Citizen endpoints accessible under /citizen/ prefix AND at root for convenience
   apiRouter.use('/citizen', citizenRouter);
   apiRouter.use('/', citizenRouter);

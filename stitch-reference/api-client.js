@@ -19,7 +19,7 @@
     window.VITE_API_BASE_URL ||
     window.DR_API_BASE ||
     (typeof window !== 'undefined' && window.location
-      ? (window.location.port === '5001' || window.location.port === '3000' || !window.location.port
+      ? (window.location.port === '5001' || !window.location.port
           ? `${window.location.origin}/api/v1`
           : 'http://localhost:5001/api/v1')
       : 'http://localhost:5001/api/v1');
@@ -167,12 +167,17 @@
   // Module: Location & Geo
   // ---------------------------------------------------------------------------
   const geo = {
+    async getStates() {
+      return get('/geo/states');
+    },
     async reverseGeocode(lat, lng) {
       return get(`/geo/reverse-geocode?lat=${lat}&lng=${lng}`);
     },
-    async searchDistricts(q) {
-      if (!q || q.length < 2) return [];
-      return get(`/geo/districts?q=${encodeURIComponent(q)}`);
+    async searchDistricts(q, state) {
+      const params = new URLSearchParams();
+      if (q) params.set('q', q);
+      if (state) params.set('state', state);
+      return get(`/geo/districts?${params.toString()}`);
     },
     async searchPlaces(q) {
       if (!q || q.trim().length < 3) return [];
@@ -180,8 +185,10 @@
     },
     /**
      * Detect GPS location, reverse geocode, and persist to storage.
-     * Resolves with { lat, lng, district } or rejects with reason.
-     * Uses watchPosition / low maximumAge with high accuracy for high precision.
+     * Resolves with { lat, lng, district, accuracy } or rejects with reason.
+     * Uses watchPosition with { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }.
+     * Watches for up to ~15 seconds and keeps the reading with the smallest coords.accuracy.
+     * Stops as soon as accuracy is 50 metres or better, then clearWatch.
      */
     detectAndStore() {
       return new Promise((resolve, reject) => {
@@ -195,7 +202,7 @@
 
         const options = {
           enableHighAccuracy: true,
-          timeout: 12000,
+          timeout: 20000,
           maximumAge: 0,
         };
 
@@ -218,14 +225,14 @@
             if (!bestPosition || pos.coords.accuracy < bestPosition.coords.accuracy) {
               bestPosition = pos;
             }
-            // If accuracy is high (< 50 meters), finalize immediately
+            // Stop as soon as accuracy is 50 metres or better
             if (pos.coords.accuracy <= 50) {
               try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
               finalize(pos);
             }
           },
           (err) => {
-            // If watchPosition encounters an error but we got at least one fix, use it
+            // If an error occurs but we already have a GPS fix reading, use it
             if (bestPosition) {
               try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
               finalize(bestPosition);
@@ -245,14 +252,14 @@
           options
         );
 
-        // Allow up to 4.5 seconds for fine-tuning before resolving with the best fix acquired
+        // Keep reading for up to ~15 seconds to find the best accuracy
         setTimeout(() => {
           try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
           if (!settled) {
             if (bestPosition) {
               finalize(bestPosition);
             } else {
-              // Fallback one-shot
+              // Try one last direct request
               navigator.geolocation.getCurrentPosition(
                 finalize,
                 (err) => {
@@ -265,7 +272,7 @@
               );
             }
           }
-        }, 4500);
+        }, 15000);
       });
     },
   };
@@ -426,17 +433,37 @@
   // Module: Facilities
   // ---------------------------------------------------------------------------
   const facilities = {
-    async get({ districtId, facilityType, lat, lng, radiusKm, hasMedical, hasInfantCare, hasPower, hasDrinkingWater } = {}) {
+    async get({
+      districtId,
+      facilityType,
+      lat,
+      lng,
+      radiusKm,
+      hazard,
+      facilities: facilityTags,
+      hasMedical,
+      hasInfantCare,
+      hasPower,
+      hasDrinkingWater,
+      hasWheelchairRamp,
+      hasWomenWing,
+      isPetFriendly
+    } = {}) {
       const params = new URLSearchParams();
       if (districtId) params.set('districtId', districtId);
       if (facilityType) params.set('facilityType', facilityType);
       if (lat != null) params.set('lat', lat);
       if (lng != null) params.set('lng', lng);
       if (radiusKm != null) params.set('radiusKm', radiusKm);
+      if (hazard) params.set('hazard', hazard);
+      if (facilityTags) params.set('facilities', facilityTags);
       if (hasMedical != null) params.set('hasMedical', hasMedical);
       if (hasInfantCare != null) params.set('hasInfantCare', hasInfantCare);
       if (hasPower != null) params.set('hasPower', hasPower);
       if (hasDrinkingWater != null) params.set('hasDrinkingWater', hasDrinkingWater);
+      if (hasWheelchairRamp != null) params.set('hasWheelchairRamp', hasWheelchairRamp);
+      if (hasWomenWing != null) params.set('hasWomenWing', hasWomenWing);
+      if (isPetFriendly != null) params.set('isPetFriendly', isPetFriendly);
       const qs = params.toString() ? `?${params}` : '';
       return get(`/facilities${qs}`);
     },
@@ -748,52 +775,121 @@
     },
 
     /**
-     * Speak text using Web Speech API synthesis with robust voice detection
+     * Speak text using Web Speech API synthesis with robust voice detection & Backend TTS Fallback
      */
-    speak(text, language) {
-      if (!this.isSynthesisSupported()) return false;
-      try {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        const bcpMap = {
-          en: 'en-IN',
-          hi: 'hi-IN',
-          ta: 'ta-IN',
-          te: 'te-IN',
-          kn: 'kn-IN',
-          ml: 'ml-IN',
-          bn: 'bn-IN',
-          mr: 'mr-IN',
-          gu: 'gu-IN',
-          or: 'or-IN',
-          pa: 'pa-IN',
-          as: 'as-IN',
-        };
-        const targetLang = bcpMap[language || storage.getLang()] || 'hi-IN';
-        utterance.lang = targetLang;
-        utterance.rate = 0.95;
+    async speak(text, language) {
+      if (!text) return { success: false, method: 'none' };
 
-        // Try to match appropriate system voice
-        const voices = window.speechSynthesis.getVoices() || [];
-        const prefix = targetLang.split('-')[0].toLowerCase();
+      const bcpMap = {
+        en: 'en-IN',
+        hi: 'hi-IN',
+        ta: 'ta-IN',
+        te: 'te-IN',
+        kn: 'kn-IN',
+        ml: 'ml-IN',
+        bn: 'bn-IN',
+        mr: 'mr-IN',
+        gu: 'gu-IN',
+        or: 'or-IN',
+        pa: 'pa-IN',
+        as: 'as-IN',
+      };
+      // Normalize language code whether passed as 'bn' or 'bn-IN'
+      const normInput = (language || storage.getLang() || 'hi').toLowerCase().trim();
+      const targetLang = bcpMap[normInput] || (normInput.includes('-') ? normInput : `${normInput}-IN`);
+      const prefix = targetLang.split('-')[0].toLowerCase();
+
+      // Stop any existing speech / audio
+      this.stopSpeaking();
+
+      // 1. Check if browser speechSynthesis has a matching voice
+      if (this.isSynthesisSupported()) {
+        const getVoiceList = () => {
+          return new Promise((resolve) => {
+            let voices = window.speechSynthesis.getVoices() || [];
+            if (voices.length > 0) return resolve(voices);
+            const onVoices = () => {
+              window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
+              resolve(window.speechSynthesis.getVoices() || []);
+            };
+            window.speechSynthesis.addEventListener('voiceschanged', onVoices);
+            setTimeout(() => resolve(window.speechSynthesis.getVoices() || []), 200);
+          });
+        };
+
+        const voices = await getVoiceList();
         const matchingVoice = voices.find(v => {
           const vl = (v.lang || '').toLowerCase();
           return vl === targetLang.toLowerCase() || vl.startsWith(prefix);
         });
-        if (matchingVoice) {
-          utterance.voice = matchingVoice;
-        }
 
-        window.speechSynthesis.speak(utterance);
-        return true;
-      } catch {
-        return false;
+        if (matchingVoice) {
+          try {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.voice = matchingVoice;
+            utterance.lang = matchingVoice.lang;
+            utterance.rate = 0.95;
+            window.speechSynthesis.speak(utterance);
+            return { success: true, method: 'browser', voice: matchingVoice.name, lang: matchingVoice.lang };
+          } catch (e) {
+            console.warn('SpeechSynthesis failed, falling back to backend TTS:', e);
+          }
+        }
+      }
+
+      // 2. Fall back to backend text-to-speech endpoint (/api/v1/tts)
+      try {
+        const ttsUrl = `${BASE_URL}/tts?text=${encodeURIComponent(text.substring(0, 250))}&lang=${encodeURIComponent(prefix)}`;
+        
+        // Attempt standard Audio element playback first
+        try {
+          const audio = new Audio(ttsUrl);
+          window._drActiveAudio = audio;
+          await audio.play();
+          return { success: true, method: 'backend-tts', url: ttsUrl, lang: prefix, player: 'Audio' };
+        } catch (mediaErr) {
+          // If Audio element fails (e.g. headless browser or codec restriction), play via Web Audio AudioContext
+          const resp = await fetch(ttsUrl);
+          if (!resp.ok) throw new Error(`TTS server returned ${resp.status}`);
+          const arrayBuffer = await resp.arrayBuffer();
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) {
+            const ctx = new AudioContextClass();
+            const decodedData = await ctx.decodeAudioData(arrayBuffer);
+            const source = ctx.createBufferSource();
+            source.buffer = decodedData;
+            source.connect(ctx.destination);
+            source.start(0);
+            window._drActiveAudioSource = source;
+            window._drActiveAudioContext = ctx;
+            return { success: true, method: 'backend-tts', url: ttsUrl, lang: prefix, player: 'AudioContext' };
+          }
+          throw mediaErr;
+        }
+      } catch (err) {
+        console.warn('Backend TTS playback error:', err);
+        return { success: false, error: err.message };
       }
     },
 
     stopSpeaking() {
       if (this.isSynthesisSupported()) {
-        window.speechSynthesis.cancel();
+        try { window.speechSynthesis.cancel(); } catch (_) {}
+      }
+      if (window._drActiveAudio) {
+        try {
+          window._drActiveAudio.pause();
+          window._drActiveAudio.currentTime = 0;
+        } catch (_) {}
+        window._drActiveAudio = null;
+      }
+      if (window._drActiveAudioSource) {
+        try { window._drActiveAudioSource.stop(); } catch (_) {}
+        window._drActiveAudioSource = null;
+      }
+      if (window._drActiveAudioContext) {
+        try { window._drActiveAudioContext.close(); } catch (_) {}
+        window._drActiveAudioContext = null;
       }
     },
   };
@@ -1446,6 +1542,28 @@
       BASE_URL,
     },
 
+    // UI Helpers (Toast, modal notifications)
+    ui: {
+      toast(message, duration = 3000) {
+        if (typeof document === 'undefined') return;
+        let toastEl = document.getElementById('dr-global-toast');
+        if (!toastEl) {
+          toastEl = document.createElement('div');
+          toastEl.id = 'dr-global-toast';
+          toastEl.className = 'fixed top-4 left-1/2 -translate-x-1/2 z-[9999] max-w-md px-4 py-2.5 rounded-xl bg-slate-900 text-white font-label-strong text-[13px] shadow-2xl flex items-center gap-2 border border-slate-700 transition-all duration-300 opacity-0 pointer-events-none';
+          document.body.appendChild(toastEl);
+        }
+        toastEl.textContent = message;
+        toastEl.classList.remove('opacity-0', 'pointer-events-none');
+        toastEl.classList.add('opacity-100');
+        clearTimeout(toastEl._timer);
+        toastEl._timer = setTimeout(() => {
+          toastEl.classList.remove('opacity-100');
+          toastEl.classList.add('opacity-0', 'pointer-events-none');
+        }, duration);
+      }
+    },
+
     // Backward-compatible screen aliases
     storage,
     geo,
@@ -1550,33 +1668,116 @@
         btn.addEventListener('click', () => {
           isPlaying = !isPlaying;
           if (isPlaying) {
-            btn.classList.add('bg-[#0B5FA5]', 'text-white');
-
-            // Gather readable text from main alert, h1/h2 headings, or primary content
-            let text = '';
-            const alertContainer = document.getElementById('alertTextContainer') || document.getElementById('alertCard');
-            if (alertContainer) {
-              text = alertContainer.innerText.replace(/\s+/g, ' ').trim();
-            } else {
-              const headings = Array.from(document.querySelectorAll('main h1, main h2, main p')).slice(0, 4);
-              text = headings.map(h => h.innerText).join('. ').replace(/\s+/g, ' ').trim();
-            }
-
-            if (!text) {
-              text = 'DisasterReady India - National Emergency Command Active.';
-            }
+            btn.classList.add('bg-[#0B5FA5]', 'text-white', 'shadow-md');
+            btn.setAttribute('aria-pressed', 'true');
 
             const currentLang = storage.getLang() || 'hi';
-            voice.speak(text, currentLang);
+            const currentDistrict = storage.getDistrict() || 'Bengaluru Urban';
+
+            // Gather readable text: current district, alert status, and top safety tips
+            let statusText = '';
+            const alertCard = document.getElementById('alertCard');
+            const alertTitle = document.getElementById('alertTitle');
+            const alertSummary = document.getElementById('alertSummary');
+
+            if (alertCard && !alertCard.classList.contains('hidden')) {
+              const title = alertTitle ? alertTitle.innerText.trim() : 'Alert active';
+              const summary = alertSummary ? alertSummary.innerText.trim() : '';
+              statusText = `Disaster alert status for ${currentDistrict}: ${title}. ${summary}`;
+            } else {
+              const clearCard = document.getElementById('alertCardClear');
+              if (clearCard && !clearCard.classList.contains('hidden')) {
+                statusText = `Disaster alert status for ${currentDistrict}: No active alert. Your region is currently safe.`;
+              } else {
+                statusText = `Current status for ${currentDistrict}: All services operational.`;
+              }
+            }
+
+            // Top safety tips
+            let safetyTips = '';
+            const actionItems = document.querySelectorAll('#priorityActionList li, #actionChecklist li, .action-item');
+            if (actionItems && actionItems.length > 0) {
+              const tips = Array.from(actionItems).slice(0, 3).map(item => item.innerText.replace(/\s+/g, ' ').trim()).filter(Boolean);
+              if (tips.length > 0) {
+                safetyTips = ' Top safety steps: ' + tips.join('. ');
+              }
+            } else {
+              safetyTips = ' Stay vigilant, keep emergency contacts handy, and avoid flood-prone zones.';
+            }
+
+            const fullText = `${statusText} ${safetyTips}`.replace(/\s+/g, ' ').trim();
+
+            voice.speak(fullText, currentLang);
             if (window.DisasterReadyAPI?.ui?.toast) {
-              window.DisasterReadyAPI.ui.toast(`🔊 Reading screen contents (${currentLang.toUpperCase()})`);
+              window.DisasterReadyAPI.ui.toast(`🔊 Reading dashboard for ${currentDistrict} (${currentLang.toUpperCase()})`);
             }
           } else {
-            btn.classList.remove('bg-[#0B5FA5]', 'text-white');
+            btn.classList.remove('bg-[#0B5FA5]', 'text-white', 'shadow-md');
+            btn.setAttribute('aria-pressed', 'false');
             voice.stopSpeaking();
+            if (window.DisasterReadyAPI?.ui?.toast) {
+              window.DisasterReadyAPI.ui.toast('🔇 Audio stopped');
+            }
           }
         });
       });
+    },
+
+    // Global Header Language Dropdown Transformer
+    initLanguageDropdown() {
+      if (typeof document === 'undefined') return;
+
+      const langButtons = document.querySelectorAll('button[aria-label="Change Language"]');
+      langButtons.forEach((btn) => {
+        if (btn.dataset.langTransformed) return;
+        btn.dataset.langTransformed = 'true';
+
+        // Check if already contains select
+        if (btn.querySelector('select')) return;
+
+        const currentLang = storage.getLang() || 'hi';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'relative flex items-center';
+        wrapper.innerHTML = `
+          <select aria-label="Change Language" class="header-lang-select min-h-[44px] pl-3 pr-8 bg-surface-container-high text-on-surface rounded-lg font-label-strong text-label-strong hover:bg-surface-variant transition-colors cursor-pointer border border-[#D3DBE3] appearance-none">
+            <option value="en">English (English)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="as">অসমীয়া (Assamese)</option>
+          </select>
+          <span class="material-symbols-outlined text-[18px] pointer-events-none absolute right-2 text-on-surface">expand_more</span>
+        `;
+
+        const select = wrapper.querySelector('select');
+        select.value = currentLang;
+
+        select.addEventListener('change', (e) => {
+          const selected = e.target.value;
+          storage.setLang(selected);
+          if (window.DisasterReadyI18n) {
+            window.DisasterReadyI18n.applyLanguage(selected);
+          }
+          document.querySelectorAll('.header-lang-select, #headerLangSelect').forEach(s => {
+            if (s !== select) s.value = selected;
+          });
+        });
+
+        btn.replaceWith(wrapper);
+      });
+
+      // Apply initial saved language
+      const saved = storage.getLang() || 'hi';
+      if (window.DisasterReadyI18n) {
+        window.DisasterReadyI18n.applyLanguage(saved);
+      }
     },
 
     // Global Top-Right Profile Icon Dropdown for Admin Access
@@ -1706,6 +1907,7 @@
       DisasterReadyAPI.initNavigation();
       DisasterReadyAPI.initHeaderAudio();
       DisasterReadyAPI.initProfileDropdown();
+      DisasterReadyAPI.initLanguageDropdown();
     };
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initAll);
