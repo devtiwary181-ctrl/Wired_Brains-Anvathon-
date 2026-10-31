@@ -4,3 +4,9 @@
 [2026-10-31 11:34:48.489 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
 [2026-10-31 11:34:48.489 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
 [2026-10-31 11:34:48.491 +0530] [32mINFO[39m: [36mConnected to Redis[39m
+◇ injected env (15) from .env
+[2026-10-31 15:18:30.950 +0530] [32mINFO[39m: [36mBullMQ Emergency Queues Initialized[39m
+[2026-10-31 15:18:31.011 +0530] [32mINFO[39m: [36m🚨 DisasterReady India Core API running on port 5001 [development][39m
+[2026-10-31 15:18:31.011 +0530] [32mINFO[39m: [36m📖 API Docs available at http://localhost:5001/api/docs[39m
+[2026-10-31 15:18:31.011 +0530] [32mINFO[39m: [36m🩺 Health check at http://localhost:5001/api/v1/health[39m
+[2026-10-31 15:18:31.016 +0530] [32mINFO[39m: [36mConnected to Redis[39m
