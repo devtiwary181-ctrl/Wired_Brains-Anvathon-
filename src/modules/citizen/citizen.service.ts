@@ -38,6 +38,48 @@ export class CitizenService {
    * Reverse geocode GPS coordinate to district and state.
    */
   async reverseGeocode(lat: number, lng: number) {
+    try {
+      const nominatimBase = (process.env.NOMINATIM_BASE_URL || 'https://nominatim.openstreetmap.org').replace(/\/+$/, '');
+      const url = `${nominatimBase}/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
+      const res = await fetch(url, {
+        headers: {
+          'User-Agent': 'DisasterReadyIndia/1.0 (disasterready@ndma.gov.in)',
+          'Accept': 'application/json',
+        },
+        signal: AbortSignal.timeout(6000),
+      });
+
+      if (res.ok) {
+        const data = await res.json() as any;
+        const addr = data.address || {};
+        const state = addr.state || addr.state_district || null;
+        const districtName = addr.state_district || addr.district || addr.county || addr.city || null;
+
+        // Try to match in DB
+        let matchedDistrict = null;
+        if (districtName) {
+          matchedDistrict = await prisma.district.findFirst({
+            where: {
+              name: { contains: districtName, mode: 'insensitive' },
+              ...(state ? { state: { contains: state, mode: 'insensitive' } } : {}),
+            },
+          });
+        }
+
+        return {
+          state: state || (matchedDistrict ? matchedDistrict.state : null),
+          district: matchedDistrict ? matchedDistrict.name : districtName,
+          districtId: matchedDistrict ? matchedDistrict.id : null,
+          districtCode: matchedDistrict ? matchedDistrict.code : null,
+          coordinates: { lat, lng },
+          source: 'Nominatim OpenStreetMap & National District Registry',
+          timestamp: new Date().toISOString(),
+        };
+      }
+    } catch (e) {
+      // Fallback
+    }
+
     return {
       state: null,
       district: null,
@@ -71,7 +113,10 @@ export class CitizenService {
         state: true,
         eocPhone: true,
       },
-      take: 10,
+      orderBy: {
+        name: 'asc',
+      },
+      take: 20,
     });
     return districts;
   }

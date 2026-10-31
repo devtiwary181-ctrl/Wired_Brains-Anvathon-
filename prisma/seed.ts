@@ -34,6 +34,42 @@ async function main() {
     },
   });
 
+  // Seed all pan-India administrative districts from dataset if available
+  try {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const districtsJsonPath = path.join(process.cwd(), 'src/data/india-districts.json');
+    if (fs.existsSync(districtsJsonPath)) {
+      const allDistrictsData = JSON.parse(fs.readFileSync(districtsJsonPath, 'utf-8'));
+      const slug = (t: string) => t.toUpperCase().replace(/[^A-Z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      for (const st of allDistrictsData.states) {
+        for (const distName of st.districts) {
+          const code = `IN-${slug(st.state)}-${slug(distName)}`.substring(0, 50);
+          const exists = await prisma.district.findFirst({
+            where: {
+              name: { equals: distName, mode: 'insensitive' },
+              state: { equals: st.state, mode: 'insensitive' },
+            },
+          });
+          if (!exists) {
+            await prisma.district.upsert({
+              where: { code },
+              update: {},
+              create: {
+                code,
+                name: distName,
+                state: st.state,
+                eocPhone: '112',
+              },
+            }).catch(() => {});
+          }
+        }
+      }
+    }
+  } catch (seedDistErr) {
+    console.warn('Notice: All-districts json seeding skipped:', seedDistErr);
+  }
+
   // 3. Staff Users
   await prisma.staffUser.upsert({
     where: { username: 'EOC-DIR-001' },
