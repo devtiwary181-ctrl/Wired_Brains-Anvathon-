@@ -21,6 +21,7 @@ import { notifyAuthorizedStaff } from '../../shared/notifications.js';
 import { outboxService } from '../../shared/outbox.service.js';
 import { logger } from '../../shared/logger.js';
 import crypto from 'crypto';
+import { geocodeSearch, getEvacuationRoutes, Coordinate } from './routing.service.js';
 
 // ---------------------------------------------------------------------------
 // Helper: Generate cryptographically secure high-entropy tracking token
@@ -1057,6 +1058,294 @@ export class CitizenService {
       waterLiters,
       rationsKits,
     };
+  }
+
+  /**
+   * Search places table (2,000+ sample places across India) with Hindi and English support,
+   * typo tolerance (pg_trgm and ILIKE), and distance calculation.
+   * Falls back to Nominatim if zero DB results found.
+   */
+  async searchPlaces(params: {
+    q?: string;
+    lat?: number;
+    lng?: number;
+    limit?: number;
+    includeFacilities?: boolean;
+  }) {
+    const rawQ = (params.q || '').trim();
+    const limit = Math.min(Math.max(params.limit || 15, 1), 50);
+    const hasCoords = Number.isFinite(params.lat) && Number.isFinite(params.lng);
+    const userLat = params.lat!;
+    const userLng = params.lng!;
+
+    let places: Array<{
+      id: string;
+      name: string;
+      nameHi?: string | null;
+      altNames: string[];
+      type: string;
+      district: string;
+      state: string;
+      latitude: number;
+      longitude: number;
+      coordinates: { lat: number; lng: number };
+      distanceKm: number | null;
+      source: 'database' | 'facility' | 'nominatim';
+      facilityDetails?: any;
+    }> = [];
+
+    if (rawQ.length > 0) {
+      const likePattern = `%${rawQ}%`;
+      let dbRows: any[] = [];
+      try {
+        if (hasCoords) {
+          dbRows = await prisma.$queryRawUnsafe(`
+            SELECT id, name, name_hi as "nameHi", alt_names as "altNames", type, district, state,
+                   latitude, longitude,
+                   (similarity(name, $1) + similarity(coalesce(name_hi, ''), $1)) as sim,
+                   round((6371 * acos(least(1.0, greatest(-1.0, cos(radians($3)) * cos(radians(latitude)) * cos(radians(longitude) - radians($4)) + sin(radians($3)) * sin(radians(latitude))))))::numeric, 2) as distance_km
+            FROM places
+            WHERE name ILIKE $2 OR name_hi ILIKE $2 OR similarity(name, $1) > 0.15 OR similarity(coalesce(name_hi, ''), $1) > 0.15 OR type ILIKE $2
+            ORDER BY (CASE WHEN (similarity(name, $1) + similarity(coalesce(name_hi, ''), $1)) >= 0.25 THEN 0 ELSE 1 END), distance_km ASC, sim DESC
+            LIMIT $5;
+          `, rawQ, likePattern, userLat, userLng, limit);
+        } else {
+          dbRows = await prisma.$queryRawUnsafe(`
+            SELECT id, name, name_hi as "nameHi", alt_names as "altNames", type, district, state,
+                   latitude, longitude,
+                   (similarity(name, $1) + similarity(coalesce(name_hi, ''), $1)) as sim
+            FROM places
+            WHERE name ILIKE $2 OR name_hi ILIKE $2 OR similarity(name, $1) > 0.15 OR similarity(coalesce(name_hi, ''), $1) > 0.15 OR type ILIKE $2
+            ORDER BY sim DESC, name ASC
+            LIMIT $3;
+          `, rawQ, likePattern, limit);
+        }
+      } catch (err) {
+        logger.warn({ err }, 'Failed querying places table');
+      }
+
+      places = dbRows.map((p) => ({
+        id: p.id,
+        name: p.name,
+        nameHi: p.nameHi,
+        altNames: p.altNames || [],
+        type: p.type,
+        district: p.district,
+        state: p.state,
+        latitude: Number(p.latitude),
+        longitude: Number(p.longitude),
+        coordinates: { lat: Number(p.latitude), lng: Number(p.longitude) },
+        distanceKm: p.distance_km != null ? Number(p.distance_km) : null,
+        source: 'database' as const,
+      }));
+    } else if (hasCoords) {
+      try {
+        const dbRows: any[] = await prisma.$queryRawUnsafe(`
+          SELECT id, name, name_hi as "nameHi", alt_names as "altNames", type, district, state,
+                 latitude, longitude,
+                 round((6371 * acos(least(1.0, greatest(-1.0, cos(radians($1)) * cos(radians(latitude)) * cos(radians(longitude) - radians($2)) + sin(radians($1)) * sin(radians(latitude))))))::numeric, 2) as distance_km
+          FROM places
+          ORDER BY distance_km ASC
+          LIMIT $3;
+        `, userLat, userLng, limit);
+
+        places = dbRows.map((p) => ({
+          id: p.id,
+          name: p.name,
+          nameHi: p.nameHi,
+          altNames: p.altNames || [],
+          type: p.type,
+          district: p.district,
+          state: p.state,
+          latitude: Number(p.latitude),
+          longitude: Number(p.longitude),
+          coordinates: { lat: Number(p.latitude), lng: Number(p.longitude) },
+          distanceKm: p.distance_km != null ? Number(p.distance_km) : null,
+          source: 'database' as const,
+        }));
+      } catch (err) {
+        logger.warn({ err }, 'Failed querying nearest places');
+      }
+    }
+
+    // Include facilities if requested
+    if (params.includeFacilities && rawQ.length > 0) {
+      try {
+        const matchedFacilities = await prisma.facility.findMany({
+          where: {
+            OR: [
+              { name: { contains: rawQ, mode: 'insensitive' } },
+              { address: { contains: rawQ, mode: 'insensitive' } },
+            ],
+          },
+          take: 10,
+        });
+        const toRad = (x: number) => (x * Math.PI) / 180;
+        matchedFacilities.forEach((f) => {
+          let dist: number | null = null;
+          if (hasCoords) {
+            const R = 6371;
+            const dLat = toRad(f.latitude - userLat);
+            const dLon = toRad(f.longitude - userLng);
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(userLat)) * Math.cos(toRad(f.latitude)) * Math.sin(dLon / 2) ** 2;
+            dist = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10;
+          }
+          places.push({
+            id: f.id,
+            name: f.name,
+            nameHi: null,
+            altNames: [f.facilityType],
+            type: f.facilityType === 'HOSPITAL' ? 'hospital' : 'shelter',
+            district: '',
+            state: '',
+            latitude: f.latitude,
+            longitude: f.longitude,
+            coordinates: { lat: f.latitude, lng: f.longitude },
+            distanceKm: dist,
+            source: 'facility' as const,
+            facilityDetails: {
+              type: f.facilityType,
+              totalCapacity: f.totalCapacity,
+              currentOccupancy: f.currentOccupancy,
+              availableBeds: Math.max(0, f.totalCapacity - f.currentOccupancy),
+              operatingStatus: f.operatingStatus,
+              isVerified: f.isVerified,
+            },
+          });
+        });
+      } catch (err) {
+        logger.warn({ err }, 'Error matching facilities');
+      }
+    }
+
+    // Fallback to Nominatim if zero matches found and query length >= 2
+    if (places.length === 0 && rawQ.length >= 2) {
+      try {
+        const geoResults = await geocodeSearch(rawQ);
+        places = geoResults.map((g) => {
+          let dist: number | null = null;
+          if (hasCoords) {
+            const toRad = (x: number) => (x * Math.PI) / 180;
+            const R = 6371;
+            const dLat = toRad(g.coordinates.lat - userLat);
+            const dLon = toRad(g.coordinates.lng - userLng);
+            const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(userLat)) * Math.cos(toRad(g.coordinates.lat)) * Math.sin(dLon / 2) ** 2;
+            dist = Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 10) / 10;
+          }
+          return {
+            id: g.placeId,
+            name: g.label.split(',')[0] || g.label,
+            nameHi: null,
+            altNames: [g.label],
+            type: 'landmark',
+            district: '',
+            state: '',
+            latitude: g.coordinates.lat,
+            longitude: g.coordinates.lng,
+            coordinates: g.coordinates,
+            distanceKm: dist,
+            source: 'nominatim' as const,
+          };
+        });
+      } catch (err) {
+        logger.warn({ err }, 'Nominatim fallback failed');
+      }
+    }
+
+    if (hasCoords) {
+      places.sort((a, b) => (a.distanceKm ?? 9999) - (b.distanceKm ?? 9999));
+    }
+
+    return places.slice(0, limit);
+  }
+
+  /**
+   * Safe Shelters directory with distance calculation and preference filters.
+   */
+  async getShelters(params: {
+    q?: string;
+    lat?: number;
+    lng?: number;
+    districtId?: string;
+    limit?: number;
+    wheelchair?: boolean;
+    elderly?: boolean;
+    child?: boolean;
+    pregnant?: boolean;
+    medical?: boolean;
+    power?: boolean;
+    pets?: boolean;
+    women?: boolean;
+  }) {
+    const facilities = await this.getFacilities({
+      facilityType: 'SHELTER',
+      districtId: params.districtId,
+      lat: params.lat,
+      lng: params.lng,
+      hasWheelchairRamp: params.wheelchair ? true : undefined,
+      hasMedical: (params.medical || params.elderly || params.child || params.pregnant) ? true : undefined,
+      hasPower: (params.power || params.medical) ? true : undefined,
+      isPetFriendly: params.pets ? true : undefined,
+      hasWomenWing: params.women ? true : undefined,
+    });
+
+    let results = facilities;
+    if (params.q) {
+      const q = params.q.toLowerCase();
+      results = results.filter((f) => f.name.toLowerCase().includes(q) || (f.address && f.address.toLowerCase().includes(q)));
+    }
+    const limit = params.limit || 50;
+    return results.slice(0, limit);
+  }
+
+  /**
+   * Hospitals directory with distance calculation and medical capabilities.
+   */
+  async getHospitals(params: {
+    q?: string;
+    lat?: number;
+    lng?: number;
+    districtId?: string;
+    limit?: number;
+    medical?: boolean;
+    power?: boolean;
+  }) {
+    const facilities = await this.getFacilities({
+      facilityType: 'HOSPITAL',
+      districtId: params.districtId,
+      lat: params.lat,
+      lng: params.lng,
+      hasMedical: params.medical ? true : undefined,
+      hasPower: params.power ? true : undefined,
+    });
+
+    let results = facilities;
+    if (params.q) {
+      const q = params.q.toLowerCase();
+      results = results.filter((f) => f.name.toLowerCase().includes(q) || (f.address && f.address.toLowerCase().includes(q)));
+    }
+    const limit = params.limit || 50;
+    return results.slice(0, limit);
+  }
+
+  /**
+   * Generates 4 evacuation routes (Fastest, Shortest, Safest, Alternative) with OSRM and synthetic fallback.
+   */
+  async getEvacuationRoutes(params: {
+    origin: Coordinate;
+    destination: Coordinate;
+    travelMode?: 'WALK' | 'TWO_WHEELER' | 'DRIVE' | 'AMBULANCE';
+    preferences?: {
+      wheelchair?: boolean;
+      elderly?: boolean;
+      child?: boolean;
+      pregnant?: boolean;
+      medical?: boolean;
+      pets?: boolean;
+      women?: boolean;
+    };
+  }) {
+    return getEvacuationRoutes(params);
   }
 }
 

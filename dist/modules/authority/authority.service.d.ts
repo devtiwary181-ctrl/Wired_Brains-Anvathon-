@@ -107,9 +107,9 @@ export declare class AuthorityService {
             id: string;
             isActive: boolean;
             updatedAt: Date;
+            coordinates: Prisma.JsonValue;
             incidentId: string;
             zoneType: string;
-            coordinates: Prisma.JsonValue;
             depthM: number;
         }[];
         createdAt: Date;
@@ -146,9 +146,9 @@ export declare class AuthorityService {
             id: string;
             isActive: boolean;
             updatedAt: Date;
+            coordinates: Prisma.JsonValue;
             incidentId: string;
             zoneType: string;
-            coordinates: Prisma.JsonValue;
             depthM: number;
         }[];
         createdAt: Date;
@@ -205,8 +205,8 @@ export declare class AuthorityService {
         description: string | null;
         latitude: number;
         longitude: number;
-        severity: string;
         hazardType: string;
+        severity: string;
         addressLandmark: string | null;
         observedAt: Date | null;
         contactInfo: string | null;
@@ -235,8 +235,8 @@ export declare class AuthorityService {
         description: string | null;
         latitude: number;
         longitude: number;
-        severity: string;
         hazardType: string;
+        severity: string;
         addressLandmark: string | null;
         observedAt: Date | null;
         contactInfo: string | null;

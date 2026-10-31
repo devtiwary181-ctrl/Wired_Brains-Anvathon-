@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { Coordinate } from './routing.service.js';
 export declare class CitizenService {
     /**
      * Reverse geocode GPS coordinate to district and state.
@@ -451,5 +452,149 @@ export declare class CitizenService {
         waterLiters: number;
         rationsKits: number;
     };
+    /**
+     * Search places table (2,000+ sample places across India) with Hindi and English support,
+     * typo tolerance (pg_trgm and ILIKE), and distance calculation.
+     * Falls back to Nominatim if zero DB results found.
+     */
+    searchPlaces(params: {
+        q?: string;
+        lat?: number;
+        lng?: number;
+        limit?: number;
+        includeFacilities?: boolean;
+    }): Promise<{
+        id: string;
+        name: string;
+        nameHi?: string | null;
+        altNames: string[];
+        type: string;
+        district: string;
+        state: string;
+        latitude: number;
+        longitude: number;
+        coordinates: {
+            lat: number;
+            lng: number;
+        };
+        distanceKm: number | null;
+        source: "database" | "facility" | "nominatim";
+        facilityDetails?: any;
+    }[]>;
+    /**
+     * Safe Shelters directory with distance calculation and preference filters.
+     */
+    getShelters(params: {
+        q?: string;
+        lat?: number;
+        lng?: number;
+        districtId?: string;
+        limit?: number;
+        wheelchair?: boolean;
+        elderly?: boolean;
+        child?: boolean;
+        pregnant?: boolean;
+        medical?: boolean;
+        power?: boolean;
+        pets?: boolean;
+        women?: boolean;
+    }): Promise<{
+        id: any;
+        name: any;
+        facilityType: any;
+        address: any;
+        coordinates: {
+            lat: any;
+            lng: any;
+        };
+        contactPhone: any;
+        inChargeName: any;
+        totalCapacity: any;
+        currentOccupancy: any;
+        availableBeds: number | null;
+        capacitySource: string;
+        services: {
+            medical: any;
+            generatorPower: any;
+            drinkingWater: any;
+            infantCare: any;
+            petFriendly: any;
+            wheelchairRamp: any;
+            womenWing: any;
+        };
+        hazardSuitability: any;
+        dataQuality: {
+            unknownFields: ("contactPhone" | "totalCapacity" | "currentOccupancy" | "hasMedicalSupport" | "hasGeneratorPower" | "hasDrinkingWater" | "hasInfantCare" | "isPetFriendly")[];
+            stale: boolean;
+        };
+        isVerified: any;
+        operatingStatus: any;
+        distanceKm: number | null;
+        lastUpdated: any;
+        source: string;
+    }[]>;
+    /**
+     * Hospitals directory with distance calculation and medical capabilities.
+     */
+    getHospitals(params: {
+        q?: string;
+        lat?: number;
+        lng?: number;
+        districtId?: string;
+        limit?: number;
+        medical?: boolean;
+        power?: boolean;
+    }): Promise<{
+        id: any;
+        name: any;
+        facilityType: any;
+        address: any;
+        coordinates: {
+            lat: any;
+            lng: any;
+        };
+        contactPhone: any;
+        inChargeName: any;
+        totalCapacity: any;
+        currentOccupancy: any;
+        availableBeds: number | null;
+        capacitySource: string;
+        services: {
+            medical: any;
+            generatorPower: any;
+            drinkingWater: any;
+            infantCare: any;
+            petFriendly: any;
+            wheelchairRamp: any;
+            womenWing: any;
+        };
+        hazardSuitability: any;
+        dataQuality: {
+            unknownFields: ("contactPhone" | "totalCapacity" | "currentOccupancy" | "hasMedicalSupport" | "hasGeneratorPower" | "hasDrinkingWater" | "hasInfantCare" | "isPetFriendly")[];
+            stale: boolean;
+        };
+        isVerified: any;
+        operatingStatus: any;
+        distanceKm: number | null;
+        lastUpdated: any;
+        source: string;
+    }[]>;
+    /**
+     * Generates 4 evacuation routes (Fastest, Shortest, Safest, Alternative) with OSRM and synthetic fallback.
+     */
+    getEvacuationRoutes(params: {
+        origin: Coordinate;
+        destination: Coordinate;
+        travelMode?: 'WALK' | 'TWO_WHEELER' | 'DRIVE' | 'AMBULANCE';
+        preferences?: {
+            wheelchair?: boolean;
+            elderly?: boolean;
+            child?: boolean;
+            pregnant?: boolean;
+            medical?: boolean;
+            pets?: boolean;
+            women?: boolean;
+        };
+    }): Promise<import("./routing.service.js").EvacuationRouteResponse>;
 }
 export declare const citizenService: CitizenService;

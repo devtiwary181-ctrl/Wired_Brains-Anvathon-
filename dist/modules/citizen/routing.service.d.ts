@@ -133,4 +133,46 @@ export declare function getMapsBrowserConfig(): {
     nominatimUrl: string;
     libraries: readonly ["leaflet"];
 };
+export interface EvacuationRouteOption {
+    routeId: string;
+    name: string;
+    label: string;
+    type: 'fastest' | 'shortest' | 'safest' | 'alternative';
+    color: string;
+    distanceMeters: number;
+    distanceKm: number;
+    durationSeconds: number;
+    durationMinutes: number;
+    riskScore: number;
+    coordinates: Coordinate[];
+    steps: string[];
+    safe: boolean;
+    source: 'osrm' | 'fallback';
+    recommendationReason: string;
+}
+export interface EvacuationRouteResponse {
+    routes: EvacuationRouteOption[];
+    alternatives: EvacuationRouteOption[];
+    recommendedRouteId: string;
+    travelMode: string;
+    preferenceBanners: string[];
+    isFallback: boolean;
+    notice?: string;
+    origin: Coordinate;
+    destination: Coordinate;
+}
+export declare function getEvacuationRoutes(params: {
+    origin: Coordinate;
+    destination: Coordinate;
+    travelMode?: 'WALK' | 'TWO_WHEELER' | 'DRIVE' | 'AMBULANCE';
+    preferences?: {
+        wheelchair?: boolean;
+        elderly?: boolean;
+        child?: boolean;
+        pregnant?: boolean;
+        medical?: boolean;
+        pets?: boolean;
+        women?: boolean;
+    };
+}, fetcher?: typeof fetch): Promise<EvacuationRouteResponse>;
 export {};

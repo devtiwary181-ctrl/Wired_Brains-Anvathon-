@@ -179,9 +179,16 @@
       if (state) params.set('state', state);
       return get(`/geo/districts?${params.toString()}`);
     },
-    async searchPlaces(q) {
-      if (!q || q.trim().length < 3) return [];
-      return get(`/geo/search?q=${encodeURIComponent(q.trim())}`);
+    async searchPlaces(q, lat, lng, limit, includeFacilities) {
+      if (!q && (lat == null || lng == null)) return [];
+      const params = new URLSearchParams();
+      if (q) params.set('q', q.trim());
+      if (lat != null) params.set('lat', String(lat));
+      if (lng != null) params.set('lng', String(lng));
+      if (limit != null) params.set('limit', String(limit));
+      if (includeFacilities) params.set('includeFacilities', 'true');
+      const res = await get(`/places/search?${params.toString()}`);
+      return res?.places || res?.data || res || [];
     },
     /**
      * Detect GPS location, reverse geocode, and persist to storage.
@@ -278,8 +285,11 @@
   };
 
   const routing = {
-    compare({ origin, destination, travelMode = 'WALK' }) {
-      return post('/routes/compare', { origin, destination, travelMode });
+    compare({ origin, destination, travelMode = 'WALK', preferences }) {
+      return post('/routes/evacuation', { origin, destination, travelMode, preferences });
+    },
+    evacuation({ origin, destination, travelMode = 'WALK', preferences }) {
+      return post('/routes/evacuation', { origin, destination, travelMode, preferences });
     },
     checkRisk({ coordinates, knownFeatureIds, previousRiskScore }) {
       return post('/routes/check-risk', { coordinates, knownFeatureIds, previousRiskScore });
@@ -466,6 +476,22 @@
       if (isPetFriendly != null) params.set('isPetFriendly', isPetFriendly);
       const qs = params.toString() ? `?${params}` : '';
       return get(`/facilities${qs}`);
+    },
+    async getShelters(params = {}) {
+      const qs = new URLSearchParams();
+      Object.entries(params).forEach(([k, v]) => {
+        if (v !== undefined && v !== null) qs.set(k, String(v));
+      });
+      const res = await get(`/shelters${qs.toString() ? `?${qs}` : ''}`);
+      return res?.shelters || res?.data || res || [];
+    },
+    async getHospitals(params = {}) {
+      const qs = new URLSearchParams();
+      Object.entries(params).forEach(([k, v]) => {
+        if (v !== undefined && v !== null) qs.set(k, String(v));
+      });
+      const res = await get(`/hospitals${qs.toString() ? `?${qs}` : ''}`);
+      return res?.hospitals || res?.data || res || [];
     },
   };
 

@@ -8,6 +8,9 @@ export declare class CitizenController {
     compareRoutes(req: Request, res: Response, next: NextFunction): Promise<void>;
     checkRouteRisk(req: Request, res: Response, next: NextFunction): Promise<void>;
     searchPlaces(req: Request, res: Response, next: NextFunction): Promise<void>;
+    getShelters(req: Request, res: Response, next: NextFunction): Promise<void>;
+    getHospitals(req: Request, res: Response, next: NextFunction): Promise<void>;
+    getEvacuationRoutes(req: Request, res: Response, next: NextFunction): Promise<void>;
     mapsConfig(_req: Request, res: Response, next: NextFunction): Promise<void>;
     reverseGeocode(req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined>;
     getStates(req: Request, res: Response, next: NextFunction): Promise<void>;

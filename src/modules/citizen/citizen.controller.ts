@@ -29,8 +29,76 @@ export class CitizenController {
 
   async searchPlaces(req: Request, res: Response, next: NextFunction) {
     try {
-      const query = typeof req.query.q === 'string' ? req.query.q.trim() : '';
-      const result = await geocodeSearch(query);
+      const q = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+      const lat = req.query.lat ? parseFloat(req.query.lat as string) : undefined;
+      const lng = req.query.lng ? parseFloat(req.query.lng as string) : undefined;
+      const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 15;
+      const includeFacilities = req.query.includeFacilities === 'true' || req.query.includeFacilities === '1';
+
+      const result = await citizenService.searchPlaces({
+        q,
+        lat,
+        lng,
+        limit,
+        includeFacilities,
+      });
+      res.status(200).json({ success: true, count: result.length, places: result, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getShelters(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { q, lat, lng, districtId, limit, wheelchair, elderly, child, pregnant, medical, power, pets, women } = req.query;
+      const result = await citizenService.getShelters({
+        q: typeof q === 'string' ? q : undefined,
+        lat: lat ? parseFloat(lat as string) : undefined,
+        lng: lng ? parseFloat(lng as string) : undefined,
+        districtId: typeof districtId === 'string' ? districtId : undefined,
+        limit: limit ? parseInt(limit as string, 10) : undefined,
+        wheelchair: wheelchair === 'true' || wheelchair === '1',
+        elderly: elderly === 'true' || elderly === '1',
+        child: child === 'true' || child === '1',
+        pregnant: pregnant === 'true' || pregnant === '1',
+        medical: medical === 'true' || medical === '1',
+        power: power === 'true' || power === '1',
+        pets: pets === 'true' || pets === '1',
+        women: women === 'true' || women === '1',
+      });
+      res.status(200).json({ success: true, count: result.length, shelters: result, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getHospitals(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { q, lat, lng, districtId, limit, medical, power } = req.query;
+      const result = await citizenService.getHospitals({
+        q: typeof q === 'string' ? q : undefined,
+        lat: lat ? parseFloat(lat as string) : undefined,
+        lng: lng ? parseFloat(lng as string) : undefined,
+        districtId: typeof districtId === 'string' ? districtId : undefined,
+        limit: limit ? parseInt(limit as string, 10) : undefined,
+        medical: medical === 'true' || medical === '1',
+        power: power === 'true' || power === '1',
+      });
+      res.status(200).json({ success: true, count: result.length, hospitals: result, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getEvacuationRoutes(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { origin, destination, travelMode, preferences } = req.body;
+      const result = await citizenService.getEvacuationRoutes({
+        origin,
+        destination,
+        travelMode,
+        preferences,
+      });
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);

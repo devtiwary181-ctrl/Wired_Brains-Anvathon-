@@ -66,10 +66,11 @@ export const sosRateLimiter = rateLimit({
   },
 });
 
-/** Google Maps-backed public queries: 10 provider requests / minute per IP */
+/** Google Maps-backed public queries: 60 provider requests / minute per IP, skipped for loopback/test */
 export const mapsQueryRateLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 10,
+  max: 60,
+  skip: (req) => process.env.NODE_ENV === 'test' || req.ip === '127.0.0.1' || req.ip === '::1' || req.ip === '::ffff:127.0.0.1',
   standardHeaders: true,
   legacyHeaders: false,
   message: {

@@ -101,6 +101,7 @@ citizenRouter.get('/geo/states', publicRateLimiter, (req, res, next) => citizenC
 citizenRouter.get('/geo/reverse-geocode', publicRateLimiter, (req, res, next) => citizenController.reverseGeocode(req, res, next));
 citizenRouter.get('/geo/districts', publicRateLimiter, (req, res, next) => citizenController.searchDistricts(req, res, next));
 citizenRouter.get('/geo/search', mapsQueryRateLimiter, (req, res, next) => citizenController.searchPlaces(req, res, next));
+citizenRouter.get('/places/search', publicRateLimiter, (req, res, next) => citizenController.searchPlaces(req, res, next));
 citizenRouter.get('/maps/config', mapsQueryRateLimiter, (req, res, next) => citizenController.mapsConfig(req, res, next));
 // ---------------------------------------------------------------------------
 // Screen 02 — Citizen Dashboard (aggregated feed)
@@ -116,6 +117,7 @@ citizenRouter.get('/announcements', publicRateLimiter, (req, res, next) => citiz
 // ---------------------------------------------------------------------------
 citizenRouter.get('/hazards/spatial', publicRateLimiter, (req, res, next) => citizenController.getSpatialHazards(req, res, next));
 citizenRouter.post('/routes/compare', mapsQueryRateLimiter, validateRequest({ body: compareRoutesSchema }), (req, res, next) => citizenController.compareRoutes(req, res, next));
+citizenRouter.post('/routes/evacuation', mapsQueryRateLimiter, (req, res, next) => citizenController.getEvacuationRoutes(req, res, next));
 citizenRouter.post('/routes/check-risk', mapsQueryRateLimiter, validateRequest({ body: routeRiskCheckSchema }), (req, res, next) => citizenController.checkRouteRisk(req, res, next));
 // ---------------------------------------------------------------------------
 // Screen 06 — Hazard Reporting (Step 5 in Get-to-Safety wizard)
@@ -126,6 +128,8 @@ citizenRouter.post('/hazards/report', hazardReportRateLimiter, evidenceUpload.si
 // Screen 07 — Shelters & Hospitals (Safe Places Directory)
 // ---------------------------------------------------------------------------
 citizenRouter.get('/facilities', publicRateLimiter, validateRequest({ query: facilitiesQuerySchema }), (req, res, next) => citizenController.getFacilities(req, res, next));
+citizenRouter.get('/shelters', publicRateLimiter, (req, res, next) => citizenController.getShelters(req, res, next));
+citizenRouter.get('/hospitals', publicRateLimiter, (req, res, next) => citizenController.getHospitals(req, res, next));
 // ---------------------------------------------------------------------------
 // Screens 08–10 — Emergency Relief Requests & Tracking
 // ---------------------------------------------------------------------------

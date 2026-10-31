@@ -125,6 +125,9 @@ citizenRouter.get('/geo/districts', publicRateLimiter, (req, res, next) =>
 citizenRouter.get('/geo/search', mapsQueryRateLimiter, (req, res, next) =>
   citizenController.searchPlaces(req, res, next),
 );
+citizenRouter.get('/places/search', publicRateLimiter, (req, res, next) =>
+  citizenController.searchPlaces(req, res, next),
+);
 citizenRouter.get('/maps/config', mapsQueryRateLimiter, (req, res, next) =>
   citizenController.mapsConfig(req, res, next),
 );
@@ -155,6 +158,9 @@ citizenRouter.get('/hazards/spatial', publicRateLimiter, (req, res, next) =>
 citizenRouter.post('/routes/compare', mapsQueryRateLimiter, validateRequest({ body: compareRoutesSchema }), (req, res, next) =>
   citizenController.compareRoutes(req, res, next),
 );
+citizenRouter.post('/routes/evacuation', mapsQueryRateLimiter, (req, res, next) =>
+  citizenController.getEvacuationRoutes(req, res, next),
+);
 citizenRouter.post('/routes/check-risk', mapsQueryRateLimiter, validateRequest({ body: routeRiskCheckSchema }), (req, res, next) =>
   citizenController.checkRouteRisk(req, res, next),
 );
@@ -176,6 +182,12 @@ citizenRouter.post(
 // ---------------------------------------------------------------------------
 citizenRouter.get('/facilities', publicRateLimiter, validateRequest({ query: facilitiesQuerySchema }), (req, res, next) =>
   citizenController.getFacilities(req, res, next),
+);
+citizenRouter.get('/shelters', publicRateLimiter, (req, res, next) =>
+  citizenController.getShelters(req, res, next),
+);
+citizenRouter.get('/hospitals', publicRateLimiter, (req, res, next) =>
+  citizenController.getHospitals(req, res, next),
 );
 
 // ---------------------------------------------------------------------------
