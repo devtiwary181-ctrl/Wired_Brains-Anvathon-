@@ -757,11 +757,11 @@
     }
   }
 
-  // AI Decision Support & Operational Copilot with mandatory Human Authorization
-  const copilotOps = operationPanel('AI Decision Support & Operational Copilot (Human-in-the-Loop)');
+  // AI Decision Support & Operational Kavach AI with mandatory Human Authorization
+  const copilotOps = operationPanel('AI Decision Support & Operational Kavach AI (Human-in-the-Loop)');
   const copilotNotice = text(
     'p',
-    'DisasterReady AI Copilot assists command staff by analyzing live records, identifying inventory gaps, and drafting announcements. Protected actions require human review and confirmation.',
+    'DisasterReady Kavach AI assists command staff by analyzing live records, identifying inventory gaps, and drafting announcements. Protected actions require human review and confirmation.',
     'font-caption text-caption text-on-surface-variant'
   );
   const copilotActionRow = document.createElement('div');

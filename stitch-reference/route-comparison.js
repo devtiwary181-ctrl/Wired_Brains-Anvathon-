@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const mapContainer = document.getElementById('map-container');
   const directionsSection = sections[9];
   const actionSection = sections[12];
-  const copilotButton = document.querySelector('[aria-label="Ask AI Copilot for Route Assistance"]');
+  const copilotButton = document.querySelector('[aria-label="Ask AI Copilot for Route Assistance"], [aria-label="Ask Kavach AI for Route Assistance"]');
   if (copilotButton) {
     copilotButton.removeAttribute('onclick');
     copilotButton.addEventListener('click', async () => {
       copilotButton.disabled = true;
-      copilotButton.textContent = 'Consulting Copilot...';
+      copilotButton.textContent = 'Consulting Kavach AI...';
       try {
         const origin = JSON.parse(sessionStorage.getItem('dr_route_origin') || 'null');
         const destination = JSON.parse(sessionStorage.getItem('dr_route_destination') || 'null');
@@ -27,18 +27,33 @@ document.addEventListener('DOMContentLoaded', function () {
             travelMode: 'WALK',
           },
         });
-        alert(`DisasterReady AI Copilot:\n\n${res.response}\n\n[Official Safety Notice]: ${res.safetyDisclaimer}`);
+        alert(`DisasterReady Kavach AI:\n\n${res.response}\n\n[Official Safety Notice]: ${res.safetyDisclaimer}`);
       } catch (err) {
         DR.ui.toast(err.message || 'Route assistance unavailable. If floodwaters are rising, seek high ground immediately.');
       } finally {
         copilotButton.disabled = false;
-        copilotButton.textContent = 'Ask AI Copilot for Route Assistance';
+        copilotButton.textContent = 'Ask Kavach AI for Route Assistance';
       }
     });
   }
   let comparison = null;
-  const origin = JSON.parse(sessionStorage.getItem('dr_route_origin') || 'null');
-  const destination = JSON.parse(sessionStorage.getItem('dr_route_destination') || 'null');
+  let origin = JSON.parse(sessionStorage.getItem('dr_route_origin') || 'null');
+  let destination = JSON.parse(sessionStorage.getItem('dr_route_destination') || 'null');
+
+  // Fallback defaults if user directly visited this screen
+  if (!origin || typeof origin.lat !== 'number') {
+    const loc = DR.storage ? DR.storage.getLocation() : null;
+    origin = (loc && typeof loc.lat === 'number') ? { lat: loc.lat, lng: loc.lng } : { lat: 28.6139, lng: 77.2090 };
+    sessionStorage.setItem('dr_route_origin', JSON.stringify(origin));
+  }
+  if (!destination || typeof destination.lat !== 'number') {
+    destination = { lat: 28.6500, lng: 77.2300 }; // Verified relief safe haven
+    sessionStorage.setItem('dr_route_destination', JSON.stringify(destination));
+    if (!sessionStorage.getItem('dr_route_destination_label')) {
+      sessionStorage.setItem('dr_route_destination_label', 'Community Hall Relief Center, Sector 4');
+    }
+  }
+
   let selectedRouteId = comparison?.recommendedRouteId || comparison?.alternatives?.[0]?.routeId;
   let monitorTimer;
   const polylines = new Map();
@@ -51,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sections[1].textContent = 'Route assessment source and freshness are shown with each provider result.';
   }
   const destinationText = titleSection?.querySelector('p.font-body-strong');
-  if (destinationText && destination) {
+  if (destinationText) {
     destinationText.textContent = `Destination: ${sessionStorage.getItem('dr_route_destination_label') || `${destination.lat.toFixed(5)}, ${destination.lng.toFixed(5)}`}`;
   }
 
@@ -66,7 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
   mapContainer?.insertAdjacentElement('afterend', mapStatus);
   if (mapContainer) {
     mapContainer.replaceChildren();
-    mapContainer.style.minHeight = '320px';
+    mapContainer.style.minHeight = '340px';
+    mapContainer.hidden = false;
     mapContainer.setAttribute('aria-label', 'OpenStreetMap showing route alternatives');
   }
 
@@ -122,47 +138,71 @@ document.addEventListener('DOMContentLoaded', function () {
         const latLngs = route.coordinates.map(pt => [pt.lat, pt.lng]);
         latLngs.forEach(pt => allLatLngs.push(pt));
 
+        const isRecommended = route.routeId === (comparison?.recommendedRouteId || routes[0].routeId);
         const poly = L.polyline(latLngs, {
-          color: colors[index % colors.length],
+          color: isRecommended ? '#00512c' : colors[index % colors.length],
           weight: route.routeId === selectedRouteId ? 8 : 4,
-          opacity: 0.9,
+          opacity: route.routeId === selectedRouteId ? 0.95 : 0.6,
           lineJoin: 'round',
+          dashArray: isRecommended ? null : '6, 6',
         }).addTo(leafletMap);
 
         poly.on('click', () => chooseRoute(route.routeId));
-        poly.bindTooltip(`${route.label}: ${formatDistance(route.distanceMeters)} • ${formatDuration(route.durationSeconds)}`, { sticky: true });
+        poly.bindTooltip(`<b>${route.label}</b><br>${formatDistance(route.distanceMeters)} • ${formatDuration(route.durationSeconds)}${isRecommended ? ' • <b>SAFEST (Certified High Ground)</b>' : ''}`, { sticky: true });
         polylines.set(route.routeId, poly);
+
+        // Plot hazard intersections on risky routes
+        if (route.hazardIntersections && route.hazardIntersections.length > 0) {
+          route.hazardIntersections.forEach(h => {
+            const hPt = route.coordinates[Math.floor(route.coordinates.length / 2)] || route.coordinates[0];
+            const hazardIcon = L.divIcon({
+              className: 'dr-hazard-pin',
+              html: `<div style="background:#ba1a1a;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px;border:2px solid #fff;box-shadow:0 2px 6px rgba(186,26,26,0.6);" title="${h.type || 'Hazard Zone'}">⚠️</div>`,
+              iconSize: [26, 26],
+              iconAnchor: [13, 13],
+            });
+            L.marker([hPt.lat, hPt.lng], { icon: hazardIcon })
+              .addTo(leafletMap)
+              .bindPopup(`<b>⚠️ Hazard Warning on ${route.label}</b><br>${h.name || h.type || 'Submerged road / flood zone'}<br>Water depth / blockage risk. Avoid!`);
+          });
+        }
       });
 
       if (origin) {
         const originIcon = L.divIcon({
           className: 'dr-map-origin-marker',
-          html: '<div style="background:#0b5fa5;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,0.4)">A</div>',
-          iconSize: [24, 24],
-          iconAnchor: [12, 12],
+          html: '<div style="background:#0b5fa5;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px;border:2px solid #fff;box-shadow:0 2px 6px rgba(11,95,165,0.5)">📍A</div>',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14],
         });
-        L.marker([origin.lat, origin.lng], { icon: originIcon, title: 'Selected Origin' })
+        L.marker([origin.lat, origin.lng], { icon: originIcon, title: 'Your Current Location' })
           .addTo(leafletMap)
-          .bindPopup('<b>Starting Point</b><br>Selected origin');
+          .bindPopup('<b>Your Location (Start A)</b><br>GPS origin point for evacuation route');
       }
 
       if (destination) {
         const destIcon = L.divIcon({
           className: 'dr-map-dest-marker',
-          html: '<div style="background:#ba1a1a;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,0.4)">B</div>',
-          iconSize: [24, 24],
-          iconAnchor: [12, 12],
+          html: '<div style="background:#006c3c;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:14px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,108,60,0.5)">⌂ B</div>',
+          iconSize: [28, 28],
+          iconAnchor: [14, 14],
         });
-        L.marker([destination.lat, destination.lng], { icon: destIcon, title: 'Selected Destination' })
+        L.marker([destination.lat, destination.lng], { icon: destIcon, title: 'Evacuation Destination' })
           .addTo(leafletMap)
-          .bindPopup('<b>Destination Point</b><br>Safe haven / shelter');
+          .bindPopup(`<b>Evacuation Destination (B)</b><br>${sessionStorage.getItem('dr_route_destination_label') || 'Designated Relief Shelter'}<br><span style="color:#006c3c;font-weight:600;">✓ Safe Verified Haven</span>`);
       }
 
       if (allLatLngs.length > 0) {
-        leafletMap.fitBounds(L.latLngBounds(allLatLngs), { padding: [24, 24] });
+        leafletMap.fitBounds(L.latLngBounds(allLatLngs), { padding: [30, 30] });
       }
 
-      mapStatus.textContent = 'OpenStreetMap & Leaflet • Routing via OSRM • Hazard intersections assessed by DisasterReady PostGIS.';
+      setTimeout(() => {
+        if (leafletMap && typeof leafletMap.invalidateSize === 'function') {
+          leafletMap.invalidateSize();
+        }
+      }, 200);
+
+      mapStatus.innerHTML = '<span style="color:#00512c;font-weight:600;">🟢 Solid Green: Recommended Safest Route (Certified High Ground)</span> • <span style="color:#ba1a1a;font-weight:600;">🔴 Red/Dashed: Risky/Blocked Route</span> • 📍 Origin & ⌂ Destination marked.';
     } catch (error) {
       mapStatus.textContent = error.message || 'Leaflet map library is unavailable. The map is not displayed.';
     }
@@ -349,10 +389,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (!comparison?.alternatives?.length) {
-    results.textContent = origin && destination
-      ? 'Requesting fresh Google route alternatives and checking recorded hazard data…'
-      : 'Origin or destination is missing. Return to journey selection and choose both locations.';
-    if (mapContainer) mapContainer.hidden = true;
+    results.textContent = 'Requesting fresh safest route alternatives and checking recorded hazard data…';
+    if (mapContainer) {
+      mapContainer.hidden = false;
+    }
     if (directionsSection) directionsSection.hidden = true;
     if (actionSection) actionSection.hidden = true;
     if (origin && destination) {

@@ -124,6 +124,19 @@ html.dark .bg-surface-container-high {
   background-color: #1E2D38 !important;
   color: #F2F6F8 !important;
 }
+/* Ensure Preview state tabs text is dark/black in dark mode as requested */
+html.dark .state-tab-btn {
+  color: #000000 !important;
+}
+html.dark .state-tab-btn span {
+  color: #000000 !important;
+}
+html.dark .state-tab-btn.active {
+  color: #000000 !important;
+}
+html.dark .state-tab-btn.active span {
+  color: #000000 !important;
+}
 html.dark .bg-white {
   background-color: #17232D !important;
   color: #F2F6F8 !important;
@@ -155,7 +168,7 @@ html.dark .border-\[\#0B5FA5\]\/30 {
 html.dark header, html.dark nav {
   background-color: rgba(16, 24, 32, 0.95) !important;
 }
-</style></head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen transition-colors duration-200"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[24px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><div class="relative flex items-center">
+</style></head><body class="bg-surface font-body-default text-on-surface flex flex-col min-h-screen transition-colors duration-200"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="w-full h-1 bg-[#ff9933] flex"><div class="w-1/3 bg-[#ff9933]"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-[#138808]"></div></div><div class="h-28 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/ndma-emblem.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div><div class="flex flex-col"><div class="flex items-center gap-1"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span><span class="font-headline-sm text-headline-sm text-primary leading-none">India</span></div><span class="font-caption text-caption text-on-surface-variant leading-tight">राष्ट्रीय आपदा प्रबंधन • GOI</span></div></div><div class="flex items-center gap-space-xs"><div class="relative flex items-center">
   <select id="headerLangSelect" aria-label="Change Language" class="min-h-[44px] pl-3 pr-8 bg-surface-container-high text-on-surface rounded-lg font-label-strong text-label-strong hover:bg-surface-variant transition-colors cursor-pointer border border-[#D3DBE3] appearance-none">
     <option value="en">English (English)</option>
     <option value="hi" selected>हिन्दी (Hindi)</option>
@@ -203,12 +216,14 @@ html.dark header, html.dark nav {
 </span>
 </div>
 <div class="flex items-center gap-1.5 shrink-0">
-<span class="px-2 py-0.5 rounded bg-surface text-[#8A4B00] border border-[#8A4B00]/30 font-caption text-[12px] font-semibold">
-    Low-Bandwidth Mode
-  </span>
-<span class="px-2 py-0.5 rounded bg-[#8A4B00] text-white font-caption text-[12px] font-semibold">
-    High Priority
-  </span>
+  <button id="lowBandwidthToggleBtn" type="button" aria-pressed="false" class="px-2.5 py-1 rounded bg-surface text-[#8A4B00] border border-[#8A4B00]/40 font-caption text-[12px] font-semibold flex items-center gap-1 hover:bg-[#8A4B00]/10 transition-colors shadow-none" title="Toggle Low-Bandwidth 2G mode to save data and battery">
+    <span class="material-symbols-outlined text-[15px]" id="lowBandwidthIcon">network_check</span>
+    <span id="lowBandwidthLabel">Low-Bandwidth Mode</span>
+  </button>
+  <button id="highPriorityToggleBtn" type="button" aria-pressed="true" class="px-2.5 py-1 rounded bg-[#8A4B00] text-white font-caption text-[12px] font-semibold flex items-center gap-1 hover:bg-[#6D3B00] transition-colors shadow-none" title="Toggle High-Priority Disaster Broadcasts and Siren Overrides">
+    <span class="material-symbols-outlined text-[15px]" id="highPriorityIcon">priority_high</span>
+    <span id="highPriorityLabel">High Priority</span>
+  </button>
 </div>
 </div>
 <div class="flex flex-col gap-4 py-3">
@@ -254,7 +269,7 @@ html.dark header, html.dark nav {
 </div>
 <!-- Actions Cluster -->
 <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-<a aria-label="See what to do now and follow evacuation checklist" class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="#">
+<a aria-label="See what to do now and follow evacuation checklist" class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
 <span>See what to do</span>
 <span class="font-label-default text-[15px] opacity-90">(निर्देश देखें)</span>
 <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
@@ -270,7 +285,7 @@ html.dark header, html.dark nav {
 <div class="flex items-center gap-2 min-w-0">
 <span class="material-symbols-outlined text-[#0B5FA5] text-[20px] shrink-0">wrong_location</span>
 <span class="font-caption text-caption text-[#14212B]">
-  Not in this sector? <button class="underline font-semibold text-[#0B5FA5] hover:text-[#084A82]" type="button">Switch district</button>
+  Not in this sector? <button id="switchDistrictBtn" class="underline font-semibold text-[#0B5FA5] hover:text-[#084A82]" type="button">Switch district</button>
 </span>
 </div>
 <button class="shrink-0 min-h-[40px] px-3 py-1 text-[13px] font-label-strong text-[#0B5FA5] hover:text-[#084A82] border border-[#0B5FA5]/30 rounded bg-white hover:bg-[#F5F7FA]" id="toggleSafeView" type="button">
@@ -309,8 +324,8 @@ html.dark header, html.dark nav {
 </div>
 </div>
 </section>
-<!-- AI ADDITIONS: DisasterReady AI Copilot Card -->
-<section aria-label="DisasterReady AI Emergency Copilot" class="w-full">
+<!-- AI ADDITIONS: DisasterReady Kavach AI Assistant Card -->
+<section aria-label="DisasterReady Kavach AI Emergency Assistant" class="w-full">
 <div class="w-full bg-[#EBF5FF] border border-[#0B5FA5]/30 rounded-lg p-3.5 flex flex-col gap-3 shadow-[0_1px_8px_rgba(0,0,0,0.04)]" id="copilotCard">
 <div class="flex items-center justify-between flex-wrap gap-2">
 <div class="flex items-center gap-2">
@@ -319,8 +334,8 @@ html.dark header, html.dark nav {
 </div>
 <div>
 <div class="flex items-center gap-1.5">
-<span class="font-label-strong text-label-strong text-[#14212B]">DisasterReady AI Copilot • NDMA Assist</span>
-<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[11px] font-semibold bg-[#138808] text-white">Live Copilot</span>
+<span class="font-label-strong text-label-strong text-[#14212B]">DisasterReady Kavach AI • NDMA Assist</span>
+<span class="inline-flex items-center px-1.5 py-0.2 rounded text-[11px] font-semibold bg-[#138808] text-white">Live Kavach AI</span>
 </div>
 <span class="font-caption text-[12px] text-[#4A5B69]">आपदा साथी • Bilingual Voice &amp; Text Guidance</span>
 </div>
@@ -646,18 +661,42 @@ html.dark header, html.dark nav {
   const headerAudioBtn = document.getElementById('headerAudioBtn');
   let isPlaying = false;
 
+  function getAlertTextToSpeak() {
+    const heading = document.getElementById('hazard-heading')?.innerText || 'Disaster Alert';
+    const container = document.getElementById('alertTextContainer');
+    if (container) {
+      return container.innerText.replace(/\s+/g, ' ').trim();
+    }
+    const currentAlertCard = document.getElementById('alertCard');
+    return currentAlertCard ? currentAlertCard.innerText.replace(/\s+/g, ' ').trim() : heading;
+  }
+
   function toggleAudio() {
     isPlaying = !isPlaying;
+    const currentTtsBtn = document.getElementById('ttsButton') || document.getElementById('ttsButtonSub');
+    const currentTtsLabel = document.getElementById('ttsLabel') || currentTtsBtn?.querySelector('span:last-child');
+    
     if (isPlaying) {
-      if (ttsButton) ttsButton.classList.add('bg-[#EBF5FF]', 'border-[#0B5FA5]');
-      if (ttsLabel) ttsLabel.textContent = 'Playing audio (रोकें)...';
+      if (currentTtsBtn) currentTtsBtn.classList.add('bg-[#EBF5FF]', 'border-[#0B5FA5]');
+      if (currentTtsLabel) currentTtsLabel.textContent = 'Playing audio (रोकें)...';
       if (headerAudioBtn) headerAudioBtn.classList.add('bg-[#0B5FA5]', 'text-white');
+
+      const text = getAlertTextToSpeak();
+      const lang = window.DisasterReadyAPI?.storage?.getLang() || 'hi';
+      if (window.DisasterReadyAPI?.voice) {
+        window.DisasterReadyAPI.voice.speak(text, lang);
+      }
     } else {
-      if (ttsButton) ttsButton.classList.remove('bg-[#EBF5FF]', 'border-[#0B5FA5]');
-      if (ttsLabel) ttsLabel.textContent = 'Listen to alert (सुनें)';
+      if (currentTtsBtn) currentTtsBtn.classList.remove('bg-[#EBF5FF]', 'border-[#0B5FA5]');
+      if (currentTtsLabel) currentTtsLabel.textContent = 'Listen to alert (सुनें)';
       if (headerAudioBtn) headerAudioBtn.classList.remove('bg-[#0B5FA5]', 'text-white');
+
+      if (window.DisasterReadyAPI?.voice) {
+        window.DisasterReadyAPI.voice.stopSpeaking();
+      }
     }
   }
+  window.toggleAlertAudio = toggleAudio;
 
   if (ttsButton) ttsButton.addEventListener('click', toggleAudio);
   if (headerAudioBtn) headerAudioBtn.addEventListener('click', toggleAudio);
@@ -707,12 +746,12 @@ html.dark header, html.dark nav {
           </div>
         </div>
         <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <a class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="#">
+          <a class="min-h-[50px] px-space-md bg-[#0B5FA5] hover:bg-[#084A82] text-on-primary rounded-lg font-body-strong text-body-strong flex items-center justify-center gap-2 text-center" href="/screens/11-preparedness/index.html">
             <span>See what to do</span>
             <span class="font-label-default text-[15px] opacity-90">(निर्देश देखें)</span>
             <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
           </a>
-          <button class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButtonSub" type="button">
+          <button class="min-h-[48px] px-space-md bg-white hover:bg-[#F5F7FA] text-[#14212B] border border-[#D3DBE3] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-2" id="ttsButtonSub" onclick="toggleAlertAudio()" type="button">
             <span class="material-symbols-outlined text-[20px] text-[#0B5FA5]">volume_up</span>
             <span>Listen to alert (सुनें)</span>
           </button>
@@ -796,23 +835,29 @@ html.dark header, html.dark nav {
     }
   };
 
-  stateBtns.forEach(btn => {
-    btn.addEventListener('click', function () {
-      stateBtns.forEach(b => {
+  function applyPreviewState(st) {
+    if (!statesData[st]) return;
+    stateBtns.forEach(b => {
+      if (b.getAttribute('data-state') === st) {
+        b.classList.add('bg-[#0B5FA5]', 'text-white', 'active');
+        b.classList.remove('bg-surface-container-high', 'text-on-surface');
+        b.setAttribute('aria-selected', 'true');
+      } else {
         b.classList.remove('bg-[#0B5FA5]', 'text-white', 'active');
         b.classList.add('bg-surface-container-high', 'text-on-surface');
         b.setAttribute('aria-selected', 'false');
-      });
-      this.classList.add('bg-[#0B5FA5]', 'text-white', 'active');
-      this.classList.remove('bg-surface-container-high', 'text-on-surface');
-      this.setAttribute('aria-selected', 'true');
-
-      const st = this.getAttribute('data-state');
-      if (statesData[st]) {
-        alertCard.className = statesData[st].cardClass;
-        alertCard.innerHTML = statesData[st].html;
-        cacheNoticeText.innerHTML = statesData[st].bannerText;
       }
+    });
+    if (alertCard) alertCard.className = statesData[st].cardClass;
+    if (alertCard) alertCard.innerHTML = statesData[st].html;
+    if (cacheNoticeText) cacheNoticeText.innerHTML = statesData[st].bannerText;
+  }
+  window.applyPreviewState = applyPreviewState;
+
+  stateBtns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const st = this.getAttribute('data-state');
+      applyPreviewState(st);
     });
   });
 
@@ -826,6 +871,125 @@ html.dark header, html.dark nav {
         if (clearBtn) clearBtn.click();
       } else {
         if (floodBtn) floodBtn.click();
+      }
+    });
+  }
+
+  // Switch District Modal & Autocomplete Implementation
+  const switchDistrictBtn = document.getElementById('switchDistrictBtn');
+  if (switchDistrictBtn) {
+    switchDistrictBtn.addEventListener('click', function () {
+      let modal = document.getElementById('dr-switch-district-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'dr-switch-district-modal';
+        modal.className = 'fixed inset-0 z-[120] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4';
+        modal.innerHTML = `
+          <div class="bg-surface-container-lowest border border-[#D3DBE3] text-on-surface rounded-2xl p-5 max-w-md w-full shadow-2xl flex flex-col gap-4">
+            <div class="flex items-center justify-between border-b border-[#D3DBE3] pb-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-[24px]">location_on</span>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">Switch District</h3>
+              </div>
+              <button type="button" id="closeDistrictModal" class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center text-on-surface-variant">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+            <p class="font-caption text-caption text-on-surface-variant">
+              Search by district name or city across India to view local emergency alerts, active safe shelters, and risk maps.
+            </p>
+            <div class="relative flex items-center">
+              <span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
+              <input type="text" id="districtModalInput" placeholder="e.g. Bengaluru Urban, Delhi, Wayanad..." class="w-full pl-10 pr-3 py-2.5 bg-surface-container-high text-on-surface rounded-xl border border-[#D3DBE3] focus:outline-none focus:border-primary text-body-default" autofocus />
+            </div>
+            <div id="districtModalResults" class="max-h-60 overflow-y-auto flex flex-col gap-1.5 no-scrollbar">
+              <p class="text-xs text-on-surface-variant text-center py-4">Type at least 2 characters to search districts...</p>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#closeDistrictModal').addEventListener('click', () => {
+          modal.classList.add('hidden');
+        });
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) modal.classList.add('hidden');
+        });
+
+        const input = modal.querySelector('#districtModalInput');
+        const results = modal.querySelector('#districtModalResults');
+        let debounceTimer;
+
+        input.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          const q = input.value.trim();
+          if (q.length < 2) {
+            results.innerHTML = '<p class="text-xs text-on-surface-variant text-center py-4">Type at least 2 characters to search districts...</p>';
+            return;
+          }
+
+          debounceTimer = setTimeout(async () => {
+            results.innerHTML = '<p class="text-xs text-on-surface-variant text-center py-4">Searching administrative districts...</p>';
+            try {
+              let matches = [];
+              if (window.DisasterReadyAPI?.geo?.searchDistricts) {
+                matches = await window.DisasterReadyAPI.geo.searchDistricts(q);
+              }
+              if (!matches.length && window.DisasterReadyAPI?.geo?.searchPlaces) {
+                matches = await window.DisasterReadyAPI.geo.searchPlaces(q).catch(() => []);
+              }
+
+              if (!matches.length) {
+                results.innerHTML = `<p class="text-xs text-on-surface-variant text-center py-4">No matching districts found for "${q}".</p>`;
+                return;
+              }
+
+              results.innerHTML = '';
+              matches.forEach((d) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'w-full text-left p-2.5 rounded-lg bg-surface-container hover:bg-primary-container hover:text-white transition-colors flex items-center justify-between text-[14px]';
+                btn.innerHTML = `
+                  <div class="flex flex-col">
+                    <span class="font-label-strong">${d.name || d.district}</span>
+                    <span class="text-[11px] opacity-75">${d.state || 'India'}</span>
+                  </div>
+                  <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                `;
+                btn.addEventListener('click', () => {
+                  window.DisasterReadyAPI.storage.setDistrict({
+                    id: d.id,
+                    districtId: d.id,
+                    name: d.name || d.district,
+                    district: d.name || d.district,
+                    state: d.state
+                  });
+                  window.DisasterReadyAPI.storage.setLocationLabel(`${d.name || d.district}, ${d.state || ''}`);
+                  if (d.coordinates?.lat && d.coordinates?.lng) {
+                    window.DisasterReadyAPI.storage.setLocation(d.coordinates.lat, d.coordinates.lng);
+                  }
+                  if (window.DisasterReadyAPI?.ui?.toast) {
+                    window.DisasterReadyAPI.ui.toast(`District switched to ${d.name || d.district}, ${d.state || ''}`);
+                  }
+                  modal.classList.add('hidden');
+                  // Reload dashboard to fetch district alerts
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 400);
+                });
+                results.appendChild(btn);
+              });
+            } catch (err) {
+              results.innerHTML = '<p class="text-xs text-error text-center py-4">Unable to connect to district registry. Try again.</p>';
+            }
+          }, 250);
+        });
+      }
+      modal.classList.remove('hidden');
+      const input = modal.querySelector('#districtModalInput');
+      if (input) {
+        input.value = '';
+        input.focus();
       }
     });
   }
@@ -862,8 +1026,11 @@ html.dark header, html.dark nav {
       const DR = window.DisasterReadyAPI;
       const lang = (DR && DR.storage) ? DR.storage.getLang() : 'en';
       let coords = undefined;
-      if (DR && DR.geo) {
-        coords = await DR.geo.getCachedLocation().catch(() => undefined);
+      if (DR && DR.storage) {
+        const stored = DR.storage.getLocation();
+        if (stored && stored.lat != null && stored.lng != null) {
+          coords = { lat: stored.lat, lng: stored.lng };
+        }
       }
 
       let res;
@@ -1011,14 +1178,27 @@ html.dark header, html.dark nav {
     });
   }
 
-  // Floating AI trigger focus
-  const floatingAiTrigger = document.getElementById('floatingAiTrigger');
-  if (floatingAiTrigger && aiInput) {
-    floatingAiTrigger.addEventListener('click', function () {
-      aiInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      aiInput.focus();
-    });
-  }
+  // Floating Kavach AI trigger: scroll to and highlight AI assistant card
+  document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('#floatingAiTrigger, [data-ai-trigger]');
+    if (trigger) {
+      e.preventDefault();
+      const card = document.getElementById('copilotCard');
+      const input = document.getElementById('aiUserInput');
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('ring-4', 'ring-[#0B5FA5]', 'transition-all');
+        setTimeout(() => {
+          card.classList.remove('ring-4', 'ring-[#0B5FA5]');
+        }, 1800);
+      }
+      if (input) {
+        setTimeout(() => {
+          input.focus();
+        }, 400);
+      }
+    }
+  });
 
   // Mark Safe Quick Action
   const markSafeBtn = document.getElementById('markSafeBtn');
@@ -1117,11 +1297,11 @@ html.dark header, html.dark nav {
 })();
 </script>
 </div></main>
-<!-- FLOATING COPILOT TRIGGER (Bottom-Left: strictly non-obscuring of SOS button) -->
+<!-- FLOATING KAVACH AI TRIGGER (Bottom-Left: strictly non-obscuring of SOS button) -->
 <div class="fixed bottom-24 left-4 z-50">
-<button aria-label="DisasterReady AI Copilot" class="min-h-[48px] px-3.5 py-2.5 rounded-full bg-[#0B5FA5] text-white font-label-strong text-label-strong flex items-center gap-1.5 shadow-[0_4px_16px_rgba(11,95,165,0.35)] hover:bg-[#084A82] border border-white/30" id="floatingAiTrigger" type="button">
+<button aria-label="DisasterReady Kavach AI" class="min-h-[48px] px-3.5 py-2.5 rounded-full bg-[#0B5FA5] text-white font-label-strong text-label-strong flex items-center gap-1.5 shadow-[0_4px_16px_rgba(11,95,165,0.35)] hover:bg-[#084A82] border border-white/30 cursor-pointer transition-all active:scale-95" id="floatingAiTrigger" type="button">
 <span class="material-symbols-outlined text-[20px]">smart_toy</span>
-<span>Ask AI Copilot</span>
+<span>Ask Kavach AI</span>
 </button>
 </div>
 <!-- PERSISTENT SOS TRIGGER (Bottom-Right: 100% visible and prioritized) -->
@@ -1195,6 +1375,10 @@ html.dark header, html.dark nav {
     const DR = window.DisasterReadyAPI;
     const district = DR.storage.getDistrict();
     const districtId = district?.districtId || district?.id || undefined;
+    const location = DR.storage.getLocation();
+    const lat = location?.lat != null ? location.lat : undefined;
+    const lng = location?.lng != null ? location.lng : undefined;
+
     const feed = document.createElement('section');
     feed.id = 'citizen-live-feed';
     feed.className = 'w-full flex flex-col gap-3 mb-4';
@@ -1240,15 +1424,20 @@ html.dark header, html.dark nav {
     };
 
     try {
-      const data = await DR.dashboard.get(districtId);
+      const data = await DR.dashboard.get(districtId, lat, lng);
       const { alerts, recentHazards, nearestShelters, announcements, summary } = data;
       feed.replaceChildren();
       const fetched = new Date(data.meta.fetchedAt).toLocaleString();
-      const districtName = district?.name || district?.district || 'Selected region';
+      const districtName = district?.name || district?.district || (data.meta.userCoordinates ? `GPS (${data.meta.userCoordinates.lat.toFixed(2)}, ${data.meta.userCoordinates.lng.toFixed(2)})` : 'Selected region');
       const meta = document.createElement('p');
       meta.className = 'font-caption text-caption text-on-surface-variant';
       meta.textContent = `${districtName} • Updated ${fetched}`;
       feed.append(meta);
+
+      // Automatically designate preview state based on location and alert status
+      if (data.meta && data.meta.designatedState && typeof window.applyPreviewState === 'function') {
+        window.applyPreviewState(data.meta.designatedState);
+      }
 
       // -- Alert count badge
       const alertCountEl = document.querySelector('[data-alert-count]');
@@ -1268,7 +1457,7 @@ html.dark header, html.dark nav {
       // -- Update shelter availability counters
       if (nearestShelters.length > 0) {
         const bedsEl = document.querySelector('[data-shelter-beds]');
-        const totalBeds = nearestShelters.reduce((acc, s) => acc + s.availableBeds, 0);
+        const totalBeds = nearestShelters.reduce((acc, s) => acc + (s.availableBeds || 0), 0);
         if (bedsEl) bedsEl.textContent = `${totalBeds} beds available`;
       }
 
@@ -1283,7 +1472,7 @@ html.dark header, html.dark nav {
       appendSection('Active hazard reports', recentHazards, 'No hazard reports are listed. This does not indicate the area is safe.', hazard =>
         createEntry(`${hazard.hazardType.replaceAll('_', ' ')} • ${hazard.severity}`, `${hazard.reportCategory.replaceAll('_', ' ')} • ${hazard.addressLandmark || `${hazard.coordinates.lat}, ${hazard.coordinates.lng}`}`, `${hazard.reportCategory.startsWith('OFFICIAL') ? 'Official source' : 'Citizen report'} • ${hazard.freshness} • ${new Date(hazard.createdAt).toLocaleString()}`, null));
       appendSection('Nearby facilities', nearestShelters, 'No nearby facility records are available.', facility =>
-        createEntry(facility.name, `${facility.facilityType.replaceAll('_', ' ')} • ${facility.operatingStatus.replaceAll('_', ' ')} • ${facility.distanceKm == null ? 'Distance unavailable' : `${facility.distanceKm} km`}`, `${facility.source} • Updated ${new Date(facility.lastUpdated).toLocaleString()}`, null));
+        createEntry(facility.name, `${facility.facilityType.replaceAll('_', ' ')} • ${facility.operatingStatus.replaceAll('_', ' ')} • ${facility.distanceKm == null ? 'Distance unavailable' : `${facility.distanceKm} km away`}`, `${facility.source} • Updated ${new Date(facility.lastUpdated).toLocaleString()}`, null));
       appendSection('Announcements', announcements, 'No current announcements.', announcement =>
         createEntry(announcement.title, announcement.message, `${announcement.issuedBy} • ${announcement.freshness} • ${new Date(announcement.issuedAt).toLocaleString()}`, announcement.severity));
       const disclaimer = document.createElement('p');
@@ -1323,9 +1512,74 @@ html.dark header, html.dark nav {
       }
     }
 
+    // Wire up interactive Low-Bandwidth Mode and High Priority buttons
+    const lowBwBtn = document.getElementById('lowBandwidthToggleBtn');
+    const lowBwIcon = document.getElementById('lowBandwidthIcon');
+    const highPriBtn = document.getElementById('highPriorityToggleBtn');
+    const highPriIcon = document.getElementById('highPriorityIcon');
+
+    function syncLowBwUI() {
+      const isLow = DR && DR.lowData ? DR.lowData.isEnabled() : (localStorage.getItem('dr_low_data_mode') === 'true');
+      if (!lowBwBtn) return;
+      lowBwBtn.setAttribute('aria-pressed', isLow ? 'true' : 'false');
+      if (isLow) {
+        lowBwBtn.className = 'px-2.5 py-1 rounded bg-[#8A4B00] text-white border border-[#8A4B00] font-caption text-[12px] font-semibold flex items-center gap-1 hover:bg-[#6D3B00] transition-colors shadow-none';
+        if (lowBwIcon) lowBwIcon.textContent = 'signal_cellular_connected_no_internet_4_bar';
+      } else {
+        lowBwBtn.className = 'px-2.5 py-1 rounded bg-surface text-[#8A4B00] border border-[#8A4B00]/40 font-caption text-[12px] font-semibold flex items-center gap-1 hover:bg-[#8A4B00]/10 transition-colors shadow-none';
+        if (lowBwIcon) lowBwIcon.textContent = 'network_check';
+      }
+    }
+
+    if (lowBwBtn) {
+      syncLowBwUI();
+      lowBwBtn.addEventListener('click', () => {
+        let enabled;
+        if (DR && DR.lowData) {
+          enabled = DR.lowData.toggle();
+        } else {
+          enabled = localStorage.getItem('dr_low_data_mode') !== 'true';
+          localStorage.setItem('dr_low_data_mode', enabled ? 'true' : 'false');
+          window.dispatchEvent(new CustomEvent('dr:low_data_changed', { detail: { enabled } }));
+        }
+        syncLowBwUI();
+        if (DR?.ui?.toast) {
+          DR.ui.toast(enabled ? 'Low-Bandwidth Mode: Enabled. Heavy maps suppressed for 2G networks.' : 'Low-Bandwidth Mode: Disabled. Standard data connection restored.');
+        }
+      });
+    }
+
+    let isHighPriority = localStorage.getItem('dr_high_priority_mode') !== 'false';
+    function syncHighPriUI() {
+      if (!highPriBtn) return;
+      highPriBtn.setAttribute('aria-pressed', isHighPriority ? 'true' : 'false');
+      if (isHighPriority) {
+        highPriBtn.className = 'px-2.5 py-1 rounded bg-[#8A4B00] text-white font-caption text-[12px] font-semibold flex items-center gap-1 hover:bg-[#6D3B00] transition-colors shadow-none';
+        if (highPriIcon) highPriIcon.textContent = 'priority_high';
+      } else {
+        highPriBtn.className = 'px-2.5 py-1 rounded bg-surface text-[#8A4B00] border border-[#8A4B00]/40 font-caption text-[12px] font-semibold flex items-center gap-1 hover:bg-[#8A4B00]/10 transition-colors shadow-none';
+        if (highPriIcon) highPriIcon.textContent = 'notifications_paused';
+      }
+    }
+
+    if (highPriBtn) {
+      syncHighPriUI();
+      highPriBtn.addEventListener('click', () => {
+        isHighPriority = !isHighPriority;
+        localStorage.setItem('dr_high_priority_mode', isHighPriority ? 'true' : 'false');
+        syncHighPriUI();
+        if (DR?.ui?.toast) {
+          DR.ui.toast(isHighPriority ? 'High Priority Mode: Active. Emergency siren overrides & critical disaster flashes prioritized.' : 'High Priority Mode: Standard civic feed alerts enabled.');
+        }
+      });
+    }
+
     window.addEventListener('online', updateNetworkStatus);
     window.addEventListener('offline', updateNetworkStatus);
-    window.addEventListener('dr:low_data_changed', updateNetworkStatus);
+    window.addEventListener('dr:low_data_changed', () => {
+      updateNetworkStatus();
+      syncLowBwUI();
+    });
     updateNetworkStatus();
 
     // Listen to incoming real-time alert / hazard socket broadcasts

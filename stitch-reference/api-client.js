@@ -181,6 +181,7 @@
     /**
      * Detect GPS location, reverse geocode, and persist to storage.
      * Resolves with { lat, lng, district } or rejects with reason.
+     * Uses watchPosition / low maximumAge with high accuracy for high precision.
      */
     detectAndStore() {
       return new Promise((resolve, reject) => {
@@ -188,32 +189,83 @@
           reject(new Error('GEOLOCATION_NOT_SUPPORTED'));
           return;
         }
-        navigator.geolocation.getCurrentPosition(
-          async (pos) => {
-            const { latitude: lat, longitude: lng, accuracy } = pos.coords;
-            if (accuracy > 5000) {
-              reject(new Error('GPS_ACCURACY_LOW'));
-              return;
+
+        let settled = false;
+        let bestPosition = null;
+
+        const options = {
+          enableHighAccuracy: true,
+          timeout: 12000,
+          maximumAge: 0,
+        };
+
+        const finalize = async (pos) => {
+          if (settled) return;
+          settled = true;
+          const { latitude: lat, longitude: lng, accuracy } = pos.coords;
+          try {
+            const district = await geo.reverseGeocode(lat, lng);
+            storage.setLocation(lat, lng);
+            storage.setDistrict(district);
+            resolve({ lat, lng, district, accuracy });
+          } catch (err) {
+            reject(err);
+          }
+        };
+
+        const watchId = navigator.geolocation.watchPosition(
+          (pos) => {
+            if (!bestPosition || pos.coords.accuracy < bestPosition.coords.accuracy) {
+              bestPosition = pos;
             }
-            try {
-              const district = await geo.reverseGeocode(lat, lng);
-              storage.setLocation(lat, lng);
-              storage.setDistrict(district);
-              resolve({ lat, lng, district });
-            } catch (err) {
-              reject(err);
+            // If accuracy is high (< 50 meters), finalize immediately
+            if (pos.coords.accuracy <= 50) {
+              try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
+              finalize(pos);
             }
           },
           (err) => {
+            // If watchPosition encounters an error but we got at least one fix, use it
+            if (bestPosition) {
+              try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
+              finalize(bestPosition);
+              return;
+            }
+            try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
             const codes = {
               1: 'PERMISSION_DENIED',
               2: 'POSITION_UNAVAILABLE',
               3: 'TIMEOUT',
             };
-            reject(new Error(codes[err.code] || 'GEOLOCATION_ERROR'));
+            if (!settled) {
+              settled = true;
+              reject(new Error(codes[err.code] || 'GEOLOCATION_ERROR'));
+            }
           },
-          { enableHighAccuracy: true, timeout: 10000 }
+          options
         );
+
+        // Allow up to 4.5 seconds for fine-tuning before resolving with the best fix acquired
+        setTimeout(() => {
+          try { navigator.geolocation.clearWatch(watchId); } catch (_) {}
+          if (!settled) {
+            if (bestPosition) {
+              finalize(bestPosition);
+            } else {
+              // Fallback one-shot
+              navigator.geolocation.getCurrentPosition(
+                finalize,
+                (err) => {
+                  if (!settled) {
+                    settled = true;
+                    reject(new Error(err.code === 1 ? 'PERMISSION_DENIED' : 'TIMEOUT'));
+                  }
+                },
+                options
+              );
+            }
+          }
+        }, 4500);
       });
     },
   };
@@ -302,8 +354,18 @@
   // Module: Dashboard
   // ---------------------------------------------------------------------------
   const dashboard = {
-    async get(districtId) {
-      const qs = districtId ? `?districtId=${districtId}` : '';
+    async get(param, lat, lng) {
+      const params = new URLSearchParams();
+      if (typeof param === 'object' && param !== null) {
+        if (param.districtId) params.set('districtId', param.districtId);
+        if (param.lat != null) params.set('lat', param.lat);
+        if (param.lng != null) params.set('lng', param.lng);
+      } else {
+        if (param) params.set('districtId', param);
+        if (lat != null) params.set('lat', lat);
+        if (lng != null) params.set('lng', lng);
+      }
+      const qs = params.toString() ? `?${params.toString()}` : '';
       return get(`/dashboard${qs}`);
     },
   };
@@ -686,7 +748,7 @@
     },
 
     /**
-     * Speak text using Web Speech API synthesis
+     * Speak text using Web Speech API synthesis with robust voice detection
      */
     speak(text, language) {
       if (!this.isSynthesisSupported()) return false;
@@ -707,8 +769,21 @@
           pa: 'pa-IN',
           as: 'as-IN',
         };
-        utterance.lang = bcpMap[language || storage.getLang()] || 'en-IN';
+        const targetLang = bcpMap[language || storage.getLang()] || 'hi-IN';
+        utterance.lang = targetLang;
         utterance.rate = 0.95;
+
+        // Try to match appropriate system voice
+        const voices = window.speechSynthesis.getVoices() || [];
+        const prefix = targetLang.split('-')[0].toLowerCase();
+        const matchingVoice = voices.find(v => {
+          const vl = (v.lang || '').toLowerCase();
+          return vl === targetLang.toLowerCase() || vl.startsWith(prefix);
+        });
+        if (matchingVoice) {
+          utterance.voice = matchingVoice;
+        }
+
         window.speechSynthesis.speak(utterance);
         return true;
       } catch {
@@ -1385,6 +1460,8 @@
     relief,
     sos,
     copilot,
+    kavach: copilot,
+    kavachApi: copilotApi,
     voice,
     lowData,
     offline,
@@ -1414,7 +1491,28 @@
         'public-transparency-and-civic-data-portal': '/screens/15-staff-tools-settings/index.html',
       };
 
-      document.addEventListener('click', (e) => {
+      // Global Sign Out handler: Catches any "Sign Out" or "Sign out" button/link across admin and other pages
+      document.addEventListener('click', async (e) => {
+        const signOutTarget = e.target.closest('button, a');
+        if (signOutTarget && /sign\s*out/i.test(signOutTarget.textContent || '')) {
+          e.preventDefault();
+          e.stopPropagation();
+          try {
+            if (DisasterReadyAPI?.authApi?.logout) {
+              await DisasterReadyAPI.authApi.logout();
+            } else {
+              sessionStorage.removeItem('dr_staff_token');
+              sessionStorage.removeItem('dr_staff_user');
+            }
+          } catch (err) {
+            console.warn('Logout API error:', err);
+            sessionStorage.removeItem('dr_staff_token');
+            sessionStorage.removeItem('dr_staff_user');
+          }
+          window.location.href = '/screens/02-citizen-dashboard/index.html';
+          return;
+        }
+
         const link = e.target.closest('[data-path]');
         if (link) {
           const pathKey = link.getAttribute('data-path');
@@ -1424,7 +1522,7 @@
             window.location.href = targetUrl;
           }
         }
-      });
+      }, true);
 
       // Also set href attribute on matching anchors for right-click / accessibility
       document.querySelectorAll('[data-path]').forEach((el) => {
@@ -1434,13 +1532,185 @@
         }
       });
     },
+
+    // Global Header Audio / Speaker Listener for reading screen summary or active alert
+    initHeaderAudio() {
+      if (typeof document === 'undefined') return;
+
+      const headerAudioButtons = document.querySelectorAll(
+        'button[aria-label="Listen to Screen Content"], #headerAudioBtn'
+      );
+
+      headerAudioButtons.forEach((btn) => {
+        if (btn.dataset.audioBound) return;
+        btn.dataset.audioBound = 'true';
+
+        let isPlaying = false;
+
+        btn.addEventListener('click', () => {
+          isPlaying = !isPlaying;
+          if (isPlaying) {
+            btn.classList.add('bg-[#0B5FA5]', 'text-white');
+
+            // Gather readable text from main alert, h1/h2 headings, or primary content
+            let text = '';
+            const alertContainer = document.getElementById('alertTextContainer') || document.getElementById('alertCard');
+            if (alertContainer) {
+              text = alertContainer.innerText.replace(/\s+/g, ' ').trim();
+            } else {
+              const headings = Array.from(document.querySelectorAll('main h1, main h2, main p')).slice(0, 4);
+              text = headings.map(h => h.innerText).join('. ').replace(/\s+/g, ' ').trim();
+            }
+
+            if (!text) {
+              text = 'DisasterReady India - National Emergency Command Active.';
+            }
+
+            const currentLang = storage.getLang() || 'hi';
+            voice.speak(text, currentLang);
+            if (window.DisasterReadyAPI?.ui?.toast) {
+              window.DisasterReadyAPI.ui.toast(`🔊 Reading screen contents (${currentLang.toUpperCase()})`);
+            }
+          } else {
+            btn.classList.remove('bg-[#0B5FA5]', 'text-white');
+            voice.stopSpeaking();
+          }
+        });
+      });
+    },
+
+    // Global Top-Right Profile Icon Dropdown for Admin Access
+    initProfileDropdown() {
+      if (typeof document === 'undefined') return;
+
+      // Find person icon or avatar container in header
+      const personIcons = Array.from(document.querySelectorAll('header span.material-symbols-outlined')).filter(
+        el => el.textContent.trim() === 'person'
+      );
+
+      personIcons.forEach(icon => {
+        const avatarContainer = icon.closest('.w-8.h-8, .w-9.h-9, .w-10.h-10, div');
+        if (!avatarContainer || avatarContainer.dataset.profileBound) return;
+        avatarContainer.dataset.profileBound = 'true';
+
+        // Style container as clickable interactive button
+        avatarContainer.style.cursor = 'pointer';
+        avatarContainer.setAttribute('role', 'button');
+        avatarContainer.setAttribute('tabindex', '0');
+        avatarContainer.setAttribute('aria-label', 'Account & Admin Portal Menu');
+        avatarContainer.title = 'Account / Admin Portal (अधिकारी पोर्टल)';
+
+        // Ensure parent wrapper is relative for absolute positioning of dropdown
+        let wrapper = avatarContainer.parentElement;
+        if (!wrapper) return;
+
+        // Create or find dropdown menu
+        const dropdownId = 'dr-profile-dropdown';
+        let dropdown = document.getElementById(dropdownId);
+        if (!dropdown) {
+          dropdown = document.createElement('div');
+          dropdown.id = dropdownId;
+          dropdown.className = 'fixed right-4 top-20 z-[100] w-72 rounded-xl bg-surface-container-lowest border border-[#D3DBE3] shadow-2xl p-2 hidden text-on-surface font-body-default';
+          document.body.appendChild(dropdown);
+
+          // Close dropdown on outside click
+          document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target) && !avatarContainer.contains(e.target)) {
+              dropdown.classList.add('hidden');
+            }
+          });
+        }
+
+        const renderDropdownContent = () => {
+          const isAuth = DisasterReadyAPI.authApi.isAuthenticated();
+          const user = DisasterReadyAPI.authApi.getUser();
+
+          if (isAuth && user) {
+            dropdown.innerHTML = `
+              <div class="px-3 py-2 border-b border-[#D3DBE3] mb-1">
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">
+                    ${(user.fullName || user.username || 'AD').substring(0, 2).toUpperCase()}
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-label-strong text-[14px] text-on-surface truncate">${user.fullName || user.username}</span>
+                    <span class="font-caption text-[11px] text-[#006C3C] font-semibold flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#006C3C]"></span>${user.role || 'Officer'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <a href="/screens/14-authority-dashboard/index.html" class="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-surface-container font-label-strong text-[14px] text-primary transition-colors">
+                  <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                  <span>Authority Dashboard</span>
+                </a>
+                <a href="/screens/15-staff-tools-settings/index.html" class="flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-surface-container font-label-strong text-[14px] text-on-surface transition-colors">
+                  <span class="material-symbols-outlined text-[20px]">tune</span>
+                  <span>Staff Tools & Simulation</span>
+                </a>
+                <div class="h-px bg-[#D3DBE3] my-1"></div>
+                <button type="button" id="dr-profile-logout-btn" class="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-error-container text-error font-label-strong text-[14px] transition-colors text-left">
+                  <span class="material-symbols-outlined text-[20px]">logout</span>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            `;
+
+            const logoutBtn = dropdown.querySelector('#dr-profile-logout-btn');
+            if (logoutBtn) {
+              logoutBtn.addEventListener('click', async () => {
+                await DisasterReadyAPI.authApi.logout();
+                dropdown.classList.add('hidden');
+                window.location.href = '/screens/02-citizen-dashboard/index.html';
+              });
+            }
+          } else {
+            dropdown.innerHTML = `
+              <div class="px-3 py-2 border-b border-[#D3DBE3] mb-1">
+                <span class="font-caption text-[11px] uppercase font-bold text-on-surface-variant tracking-wider">DisasterReady Admin</span>
+                <p class="font-caption text-[12px] text-on-surface-variant mt-0.5">Government personnel & EOC command login.</p>
+              </div>
+              <div class="flex flex-col gap-1">
+                <a href="/screens/13-staff-login/index.html" class="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-primary text-white hover:bg-primary-container font-label-strong text-[14px] transition-colors shadow-sm">
+                  <span class="material-symbols-outlined text-[20px]">admin_panel_settings</span>
+                  <div class="flex flex-col leading-tight">
+                    <span>Login as Admin</span>
+                    <span class="text-[11px] font-normal text-white/80">अधिकृत कर्मचारी लॉगिन</span>
+                  </div>
+                </a>
+              </div>
+            `;
+          }
+        };
+
+        const toggleDropdown = (e) => {
+          e.stopPropagation();
+          renderDropdownContent();
+          dropdown.classList.toggle('hidden');
+        };
+
+        avatarContainer.addEventListener('click', toggleDropdown);
+        avatarContainer.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleDropdown(e);
+          }
+        });
+      });
+    },
   };
 
   if (typeof document !== 'undefined') {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => DisasterReadyAPI.initNavigation());
-    } else {
+    const initAll = () => {
       DisasterReadyAPI.initNavigation();
+      DisasterReadyAPI.initHeaderAudio();
+      DisasterReadyAPI.initProfileDropdown();
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
     }
   }
 })(window);

@@ -4,10 +4,10 @@ export declare class CitizenService {
      * Reverse geocode GPS coordinate to district and state.
      */
     reverseGeocode(lat: number, lng: number): Promise<{
-        state: null;
-        district: null;
-        districtId: null;
-        districtCode: null;
+        state: any;
+        district: any;
+        districtId: string | null;
+        districtCode: string | null;
         coordinates: {
             lat: number;
             lng: number;
@@ -28,10 +28,15 @@ export declare class CitizenService {
     /**
      * Aggregate dashboard data: alerts, hazards, facilities, announcements.
      */
-    getDashboard(districtId?: string): Promise<{
+    getDashboard(districtId?: string, lat?: number, lng?: number): Promise<{
         meta: {
             fetchedAt: string;
             districtId: string | null;
+            userCoordinates: {
+                lat: number | undefined;
+                lng: number | undefined;
+            } | null;
+            designatedState: string;
             disclaimer: string;
         };
         summary: {

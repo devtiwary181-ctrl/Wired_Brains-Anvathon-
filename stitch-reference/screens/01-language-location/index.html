@@ -12,9 +12,7 @@
 <div class="w-full bg-surface-container-high px-space-md py-space-sm flex flex-col gap-1">
 <div class="flex items-center justify-between">
 <div class="flex items-center gap-2">
-<div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-on-primary">
-<span class="material-symbols-outlined text-label-strong">security</span>
-</div>
+<div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm"><img src="/assets/ndma-emblem.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div>
 <div class="flex flex-col">
 <span class="font-label-strong text-label-strong text-on-surface leading-tight">DisasterReady India</span>
 <span class="font-caption text-caption text-on-surface-variant leading-none">Government Emergency Portal • राष्ट्रीय आपदा पोर्टल</span>
@@ -64,13 +62,13 @@
 <div class="flex items-start gap-2">
 <span class="material-symbols-outlined text-primary text-headline-sm shrink-0">near_me</span>
 <div>
-<span class="font-label-strong text-label-strong text-on-surface block">Tamil Nadu detected (चेन्नई / தமிழ்நாடு)</span>
-<span class="font-body-default text-body-default text-on-surface-variant">Show this emergency application in தமிழ்?</span>
+<span class="font-label-strong text-label-strong text-on-surface block" id="detected-title">Location detected</span>
+<span class="font-body-default text-body-default text-on-surface-variant" id="detected-subtitle">Show this emergency application in regional language?</span>
 </div>
 </div>
 <div class="flex gap-space-sm pt-1">
-<button class="flex-1 bg-primary text-on-primary min-h-[48px] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-1" onclick="selectLanguage('ta')">
-<span class="material-symbols-outlined text-label-strong">done</span> Yes, use தமிழ்
+<button class="flex-1 bg-primary text-on-primary min-h-[48px] rounded-lg font-label-strong text-label-strong flex items-center justify-center gap-1" id="detected-confirm-btn" onclick="selectLanguage('hi')">
+<span class="material-symbols-outlined text-label-strong">done</span> Yes, proceed
           </button>
 <button class="flex-1 bg-surface-container-lowest text-on-surface min-h-[48px] rounded-lg font-label-strong text-label-strong flex items-center justify-center" onclick="dismissDetectedState()">
             No, select manual
@@ -399,48 +397,89 @@
     }
   }
 
+  const stateToLang = {
+    'tamil nadu': { code: 'ta', label: 'தமிழ்' },
+    'karnataka': { code: 'kn', label: 'ಕನ್ನಡ' },
+    'telangana': { code: 'te', label: 'తెలుగు' },
+    'andhra pradesh': { code: 'te', label: 'తెలుగు' },
+    'kerala': { code: 'ml', label: 'മലയാളം' },
+    'west bengal': { code: 'bn', label: 'বাংলা' },
+    'maharashtra': { code: 'mr', label: 'मराठी' },
+    'gujarat': { code: 'gu', label: 'ગુજરાતી' },
+    'odisha': { code: 'or', label: 'ଓଡ଼ିଆ' },
+    'punjab': { code: 'pa', label: 'ਪੰਜਾਬੀ' },
+    'assam': { code: 'as', label: 'অসমীয়া' },
+    'delhi': { code: 'hi', label: 'हिन्दी' },
+    'uttar pradesh': { code: 'hi', label: 'हिन्दी' },
+    'bihar': { code: 'hi', label: 'हिन्दी' },
+    'madhya pradesh': { code: 'hi', label: 'हिन्दी' },
+    'rajasthan': { code: 'hi', label: 'हिन्दी' },
+    'haryana': { code: 'hi', label: 'हिन्दी' },
+    'himachal pradesh': { code: 'hi', label: 'हिन्दी' },
+    'uttarakhand': { code: 'hi', label: 'हिन्दी' },
+    'jharkhand': { code: 'hi', label: 'हिन्दी' },
+    'chhattisgarh': { code: 'hi', label: 'हिन्दी' }
+  };
+
   async function triggerLocationDetect() {
+    const btn = document.getElementById('loc-btn');
     const stateBanner = document.getElementById('state-detected');
     const fallbackBanner = document.getElementById('state-fallback');
-    const titleEl = stateBanner.querySelector('.font-body-strong');
-    const subEl = stateBanner.querySelector('.font-caption');
+    const titleEl = document.getElementById('detected-title') || stateBanner?.querySelector('.font-label-strong');
+    const subEl = document.getElementById('detected-subtitle') || stateBanner?.querySelector('.font-body-default');
+    const confirmBtn = document.getElementById('detected-confirm-btn');
 
-    if (!('geolocation' in navigator)) {
-      alert('Geolocation is not supported by your browser. Please select district manually.');
-      dismissDetectedState();
-      return;
-    }
+    if (btn) { btn.textContent = 'Acquiring GPS fix (उच्च सटीकता GPS)…'; btn.disabled = true; }
 
-    if (titleEl) titleEl.textContent = 'Acquiring GPS fix... (स्थान खोज रहे हैं...)';
+    try {
+      const { lat, lng, district, accuracy } = await window.DisasterReadyAPI.geo.detectAndStore();
 
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const { latitude, longitude, accuracy } = pos.coords;
-        try {
-          const res = await fetch(`${API_BASE}/geo/reverse-geocode?lat=${latitude}&lng=${longitude}`);
-          const data = await res.json();
-          if (data.success) {
-            const loc = data.data;
-            if (titleEl) titleEl.textContent = `${loc.district}, ${loc.state}`;
-            if (subEl) subEl.textContent = `GPS Fix Accuracy: ±${Math.round(accuracy)}m • District verified`;
-            localStorage.setItem('dr_citizen_lat', latitude);
-            localStorage.setItem('dr_citizen_lng', longitude);
-            localStorage.setItem('dr_citizen_district', loc.district);
-            localStorage.setItem('dr_citizen_district_id', loc.districtId || '');
-          }
-        } catch (e) {
-          if (titleEl) titleEl.textContent = `GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+      const districtName = district?.district || district?.name || '';
+      const stateName = district?.state || '';
+      const locationDisplay = districtName && stateName 
+        ? `${districtName}, ${stateName}`
+        : (districtName || `${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+
+      // Determine regional language suggestion
+      const normalizedState = (stateName || '').toLowerCase().trim();
+      let matchedLang = { code: 'hi', label: 'हिन्दी' };
+      for (const [sKey, lVal] of Object.entries(stateToLang)) {
+        if (normalizedState.includes(sKey)) {
+          matchedLang = lVal;
+          break;
         }
-        stateBanner.classList.remove('hidden');
-        fallbackBanner.classList.add('hidden');
-        stateBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      },
-      (err) => {
-        alert('Could not retrieve current location: ' + err.message + '. Please pick district manually.');
-        dismissDetectedState();
-      },
-      { timeout: 10000, enableHighAccuracy: true }
-    );
+      }
+
+      if (titleEl) {
+        titleEl.textContent = `${locationDisplay} detected`;
+      }
+      if (subEl) {
+        const accText = accuracy ? ` (GPS Accuracy: ±${Math.round(accuracy)}m)` : '';
+        subEl.textContent = `Show this emergency application in ${matchedLang.label}?${accText}`;
+      }
+      if (confirmBtn) {
+        confirmBtn.onclick = () => selectLanguage(matchedLang.code);
+        confirmBtn.innerHTML = `<span class="material-symbols-outlined text-label-strong">done</span> Yes, use ${matchedLang.label}`;
+      }
+
+      if (stateBanner) stateBanner.classList.remove('hidden');
+      if (fallbackBanner) fallbackBanner.classList.add('hidden');
+      stateBanner?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      window.DisasterReadyAPI.storage.setLocationLabel(locationDisplay);
+      window.DisasterReadyAPI.ui.toast(`Location matched: ${locationDisplay}`);
+    } catch (err) {
+      const errMap = {
+        PERMISSION_DENIED: 'Location permission denied. Please select your state/language manually.',
+        GEOLOCATION_NOT_SUPPORTED: 'GPS not supported on this device.',
+        GPS_ACCURACY_LOW: 'GPS signal is weak. Please select your location manually.',
+        TIMEOUT: 'Location detection timed out. Showing manual selection.',
+      };
+      if (fallbackBanner) fallbackBanner.classList.remove('hidden');
+      window.DisasterReadyAPI.ui.toast(errMap[err.message] || 'Location unavailable. Select manually.');
+    } finally {
+      if (btn) { btn.textContent = 'Use my location to pick my language'; btn.disabled = false; }
+    }
   }
 
   function dismissDetectedState() {
@@ -448,22 +487,89 @@
     document.getElementById('state-fallback').classList.remove('hidden');
   }
 
-  function playPronunciation(langName) {
+  const langSpeechMap = {
+    'en': { text: 'English', bcp: 'en-IN' },
+    'hi': { text: 'हिन्दी', bcp: 'hi-IN' },
+    'ta': { text: 'தமிழ்', bcp: 'ta-IN' },
+    'te': { text: 'తెలుగు', bcp: 'te-IN' },
+    'kn': { text: 'ಕನ್ನಡ', bcp: 'kn-IN' },
+    'ml': { text: 'മലയാളം', bcp: 'ml-IN' },
+    'bn': { text: 'বাংলা', bcp: 'bn-IN' },
+    'mr': { text: 'मराठी', bcp: 'mr-IN' },
+    'gu': { text: 'ગુજરાતી', bcp: 'gu-IN' },
+    'or': { text: 'ଓଡ଼ିଆ', bcp: 'or-IN' },
+    'pa': { text: 'ਪੰਜਾਬੀ', bcp: 'pa-IN' },
+    'as': { text: 'অসমীয়া', bcp: 'as-IN' },
+    'English': { text: 'English', bcp: 'en-IN' },
+    'हिन्दी': { text: 'हिन्दी', bcp: 'hi-IN' },
+    'தமிழ்': { text: 'தமிழ்', bcp: 'ta-IN' },
+    'తెలుగు': { text: 'తెలుగు', bcp: 'te-IN' },
+    'ಕನ್ನಡ': { text: 'ಕನ್ನಡ', bcp: 'kn-IN' },
+    'മലയാളം': { text: 'മലയാളം', bcp: 'ml-IN' },
+    'বাংলা': { text: 'বাংলা', bcp: 'bn-IN' },
+    'मराठी': { text: 'मराठी', bcp: 'mr-IN' },
+    'ગુજરાતી': { text: 'ગુજરાતી', bcp: 'gu-IN' },
+    'ଓଡ଼ିଆ': { text: 'ଓଡ଼ିଆ', bcp: 'or-IN' },
+    'ਪੰਜਾਬੀ': { text: 'ਪੰਜਾਬੀ', bcp: 'pa-IN' },
+    'অসমীয়া': { text: 'অসমীয়া', bcp: 'as-IN' },
+  };
+
+  // Phonetic romanized fallbacks for systems without regional TTS voices installed
+  const romanizedFallbacks = {
+    'ta-IN': 'Tamil',
+    'te-IN': 'Telugu',
+    'kn-IN': 'Kannada',
+    'ml-IN': 'Malayalam',
+    'bn-IN': 'Bangla',
+    'mr-IN': 'Marathi',
+    'gu-IN': 'Gujarati',
+    'or-IN': 'Odia',
+    'pa-IN': 'Punjabi',
+    'as-IN': 'Assamese',
+    'hi-IN': 'Hindi',
+    'en-IN': 'English'
+  };
+
+  function playPronunciation(langKey) {
     const toast = document.getElementById('audio-toast');
     const toastText = document.getElementById('toast-text');
-    toastText.textContent = `Speaking: "${langName}"`;
+    const info = langSpeechMap[langKey] || { text: langKey, bcp: 'hi-IN' };
+
+    toastText.textContent = `Speaking: "${info.text}" (${info.bcp})`;
     toast.classList.remove('hidden');
 
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(langName);
+
+      const voices = window.speechSynthesis.getVoices() || [];
+      const prefix = info.bcp.split('-')[0].toLowerCase();
+      // Try to find matching voice for language code
+      const matchingVoice = voices.find(v => {
+        const vl = (v.lang || '').toLowerCase();
+        return vl === info.bcp.toLowerCase() || vl.startsWith(prefix);
+      });
+
+      let textToSpeak = info.text;
+      // If browser lacks native font synthesizer for non-Latin script, fall back to phonetic name
+      if (!matchingVoice && prefix !== 'hi' && prefix !== 'en') {
+        textToSpeak = romanizedFallbacks[info.bcp] || info.text;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.rate = 0.9;
+      if (matchingVoice) {
+        utterance.voice = matchingVoice;
+        utterance.lang = matchingVoice.lang;
+      } else {
+        utterance.lang = info.bcp;
+      }
+
       window.speechSynthesis.speak(utterance);
     }
 
     setTimeout(() => {
       toast.classList.add('hidden');
-    }, 2200);
+    }, 2400);
   }
 
   function toggleSOSModal(show) {
@@ -489,45 +595,7 @@
     }, 800);
   }
 
-  // ── BACKEND INTEGRATION (Phase 4) ─────────────────────────────────────────
 
-  async function triggerLocationDetect() {
-    const btn = document.getElementById('loc-btn');
-    if (btn) { btn.textContent = 'Detecting location…'; btn.disabled = true; }
-
-    try {
-      const { lat, lng, district } = await window.DisasterReadyAPI.geo.detectAndStore();
-
-      // Show detected state banner
-      const detectedEl = document.getElementById('state-detected');
-      if (detectedEl) {
-        const stateSpan = detectedEl.querySelector('span.font-label-strong');
-        if (stateSpan) stateSpan.textContent = district.district
-          ? `${district.district}, ${district.state} detected`
-          : `GPS coordinates recorded (${lat.toFixed(4)}, ${lng.toFixed(4)}); choose a district below`;
-        detectedEl.classList.remove('hidden');
-      }
-
-      window.DisasterReadyAPI.storage.setLocationLabel(district.district
-        ? `${district.district}, ${district.state}`
-        : `${lat.toFixed(4)}, ${lng.toFixed(4)}`);
-      window.DisasterReadyAPI.ui.toast(district.district
-        ? `Location: ${district.district}, ${district.state}`
-        : 'GPS coordinates saved. Select your district from manual search.');
-    } catch (err) {
-      const errMap = {
-        PERMISSION_DENIED: 'Location permission denied. Please select your state/language manually.',
-        GEOLOCATION_NOT_SUPPORTED: 'GPS not supported on this device.',
-        GPS_ACCURACY_LOW: 'GPS signal is weak. Please select your location manually.',
-        TIMEOUT: 'Location detection timed out. Showing manual selection.',
-      };
-      const fallback = document.getElementById('state-fallback');
-      if (fallback) fallback.classList.remove('hidden');
-      window.DisasterReadyAPI.ui.toast(errMap[err.message] || 'Location unavailable. Select manually.');
-    } finally {
-      if (btn) { btn.textContent = 'Use my location to pick my language'; btn.disabled = false; }
-    }
-  }
 
   function initializeManualLocationSearch() {
     if (document.getElementById('manual-location-search')) return;

@@ -128,11 +128,12 @@ export class CitizenService {
   /**
    * Aggregate dashboard data: alerts, hazards, facilities, announcements.
    */
-  async getDashboard(districtId?: string) {
+  async getDashboard(districtId?: string, lat?: number, lng?: number) {
+    const hasCoordinates = Number.isFinite(lat) && Number.isFinite(lng);
     const [alerts, hazards, facilities, announcements] = await Promise.all([
       this.getActiveAlerts(districtId),
       this.getSpatialHazards(districtId, undefined, undefined),
-      this.getFacilities({ districtId, facilityType: 'SHELTER' }),
+      this.getFacilities({ districtId, facilityType: 'SHELTER', lat, lng }),
       this.getAnnouncements(districtId),
     ]);
 
@@ -140,10 +141,22 @@ export class CitizenService {
     const activeHazardCount = hazards.length;
     const operationalShelters = facilities.filter((f) => f.operatingStatus === 'OPERATIONAL').length;
 
+    // Automatically designate preview state based on alerts and location status
+    let designatedState = 'clear';
+    if (!districtId && !hasCoordinates) {
+      designatedState = 'stale'; // Location unavailable
+    } else if (criticalAlerts.length > 0 || alerts.length > 0) {
+      designatedState = 'flood'; // Active flood / severe alert
+    } else {
+      designatedState = 'clear'; // No active alert / all clear
+    }
+
     return {
       meta: {
         fetchedAt: new Date().toISOString(),
         districtId: districtId || null,
+        userCoordinates: hasCoordinates ? { lat, lng } : null,
+        designatedState,
         disclaimer:
           'Absence of a hazard marker does NOT imply an area is safe. Always follow official instructions.',
       },
@@ -155,7 +168,7 @@ export class CitizenService {
       },
       alerts: alerts.slice(0, 5),
       recentHazards: hazards.slice(0, 8),
-      nearestShelters: facilities.slice(0, 3),
+      nearestShelters: facilities.slice(0, 5),
       announcements: announcements.slice(0, 5),
     };
   }

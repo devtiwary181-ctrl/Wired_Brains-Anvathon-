@@ -34,6 +34,45 @@ export class CitizenService {
      * Reverse geocode GPS coordinate to district and state.
      */
     async reverseGeocode(lat, lng) {
+        try {
+            const nominatimBase = (process.env.NOMINATIM_BASE_URL || 'https://nominatim.openstreetmap.org').replace(/\/+$/, '');
+            const url = `${nominatimBase}/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`;
+            const res = await fetch(url, {
+                headers: {
+                    'User-Agent': 'DisasterReadyIndia/1.0 (disasterready@ndma.gov.in)',
+                    'Accept': 'application/json',
+                },
+                signal: AbortSignal.timeout(6000),
+            });
+            if (res.ok) {
+                const data = await res.json();
+                const addr = data.address || {};
+                const state = addr.state || addr.state_district || null;
+                const districtName = addr.state_district || addr.district || addr.county || addr.city || null;
+                // Try to match in DB
+                let matchedDistrict = null;
+                if (districtName) {
+                    matchedDistrict = await prisma.district.findFirst({
+                        where: {
+                            name: { contains: districtName, mode: 'insensitive' },
+                            ...(state ? { state: { contains: state, mode: 'insensitive' } } : {}),
+                        },
+                    });
+                }
+                return {
+                    state: state || (matchedDistrict ? matchedDistrict.state : null),
+                    district: matchedDistrict ? matchedDistrict.name : districtName,
+                    districtId: matchedDistrict ? matchedDistrict.id : null,
+                    districtCode: matchedDistrict ? matchedDistrict.code : null,
+                    coordinates: { lat, lng },
+                    source: 'Nominatim OpenStreetMap & National District Registry',
+                    timestamp: new Date().toISOString(),
+                };
+            }
+        }
+        catch (e) {
+            // Fallback
+        }
         return {
             state: null,
             district: null,
@@ -66,7 +105,10 @@ export class CitizenService {
                 state: true,
                 eocPhone: true,
             },
-            take: 10,
+            orderBy: {
+                name: 'asc',
+            },
+            take: 20,
         });
         return districts;
     }
@@ -76,20 +118,34 @@ export class CitizenService {
     /**
      * Aggregate dashboard data: alerts, hazards, facilities, announcements.
      */
-    async getDashboard(districtId) {
+    async getDashboard(districtId, lat, lng) {
+        const hasCoordinates = Number.isFinite(lat) && Number.isFinite(lng);
         const [alerts, hazards, facilities, announcements] = await Promise.all([
             this.getActiveAlerts(districtId),
             this.getSpatialHazards(districtId, undefined, undefined),
-            this.getFacilities({ districtId, facilityType: 'SHELTER' }),
+            this.getFacilities({ districtId, facilityType: 'SHELTER', lat, lng }),
             this.getAnnouncements(districtId),
         ]);
         const criticalAlerts = alerts.filter((a) => a.severity === 'DANGER' || a.severity === 'EXTREME');
         const activeHazardCount = hazards.length;
         const operationalShelters = facilities.filter((f) => f.operatingStatus === 'OPERATIONAL').length;
+        // Automatically designate preview state based on alerts and location status
+        let designatedState = 'clear';
+        if (!districtId && !hasCoordinates) {
+            designatedState = 'stale'; // Location unavailable
+        }
+        else if (criticalAlerts.length > 0 || alerts.length > 0) {
+            designatedState = 'flood'; // Active flood / severe alert
+        }
+        else {
+            designatedState = 'clear'; // No active alert / all clear
+        }
         return {
             meta: {
                 fetchedAt: new Date().toISOString(),
                 districtId: districtId || null,
+                userCoordinates: hasCoordinates ? { lat, lng } : null,
+                designatedState,
                 disclaimer: 'Absence of a hazard marker does NOT imply an area is safe. Always follow official instructions.',
             },
             summary: {
@@ -100,7 +156,7 @@ export class CitizenService {
             },
             alerts: alerts.slice(0, 5),
             recentHazards: hazards.slice(0, 8),
-            nearestShelters: facilities.slice(0, 3),
+            nearestShelters: facilities.slice(0, 5),
             announcements: announcements.slice(0, 5),
         };
     }

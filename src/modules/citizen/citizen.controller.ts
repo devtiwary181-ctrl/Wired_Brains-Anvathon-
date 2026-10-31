@@ -89,7 +89,9 @@ export class CitizenController {
   async getDashboard(req: Request, res: Response, next: NextFunction) {
     try {
       const districtId = req.query.districtId as string | undefined;
-      const result = await citizenService.getDashboard(districtId);
+      const lat = req.query.lat ? parseFloat(req.query.lat as string) : undefined;
+      const lng = req.query.lng ? parseFloat(req.query.lng as string) : undefined;
+      const result = await citizenService.getDashboard(districtId, lat, lng);
       res.status(200).json({ success: true, data: result });
     } catch (e) {
       next(e);

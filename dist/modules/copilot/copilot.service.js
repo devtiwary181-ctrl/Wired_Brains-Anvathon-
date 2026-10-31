@@ -78,7 +78,7 @@ export class CopilotService {
                     timestamp: new Date().toISOString(),
                 },
             ],
-            safetyDisclaimer: 'DisasterReady AI Copilot provides live civil information based strictly on verified records. It never guarantees complete route safety or automatically dispatches emergency teams. For life-threatening emergencies, dial 112 directly.',
+            safetyDisclaimer: 'DisasterReady Kavach AI provides live civil information based strictly on verified records. It never guarantees complete route safety or automatically dispatches emergency teams. For life-threatening emergencies, dial 112 directly.',
             isFallback: !toolResult || Boolean(toolResult.error),
         };
     }

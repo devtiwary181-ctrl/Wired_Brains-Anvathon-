@@ -20,8 +20,9 @@
       listen_alert: 'Listen to alert',
       official_broadcast: 'Official Government Broadcast',
       change_language: 'Language',
-      ask_ai: 'Ask AI Copilot',
+      ask_ai: 'DisasterReady Kavach AI • NDMA Assist',
       copilot_sub: 'Bilingual Voice & Text Disaster Companion',
+      floating_ai: 'Ask Kavach AI',
       safe_route_prompt: 'Safe route to dry ground',
       nearest_shelter_prompt: 'Nearest active shelter',
       food_packets_prompt: 'Where are food packets?',
@@ -58,8 +59,9 @@
       listen_alert: 'चेतावनी सुनें',
       official_broadcast: 'आधिकारिक सरकारी विज्ञप्ति',
       change_language: 'भाषा',
-      ask_ai: 'आपदा साथी AI से पूछें',
+      ask_ai: 'आपदा कवच AI • एनडीएमए सहायता',
       copilot_sub: 'ध्वनि और संदेश आपदा सहायक',
+      floating_ai: 'कवच AI से पूछें',
       safe_route_prompt: 'सूखे मैदान का सुरक्षित मार्ग',
       nearest_shelter_prompt: 'निकटतम सक्रिय आश्रय',
       food_packets_prompt: 'भोजन और पेयजल कहाँ है?',
@@ -541,6 +543,9 @@
 
       const copilotInput = document.getElementById('aiUserInput');
       if (copilotInput) copilotInput.placeholder = dict.copilot_input_placeholder;
+
+      const floatingAiBtnText = document.querySelector('#floatingAiTrigger span:last-child');
+      if (floatingAiBtnText && dict.floating_ai) floatingAiBtnText.textContent = dict.floating_ai;
 
       // 5. Quick Actions Section
       const quickActionHeading = Array.from(document.querySelectorAll('h2')).find(h => /Quick Emergency Actions|त्वरित आपातकालीन कार्य|அவசர விரைவு சேவைகள்|త్వరిత అత్యవసర చర్యలు|জরুরি দ্রুত পদক্ষেপ/i.test(h.textContent || ''));

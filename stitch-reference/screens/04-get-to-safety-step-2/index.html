@@ -136,9 +136,7 @@
 <div class="flex items-center justify-between">
 <!-- Logo & NDMA GOI Branding -->
 <div class="flex items-center gap-space-sm">
-<div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
-<span class="material-symbols-outlined text-[24px]">shield</span>
-</div>
+<div class="w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0 shadow-sm bg-primary-container p-1"><img src="/assets/ndma-emblem.svg" alt="National Disaster Management Logo" class="w-full h-full object-contain" /></div>
 <div class="flex flex-col">
 <div class="flex items-center gap-1">
 <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">DisasterReady</span>
@@ -645,11 +643,11 @@
 </section>
 </div>
 </main>
-<!-- FLOATING QUICK ACTIONS (Copilot on Bottom-Left, SOS on Bottom-Right) -->
+<!-- FLOATING QUICK ACTIONS (Kavach AI on Bottom-Left, SOS on Bottom-Right) -->
 <div class="fixed bottom-24 left-4 z-40">
-<button aria-label="Ask AI Copilot" class="min-h-[48px] px-4 py-2 rounded-full bg-primary-container text-on-primary font-body-strong text-[15px] flex items-center gap-2 shadow-[0_4px_16px_rgba(11,95,165,0.35)] hover:bg-primary transition-colors border border-on-primary-container/30" type="button">
+<button aria-label="Ask Kavach AI" class="min-h-[48px] px-4 py-2 rounded-full bg-primary-container text-on-primary font-body-strong text-[15px] flex items-center gap-2 shadow-[0_4px_16px_rgba(11,95,165,0.35)] hover:bg-primary transition-colors border border-on-primary-container/30" type="button">
 <span class="material-symbols-outlined text-[20px]">smart_toy</span>
-<span>Ask AI Copilot</span>
+<span>Ask Kavach AI</span>
 </button>
 </div>
 <div class="fixed bottom-24 right-4 z-40">
@@ -1000,24 +998,24 @@
     });
     findRoutes?.insertAdjacentElement('afterend', status);
 
-    // Ask AI Copilot trigger in screen 04
-    const copilotBtn = document.querySelector('button[aria-label="Ask AI Copilot"]');
+    // Ask Kavach AI trigger in screen 04
+    const copilotBtn = document.querySelector('button[aria-label="Ask Kavach AI"], button[aria-label="Ask AI Copilot"]');
     if (copilotBtn) {
       copilotBtn.addEventListener('click', async function() {
         copilotBtn.disabled = true;
-        copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Consulting Copilot...</span>';
+        copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Consulting Kavach AI...</span>';
         try {
           const res = await DR.copilot.chat({
             query: 'What is the safest evacuation route and destination facility near my current location?',
             coordinates: origin || DR.storage.getLocation(),
             districtId: DR.storage.getDistrict()?.districtId,
           });
-          alert(`DisasterReady AI Copilot:\n\n${res.response}\n\n[Safety Notice]: ${res.safetyDisclaimer}`);
+          alert(`DisasterReady Kavach AI:\n\n${res.response}\n\n[Safety Notice]: ${res.safetyDisclaimer}`);
         } catch (err) {
-          DR.ui.toast(err.message || 'AI Copilot currently busy. Dial 112 if in direct danger.');
+          DR.ui.toast(err.message || 'Kavach AI currently busy. Dial 112 if in direct danger.');
         } finally {
           copilotBtn.disabled = false;
-          copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">smart_toy</span><span>Ask AI Copilot</span>';
+          copilotBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">smart_toy</span><span>Ask Kavach AI</span>';
         }
       });
     }
