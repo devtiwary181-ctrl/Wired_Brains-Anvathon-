@@ -128,6 +128,7 @@ export declare function geocodeSearch(query: string, fetcher?: typeof fetch): Pr
 export declare function getMapsBrowserConfig(): {
     provider: string;
     tileUrl: string;
+    fallbackTileUrl: string;
     attribution: string;
     osrmUrl: string;
     nominatimUrl: string;

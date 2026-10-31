@@ -81,6 +81,23 @@ export function createApp(): Express {
   apiRouter.use('/copilot', copilotRouter);
   apiRouter.use('/realtime', realtimeRouter);
 
+  // 6a. Centralized Public Map & App Configuration
+  apiRouter.get('/config', (_req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(200).json({
+      success: true,
+      data: {
+        mapTileUrl: env.MAP_TILE_URL,
+        mapTileFallbackUrl: env.MAP_TILE_FALLBACK_URL,
+        esriTopoUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+        esriSatelliteUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        esriTerrainUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
+        osrmUrl: env.OSRM_BASE_URL,
+        nominatimUrl: env.NOMINATIM_BASE_URL,
+      },
+    });
+  });
+
   // 6b. Centralized Backend Text-To-Speech (TTS) Endpoint Fallback
   apiRouter.get('/tts', async (req, res) => {
     try {

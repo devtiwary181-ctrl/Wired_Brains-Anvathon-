@@ -528,9 +528,10 @@ export async function geocodeSearch(query, fetcher = fetch) {
 }
 export function getMapsBrowserConfig() {
     return {
-        provider: 'leaflet-osm',
+        provider: 'arcgis',
         tileUrl: env.MAP_TILE_URL,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        fallbackTileUrl: env.MAP_TILE_FALLBACK_URL,
+        attribution: 'Tiles &copy; Esri &mdash; &copy; OpenStreetMap contributors',
         osrmUrl: env.OSRM_BASE_URL,
         nominatimUrl: env.NOMINATIM_BASE_URL,
         libraries: ['leaflet'],

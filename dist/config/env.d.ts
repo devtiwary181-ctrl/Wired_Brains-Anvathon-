@@ -11,6 +11,7 @@ export declare const env: {
     OSRM_BASE_URL: string;
     NOMINATIM_BASE_URL: string;
     MAP_TILE_URL: string;
+    MAP_TILE_FALLBACK_URL: string;
     ROUTE_RISK_W1: number;
     ROUTE_RISK_W2: number;
     ROUTE_RISK_W3: number;

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
 <meta content="mobile_tab" name="shell-type"/>
 <title>DisasterReady India - Choose your journey (मार्ग चुनें)</title>
@@ -9,6 +10,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/config.js"></script>
+<script src="/assets/map-tiles.js"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
     tailwind.config = {
@@ -1085,10 +1088,20 @@ AI proposes destinations based on verified NDMA shelter capacity. Navigation and
         scrollWheelZoom: true,
       }).setView([state.origin.lat, state.origin.lng], 13);
 
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors',
-      }).addTo(mainMap);
+      // Robust Map Tiles (ArcGIS Street primary + CARTO fallback + Esri Topo/Satellite)
+      if (window.DisasterReadyMapTiles) {
+        const layersObj = window.DisasterReadyMapTiles.createLayers(mainMap);
+        if (layersObj && layersObj.addToMap) {
+          layersObj.addToMap({ position: 'topright' });
+        }
+        window.DisasterReadyMapTiles.setupMapWatchers(mainMap, mapEl);
+      } else {
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 19,
+          attribution: 'Tiles &copy; Esri &mdash; &copy; OpenStreetMap contributors',
+          crossOrigin: true,
+        }).addTo(mainMap);
+      }
 
       // Create Custom Icons
       const originIcon = L.divIcon({
@@ -1768,7 +1781,16 @@ AI proposes destinations based on verified NDMA shelter capacity. Navigation and
     const startLng = state.origin ? state.origin.lng : 68.9685;
 
     meetingPickerMap = L.map('meetingPickerMap').setView([startLat, startLng], 14);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(meetingPickerMap);
+    if (window.DisasterReadyMapTiles) {
+      window.DisasterReadyMapTiles.createTileLayer(meetingPickerMap);
+      window.DisasterReadyMapTiles.setupMapWatchers(meetingPickerMap, pickerEl);
+    } else {
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: 'Tiles &copy; Esri &mdash; &copy; OpenStreetMap contributors',
+        crossOrigin: true,
+      }).addTo(meetingPickerMap);
+    }
 
     const purpleIcon = L.divIcon({
       className: 'custom-meeting-icon',

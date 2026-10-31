@@ -301,27 +301,54 @@
     async getConfig() {
       if (this.config) return this.config;
       try {
-        this.config = await get('/maps/config');
+        const res = await get('/config');
+        this.config = res?.data || res;
       } catch {
-        this.config = {
-          provider: 'leaflet-osm',
-          tileUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          attribution: '&copy; OpenStreetMap contributors',
-        };
+        try {
+          const res = await get('/maps/config');
+          this.config = res?.data || res;
+        } catch {
+          this.config = {
+            provider: 'arcgis',
+            tileUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+            fallbackTileUrl: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            attribution: 'Tiles &copy; Esri &mdash; &copy; OpenStreetMap contributors',
+          };
+        }
       }
       return this.config;
     },
     load() {
-      if (window.L) return Promise.resolve(window.L);
+      if (window.L && window.DisasterReadyMapTiles) return Promise.resolve(window.L);
       if (window._drLeafletLoadPromise) return window._drLeafletLoadPromise;
 
       window._drLeafletLoadPromise = new Promise((resolve, reject) => {
+        // Ensure Referrer Meta
+        if (!document.querySelector('meta[name="referrer"]')) {
+          const meta = document.createElement('meta');
+          meta.name = 'referrer';
+          meta.content = 'strict-origin-when-cross-origin';
+          document.head.prepend(meta);
+        }
+
         // Inject Leaflet CSS
         if (!document.querySelector('link[href*="leaflet.css"]')) {
           const link = document.createElement('link');
           link.rel = 'stylesheet';
           link.href = '/vendor/leaflet/leaflet.css';
           document.head.append(link);
+        }
+
+        // Inject map-tiles.js if needed
+        if (!window.DisasterReadyMapTiles && !document.querySelector('script[src*="map-tiles.js"]')) {
+          const mtScript = document.createElement('script');
+          mtScript.src = '/assets/map-tiles.js';
+          document.head.append(mtScript);
+        }
+
+        if (window.L) {
+          resolve(window.L);
+          return;
         }
 
         // Inject Leaflet JS
@@ -345,6 +372,10 @@
       return window._drLeafletLoadPromise;
     },
     createMap(container, options = {}) {
+      if (window.DisasterReadyMapTiles && typeof window.DisasterReadyMapTiles.initMap === 'function') {
+        return window.DisasterReadyMapTiles.initMap(container, options);
+      }
+
       const L = window.L;
       if (!L) throw new Error('Leaflet must be loaded before creating a map.');
       const center = options.center || [20.5937, 78.9629];
@@ -355,12 +386,13 @@
         zoomControl: options.zoomControl !== false,
       });
 
-      const tileUrl = (this.config && this.config.tileUrl) || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
-      const attribution = (this.config && this.config.attribution) || '&copy; Esri, OpenStreetMap contributors';
+      const tileUrl = (this.config && (this.config.mapTileUrl || this.config.tileUrl)) || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+      const attribution = (this.config && this.config.attribution) || 'Tiles &copy; Esri &mdash; &copy; OpenStreetMap contributors';
 
       L.tileLayer(tileUrl, {
         maxZoom: 19,
         attribution,
+        crossOrigin: true,
       }).addTo(map);
 
       return map;

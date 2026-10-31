@@ -133,12 +133,11 @@
 1:13:24 PM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
 1:28:27 PM [tsx] change in ./src/middleware/rateLimiter.ts Process hasn't exited. Killing process...
 1:31:23 PM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
-- [31/Oct/2026 11:11:50] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
-::1 - - [31/Oct/2026 11:11:50] "GET /screens/06-get-to-safety-step-5/index.html HTTP/1.1" 200 -
-::1 - - [31/Oct/2026 11:11:50] "GET /i18n.js HTTP/1.1" 200 -
-::1 - - [31/Oct/2026 11:11:50] "GET /assets/logo.svg HTTP/1.1" 200 -
-::1 - - [31/Oct/2026 11:11:50] "GET /api-client.js HTTP/1.1" 200 -
-::1 - - [31/Oct/2026 11:11:51] "GET /sw.js HTTP/1.1" 200 -
+1:42:42 PM [tsx] change in ./src/config/env.ts Process hasn't exited. Killing process...
+1:42:48 PM [tsx] change in ./src/modules/citizen/routing.service.ts Process hasn't exited. Killing process...
+1:43:01 PM [tsx] change in ./src/app.ts Process hasn't exited. Killing process...
+1:52:13 PM [tsx] change in ./src/modules/citizen/routing.service.ts Process hasn't exited. Killing process...
+1:51] "GET /sw.js HTTP/1.1" 200 -
 ::1 - - [31/Oct/2026 11:11:51] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
 ::1 - - [31/Oct/2026 11:11:51] "GET /assets/logo.svg HTTP/1.1" 200 -
 ::1 - - [31/Oct/2026 11:11:51] "GET /i18n.js HTTP/1.1" 200 -
@@ -225,13 +224,11 @@
 1:13:24 PM [tsx] change in ./src/modules/citizen/citizen.service.ts Process hasn't exited. Killing process...
 1:28:27 PM [tsx] change in ./src/middleware/rateLimiter.ts Process hasn't exited. Killing process...
 1:31:23 PM [tsx] change in ./src/modules/citizen/citizen.controller.ts Process hasn't exited. Killing process...
-ens/11-preparedness/ HTTP/1.1" 304 -
-::1 - - [31/Oct/2026 11:18:41] "GET /sw.js HTTP/1.1" 304 -
-::1 - - [31/Oct/2026 11:19:23] "GET /screens/03-get-to-safety-step-1/ HTTP/1.1" 304 -
-::1 - - [31/Oct/2026 11:19:23] "GET /api-client.js HTTP/1.1" 304 -
-::1 - - [31/Oct/2026 11:19:25] "GET /sw.js HTTP/1.1" 304 -
-::1 - - [31/Oct/2026 11:19:59] "GET /sw.js HTTP/1.1" 304 -
-::1 - - [31/Oct/2026 11:20:20] "GET /screens/08-emergency-relief HTTP/1.1" 301 -
+1:42:42 PM [tsx] change in ./src/config/env.ts Process hasn't exited. Killing process...
+1:42:48 PM [tsx] change in ./src/modules/citizen/routing.service.ts Process hasn't exited. Killing process...
+1:43:01 PM [tsx] change in ./src/app.ts Process hasn't exited. Killing process...
+1:52:13 PM [tsx] change in ./src/modules/citizen/routing.service.ts Process hasn't exited. Killing process...
+20:20] "GET /screens/08-emergency-relief HTTP/1.1" 301 -
 ::1 - - [31/Oct/2026 11:20:20] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
 ::1 - - [31/Oct/2026 11:20:21] "GET /sw.js HTTP/1.1" 304 -
 ::1 - - [31/Oct/2026 11:24:33] "GET /screens/02-citizen-dashboard/ HTTP/1.1" 304 -
@@ -1693,3 +1690,212 @@ ens/11-preparedness/ HTTP/1.1" 304 -
 ::1 - - [31/Oct/2026 13:31:03] "GET /sw.js HTTP/1.1" 304 -
 ::1 - - [31/Oct/2026 13:31:04] "GET /sw.js HTTP/1.1" 304 -
 ::1 - - [31/Oct/2026 13:33:54] "HEAD / HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:48] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:48] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:48] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:48] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:48] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:48] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:48] "GET /api/v1/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:48] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:48] "GET /api/v1/maps/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:48] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:48] "GET /api/v1/citizen/maps/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:50] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:50] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:50] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:50] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:50] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:52] "GET /api/v1/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:52] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:52] "GET /api/v1/maps/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:52] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:52] "GET /api/v1/citizen/maps/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:52] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:52] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:54] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:54] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:54] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:54] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:54] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:55] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:55] "GET /api/v1/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:55] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:55] "GET /api/v1/maps/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:55] code 404, message File not found
+::1 - - [31/Oct/2026 13:47:55] "GET /api/v1/citizen/maps/config HTTP/1.1" 404 -
+::1 - - [31/Oct/2026 13:47:55] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:55] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:55] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:55] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:47:55] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:10] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:10] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:10] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:10] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:10] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:10] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:11] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:11] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:11] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:11] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:11] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:14] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:16] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:16] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:16] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:16] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:16] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:16] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:17] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:17] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:17] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:17] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:17] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:28] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:28] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:28] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:28] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:28] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:28] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:29] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:29] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:29] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:29] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:29] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:31] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:31] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:31] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:31] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:31] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:31] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:32] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:32] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:32] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:32] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:32] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:34] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:36] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:36] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:36] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:36] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:36] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:37] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:37] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:37] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:37] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:37] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:41] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:41] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:41] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:41] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:41] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:42] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:42] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:42] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:42] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:49:42] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:46] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:49] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:49] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:49] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:49] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:49] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:49] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:50] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:50] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:50] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:50] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:50] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:52] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:54] "GET /screens/03-get-to-safety-step-1/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:54] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:54] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:54] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:54] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:55] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:55] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:55] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:55] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:55] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:59] "GET /screens/07-safe-places/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:59] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:59] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:59] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:50:59] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:00] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:00] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:00] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:00] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:00] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:02] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:03] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:03] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:05] "GET /vendor/leaflet/images/marker-icon.png HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:05] "GET /vendor/leaflet/images/marker-shadow.png HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:24] "GET /screens/04-get-to-safety-step-2/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:24] "GET /config.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:24] "GET /assets/map-tiles.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:24] "GET /i18n.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:24] "GET /api-client.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:24] "GET /assets/logo.svg HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:25] "GET /sw.js HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:25] "GET /screens/08-emergency-relief/index.html HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:25] "GET /screens/08-emergency-relief/ HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:25] "GET /vendor/leaflet/leaflet.css HTTP/1.1" 200 -
+::1 - - [31/Oct/2026 13:51:25] "GET /vendor/leaflet/leaflet.js HTTP/1.1" 200 -
